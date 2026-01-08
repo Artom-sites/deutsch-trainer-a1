@@ -579,35 +579,419 @@ export const grammarContent = {
         ]
     },
 
-    // --- MODALVERBEN ---
-    "modalverben-koennen-wollen": {
-        title: "können & wollen (Модальні дієслова)",
+    // --- MODALVERBEN: müssen, dürfen, sollen ---
+    "modalverben-muessen-duerfen": {
+        title: "müssen, dürfen, sollen (Модальні дієслова)",
         sections: [
             {
-                title: "Правило",
+                title: "Кон'югація",
                 type: "rule",
-                content: `**können** = могти (вміти, мати можливість)
-**wollen** = хотіти
+                content: `**müssen** = мусити (необхідність)
+**dürfen** = мати право, дозволено
+**sollen** = повинен (порада, обов'язок)
 
-| Person | können | wollen |
-|--------|--------|--------|
-| ich | kann | will |
-| du | kannst | willst |
-| er/sie/es | kann | will |
-| wir | können | wollen |
-| ihr | könnt | wollt |
-| sie/Sie | können | wollen |
+| Person | müssen | dürfen | sollen |
+|--------|--------|--------|--------|
+| ich | muss | darf | soll |
+| du | musst | darfst | sollst |
+| er/sie/es | muss | darf | soll |
+| wir | müssen | dürfen | sollen |
+| ihr | müsst | dürft | sollt |
+| sie/Sie | müssen | dürfen | sollen |`
+            },
+            {
+                title: "Різниця",
+                type: "tip",
+                content: `**müssen** = об'єктивна необхідність
+→ Ich **muss** zum Arzt gehen. (Я мушу йти до лікаря)
 
-⚠️ Основне дієслово стоїть в **КІНЦІ** речення в Infinitiv!`
+**nicht dürfen** = ЗАБОРОНА
+→ Hier **darf** man **nicht** rauchen. (Тут не можна палити)
+
+**sollen** = порада або обов'язок від когось
+→ Du **sollst** mehr Sport machen. (Тобі потрібно більше займатися спортом)
+
+**nicht müssen** = НЕ обов'язково (не заборона!)
+→ Du **musst nicht** kommen. = Ти не мусиш приходити (можеш, але не обов'язково)`
             },
             {
                 title: "Приклади",
                 type: "examples",
                 items: [
-                    { german: "Ich kann Deutsch sprechen.", translation: "Я можу говорити німецькою." },
-                    { german: "Kannst du schwimmen?", translation: "Ти вмієш плавати?" },
-                    { german: "Er will nach Berlin fahren.", translation: "Він хоче поїхати до Берліна." },
-                    { german: "Wir wollen ins Kino gehen.", translation: "Ми хочемо піти в кіно." }
+                    { german: "Ich muss heute arbeiten.", translation: "Я мушу сьогодні працювати." },
+                    { german: "Du darfst hier nicht parken.", translation: "Тобі не можна тут паркуватися." },
+                    { german: "Er soll einen Antrag ausfüllen.", translation: "Він повинен заповнити заявку." },
+                    { german: "Wir müssen pünktlich sein.", translation: "Ми мусимо бути вчасно." },
+                    { german: "Sie dürfen das Museum besuchen.", translation: "Ви можете відвідати музей." }
+                ]
+            }
+        ]
+    },
+
+    // --- IMPERATIV ---
+    "imperativ": {
+        title: "Imperativ (Наказовий спосіб)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**Imperativ** використовується для наказів, прохань, порад.
+
+| Форма | Утворення | Приклад |
+|-------|-----------|---------|
+| **du** | дієслово без -st | Komm! Geh! Fahr! |
+| **ihr** | як в Präsens | Kommt! Geht! Fahrt! |
+| **Sie** | дієслово + Sie | Kommen Sie! Gehen Sie! |
+
+⚠️ Для **du**: прибираємо закінчення -st
+⚠️ Для **Sie**: дієслово + Sie (як питання, але без знака питання)`
+            },
+            {
+                title: "Важливо!",
+                type: "tip",
+                content: `**Неправильні дієслова в Imperativ (du):**
+
+• sein → **Sei** ruhig! (Будь тихо!)
+• haben → **Hab** Geduld! (Май терпіння!)
+• fahren → **Fahr** langsam! (Їдь повільно!)
+• lesen → **Lies** das Buch! (Читай книгу!)
+• sehen → **Sieh** mal! (Дивись!)
+
+**Ввічливі прохання:**
+• Kommen Sie bitte!
+• Warten Sie bitte!`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Komm mit!", translation: "Йди зі мною!" },
+                    { german: "Seien Sie leise!", translation: "Будьте тихо!" },
+                    { german: "Fahr langsam!", translation: "Їдь повільно!" },
+                    { german: "Hört zu!", translation: "Слухайте!" },
+                    { german: "Warten Sie bitte!", translation: "Зачекайте, будь ласка!" }
+                ]
+            }
+        ]
+    },
+
+    // --- POSSESSIVARTIKEL ---
+    "possessivartikel": {
+        title: "Possessivartikel (Присвійні артиклі)",
+        sections: [
+            {
+                title: "Правило (Lektion 10)",
+                type: "rule",
+                content: `**Присвійні артиклі вказують на належність:**
+
+| Особа | Присвійний артикль |
+|-------|-------------------|
+| ich → | **mein** (мій) |
+| du → | **dein** (твій) |
+| er → | **sein** (його) |
+| sie → | **ihr** (її) |
+| es → | **sein** (його) |
+| wir → | **unser** (наш) |
+| ihr → | **euer** (ваш) |
+| sie/Sie → | **ihr/Ihr** (їхній/Ваш) |
+
+⚠️ Закінчення залежить від роду іменника!`
+            },
+            {
+                title: "Закінчення",
+                type: "tip",
+                content: `**Nominativ:**
+| | Singular m. | Singular f. | Singular n. | Plural |
+|---|-------------|-------------|-------------|--------|
+| ich | mein Termin | meine Mutter | mein Lied | meine Ohren |
+| du | dein | deine | dein | deine |
+| er | sein | seine | sein | seine |
+| sie | ihr | ihre | ihr | ihre |
+| wir | unser | unsere | unser | unsere |
+| ihr | euer | eure | euer | eure |
+| sie/Sie | ihr/Ihr | ihre/Ihre | ihr/Ihr | ihre/Ihre |
+
+⚠️ **Akkusativ (m.):** mein → mein**en**`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Das ist mein Bruder.", translation: "Це мій брат." },
+                    { german: "Wo ist deine Mutter?", translation: "Де твоя мама?" },
+                    { german: "Er liebt seine Familie.", translation: "Він любить свою сім'ю." },
+                    { german: "Sie ruft ihren Mann an.", translation: "Вона дзвонить своєму чоловікові." },
+                    { german: "Unser Haus ist groß.", translation: "Наш дім великий." }
+                ]
+            }
+        ]
+    },
+
+    // --- PERSONALPRONOMEN (всі відмінки) ---
+    "personalpronomen-akkusativ-dativ": {
+        title: "Personalpronomen: Akkusativ & Dativ (Lektion 13-14)",
+        sections: [
+            {
+                title: "Таблиця відмінків",
+                type: "rule",
+                content: `**Особові займенники у всіх відмінках:**
+
+| Nominativ | Akkusativ | Dativ |
+|-----------|-----------|-------|
+| ich | **mich** | **mir** |
+| du | **dich** | **dir** |
+| er | **ihn** | **ihm** |
+| sie | **sie** | **ihr** |
+| es | **es** | **ihm** |
+| wir | **uns** | **uns** |
+| ihr | **euch** | **euch** |
+| sie/Sie | **sie/Sie** | **ihnen/Ihnen** |`
+            },
+            {
+                title: "Коли використовувати?",
+                type: "tip",
+                content: `**Akkusativ** (Wen? Кого?):
+→ Er liebt **mich**. (Він любить мене)
+→ Ich sehe **dich**. (Я бачу тебе)
+→ Finde ich **super**! (Знаходжу це супер!)
+
+**Dativ** (Wem? Кому?):
+→ Gib **mir** das Buch. (Дай мені книгу)
+→ Ich helfe **dir**. (Я допомагаю тобі)
+→ Das gefällt **ihm**. (Це йому подобається)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Rufst du mich an?", translation: "Ти мені подзвониш?" },
+                    { german: "Ich liebe dich.", translation: "Я тебе люблю." },
+                    { german: "Kannst du mir helfen?", translation: "Ти можеш мені допомогти?" },
+                    { german: "Das Hemd gefällt mir.", translation: "Ця сорочка мені подобається." },
+                    { german: "Ich gebe dir das Geld.", translation: "Я дам тобі гроші." }
+                ]
+            }
+        ]
+    },
+
+    // --- DEMONSTRATIVPRONOMEN ---
+    "demonstrativpronomen": {
+        title: "Demonstrativpronomen: der, das, die (Lektion 13)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**Вказівні займенники** вказують на конкретний предмет.
+
+| | Nominativ | Akkusativ |
+|---|-----------|-----------|
+| der Gürtel | **Der** ist schön. | **Den** finde ich super. |
+| das Hemd | **Das** ist schön. | **Das** finde ich super. |
+| die Jacke | **Die** ist schön. | **Die** finde ich super. |
+| die Schuhe (Pl.) | **Die** sind schön. | **Die** finde ich super. |`
+            },
+            {
+                title: "Frageartikel: welcher? dieser (Lektion 13)",
+                type: "tip",
+                content: `**Welcher?** = Який? (питання)
+**Dieser** = Цей (відповідь)
+
+| | Nominativ | Akkusativ |
+|---|-----------|-----------|
+| m. | Welch**er** Mantel? | Welch**en** Mantel? |
+| | Dies**er**. | Dies**en**. |
+| f. | Welch**e** Jacke? | Welch**e** Jacke? |
+| | Dies**e**. | Dies**e**. |
+| n. | Welch**es** Hemd? | Welch**es** Hemd? |
+| | Dies**es**. | Dies**es**. |
+| Pl. | Welch**e** Schuhe? | Welch**e** Schuhe? |
+| | Dies**e**. | Dies**e**. |`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Welchen Mantel nimmst du?", translation: "Яке пальто ти береш?" },
+                    { german: "Diesen hier.", translation: "Оце." },
+                    { german: "Die Jacke ist toll!", translation: "Ця куртка чудова!" },
+                    { german: "Das Hemd gefällt mir.", translation: "Ця сорочка мені подобається." }
+                ]
+            }
+        ]
+    },
+
+    // --- LOKALE PRÄPOSITIONEN MIT DATIV ---
+    "lokale-praepositionen-dativ": {
+        title: "Lokale Präpositionen mit Dativ (Lektion 11)",
+        sections: [
+            {
+                title: "Wo? + Dativ",
+                type: "rule",
+                content: `**Wo?** (Де?) → Dativ
+
+| Прийменник | Значення | Приклад |
+|------------|----------|---------|
+| **in** + dem = **im** | в | im Hotel, im Kino |
+| **an** + dem = **am** | біля, на | am Kiosk, am Strand |
+| **auf** + dem | на | auf dem Tisch |
+| **bei** + dem = **beim** | у (людини/фірми) | beim Arzt, bei der Freundin |
+| **neben** | поруч | neben dem Park |
+| **vor** | перед | vor dem Haus |
+| **hinter** | за | hinter dem Auto |
+| **unter** | під | unter dem Bett |
+| **über** | над | über dem Tisch |
+| **zwischen** | між | zwischen den Häusern |`
+            },
+            {
+                title: "Wohin? + Akkusativ",
+                type: "tip",
+                content: `**Wohin?** (Куди?) → Akkusativ
+
+| Тип | Приклад |
+|-----|---------|
+| Person | **zu** + Dativ: zum Zahnarzt, zur Freundin |
+| Geschäft | **zu** + Dativ / **in** + Akk: zum Supermarkt, in die Apotheke |
+| Haus/Ort | **in** + Akk: in den Kindergarten, ins Kino |
+| Land/Stadt | **nach**: nach Österreich, nach Basel |
+| Land з артиклем | **in** + Akk: in die Schweiz, in die USA |
+| Додому | **nach Hause** |`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Wo ist Sofia? — Beim Arzt.", translation: "Де Софія? — У лікаря." },
+                    { german: "Ich bin im Kindergarten.", translation: "Я в дитячому садку." },
+                    { german: "Wohin fährst du? — Nach Wien.", translation: "Куди ти їдеш? — До Відня." },
+                    { german: "Er geht in die Apotheke.", translation: "Він йде в аптеку." },
+                    { german: "Sie wohnt in der Schweiz.", translation: "Вона живе у Швейцарії." }
+                ]
+            }
+        ]
+    },
+
+    // --- ORDINALZAHLEN ---
+    "ordnungszahlen": {
+        title: "Ordinalzahlen (Порядкові числівники) Lektion 14",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**1-19**: число + **-te**
+**від 20**: число + **-ste**
+
+| Число | Порядковий |
+|-------|------------|
+| 1. | der **erste** |
+| 2. | der **zweite** |
+| 3. | der **dritte** |
+| 4. | der vierte |
+| 5. | der fünfte |
+| 6. | der sechste |
+| 7. | der siebte |
+| 20. | der zwanzigste |
+| 21. | der einundzwanzigste |`
+            },
+            {
+                title: "Дата",
+                type: "tip",
+                content: `**Wann?** (Коли?) → am + порядковий + -en
+
+→ Am zweiten Mai. (2 травня)
+→ Vom zweiten bis (zum) zwanzigsten Mai. (з 2 по 20 травня)
+
+**Сьогоднішня дата:**
+→ Heute ist der erste Januar. (Сьогодні перше січня)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Heute ist der fünfte März.", translation: "Сьогодні п'яте березня." },
+                    { german: "Ich komme am dritten April.", translation: "Я приїду третього квітня." },
+                    { german: "Mein Geburtstag ist am siebten.", translation: "Мій день народження сьомого." }
+                ]
+            }
+        ]
+    },
+
+    // --- PRÄTERITUM: sein & haben ---
+    "praeteritum-sein-haben": {
+        title: "Präteritum: sein und haben (Lektion 8)",
+        sections: [
+            {
+                title: "Кон'югація",
+                type: "rule",
+                content: `**sein** і **haben** у минулому часі (Präteritum):
+
+| Person | sein | haben |
+|--------|------|-------|
+| ich | **war** | **hatte** |
+| du | **warst** | **hattest** |
+| er/sie/es | **war** | **hatte** |
+| wir | **waren** | **hatten** |
+| ihr | **wart** | **hattet** |
+| sie/Sie | **waren** | **hatten** |`
+            },
+            {
+                title: "Використання",
+                type: "tip",
+                content: `**Präteritum** використовується в письмовій мові та для sein/haben.
+
+У розмові зазвичай використовують **Perfekt**:
+→ Ich **bin** müde **gewesen**. (розмовне)
+→ Ich **war** müde. (Präteritum - коротше!)
+
+**haben** → теж краще Präteritum:
+→ Ich **hatte** Hunger. (я був голодний)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich war gestern krank.", translation: "Я був вчора хворий." },
+                    { german: "Wir hatten viel Spaß.", translation: "Нам було дуже весело." },
+                    { german: "Wo warst du?", translation: "Де ти був?" },
+                    { german: "Sie hatte keine Zeit.", translation: "Вона не мала часу." }
+                ]
+            }
+        ]
+    },
+
+    // --- KONJUNKTION: denn ---
+    "konjunktion-denn": {
+        title: "Konjunktion: denn (Lektion 14)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**denn** = бо, тому що
+
+Позиція: між двома реченнями
+Порядок слів: як у звичайному реченні (не змінюється!)
+
+Структура:
+**Головне речення + denn + пояснення**`
+            },
+            {
+                title: "Порівняння з weil",
+                type: "tip",
+                content: `**denn** vs **weil**:
+
+| | denn | weil |
+|---|------|------|
+| Позиція дієслова | нормальна | в кінці |
+| Приклад | Ich bleibe, **denn** ich **bin** müde. | Ich bleibe, **weil** ich müde **bin**. |
+
+⚠️ **denn** легше використовувати — порядок слів не змінюється!`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Sie feiern Abschied, denn Lara und Tim fahren nach Hause.", translation: "Вони влаштовують прощання, бо Лара і Тім їдуть додому." },
+                    { german: "Ich lerne Deutsch, denn ich arbeite in Wien.", translation: "Я вчу німецьку, бо працюю у Відні." },
+                    { german: "Er bleibt zu Hause, denn er ist krank.", translation: "Він залишається вдома, бо він хворий." }
                 ]
             }
         ]
