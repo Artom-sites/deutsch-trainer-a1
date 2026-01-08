@@ -47,6 +47,12 @@ const Flashcard = ({ word, onResult }) => {
         onResult(0); // Need to learn more
     };
 
+    // Check if plural is valid (not empty, not just "Sg." or similar)
+    const hasValidPlural = word.plural &&
+        word.plural.trim() !== '' &&
+        !word.plural.toLowerCase().includes('sg') &&
+        word.plural !== '-';
+
     return (
         <div style={{
             display: 'flex',
@@ -67,24 +73,27 @@ const Flashcard = ({ word, onResult }) => {
                     background: 'linear-gradient(135deg, rgba(40, 40, 40, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: 32,
-                    padding: 'var(--space-xl)',
+                    padding: 'var(--space-lg)',
                     textAlign: 'center',
                     cursor: 'pointer',
                     boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
                     transition: 'transform 0.2s, box-shadow 0.2s',
-                    userSelect: 'none'
+                    userSelect: 'none',
+                    overflow: 'hidden'
                 }}
             >
                 {!isFlipped ? (
                     // ==========================================
                     // FRONT: Ukrainian translation
                     // ==========================================
-                    <div className="fade-in">
+                    <div className="fade-in" style={{ width: '100%', padding: 'var(--space-md)' }}>
                         <div style={{
-                            fontSize: '2.5rem',
+                            fontSize: 'clamp(1.5rem, 6vw, 2.5rem)',
                             fontWeight: 700,
                             color: 'var(--text-primary)',
-                            marginBottom: 'var(--space-md)'
+                            marginBottom: 'var(--space-md)',
+                            wordBreak: 'break-word',
+                            lineHeight: 1.3
                         }}>
                             {word.translation}
                         </div>
@@ -100,66 +109,72 @@ const Flashcard = ({ word, onResult }) => {
                     // ==========================================
                     // BACK: German word with article, color, plural
                     // ==========================================
-                    <div className="fade-in">
-                        {/* Article + Word + Plural - Colored by gender */}
+                    <div className="fade-in" style={{
+                        width: '100%',
+                        padding: 'var(--space-md)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        {/* Article */}
+                        {word.article && (
+                            <div style={{
+                                color: genderColor,
+                                fontSize: '1.2rem',
+                                fontWeight: 500,
+                                marginBottom: 4,
+                                opacity: 0.8
+                            }}>
+                                {word.article}
+                            </div>
+                        )}
+
+                        {/* Word - Colored by gender */}
                         <div style={{
                             color: genderColor,
+                            fontSize: 'clamp(1.8rem, 7vw, 3rem)',
+                            fontWeight: 800,
+                            wordBreak: 'break-word',
+                            lineHeight: 1.2,
                             marginBottom: 'var(--space-sm)'
                         }}>
-                            {/* Article */}
-                            {word.article && (
-                                <span style={{
-                                    fontSize: '1.5rem',
-                                    fontWeight: 500,
-                                    marginRight: 8
-                                }}>
-                                    {word.article}
-                                </span>
-                            )}
-                            {/* Word */}
-                            <span style={{
-                                fontSize: '2.5rem',
-                                fontWeight: 800
-                            }}>
-                                {word.word}
-                            </span>
-                            {/* Plural ending - inline like dictionary */}
-                            {word.plural && (
-                                <span style={{
-                                    fontSize: '1.5rem',
-                                    fontWeight: 500,
-                                    opacity: 0.7,
-                                    marginLeft: 4
-                                }}>
-                                    , {word.plural}
-                                </span>
-                            )}
+                            {word.word}
                         </div>
 
-                        {/* Audio button */}
-                        <div style={{ marginTop: 'var(--space-lg)' }}>
-                            <button
-                                onClick={handleSpeak}
-                                style={{
-                                    background: isSpeaking ? 'var(--color-accent)' : 'var(--bg-surface)',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: 48,
-                                    height: 48,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-                                }}
-                            >
-                                <Volume2
-                                    size={24}
-                                    color={isSpeaking ? 'black' : 'var(--text-secondary)'}
-                                />
-                            </button>
-                        </div>
+                        {/* Plural ending - only if valid */}
+                        {hasValidPlural && (
+                            <div style={{
+                                fontSize: '1rem',
+                                color: 'var(--text-secondary)',
+                                marginTop: 4
+                            }}>
+                                Plural: {word.plural}
+                            </div>
+                        )}
+
+                        {/* Audio button - CENTERED */}
+                        <button
+                            onClick={handleSpeak}
+                            style={{
+                                marginTop: 'var(--space-lg)',
+                                background: isSpeaking ? 'var(--color-accent)' : 'rgba(255, 255, 255, 0.1)',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                borderRadius: '50%',
+                                width: 56,
+                                height: 56,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            <Volume2
+                                size={28}
+                                color={isSpeaking ? 'black' : 'var(--text-primary)'}
+                            />
+                        </button>
 
                         {/* Flip hint */}
                         <div style={{
@@ -168,7 +183,7 @@ const Flashcard = ({ word, onResult }) => {
                             color: 'var(--text-secondary)',
                             opacity: 0.5
                         }}>
-                            Натисніть знову, щоб перевернути
+                            Натисніть, щоб перевернути
                         </div>
                     </div>
                 )}
