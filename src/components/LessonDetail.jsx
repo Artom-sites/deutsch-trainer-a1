@@ -1,22 +1,21 @@
 // src/components/LessonDetail.jsx
-// Деталі уроку: Wortschatz, Grammatik, Übungen
+// Деталі уроку: Wortschatz, окремі Grammatik теми, Übungen
 import React from 'react';
 import useStore from '../store/useStore';
-import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForLesson } from '../data/lexicon';
-import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight } from 'lucide-react';
+import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent } from '../data/lexicon';
+import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, CheckCircle } from 'lucide-react';
 
 const LessonDetail = () => {
     const activeLessonId = useStore(state => state.activeLessonId);
     const goBack = useStore(state => state.goBack);
     const startLessonWords = useStore(state => state.startLessonWords);
-    const startLessonExercises = useStore(state => state.startLessonExercises);
+    const startTopicExercises = useStore(state => state.startTopicExercises);
     const openGrammarTopic = useStore(state => state.openGrammarTopic);
     const getLessonProgress = useStore(state => state.getLessonProgress);
 
     const lesson = getLessonById(activeLessonId);
     const lessonWords = getWordsForLesson(activeLessonId);
     const grammarTopics = getGrammarForLesson(activeLessonId);
-    const lessonExercises = getExercisesForLesson(activeLessonId);
     const progress = getLessonProgress(activeLessonId);
 
     if (!lesson) return null;
@@ -39,27 +38,6 @@ const LessonDetail = () => {
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                     {lesson.description}
                 </p>
-
-                {/* Tags */}
-                <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 'var(--space-xs)',
-                    justifyContent: 'center',
-                    marginTop: 'var(--space-sm)'
-                }}>
-                    {lesson.topics.map(topic => (
-                        <span key={topic} style={{
-                            background: 'var(--bg-surface)',
-                            padding: '4px 8px',
-                            borderRadius: 'var(--radius-sm)',
-                            fontSize: '0.7rem',
-                            color: 'var(--text-muted)'
-                        }}>
-                            {topic}
-                        </span>
-                    ))}
-                </div>
             </div>
 
             {/* ==========================================
@@ -90,32 +68,99 @@ const LessonDetail = () => {
             </div>
 
             {/* ==========================================
-          GRAMMATIK (Grammar Rules)
+          GRAMMATIK (Individual Grammar Topics)
+          Кожну тему можна вивчити + тренувати окремо
           ========================================== */}
             <div className="lesson-section">
                 <div className="lesson-section-title">Grammatik</div>
 
                 {grammarTopics.length > 0 ? (
-                    grammarTopics.map(topic => (
-                        <div
-                            key={topic.id}
-                            className="lesson-item"
-                            onClick={() => openGrammarTopic(topic.id)}
-                        >
-                            <div className="lesson-item-icon" style={{ background: 'rgba(168, 85, 247, 0.2)' }}>
-                                <span style={{ fontSize: '1.25rem' }}>{topic.icon}</span>
+                    grammarTopics.map(topic => {
+                        const topicExercises = getExercisesForTopic(topic.id);
+                        const hasContent = getGrammarContent(topic.id) !== null;
+
+                        return (
+                            <div key={topic.id} className="card" style={{ marginBottom: 'var(--space-sm)' }}>
+                                {/* Topic Header */}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-sm)' }}>
+                                    <div style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 'var(--radius-sm)',
+                                        background: 'rgba(168, 85, 247, 0.2)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                        fontSize: '1.25rem'
+                                    }}>
+                                        {topic.icon}
+                                    </div>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>{topic.name}</div>
+                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{topic.description}</div>
+                                    </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
+                                    {/* Learn Button */}
+                                    {hasContent && (
+                                        <button
+                                            onClick={() => openGrammarTopic(topic.id)}
+                                            style={{
+                                                flex: 1,
+                                                padding: 'var(--space-sm)',
+                                                background: 'var(--bg-surface)',
+                                                border: 'none',
+                                                borderRadius: 'var(--radius-sm)',
+                                                color: 'var(--text-primary)',
+                                                fontSize: '0.85rem',
+                                                fontWeight: 500,
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: 'var(--space-xs)'
+                                            }}
+                                        >
+                                            <Lightbulb size={16} />
+                                            Вивчити
+                                        </button>
+                                    )}
+
+                                    {/* Practice Button */}
+                                    {topicExercises.length > 0 && (
+                                        <button
+                                            onClick={() => startTopicExercises(topic.id)}
+                                            style={{
+                                                flex: 1,
+                                                padding: 'var(--space-sm)',
+                                                background: 'rgba(34, 197, 94, 0.2)',
+                                                border: 'none',
+                                                borderRadius: 'var(--radius-sm)',
+                                                color: 'var(--color-success)',
+                                                fontSize: '0.85rem',
+                                                fontWeight: 500,
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: 'var(--space-xs)'
+                                            }}
+                                        >
+                                            <PenTool size={16} />
+                                            Тренувати ({topicExercises.length})
+                                        </button>
+                                    )}
+                                </div>
                             </div>
-                            <div className="lesson-item-content">
-                                <div className="lesson-item-title">{topic.name}</div>
-                                <div className="lesson-item-subtitle">{topic.description}</div>
-                            </div>
-                            <ChevronRight size={18} color="var(--text-muted)" />
-                        </div>
-                    ))
+                        );
+                    })
                 ) : (
-                    // Show lesson grammar topics from lesson.grammar array
-                    lesson.grammar.map((grammarName, index) => (
-                        <div key={index} className="card" style={{ marginBottom: 'var(--space-sm)' }}>
+                    // Show lesson grammar array if no detailed topics
+                    lesson.grammar && lesson.grammar.map((grammarName, index) => (
+                        <div key={index} className="card" style={{ marginBottom: 'var(--space-sm)', opacity: 0.7 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
                                 <div style={{
                                     width: 36,
@@ -136,36 +181,18 @@ const LessonDetail = () => {
                 )}
             </div>
 
-            {/* ==========================================
-          ÜBUNGEN (Exercises)
-          ========================================== */}
-            <div className="lesson-section">
-                <div className="lesson-section-title">Übungen</div>
-
-                {lessonExercises.length > 0 ? (
-                    <div
-                        className="lesson-item"
-                        onClick={() => startLessonExercises(activeLessonId)}
-                    >
-                        <div className="lesson-item-icon" style={{ background: 'rgba(34, 197, 94, 0.2)' }}>
-                            <PenTool size={22} color="var(--color-success)" />
-                        </div>
-                        <div className="lesson-item-content">
-                            <div className="lesson-item-title">Тренування</div>
-                            <div className="lesson-item-subtitle">
-                                {lessonExercises.length} вправ
-                            </div>
-                        </div>
-                        <ChevronRight size={18} color="var(--text-muted)" />
-                    </div>
-                ) : (
-                    <div className="card" style={{ opacity: 0.5, textAlign: 'center', padding: 'var(--space-lg)' }}>
-                        <PenTool size={24} color="var(--text-muted)" style={{ marginBottom: 8 }} />
-                        <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                            Вправи для цього уроку з'являться скоро
-                        </div>
-                    </div>
-                )}
+            {/* Info card at bottom */}
+            <div style={{
+                marginTop: 'var(--space-lg)',
+                padding: 'var(--space-md)',
+                background: 'var(--bg-surface)',
+                borderRadius: 'var(--radius-md)',
+                textAlign: 'center',
+                opacity: 0.7
+            }}>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    💡 Натисни "Вивчити" щоб подивитися правила, або "Тренувати" для вправ
+                </div>
             </div>
         </div>
     );
