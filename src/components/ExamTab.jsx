@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { BookOpen, Headphones, CheckCircle, XCircle, Play, ArrowRight } from 'lucide-react';
 import { readingTests, listeningTests } from '../data/exam';
 import InteractiveText from './InteractiveText';
-import { speakSentence } from '../utils/speech';
+import { speakSentence, stopSpeaking } from '../utils/speech';
 
 const ExamCard = ({ test, type, onStart }) => (
     <div
@@ -78,7 +78,12 @@ const TestSession = ({ test, type, onBack }) => {
 
     const handlePlay = () => {
         if (!test || !test.text) return;
-        if (isPlaying) return;
+
+        if (isPlaying) {
+            stopSpeaking();
+            setIsPlaying(false);
+            return;
+        }
 
         setIsPlaying(true);
         speakSentence(test.text).then(() => {
@@ -149,7 +154,6 @@ const TestSession = ({ test, type, onBack }) => {
                         <button
                             className="btn"
                             onClick={handlePlay}
-                            disabled={isPlaying}
                             style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
@@ -166,7 +170,7 @@ const TestSession = ({ test, type, onBack }) => {
                             ) : (
                                 <Play size={24} fill="black" />
                             )}
-                            {isPlaying ? 'Hören...' : 'Audio abspielen'}
+                            {isPlaying ? 'Stoppen' : 'Audio abspielen'}
                         </button>
                     </div>
                 )}
