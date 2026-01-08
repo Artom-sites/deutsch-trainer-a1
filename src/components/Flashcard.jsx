@@ -105,7 +105,7 @@ const Flashcard = ({ word, onResult }) => {
                     // BACK: German word with article, color, plural
                     // ==========================================
                     <div className="fade-in">
-                        {/* Article + Word - Colored by gender */}
+                        {/* Article + Word + Plural - Colored by gender */}
                         <div style={{
                             color: genderColor,
                             marginBottom: 'var(--space-sm)'
@@ -127,23 +127,18 @@ const Flashcard = ({ word, onResult }) => {
                             }}>
                                 {word.word}
                             </span>
+                            {/* Plural ending - inline like dictionary */}
+                            {word.plural && (
+                                <span style={{
+                                    fontSize: '1.5rem',
+                                    fontWeight: 500,
+                                    opacity: 0.7,
+                                    marginLeft: 4
+                                }}>
+                                    , {word.plural}
+                                </span>
+                            )}
                         </div>
-
-                        {/* Plural ending - clearly visible */}
-                        {word.plural && (
-                            <div style={{
-                                fontSize: '1.2rem',
-                                color: 'var(--color-plural)',
-                                fontWeight: 600,
-                                marginTop: 'var(--space-sm)',
-                                padding: '4px 12px',
-                                background: 'rgba(245, 158, 11, 0.15)',
-                                borderRadius: 12,
-                                display: 'inline-block'
-                            }}>
-                                Plural: {word.plural}
-                            </div>
-                        )}
 
                         {/* Audio button */}
                         <div style={{ marginTop: 'var(--space-lg)' }}>
