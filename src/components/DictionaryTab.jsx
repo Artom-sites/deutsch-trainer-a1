@@ -138,9 +138,9 @@ const DictionaryTab = () => {
                         <Play size={28} color="var(--color-primary)" />
                     </div>
                     <div>
-                        <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Вчити слова</div>
+                        <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Почати тренування</div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                            Звичайний режим карток
+                            Картки, тести та вправи
                         </div>
                     </div>
                 </div>

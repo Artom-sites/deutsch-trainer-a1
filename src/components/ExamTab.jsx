@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Headphones, CheckCircle, XCircle, Play, Pause, ArrowRight } from 'lucide-react';
 import { readingTests, listeningTests } from '../data/exam';
+import InteractiveText from './InteractiveText';
 import { speakSentence } from '../utils/speech';
 
 const ExamCard = ({ test, type, onStart }) => (
@@ -131,8 +132,11 @@ const TestSession = ({ test, type, onBack }) => {
                 border: '1px solid rgba(255, 255, 255, 0.05)'
             }}>
                 {type === 'reading' ? (
-                    <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: '1.05rem' }}>
-                        {test.text}
+                    <div style={{ padding: '0 8px' }}>
+                        <div style={{ marginBottom: 'var(--space-md)', fontSize: '0.9rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                            💡 Tip: Klicke auf ein Wort für die Übersetzung.
+                        </div>
+                        <InteractiveText text={test.text} />
                     </div>
                 ) : (
                     <div style={{ textAlign: 'center', padding: '20px 0' }}>
