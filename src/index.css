@@ -450,6 +450,18 @@ input:focus {
   color: var(--color-plural);
 }
 
+.text-der {
+  color: var(--color-masculine);
+}
+
+.text-die {
+  color: var(--color-feminine);
+}
+
+.text-das {
+  color: var(--color-neuter);
+}
+
 .pulse {
   animation: pulse 1.5s infinite;
 }
