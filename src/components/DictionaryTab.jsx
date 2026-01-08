@@ -3,7 +3,8 @@
 import React from 'react';
 import useStore from '../store/useStore';
 import { words } from '../data/lexicon';
-import { BookOpen, Play, RotateCcw } from 'lucide-react';
+import { BookOpen, Play, RotateCcw, Calendar, Volume2 } from 'lucide-react';
+import { speakWord } from '../utils/speech';
 
 const DictionaryTab = () => {
     const startAllWords = useStore(state => state.startAllWords);
@@ -15,12 +16,82 @@ const DictionaryTab = () => {
     const total = getTotalWords();
     const dueCount = getDueCount();
 
+    // Get Word of the Day (stable for the day)
+    const getDailyWord = () => {
+        if (!words || words.length === 0) return null;
+        const today = new Date().toDateString();
+        let hash = 0;
+        for (let i = 0; i < today.length; i++) {
+            hash = today.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % words.length;
+        return words[index];
+    };
+
+    const dailyWord = getDailyWord();
+
     return (
         <div className="screen">
             <div className="screen-header">
                 <h1 className="screen-title">Wörterbuch</h1>
                 <p className="screen-subtitle">Тренування словникового запасу</p>
             </div>
+
+            {/* Word of the Day */}
+            {dailyWord && (
+                <div className="card fade-in" style={{
+                    marginBottom: 'var(--space-lg)',
+                    background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%)',
+                    color: 'white',
+                    border: 'none',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            marginBottom: 'var(--space-sm)',
+                            opacity: 0.9,
+                            fontSize: '0.9rem'
+                        }}>
+                            <Calendar size={16} />
+                            <span>Wort des Tages</span>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div>
+                                <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: 4 }}>
+                                    {dailyWord.word}
+                                </div>
+                                <div style={{ fontSize: '1.1rem', opacity: 0.9 }}>
+                                    {dailyWord.translation}
+                                </div>
+                            </div>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    speakWord(dailyWord.word);
+                                }}
+                                style={{
+                                    background: 'rgba(255,255,255,0.2)',
+                                    border: 'none',
+                                    borderRadius: '50%',
+                                    width: 40,
+                                    height: 40,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <Volume2 size={24} color="white" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Stats */}
             <div className="stats-row">
@@ -49,25 +120,25 @@ const DictionaryTab = () => {
                         display: 'flex',
                         alignItems: 'center',
                         gap: 'var(--space-md)',
-                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(59, 130, 246, 0.2) 100%)',
-                        border: '1px solid rgba(139, 92, 246, 0.3)'
+                        background: 'var(--bg-card)',
+                        border: '1px solid var(--border-color)'
                     }}
                 >
                     <div style={{
                         width: 56,
                         height: 56,
                         borderRadius: 'var(--radius-md)',
-                        background: 'var(--color-accent)',
+                        background: 'var(--bg-surface)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <Play size={28} color="white" />
+                        <Play size={28} color="var(--color-primary)" />
                     </div>
                     <div>
-                        <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Вчити всі слова</div>
+                        <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Вчити слова</div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                            {total} слів у словнику
+                            Звичайний режим карток
                         </div>
                     </div>
                 </div>
@@ -81,7 +152,7 @@ const DictionaryTab = () => {
                             display: 'flex',
                             alignItems: 'center',
                             gap: 'var(--space-md)',
-                            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%)',
+                            background: 'rgba(245, 158, 11, 0.1)',
                             border: '1px solid rgba(245, 158, 11, 0.3)'
                         }}
                     >
@@ -105,20 +176,6 @@ const DictionaryTab = () => {
                     </div>
                 )}
 
-            </div>
-
-            {/* Info */}
-            <div style={{
-                marginTop: 'var(--space-xl)',
-                padding: 'var(--space-md)',
-                background: 'var(--bg-surface)',
-                borderRadius: 'var(--radius-md)',
-                textAlign: 'center'
-            }}>
-                <BookOpen size={24} color="var(--text-muted)" style={{ marginBottom: 8 }} />
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                    Картки: спереду 🇺🇦 переклад, ззаду 🇩🇪 слово з артиклем
-                </div>
             </div>
         </div>
     );

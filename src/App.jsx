@@ -12,6 +12,7 @@ import VerbsTab from './components/VerbsTab';
 import ProgressTab from './components/ProgressTab';
 import FlashcardSession from './components/FlashcardSession';
 import ExerciseSession from './components/ExerciseSession';
+import ExamTab from './components/ExamTab';
 import GrammarDetail from './components/GrammarDetail';
 
 function App() {
@@ -48,6 +49,8 @@ function App() {
         return <DictionaryTab />;
       case 'verbs':
         return <VerbsTab />;
+      case 'exam':
+        return <ExamTab />;
       case 'progress':
         return <ProgressTab />;
       default:
