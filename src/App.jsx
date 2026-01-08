@@ -8,6 +8,7 @@ import BottomNav from './components/BottomNav';
 import HomeTab from './components/HomeTab';
 import LessonsTab from './components/LessonsTab';
 import LessonDetail from './components/LessonDetail';
+import GrammarDetail from './components/GrammarDetail';
 import DictionaryTab from './components/DictionaryTab';
 import VerbsTab from './components/VerbsTab';
 import ProgressTab from './components/ProgressTab';
@@ -35,6 +36,11 @@ function App() {
     // Lesson detail view
     if (currentView === 'lesson-detail') {
       return <LessonDetail />;
+    }
+
+    // Grammar detail view
+    if (currentView === 'grammar-detail') {
+      return <GrammarDetail />;
     }
 
     // Main tab views
