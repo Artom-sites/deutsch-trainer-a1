@@ -189,14 +189,12 @@ const VerbCard = ({ verb }) => {
 
 const VerbsTab = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedType, setSelectedType] = useState('all');
 
     // Filter verbs
     const filteredVerbs = verbs.filter(verb => {
         const matchesSearch = verb.infinitiv.toLowerCase().includes(searchQuery.toLowerCase()) ||
             verb.translation.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesType = selectedType === 'all' || verb.type === selectedType;
-        return matchesSearch && matchesType;
+        return matchesSearch;
     });
 
     return (
@@ -231,54 +229,6 @@ const VerbsTab = () => {
                         outline: 'none'
                     }}
                 />
-            </div>
-
-            {/* Type Filter */}
-            <div style={{
-                display: 'flex',
-                gap: 'var(--space-xs)',
-                overflowX: 'auto',
-                marginBottom: 'var(--space-md)',
-                paddingBottom: 'var(--space-xs)'
-            }}>
-                <button
-                    onClick={() => setSelectedType('all')}
-                    style={{
-                        padding: '6px 12px',
-                        borderRadius: 'var(--radius-sm)',
-                        border: 'none',
-                        background: selectedType === 'all' ? 'var(--color-accent)' : 'var(--bg-surface)',
-                        color: selectedType === 'all' ? 'white' : 'var(--text-secondary)',
-                        fontSize: '0.8rem',
-                        fontWeight: 600,
-                        whiteSpace: 'nowrap',
-                        cursor: 'pointer'
-                    }}
-                >
-                    Всі ({verbs.length})
-                </button>
-                {Object.entries(VERB_TYPES).map(([key, label]) => {
-                    const count = verbs.filter(v => v.type === key).length;
-                    return (
-                        <button
-                            key={key}
-                            onClick={() => setSelectedType(key)}
-                            style={{
-                                padding: '6px 12px',
-                                borderRadius: 'var(--radius-sm)',
-                                border: 'none',
-                                background: selectedType === key ? 'var(--color-accent)' : 'var(--bg-surface)',
-                                color: selectedType === key ? 'white' : 'var(--text-secondary)',
-                                fontSize: '0.8rem',
-                                fontWeight: 600,
-                                whiteSpace: 'nowrap',
-                                cursor: 'pointer'
-                            }}
-                        >
-                            {label} ({count})
-                        </button>
-                    );
-                })}
             </div>
 
             {/* Verb List */}
