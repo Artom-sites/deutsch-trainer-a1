@@ -98,7 +98,7 @@ const TestSession = ({ test, type, onBack }) => {
     const passed = score >= test.questions.length * 0.6;
 
     return (
-        <div className="screen fade-in" style={{ paddingBottom: 100 }}>
+        <div className="screen fade-in" style={{ paddingBottom: 180 }}>
             {/* Header with Timer */}
             <div className="back-header" style={{ justifyContent: 'space-between' }}>
                 <button className="back-btn" onClick={onBack}>
@@ -247,7 +247,7 @@ const TestSession = ({ test, type, onBack }) => {
                     disabled={Object.keys(answers).length < test.questions.length}
                     style={{
                         opacity: Object.keys(answers).length < test.questions.length ? 0.5 : 1,
-                        position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
+                        position: 'fixed', bottom: 140, left: '50%', transform: 'translateX(-50%)',
                         width: '90%', maxWidth: 400, boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 50
                     }}
                 >
