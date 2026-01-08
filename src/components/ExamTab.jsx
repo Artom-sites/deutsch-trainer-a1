@@ -42,6 +42,29 @@ const TestSession = ({ test, type, onBack }) => {
     const [answers, setAnswers] = useState({});
     const [submitted, setSubmitted] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(20 * 60); // 20 minutes
+
+    // Timer
+    React.useEffect(() => {
+        if (submitted) return;
+        const timer = setInterval(() => {
+            setTimeLeft(prev => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    setSubmitted(true);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(timer);
+    }, [submitted]);
+
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s < 10 ? '0' : ''}${s}`;
+    };
 
     const handleSelect = (qId, optionIdx) => {
         if (submitted) return;
@@ -70,47 +93,69 @@ const TestSession = ({ test, type, onBack }) => {
         return correct;
     };
 
+    const score = getScore();
+    const passed = score >= test.questions.length * 0.6;
+
     return (
-        <div className="screen fade-in">
-            {/* Header */}
-            <div className="back-header">
+        <div className="screen fade-in" style={{ paddingBottom: 100 }}>
+            {/* Header with Timer */}
+            <div className="back-header" style={{ justifyContent: 'space-between' }}>
                 <button className="back-btn" onClick={onBack}>
-                    ← Назад
+                    ←
                 </button>
-                <div style={{ fontWeight: 600 }}>{test.title}</div>
+                <div style={{
+                    fontWeight: 700,
+                    fontVariantNumeric: 'tabular-nums',
+                    color: timeLeft < 60 ? 'var(--color-error)' : 'var(--text-primary)'
+                }}>
+                    ⏱ {formatTime(timeLeft)}
+                </div>
+            </div>
+
+            <div style={{ marginBottom: 'var(--space-md)' }}>
+                <h2 className="screen-title" style={{ fontSize: '1.5rem' }}>{test.title}</h2>
+                <div className="progress-bar">
+                    <div
+                        className="progress-bar-fill"
+                        style={{ width: `${(Object.keys(answers).length / test.questions.length) * 100}%` }}
+                    />
+                </div>
             </div>
 
             {/* Content (Text or Audio Control) */}
             <div className="card" style={{
                 marginBottom: 'var(--space-lg)',
                 padding: 'var(--space-lg)',
-                background: 'var(--bg-surface)', // Ensure explicit background
-                color: 'var(--text-primary)' // Ensure explicit text color
+                background: 'rgba(255, 255, 255, 0.03)',
+                color: 'var(--text-primary)',
+                border: '1px solid rgba(255, 255, 255, 0.05)'
             }}>
                 {type === 'reading' ? (
-                    <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: '1rem' }}>
+                    <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: '1.05rem' }}>
                         {test.text}
                     </div>
                 ) : (
-                    <div style={{ textAlign: 'center' }}>
-                        <div style={{ marginBottom: 'var(--space-md)', color: 'var(--text-secondary)' }}>
+                    <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                        <div style={{ marginBottom: 'var(--space-lg)', color: 'var(--text-secondary)' }}>
                             Прослухайте текст і дайте відповіді на запитання.
                         </div>
                         <button
-                            className="btn btn-primary"
+                            className="btn"
                             onClick={handlePlay}
                             disabled={isPlaying}
                             style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
-                                gap: 8,
-                                padding: '12px 24px',
-                                background: isPlaying ? 'var(--color-accent)' : 'var(--color-primary)',
-                                transition: 'all 0.3s ease'
+                                gap: 12,
+                                padding: '16px 32px',
+                                background: isPlaying ? 'rgba(204, 255, 0, 0.2)' : 'var(--color-accent)',
+                                color: isPlaying ? 'var(--color-accent)' : 'black',
+                                transition: 'all 0.3s ease',
+                                borderRadius: 100
                             }}
                         >
-                            {isPlaying ? <Pause size={20} className="pulse" /> : <Play size={20} />}
-                            {isPlaying ? 'Відтворюється...' : 'Прослухати'}
+                            {isPlaying ? <Pause size={24} className="pulse" /> : <Play size={24} fill="black" />}
+                            {isPlaying ? 'Hören...' : 'Audio abspielen'}
                         </button>
                     </div>
                 )}
@@ -124,26 +169,31 @@ const TestSession = ({ test, type, onBack }) => {
                     const isWrong = submitted && selected !== q.correct && selected !== undefined;
 
                     return (
-                        <div key={q.id}>
-                            <div style={{ fontWeight: 600, marginBottom: 'var(--space-sm)' }}>
-                                {idx + 1}. {q.question}
+                        <div key={q.id} className="fade-in" style={{ animationDelay: `${idx * 0.1}s` }}>
+                            <div style={{ fontWeight: 600, marginBottom: 'var(--space-md)', fontSize: '1.1rem' }}>
+                                <span style={{ color: 'var(--color-accent)', marginRight: 8 }}>{idx + 1}.</span>
+                                {q.question}
                             </div>
                             <div style={{ display: 'grid', gap: 'var(--space-sm)' }}>
                                 {q.options.map((opt, optIdx) => {
-                                    let bg = 'var(--bg-card)';
-                                    let border = '1px solid var(--border-color)';
+                                    let bg = 'rgba(255, 255, 255, 0.03)';
+                                    let border = '1px solid rgba(255, 255, 255, 0.1)';
+                                    let color = 'var(--text-primary)';
 
                                     if (submitted) {
                                         if (optIdx === q.correct) {
-                                            bg = 'rgba(34, 197, 94, 0.1)';
+                                            bg = 'rgba(34, 197, 94, 0.2)';
                                             border = '1px solid var(--color-success)';
+                                            color = '#86efac';
                                         } else if (selected === optIdx) {
-                                            bg = 'rgba(239, 68, 68, 0.1)';
+                                            bg = 'rgba(239, 68, 68, 0.2)';
                                             border = '1px solid var(--color-error)';
+                                            color = '#fca5a5';
                                         }
                                     } else if (selected === optIdx) {
-                                        bg = 'rgba(59, 130, 246, 0.1)';
-                                        border = '1px solid var(--color-info)';
+                                        bg = 'rgba(204, 255, 0, 0.15)';
+                                        border = '1px solid var(--color-accent)';
+                                        color = 'var(--color-accent)';
                                     }
 
                                     return (
@@ -152,20 +202,30 @@ const TestSession = ({ test, type, onBack }) => {
                                             onClick={() => handleSelect(q.id, optIdx)}
                                             disabled={submitted}
                                             style={{
-                                                padding: '12px',
-                                                borderRadius: 'var(--radius-sm)',
+                                                padding: '16px',
+                                                borderRadius: '16px',
                                                 background: bg,
                                                 border: border,
+                                                color: color,
                                                 textAlign: 'left',
                                                 cursor: submitted ? 'default' : 'pointer',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                gap: 8
+                                                gap: 12,
+                                                fontSize: '1rem',
+                                                transition: 'all 0.2s'
                                             }}
                                         >
-                                            {submitted && optIdx === q.correct && <CheckCircle size={16} color="var(--color-success)" />}
-                                            {submitted && selected === optIdx && optIdx !== q.correct && <XCircle size={16} color="var(--color-error)" />}
+                                            <div style={{
+                                                width: 24, height: 24, borderRadius: '50%', border: `1px solid ${color}`,
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                fontSize: '0.8rem', opacity: 0.7
+                                            }}>
+                                                {String.fromCharCode(65 + optIdx)}
+                                            </div>
                                             {opt}
+                                            {submitted && optIdx === q.correct && <CheckCircle size={20} color="var(--color-success)" style={{ marginLeft: 'auto' }} />}
+                                            {submitted && selected === optIdx && optIdx !== q.correct && <XCircle size={20} color="var(--color-error)" style={{ marginLeft: 'auto' }} />}
                                         </button>
                                     );
                                 })}
@@ -181,20 +241,31 @@ const TestSession = ({ test, type, onBack }) => {
                     className="btn btn-primary"
                     onClick={handleSubmit}
                     disabled={Object.keys(answers).length < test.questions.length}
-                    style={{ opacity: Object.keys(answers).length < test.questions.length ? 0.5 : 1 }}
+                    style={{
+                        opacity: Object.keys(answers).length < test.questions.length ? 0.5 : 1,
+                        position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
+                        width: '90%', maxWidth: 400, boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 50
+                    }}
                 >
                     Перевірити відповіді
                 </button>
             ) : (
-                <div className="card" style={{
+                <div className="card fade-in" style={{
                     textAlign: 'center',
-                    background: getScore() === test.questions.length ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)',
-                    border: `1px solid ${getScore() === test.questions.length ? 'var(--color-success)' : 'var(--color-warning)'}`
+                    background: passed ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                    border: `1px solid ${passed ? 'var(--color-success)' : 'var(--color-error)'}`,
+                    padding: 'var(--space-xl)'
                 }}>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: 4 }}>
-                        Результат: {getScore()} / {test.questions.length}
+                    <div style={{ fontSize: '3rem', marginBottom: 'var(--space-sm)' }}>
+                        {passed ? '🎉' : '📚'}
                     </div>
-                    <button className="btn btn-outline" onClick={onBack} style={{ marginTop: 'var(--space-md)' }}>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: 8 }}>
+                        {passed ? 'Gut gemacht!' : 'Übung macht den Meister!'}
+                    </div>
+                    <div style={{ fontSize: '1.1rem', marginBottom: 'var(--space-lg)', color: 'var(--text-secondary)' }}>
+                        Результат: {score} / {test.questions.length}
+                    </div>
+                    <button className="btn btn-outline" onClick={onBack} style={{ width: '100%' }}>
                         Інший тест
                     </button>
                 </div>
