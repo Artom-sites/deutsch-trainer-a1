@@ -67,7 +67,7 @@ const Flashcard = ({ word, onResult }) => {
                 <button
                     className="btn btn-primary"
                     onClick={() => setRevealed(true)}
-                    style={{ marginTop: 'auto' }}
+                    style={{ marginTop: 'var(--space-md)' }}
                 >
                     Показати
                 </button>
