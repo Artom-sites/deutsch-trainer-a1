@@ -80,16 +80,33 @@ const VerbCard = ({ verb }) => {
                             gap: '4px',
                             fontSize: '0.85rem'
                         }}>
-                            {Object.entries(verb.praesens).map(([pronoun, form]) => (
+                            {/* Left column: ich, du, er/sie/es */}
+                            {['ich', 'du', 'er/sie/es'].map((pronoun) => (
                                 <div key={pronoun} style={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     padding: '4px 8px',
                                     background: 'var(--bg-surface)',
-                                    borderRadius: 4
+                                    borderRadius: 4,
+                                    gridColumn: 1
                                 }}>
                                     <span style={{ color: 'var(--text-muted)' }}>{pronoun}</span>
-                                    <span style={{ fontWeight: 600 }}>{form}</span>
+                                    <span style={{ fontWeight: 600 }}>{verb.praesens[pronoun]}</span>
+                                </div>
+                            ))}
+                            {/* Right column: wir, ihr, sie/Sie */}
+                            {['wir', 'ihr', 'sie/Sie'].map((pronoun, idx) => (
+                                <div key={pronoun} style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    padding: '4px 8px',
+                                    background: 'var(--bg-surface)',
+                                    borderRadius: 4,
+                                    gridColumn: 2,
+                                    gridRow: idx + 1
+                                }}>
+                                    <span style={{ color: 'var(--text-muted)' }}>{pronoun}</span>
+                                    <span style={{ fontWeight: 600 }}>{verb.praesens[pronoun]}</span>
                                 </div>
                             ))}
                         </div>
@@ -133,16 +150,33 @@ const VerbCard = ({ verb }) => {
                             gap: '4px',
                             fontSize: '0.85rem'
                         }}>
-                            {Object.entries(verb.praeteritum).map(([pronoun, form]) => (
+                            {/* Left column: ich, du, er/sie/es */}
+                            {['ich', 'du', 'er/sie/es'].map((pronoun) => (
                                 <div key={pronoun} style={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     padding: '4px 8px',
                                     background: 'var(--bg-surface)',
-                                    borderRadius: 4
+                                    borderRadius: 4,
+                                    gridColumn: 1
                                 }}>
                                     <span style={{ color: 'var(--text-muted)' }}>{pronoun}</span>
-                                    <span style={{ fontWeight: 600 }}>{form}</span>
+                                    <span style={{ fontWeight: 600 }}>{verb.praeteritum[pronoun]}</span>
+                                </div>
+                            ))}
+                            {/* Right column: wir, ihr, sie/Sie */}
+                            {['wir', 'ihr', 'sie/Sie'].map((pronoun, idx) => (
+                                <div key={pronoun} style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    padding: '4px 8px',
+                                    background: 'var(--bg-surface)',
+                                    borderRadius: 4,
+                                    gridColumn: 2,
+                                    gridRow: idx + 1
+                                }}>
+                                    <span style={{ color: 'var(--text-muted)' }}>{pronoun}</span>
+                                    <span style={{ fontWeight: 600 }}>{verb.praeteritum[pronoun]}</span>
                                 </div>
                             ))}
                         </div>
