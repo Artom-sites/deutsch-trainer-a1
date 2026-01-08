@@ -13,7 +13,7 @@ import ProgressTab from './components/ProgressTab';
 import FlashcardSession from './components/FlashcardSession';
 import ExerciseSession from './components/ExerciseSession';
 import ExamTab from './components/ExamTab';
-import GrammarDetail from './components/GrammarDetail';
+import AIChatTab from './components/AIChatTab';
 
 function App() {
   const currentTab = useStore(state => state.currentTab);
@@ -51,6 +51,8 @@ function App() {
         return <VerbsTab />;
       case 'exam':
         return <ExamTab />;
+      case 'chat':
+        return <AIChatTab />;
       case 'progress':
         return <ProgressTab />;
       default:

@@ -41,7 +41,7 @@ Anna`,
     },
     {
         id: "read-2",
-        title: "Anzeige: Wohnung zu vermieten",
+        title: "Anzeige: Wohnung",
         text: `Wohnung in Frankfurt
 
 Schöne 2-Zimmer-Wohnung im Zentrum von Frankfurt zu vermieten.
@@ -69,6 +69,75 @@ Interesse? Rufen Sie an: 0152 1234567 (Herr Schmidt)`,
                 id: "r2-q3",
                 question: "Wann ist die Wohnung frei?",
                 options: ["Sofort", "Ab Oktober", "Ab Januar"],
+                correct: 1
+            }
+        ]
+    },
+    {
+        id: "read-3",
+        title: "Einladung zum Geburtstag",
+        text: `Liebe Freunde,
+
+ich habe am Samstag Geburtstag! Ich werde 25 Jahre alt.
+Ich möchte gerne feiern.
+
+Wann? Am Samstag, den 15. Mai, um 19 Uhr.
+Wo? Bei mir zu Hause (Goethestraße 10).
+
+Es gibt Pizza und Getränke. Bitte bringt gute Laune mit!
+Könnt ihr kommen? Bitte sagt mir bis Mittwoch Bescheid.
+
+Euer Thomas`,
+        questions: [
+            {
+                id: "r3-q1",
+                question: "Was feiert Thomas?",
+                options: ["Weihnachten", "Seinen Geburtstag", "Eine Hochzeit"],
+                correct: 1
+            },
+            {
+                id: "r3-q2",
+                question: "Wann beginnt die Party?",
+                options: ["Um 15 Uhr", "Um 25 Uhr", "Um 19 Uhr"],
+                correct: 2
+            },
+            {
+                id: "r3-q3",
+                question: "Was gibt es zu essen?",
+                options: ["Pizza", "Döner", "Kuchen"],
+                correct: 0
+            }
+        ]
+    },
+    {
+        id: "read-4",
+        title: "Öffnungszeiten Bibliothek",
+        text: `Stadtbibliothek München
+
+Unsere Öffnungszeiten:
+Montag: Geschlossen
+Dienstag - Freitag: 10:00 - 19:00 Uhr
+Samstag: 10:00 - 15:00 Uhr
+Sonntag: Geschlossen
+
+Achtung: Im August ist die Bibliothek zwei Wochen geschlossen (1.08 - 14.08).`,
+        questions: [
+            {
+                id: "r4-q1",
+                question: "Wann ist die Bibliothek am Montag offen?",
+                options: ["Von 10 bis 19 Uhr", "Gar nicht (geschlossen)", "Nur am Nachmittag"],
+                correct: 1
+            },
+            {
+                id: "r4-q2",
+                question: "Wie lange ist am Samstag geöffnet?",
+                options: ["Bis 15 Uhr", "Bis 19 Uhr", "Bis 10 Uhr"],
+                correct: 0
+            },
+            {
+                id: "r4-q3",
+                question: "Wann ist Sommerpause?",
+                options: ["Im Juli", "Im August", "Im September"],
                 correct: 1
             }
         ]
@@ -117,6 +186,56 @@ export const listeningTests = [
                 question: "Auf welchem Gleis fährt der Zug?",
                 options: ["Gleis 14", "Gleis 30", "Gleis 4"],
                 correct: 2
+            }
+        ]
+    },
+    {
+        id: "listen-3",
+        title: "Im Bekleidungsgeschäft",
+        text: "Kann ich Ihnen helfen? - Ja, ich suche einen Pullover. - Welche Größe haben Sie? - Größe M. - Wir haben diesen blauen Pullover hier. Er kostet 29 Euro. - Das ist gut. Ich nehme ihn.",
+        questions: [
+            {
+                id: "l3-q1",
+                question: "Was sucht der Kunde?",
+                options: ["Eine Hose", "Einen Pullover", "Ein T-Shirt"],
+                correct: 1
+            },
+            {
+                id: "l3-q2",
+                question: "Welche Farbe hat der Pullover?",
+                options: ["Rot", "Blau", "Schwarz"],
+                correct: 1
+            },
+            {
+                id: "l3-q3",
+                question: "Was kostet der Pullover?",
+                options: ["49 Euro", "19 Euro", "29 Euro"],
+                correct: 2
+            }
+        ]
+    },
+    {
+        id: "listen-4",
+        title: "Telefonat beim Arzt",
+        text: "Praxis Dr. Weber, guten Tag. - Guten Tag, hier ist Müller. Ich brauche einen Termin. - Haben Sie Schmerzen? - Ja, mein Kopf tut sehr weh. - Können Sie heute um 16 Uhr kommen? - Ja, das passt. Danke.",
+        questions: [
+            {
+                id: "l4-q1",
+                question: "Wen ruft Herr Müller an?",
+                options: ["Einen Freund", "Die Polizei", "Einen Arzt"],
+                correct: 2
+            },
+            {
+                id: "l4-q2",
+                question: "Was tut Herrn Müller weh?",
+                options: ["Der Kopf", "Der Bauch", "Das Bein"],
+                correct: 0
+            },
+            {
+                id: "l4-q3",
+                question: "Wann ist der Termin?",
+                options: ["Um 14 Uhr", "Um 16 Uhr", "Morgen"],
+                correct: 1
             }
         ]
     }

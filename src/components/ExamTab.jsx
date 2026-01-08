@@ -2,7 +2,7 @@
 // Вкладка "Екзамен" - підготовка до Goethe-Zertifikat A1
 
 import React, { useState } from 'react';
-import { BookOpen, Headphones, CheckCircle, XCircle, Play, ArrowRight } from 'lucide-react';
+import { BookOpen, Headphones, CheckCircle, XCircle, Play, Pause, ArrowRight } from 'lucide-react';
 import { readingTests, listeningTests } from '../data/exam';
 import { speakSentence } from '../utils/speech';
 
@@ -41,6 +41,7 @@ const ExamCard = ({ test, type, onStart }) => (
 const TestSession = ({ test, type, onBack }) => {
     const [answers, setAnswers] = useState({});
     const [submitted, setSubmitted] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     const handleSelect = (qId, optionIdx) => {
         if (submitted) return;
@@ -49,6 +50,16 @@ const TestSession = ({ test, type, onBack }) => {
 
     const handleSubmit = () => {
         setSubmitted(true);
+    };
+
+    const handlePlay = () => {
+        if (isPlaying) return;
+        setIsPlaying(true);
+        speakSentence(test.text).then(() => {
+            setIsPlaying(false);
+        }).catch(() => {
+            setIsPlaying(false);
+        });
     };
 
     const getScore = () => {
@@ -70,7 +81,12 @@ const TestSession = ({ test, type, onBack }) => {
             </div>
 
             {/* Content (Text or Audio Control) */}
-            <div className="card" style={{ marginBottom: 'var(--space-lg)', padding: 'var(--space-lg)' }}>
+            <div className="card" style={{
+                marginBottom: 'var(--space-lg)',
+                padding: 'var(--space-lg)',
+                background: 'var(--bg-surface)', // Ensure explicit background
+                color: 'var(--text-primary)' // Ensure explicit text color
+            }}>
                 {type === 'reading' ? (
                     <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: '1rem' }}>
                         {test.text}
@@ -82,11 +98,19 @@ const TestSession = ({ test, type, onBack }) => {
                         </div>
                         <button
                             className="btn btn-primary"
-                            onClick={() => speakSentence(test.text)}
-                            style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                            onClick={handlePlay}
+                            disabled={isPlaying}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                padding: '12px 24px',
+                                background: isPlaying ? 'var(--color-accent)' : 'var(--color-primary)',
+                                transition: 'all 0.3s ease'
+                            }}
                         >
-                            <Play size={20} />
-                            Прослухати
+                            {isPlaying ? <Pause size={20} className="pulse" /> : <Play size={20} />}
+                            {isPlaying ? 'Відтворюється...' : 'Прослухати'}
                         </button>
                     </div>
                 )}
