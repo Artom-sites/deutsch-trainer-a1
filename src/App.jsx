@@ -1,52 +1,66 @@
-import React, { useState } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+// src/App.jsx
+// Main App - Mobile-first structure with all views
+import React from 'react';
 import useStore from './store/useStore';
 
 // Components
 import BottomNav from './components/BottomNav';
+import LessonsTab from './components/LessonsTab';
+import LessonDetail from './components/LessonDetail';
 import DictionaryTab from './components/DictionaryTab';
 import VerbsTab from './components/VerbsTab';
-import ExamTab from './components/ExamTab';
-import AIChatTab from './components/AIChatTab';
-import TopicList from './components/TopicList';
-import TrainingScreen from './components/TrainingScreen';
-
-// Full Screen Components
+import ProgressTab from './components/ProgressTab';
 import FlashcardSession from './components/FlashcardSession';
 import ExerciseSession from './components/ExerciseSession';
-import LessonDetail from './components/LessonDetail';
+import ExamTab from './components/ExamTab';
+import AIChatTab from './components/AIChatTab';
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState('topics');
+function App() {
+  const currentTab = useStore(state => state.currentTab);
   const currentView = useStore(state => state.currentView);
-  const location = useLocation();
 
-  // Full Screen Overrides (controlled by Zustand store for specific legacy flows)
-  if (currentView === 'flashcards') return <FlashcardSession />;
-  if (currentView === 'exercises') return <ExerciseSession />;
-  if (currentView === 'lesson-detail') return <LessonDetail />;
+  // Determine what to render based on current view
+  const renderContent = () => {
+    // Flashcard session (full screen, no tabs)
+    if (currentView === 'flashcards') {
+      return <FlashcardSession />;
+    }
 
-  // Hide BottomNav on Training Screen
-  const showNav = !location.pathname.startsWith('/training');
+    // Exercise session
+    if (currentView === 'exercises') {
+      return <ExerciseSession />;
+    }
+
+    // Lesson detail view
+    if (currentView === 'lesson-detail') {
+      return <LessonDetail />;
+    }
+
+    // Main tab views
+    switch (currentTab) {
+      case 'lessons':
+        return <LessonsTab />;
+      case 'dictionary':
+        return <DictionaryTab />;
+      case 'verbs':
+        return <VerbsTab />;
+      case 'exam':
+        return <ExamTab />;
+      case 'chat':
+        return <AIChatTab />;
+      case 'progress':
+        return <ProgressTab />;
+      default:
+        return <LessonsTab />;
+    }
+  };
 
   return (
-    <div className="app flex flex-col min-h-screen">
-      <div className="flex-1">
-        <Routes>
-          <Route path="/" element={<TopicList />} />
-          <Route path="/training/:topicId" element={<TrainingScreen />} />
-
-          {/* Legacy/Secondary Tabs */}
-          <Route path="/dictionary" element={<DictionaryTab />} />
-          <Route path="/verbs" element={<VerbsTab />} />
-          <Route path="/exam" element={<ExamTab />} />
-          <Route path="/chat" element={<AIChatTab />} />
-        </Routes>
-      </div>
-
-      {showNav && <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />}
+    <div className="app">
+      {renderContent()}
+      <BottomNav />
     </div>
   );
-};
+}
 
 export default App;
