@@ -39,7 +39,7 @@ const DictionaryTab = () => {
             <div className="screen-header">
                 <div>
                     <h1 className="screen-title">Wörterbuch</h1>
-                    <p className="screen-subtitle">{words.length} слів • A1</p>
+                    <p className="screen-subtitle">Словник рівня A1</p>
                 </div>
             </div>
 
@@ -222,7 +222,7 @@ const DictionaryTab = () => {
                             cursor: 'pointer'
                         }}
                     >
-                        + Ще {filteredWords.length - visibleCount} слів
+                        + Ще {Math.min(50, filteredWords.length - visibleCount)} слів
                     </button>
                 )}
             </div>

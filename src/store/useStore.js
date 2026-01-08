@@ -72,9 +72,28 @@ const useStore = create(
             // ==========================================
             startLessonWords: (lessonId) => {
                 const lessonWords = getWordsForLesson(lessonId);
+                const userProgress = get().userProgress;
+
+                // Sort: unlearned first, then by due date
+                const sortedWords = [...lessonWords].sort((a, b) => {
+                    const progressA = userProgress[a.id];
+                    const progressB = userProgress[b.id];
+
+                    // Unlearned words first
+                    if (!progressA && progressB) return -1;
+                    if (progressA && !progressB) return 1;
+
+                    // If both learned, sort by due date (earliest first)
+                    if (progressA && progressB) {
+                        return new Date(progressA.dueDate) - new Date(progressB.dueDate);
+                    }
+
+                    return 0;
+                });
+
                 set({
                     currentView: 'flashcards',
-                    flashcardWords: lessonWords,
+                    flashcardWords: sortedWords,
                     currentCardIndex: 0,
                     activeLessonId: lessonId
                 });
@@ -82,9 +101,28 @@ const useStore = create(
 
             startAllWords: () => {
                 const allWords = getAllWords();
+                const userProgress = get().userProgress;
+
+                // Sort: unlearned first, then by due date
+                const sortedWords = [...allWords].sort((a, b) => {
+                    const progressA = userProgress[a.id];
+                    const progressB = userProgress[b.id];
+
+                    // Unlearned words first
+                    if (!progressA && progressB) return -1;
+                    if (progressA && !progressB) return 1;
+
+                    // If both learned, sort by due date (earliest first)
+                    if (progressA && progressB) {
+                        return new Date(progressA.dueDate) - new Date(progressB.dueDate);
+                    }
+
+                    return 0;
+                });
+
                 set({
                     currentView: 'flashcards',
-                    flashcardWords: allWords,
+                    flashcardWords: sortedWords,
                     currentCardIndex: 0
                 });
             },

@@ -1,8 +1,8 @@
 // src/components/BottomNav.jsx
-// Нижня навігація для мобільного - 4 вкладки
+// Нижня навігація - 5 вкладок з Home по центру
 import React from 'react';
 import useStore from '../store/useStore';
-import { Home, BookOpen, Library, Zap, GraduationCap, MessageCircle } from 'lucide-react';
+import { Home, BookOpen, Library, Zap, MessageCircle } from 'lucide-react';
 
 const BottomNav = () => {
     const currentTab = useStore(state => state.currentTab);
@@ -15,11 +15,11 @@ const BottomNav = () => {
     }
 
     const tabs = [
-        { id: 'home', label: 'Дім', icon: Home },
-        { id: 'lessons', label: 'Уроки', icon: BookOpen },
-        { id: 'dictionary', label: 'Слова', icon: Library },
-        { id: 'verbs', label: 'Verben', icon: Zap },
-        { id: 'chat', label: 'AI', icon: MessageCircle },
+        { id: 'lessons', icon: BookOpen },
+        { id: 'dictionary', icon: Library },
+        { id: 'home', icon: Home, isCenter: true },
+        { id: 'verbs', icon: Zap },
+        { id: 'chat', icon: MessageCircle },
     ];
 
     return (
@@ -34,9 +34,21 @@ const BottomNav = () => {
                             key={tab.id}
                             className={`nav-item ${isActive ? 'active' : ''}`}
                             onClick={() => setTab(tab.id)}
+                            style={tab.isCenter ? {
+                                background: isActive ? 'var(--color-accent)' : 'linear-gradient(135deg, #6366f1, #2dd4bf)',
+                                borderRadius: '50%',
+                                width: 56,
+                                height: 56,
+                                marginTop: -20,
+                                boxShadow: '0 4px 20px rgba(99, 102, 241, 0.4)'
+                            } : {}}
                         >
                             <div className="nav-icon-wrapper">
-                                <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                                <Icon
+                                    size={tab.isCenter ? 28 : 24}
+                                    strokeWidth={isActive ? 2.5 : 2}
+                                    color={tab.isCenter ? 'white' : undefined}
+                                />
                             </div>
                         </button>
                     );

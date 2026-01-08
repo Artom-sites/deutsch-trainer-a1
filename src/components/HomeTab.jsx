@@ -6,7 +6,7 @@ import { words } from '../data/lexicon';
 import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Zap } from 'lucide-react';
 
 const HomeTab = () => {
-    const setCurrentTab = useStore(state => state.setCurrentTab);
+    const setTab = useStore(state => state.setTab);
     const getLearnedCount = useStore(state => state.getLearnedCount);
 
     const learned = getLearnedCount();
@@ -33,7 +33,7 @@ const HomeTab = () => {
             id: 'dictionary',
             icon: BookText,
             title: 'Wörterbuch',
-            subtitle: `${total} слів`,
+            subtitle: 'Словник',
             gradient: 'linear-gradient(135deg, #2dd4bf 0%, #22d3ee 100%)'
         },
         {
@@ -54,29 +54,19 @@ const HomeTab = () => {
 
     return (
         <div className="screen" style={{ paddingTop: 'var(--space-xl)' }}>
-            {/* Logo & Greeting */}
+            {/* Greeting (no logo) */}
             <div style={{
                 textAlign: 'center',
                 marginBottom: 'var(--space-xl)'
             }}>
-                <img
-                    src="/deutsch-trainer-a1/logo.png"
-                    alt="Logo"
-                    style={{
-                        width: 80,
-                        height: 80,
-                        marginBottom: 'var(--space-md)',
-                        filter: 'drop-shadow(0 4px 20px rgba(45, 212, 191, 0.3))'
-                    }}
-                />
                 <h1 style={{
-                    fontSize: '1.8rem',
+                    fontSize: '2rem',
                     fontWeight: 800,
                     background: 'linear-gradient(135deg, #6366f1 0%, #2dd4bf 100%)',
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    marginBottom: 4
+                    marginBottom: 8
                 }}>
                     {getGreeting()}
                 </h1>
@@ -149,7 +139,7 @@ const HomeTab = () => {
                 {features.map(f => (
                     <button
                         key={f.id}
-                        onClick={() => setCurrentTab(f.id)}
+                        onClick={() => setTab(f.id)}
                         style={{
                             background: 'rgba(255, 255, 255, 0.03)',
                             border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -157,7 +147,8 @@ const HomeTab = () => {
                             padding: 'var(--space-lg)',
                             textAlign: 'left',
                             cursor: 'pointer',
-                            transition: 'all 0.2s'
+                            transition: 'all 0.2s',
+                            WebkitTapHighlightColor: 'transparent'
                         }}
                     >
                         <div style={{
@@ -192,7 +183,7 @@ const HomeTab = () => {
 
             {/* AI Chat Card */}
             <button
-                onClick={() => setCurrentTab('chat')}
+                onClick={() => setTab('chat')}
                 style={{
                     width: '100%',
                     background: 'linear-gradient(135deg, rgba(45, 212, 191, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%)',
@@ -203,7 +194,8 @@ const HomeTab = () => {
                     alignItems: 'center',
                     gap: 'var(--space-md)',
                     cursor: 'pointer',
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    WebkitTapHighlightColor: 'transparent'
                 }}
             >
                 <div style={{
