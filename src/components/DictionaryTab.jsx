@@ -99,7 +99,7 @@ const DictionaryTab = () => {
                 >
                     Всі
                 </button>
-                {lessons.slice(0, 7).map(l => (
+                {lessons.map(l => (
                     <button
                         key={l.id}
                         onClick={() => setSelectedLesson(l.id)}
