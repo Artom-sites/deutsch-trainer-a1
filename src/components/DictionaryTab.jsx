@@ -41,9 +41,9 @@ const DictionaryTab = () => {
             {dailyWord && (
                 <div className="card fade-in" style={{
                     marginBottom: 'var(--space-lg)',
-                    background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%)',
-                    color: 'white',
-                    border: 'none',
+                    background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.15) 0%, rgba(204, 255, 0, 0.05) 100%)',
+                    borderColor: 'rgba(204, 255, 0, 0.3)',
+                    color: 'var(--text-primary)',
                     position: 'relative',
                     overflow: 'hidden'
                 }}>
@@ -54,7 +54,8 @@ const DictionaryTab = () => {
                             gap: 8,
                             marginBottom: 'var(--space-sm)',
                             opacity: 0.9,
-                            fontSize: '0.9rem'
+                            fontSize: '0.9rem',
+                            color: 'var(--color-accent)'
                         }}>
                             <Calendar size={16} />
                             <span>Wort des Tages</span>
@@ -65,7 +66,7 @@ const DictionaryTab = () => {
                                 <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: 4 }}>
                                     {dailyWord.word}
                                 </div>
-                                <div style={{ fontSize: '1.1rem', opacity: 0.9 }}>
+                                <div style={{ fontSize: '1.1rem', opacity: 0.8 }}>
                                     {dailyWord.translation}
                                 </div>
                             </div>
@@ -75,18 +76,19 @@ const DictionaryTab = () => {
                                     speakWord(dailyWord.word);
                                 }}
                                 style={{
-                                    background: 'rgba(255,255,255,0.2)',
+                                    background: 'var(--color-accent)', // Neon button
                                     border: 'none',
                                     borderRadius: '50%',
-                                    width: 40,
-                                    height: 40,
+                                    width: 48,
+                                    height: 48,
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    cursor: 'pointer'
+                                    cursor: 'pointer',
+                                    boxShadow: '0 4px 12px rgba(204, 255, 0, 0.3)'
                                 }}
                             >
-                                <Volume2 size={24} color="white" />
+                                <Volume2 size={24} color="black" />
                             </button>
                         </div>
                     </div>

@@ -144,7 +144,7 @@ const ChatSession = ({ scenario, onBack }) => {
                             borderTopLeftRadius: msg.sender === 'ai' ? 4 : 16,
                             borderTopRightRadius: msg.sender === 'user' ? 4 : 16,
                             background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
-                            color: msg.sender === 'user' ? 'white' : 'var(--text-primary)',
+                            color: msg.sender === 'user' ? 'black' : 'var(--text-primary)',
                             boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                             position: 'relative',
                             border: msg.sender === 'ai' ? '1px solid var(--border-color)' : 'none'

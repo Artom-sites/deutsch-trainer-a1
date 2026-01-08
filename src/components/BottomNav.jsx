@@ -24,21 +24,24 @@ const BottomNav = () => {
 
     return (
         <nav className="bottom-nav">
-            {tabs.map(tab => {
-                const Icon = tab.icon;
-                const isActive = currentTab === tab.id;
+            <div className="bottom-nav-inner">
+                {tabs.map(tab => {
+                    const Icon = tab.icon;
+                    const isActive = currentTab === tab.id;
 
-                return (
-                    <button
-                        key={tab.id}
-                        className={`nav-item ${isActive ? 'active' : ''}`}
-                        onClick={() => setTab(tab.id)}
-                    >
-                        <Icon size={22} />
-                        <span>{tab.label}</span>
-                    </button>
-                );
-            })}
+                    return (
+                        <button
+                            key={tab.id}
+                            className={`nav-item ${isActive ? 'active' : ''}`}
+                            onClick={() => setTab(tab.id)}
+                        >
+                            <div className="nav-icon-wrapper">
+                                <Icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                            </div>
+                        </button>
+                    );
+                })}
+            </div>
         </nav>
     );
 };
