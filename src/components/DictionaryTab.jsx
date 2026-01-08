@@ -13,6 +13,7 @@ const DictionaryTab = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedLesson, setSelectedLesson] = useState(null);
+    const [visibleCount, setVisibleCount] = useState(50);
 
     // Filter words
     const filteredWords = words.filter(w => {
@@ -151,7 +152,7 @@ const DictionaryTab = () => {
                 flexDirection: 'column',
                 gap: 8
             }}>
-                {filteredWords.slice(0, 50).map(word => (
+                {filteredWords.slice(0, visibleCount).map(word => (
                     <div
                         key={word.id}
                         style={{
@@ -205,15 +206,24 @@ const DictionaryTab = () => {
                     </div>
                 ))}
 
-                {filteredWords.length > 50 && (
-                    <div style={{
-                        textAlign: 'center',
-                        padding: 'var(--space-md)',
-                        color: 'var(--text-secondary)',
-                        fontSize: '0.85rem'
-                    }}>
-                        + ще {filteredWords.length - 50} слів...
-                    </div>
+                {filteredWords.length > visibleCount && (
+                    <button
+                        onClick={() => setVisibleCount(prev => prev + 50)}
+                        style={{
+                            width: '100%',
+                            textAlign: 'center',
+                            padding: 'var(--space-md)',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            borderRadius: 12,
+                            color: 'var(--color-accent)',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            cursor: 'pointer'
+                        }}
+                    >
+                        + Ще {filteredWords.length - visibleCount} слів
+                    </button>
                 )}
             </div>
         </div>
