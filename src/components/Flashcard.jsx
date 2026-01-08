@@ -35,10 +35,6 @@ const Flashcard = ({ word, onResult }) => {
 
     // Handle card flip (infinite toggle)
     const handleFlip = () => {
-        // Play audio when flipping to back (German side)
-        if (!isFlipped) {
-            speakWord(word.word, word.article);
-        }
         setIsFlipped(!isFlipped);
     };
 

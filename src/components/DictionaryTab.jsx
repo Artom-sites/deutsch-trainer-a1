@@ -1,194 +1,220 @@
 // src/components/DictionaryTab.jsx
-// Вкладка "Словник" - тренування всіх слів
-import React from 'react';
+// Redesigned "Словник" tab - Clean, minimal with lesson filters
+import React, { useState } from 'react';
 import useStore from '../store/useStore';
 import { words } from '../data/lexicon';
-import { BookOpen, Play, RotateCcw, Calendar, Volume2 } from 'lucide-react';
+import { lessons } from '../data/lessons';
+import { Play, Search, BookOpen, ChevronRight, Volume2 } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 
 const DictionaryTab = () => {
     const startAllWords = useStore(state => state.startAllWords);
-    const getLearnedCount = useStore(state => state.getLearnedCount);
-    const getTotalWords = useStore(state => state.getTotalWords);
-    const getDueCount = useStore(state => state.getDueCount);
+    const startLessonWords = useStore(state => state.startLessonWords);
 
-    const learned = getLearnedCount();
-    const total = getTotalWords();
-    const dueCount = getDueCount();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedLesson, setSelectedLesson] = useState(null);
 
-    // Get Word of the Day (stable for the day)
-    const getDailyWord = () => {
-        if (!words || words.length === 0) return null;
-        const today = new Date().toDateString();
-        let hash = 0;
-        for (let i = 0; i < today.length; i++) {
-            hash = today.charCodeAt(i) + ((hash << 5) - hash);
+    // Filter words
+    const filteredWords = words.filter(w => {
+        const matchesSearch = searchQuery === '' ||
+            w.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            w.translation.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesLesson = selectedLesson === null || w.lesson === selectedLesson;
+        return matchesSearch && matchesLesson;
+    });
+
+    // Get gender color
+    const getGenderColor = (article) => {
+        switch (article) {
+            case 'der': return '#3b82f6';
+            case 'die': return '#ec4899';
+            case 'das': return '#10b981';
+            default: return '#ffffff';
         }
-        const index = Math.abs(hash) % words.length;
-        return words[index];
     };
-
-    const dailyWord = getDailyWord();
 
     return (
         <div className="screen">
             <div className="screen-header">
-                <h1 className="screen-title">Wörterbuch</h1>
-                <p className="screen-subtitle">Тренування словникового запасу</p>
-            </div>
-
-            {/* Word of the Day */}
-            {dailyWord && (
-                <div className="card fade-in" style={{
-                    marginBottom: 'var(--space-lg)',
-                    background: 'linear-gradient(135deg, rgba(204, 255, 0, 0.15) 0%, rgba(204, 255, 0, 0.05) 100%)',
-                    borderColor: 'rgba(204, 255, 0, 0.3)',
-                    color: 'var(--text-primary)',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }}>
-                    <div style={{ position: 'relative', zIndex: 2 }}>
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 8,
-                            marginBottom: 'var(--space-sm)',
-                            opacity: 0.9,
-                            fontSize: '0.9rem',
-                            color: 'var(--color-accent)'
-                        }}>
-                            <Calendar size={16} />
-                            <span>Wort des Tages</span>
-                        </div>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <div>
-                                <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: 4 }}>
-                                    {dailyWord.article && (
-                                        <span style={{
-                                            color: dailyWord.article === 'der' ? 'var(--color-masculine)' :
-                                                dailyWord.article === 'die' ? 'var(--color-feminine)' :
-                                                    dailyWord.article === 'das' ? 'var(--color-neuter)' : 'var(--color-accent)',
-                                            marginRight: 8,
-                                            fontSize: '0.8em'
-                                        }}>
-                                            {dailyWord.article}
-                                        </span>
-                                    )}
-                                    {dailyWord.word}
-                                </div>
-                                <div style={{ fontSize: '1.1rem', opacity: 0.8 }}>
-                                    {dailyWord.translation}
-                                </div>
-                            </div>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    speakWord(dailyWord.word);
-                                }}
-                                style={{
-                                    background: 'var(--color-accent)', // Neon button
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: 48,
-                                    height: 48,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    boxShadow: '0 4px 12px rgba(204, 255, 0, 0.3)'
-                                }}
-                            >
-                                <Volume2 size={24} color="black" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Stats */}
-            <div className="stats-row">
-                <div className="stat-card">
-                    <div className="stat-value" style={{ color: 'var(--color-accent)' }}>{total}</div>
-                    <div className="stat-label">Всього</div>
-                </div>
-                <div className="stat-card">
-                    <div className="stat-value" style={{ color: 'var(--color-success)' }}>{learned}</div>
-                    <div className="stat-label">Вивчено</div>
-                </div>
-                <div className="stat-card">
-                    <div className="stat-value" style={{ color: 'var(--color-warning)' }}>{dueCount}</div>
-                    <div className="stat-label">Повтор</div>
+                <div>
+                    <h1 className="screen-title">Wörterbuch</h1>
+                    <p className="screen-subtitle">{words.length} слів • A1</p>
                 </div>
             </div>
 
-            {/* Actions */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-
-                {/* Start All Words */}
-                <div
-                    className="card card-clickable"
-                    onClick={startAllWords}
+            {/* Search Bar */}
+            <div style={{
+                position: 'relative',
+                marginBottom: 'var(--space-md)'
+            }}>
+                <Search
+                    size={20}
                     style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--space-md)',
-                        background: 'var(--bg-card)',
-                        border: '1px solid var(--border-color)'
+                        position: 'absolute',
+                        left: 16,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: 'var(--text-secondary)'
+                    }}
+                />
+                <input
+                    type="text"
+                    placeholder="Пошук слова..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                        width: '100%',
+                        padding: '14px 16px 14px 48px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: 16,
+                        color: 'white',
+                        fontSize: '1rem'
+                    }}
+                />
+            </div>
+
+            {/* Lesson Filter Pills */}
+            <div style={{
+                display: 'flex',
+                gap: 8,
+                overflowX: 'auto',
+                paddingBottom: 'var(--space-sm)',
+                marginBottom: 'var(--space-md)',
+                scrollbarWidth: 'none'
+            }}>
+                <button
+                    onClick={() => setSelectedLesson(null)}
+                    style={{
+                        padding: '8px 16px',
+                        borderRadius: 20,
+                        border: 'none',
+                        background: selectedLesson === null ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
+                        color: selectedLesson === null ? 'black' : 'white',
+                        fontWeight: 600,
+                        fontSize: '0.85rem',
+                        whiteSpace: 'nowrap',
+                        cursor: 'pointer'
                     }}
                 >
-                    <div style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 'var(--radius-md)',
-                        background: 'var(--bg-surface)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        <Play size={28} color="var(--color-primary)" />
-                    </div>
-                    <div>
-                        <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Почати тренування</div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                            Картки, тести та вправи
-                        </div>
-                    </div>
-                </div>
+                    Всі
+                </button>
+                {lessons.slice(0, 7).map(l => (
+                    <button
+                        key={l.id}
+                        onClick={() => setSelectedLesson(l.id)}
+                        style={{
+                            padding: '8px 16px',
+                            borderRadius: 20,
+                            border: 'none',
+                            background: selectedLesson === l.id ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
+                            color: selectedLesson === l.id ? 'black' : 'white',
+                            fontWeight: 600,
+                            fontSize: '0.85rem',
+                            whiteSpace: 'nowrap',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        L{l.id}
+                    </button>
+                ))}
+            </div>
 
-                {/* Review Due Words */}
-                {dueCount > 0 && (
+            {/* Start Training Button */}
+            <button
+                onClick={() => selectedLesson ? startLessonWords(selectedLesson) : startAllWords()}
+                style={{
+                    width: '100%',
+                    padding: '16px',
+                    marginBottom: 'var(--space-lg)',
+                    background: 'linear-gradient(135deg, var(--color-accent) 0%, #a3e635 100%)',
+                    border: 'none',
+                    borderRadius: 16,
+                    color: 'black',
+                    fontWeight: 700,
+                    fontSize: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 20px rgba(204, 255, 0, 0.3)'
+                }}
+            >
+                <Play size={20} />
+                Вчити {selectedLesson ? `Lektion ${selectedLesson}` : 'всі слова'} ({filteredWords.length})
+            </button>
+
+            {/* Words List */}
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8
+            }}>
+                {filteredWords.slice(0, 50).map(word => (
                     <div
-                        className="card card-clickable"
-                        onClick={startAllWords}
+                        key={word.id}
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 'var(--space-md)',
-                            background: 'rgba(245, 158, 11, 0.1)',
-                            border: '1px solid rgba(245, 158, 11, 0.3)'
+                            justifyContent: 'space-between',
+                            padding: '12px 16px',
+                            background: 'rgba(255, 255, 255, 0.03)',
+                            border: '1px solid rgba(255, 255, 255, 0.06)',
+                            borderRadius: 12
                         }}
                     >
-                        <div style={{
-                            width: 56,
-                            height: 56,
-                            borderRadius: 'var(--radius-md)',
-                            background: 'var(--color-warning)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <RotateCcw size={28} color="white" />
-                        </div>
                         <div>
-                            <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>Повторення</div>
-                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                                {dueCount} слів на повтор
+                            {/* German word with article */}
+                            <div style={{
+                                color: getGenderColor(word.article),
+                                fontWeight: 600,
+                                fontSize: '1rem'
+                            }}>
+                                {word.article && <span style={{ opacity: 0.7, marginRight: 4 }}>{word.article}</span>}
+                                {word.word}
+                                {word.plural && <span style={{ opacity: 0.5, marginLeft: 4 }}>, {word.plural}</span>}
+                            </div>
+                            {/* Translation */}
+                            <div style={{
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.85rem',
+                                marginTop: 2
+                            }}>
+                                {word.translation}
                             </div>
                         </div>
+
+                        {/* Audio button */}
+                        <button
+                            onClick={() => speakWord(word.word, word.article)}
+                            style={{
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: 36,
+                                height: 36,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <Volume2 size={18} color="var(--text-secondary)" />
+                        </button>
+                    </div>
+                ))}
+
+                {filteredWords.length > 50 && (
+                    <div style={{
+                        textAlign: 'center',
+                        padding: 'var(--space-md)',
+                        color: 'var(--text-secondary)',
+                        fontSize: '0.85rem'
+                    }}>
+                        + ще {filteredWords.length - 50} слів...
                     </div>
                 )}
-
             </div>
         </div>
     );
