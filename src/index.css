@@ -20,10 +20,12 @@
   --color-neuter: #10b981;
   --color-plural: #f59e0b;
 
-  /* Colors - UI */
-  --color-accent: #ccff00;
-  /* Neon Lime */
-  --color-primary: #ccff00;
+  /* Colors - UI (Matching Logo: Purple to Teal) */
+  --color-accent: #2dd4bf;
+  /* Teal/Mint from logo */
+  --color-accent-secondary: #6366f1;
+  /* Purple from logo */
+  --color-primary: #2dd4bf;
   --color-success: #22c55e;
   --color-error: #ef4444;
   --color-warning: #f59e0b;

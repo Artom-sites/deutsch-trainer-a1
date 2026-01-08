@@ -15,10 +15,11 @@ export default defineConfig({
         name: 'Deutsch Trainer A1',
         short_name: 'DE Trainer',
         description: 'German Learning App A1',
-        theme_color: '#000000',
+        theme_color: '#2dd4bf',
         background_color: '#000000',
         display: 'standalone',
         orientation: 'portrait',
+        start_url: '.',
         icons: [
           {
             src: 'logo.png',
