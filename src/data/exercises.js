@@ -1067,6 +1067,85 @@ export const exercises = {
         options: ["Kann", "Können", "Kannst"],
         correct: 1,
         explanation: "Sie können — ввічлива форма (Чи Ви можете?)."
+    },
+
+    // ==========================================
+    // SEIN CONJUGATION (New Types)
+    // ==========================================
+    "sein-1": {
+        id: "sein-1",
+        type: "fill-blank",
+        topic: "sein-konjugation",
+        question: "Ich ___ Student.",
+        answer: "bin",
+        explanation: "Ich + sein = bin"
+    },
+    "sein-2": {
+        id: "sein-2",
+        type: "fill-blank",
+        topic: "sein-konjugation",
+        question: "Das ___ mein Buch.",
+        answer: "ist",
+        explanation: "Das (es) + sein = ist"
+    },
+    "sein-3": {
+        id: "sein-3",
+        type: "match-pairs",
+        topic: "sein-konjugation",
+        pairs: [
+            { de: "ich", ua: "bin" },
+            { de: "du", ua: "bist" },
+            { de: "er/sie/es", ua: "ist" },
+            { de: "wir", ua: "sind" }
+        ],
+        explanation: "Форми дієслова sein"
+    },
+    "sein-4": {
+        id: "sein-4",
+        type: "word-order",
+        topic: "sein-konjugation",
+        sentence: "Wir sind zu Hause",
+        translation: "Ми вдома",
+        explanation: "Суб'єкт (Wir) -> Дієслово (sind) -> Інше"
+    },
+    "sein-5": {
+        id: "sein-5",
+        type: "dictation",
+        topic: "sein-konjugation",
+        text: "Das ist meine Mutter",
+        explanation: "Слухай уважно і пиши те, що чуєш."
+    },
+
+    // ==========================================
+    // W-FRAGEN (New Types)
+    // ==========================================
+    "w-1": {
+        id: "w-1",
+        type: "fill-blank",
+        topic: "w-fragen",
+        question: "___ kommst du? - Aus der Ukraine.",
+        answer: "woher",
+        explanation: "Звідки = Woher"
+    },
+    "w-2": {
+        id: "w-2",
+        type: "match-pairs",
+        topic: "w-fragen",
+        pairs: [
+            { de: "Wo", ua: "Де" },
+            { de: "Woher", ua: "Звідки" },
+            { de: "Was", ua: "Що" },
+            { de: "Wer", ua: "Хто" }
+        ],
+        explanation: "Питальні слова"
+    },
+    "w-3": {
+        id: "w-3",
+        type: "word-order",
+        topic: "w-fragen",
+        sentence: "Was machst du heute",
+        translation: "Що ти робиш сьогодні?",
+        explanation: "W-слово -> Дієслово -> Суб'єкт"
     }
 };
 

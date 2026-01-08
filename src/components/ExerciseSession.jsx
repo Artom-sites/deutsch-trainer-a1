@@ -3,14 +3,13 @@
 import React, { useState } from 'react';
 import useStore from '../store/useStore';
 import { ArrowLeft, Trophy, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import exerciseRegistry from './exercises';
 
 const ExerciseSession = () => {
     const activeExercises = useStore(state => state.activeExercises);
     const goBack = useStore(state => state.goBack);
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
-    const [showResult, setShowResult] = useState(false);
     const [correctCount, setCorrectCount] = useState(0);
     const [completed, setCompleted] = useState(false);
 
@@ -28,29 +27,20 @@ const ExerciseSession = () => {
     }
 
     const currentExercise = activeExercises[currentIndex];
-    const isLastExercise = currentIndex >= activeExercises.length - 1;
 
-    const handleSelect = (optionIndex) => {
-        if (showResult) return;
-        setSelectedAnswer(optionIndex);
-    };
-
-    const handleCheck = () => {
-        if (selectedAnswer === null) return;
-        setShowResult(true);
-        if (selectedAnswer === currentExercise.correct) {
+    const handleExerciseComplete = (isCorrect) => {
+        if (isCorrect) {
             setCorrectCount(prev => prev + 1);
         }
-    };
 
-    const handleNext = () => {
-        if (isLastExercise) {
-            setCompleted(true);
-        } else {
-            setCurrentIndex(prev => prev + 1);
-            setSelectedAnswer(null);
-            setShowResult(false);
-        }
+        // Wait a bit before next question
+        setTimeout(() => {
+            if (currentIndex >= activeExercises.length - 1) {
+                setCompleted(true);
+            } else {
+                setCurrentIndex(prev => prev + 1);
+            }
+        }, isCorrect ? 500 : 1500);
     };
 
     // Completion screen
@@ -102,7 +92,8 @@ const ExerciseSession = () => {
         );
     }
 
-    const isCorrect = selectedAnswer === currentExercise.correct;
+    // Get component for current exercise type
+    const ExerciseComponent = exerciseRegistry[currentExercise.type] || exerciseRegistry['multiple-choice'];
 
     return (
         <div className="screen">
@@ -129,102 +120,13 @@ const ExerciseSession = () => {
                 </div>
             </div>
 
-            {/* Question */}
-            <div className="card" style={{ padding: 'var(--space-xl)', textAlign: 'center', marginBottom: 'var(--space-lg)' }}>
-                <div style={{
-                    fontSize: '1.2rem',
-                    lineHeight: 1.6,
-                    fontFamily: 'monospace'
-                }}>
-                    {currentExercise.question}
-                </div>
+            {/* Exercise Component */}
+            <div className="fade-in" key={currentExercise.id}>
+                <ExerciseComponent
+                    exercise={currentExercise}
+                    onComplete={handleExerciseComplete}
+                />
             </div>
-
-            {/* Options */}
-            <div style={{ display: 'grid', gap: 'var(--space-sm)', marginBottom: 'var(--space-lg)' }}>
-                {currentExercise.options.map((option, index) => {
-                    const isSelected = selectedAnswer === index;
-                    const isAnswer = index === currentExercise.correct;
-
-                    let bgColor = 'var(--bg-card)';
-                    let borderColor = 'transparent';
-
-                    if (showResult) {
-                        if (isAnswer) {
-                            bgColor = 'rgba(34, 197, 94, 0.2)';
-                            borderColor = 'var(--color-success)';
-                        } else if (isSelected && !isAnswer) {
-                            bgColor = 'rgba(239, 68, 68, 0.2)';
-                            borderColor = 'var(--color-error)';
-                        }
-                    } else if (isSelected) {
-                        bgColor = 'rgba(139, 92, 246, 0.2)';
-                        borderColor = 'var(--color-accent)';
-                    }
-
-                    return (
-                        <button
-                            key={index}
-                            onClick={() => handleSelect(index)}
-                            disabled={showResult}
-                            style={{
-                                padding: 'var(--space-md)',
-                                background: bgColor,
-                                border: `2px solid ${borderColor}`,
-                                borderRadius: 'var(--radius-md)',
-                                color: 'var(--text-primary)',
-                                fontSize: '1rem',
-                                fontWeight: 500,
-                                cursor: showResult ? 'default' : 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: 'var(--space-sm)',
-                                minHeight: 56
-                            }}
-                        >
-                            {showResult && isAnswer && <CheckCircle size={18} color="var(--color-success)" />}
-                            {showResult && isSelected && !isAnswer && <XCircle size={18} color="var(--color-error)" />}
-                            {option}
-                        </button>
-                    );
-                })}
-            </div>
-
-            {/* Explanation */}
-            {showResult && currentExercise.explanation && (
-                <div className="card fade-in" style={{
-                    marginBottom: 'var(--space-lg)',
-                    padding: 'var(--space-md)',
-                    background: isCorrect ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)',
-                    borderLeft: `4px solid ${isCorrect ? 'var(--color-success)' : 'var(--color-warning)'}`
-                }}>
-                    <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                        {currentExercise.explanation}
-                    </div>
-                </div>
-            )}
-
-            {/* Action Button */}
-            {!showResult ? (
-                <button
-                    className="btn btn-primary"
-                    onClick={handleCheck}
-                    disabled={selectedAnswer === null}
-                    style={{ opacity: selectedAnswer !== null ? 1 : 0.5 }}
-                >
-                    Перевірити
-                </button>
-            ) : (
-                <button
-                    className="btn btn-primary"
-                    onClick={handleNext}
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
-                >
-                    {isLastExercise ? 'Завершити' : 'Далі'}
-                    <ArrowRight size={18} />
-                </button>
-            )}
         </div>
     );
 };

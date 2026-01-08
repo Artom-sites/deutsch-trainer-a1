@@ -2,9 +2,11 @@
 // Картка як на прикладі: der Schuh, -e
 import React, { useState, useEffect } from 'react';
 import { Volume2 } from 'lucide-react';
+import { speakWord } from '../utils/speech';
 
 const Flashcard = ({ word, onResult }) => {
     const [revealed, setRevealed] = useState(false);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
     // Reset when word changes
     useEffect(() => {
@@ -22,6 +24,14 @@ const Flashcard = ({ word, onResult }) => {
     };
 
     const colorClass = getColorClass(word.article);
+
+    // Handle TTS
+    const handleSpeak = (e) => {
+        e.stopPropagation(); // Prevent card flip
+        setIsSpeaking(true);
+        speakWord(word.word, word.article)
+            .finally(() => setIsSpeaking(false));
+    };
 
     return (
         <div className="flashcard-container">
@@ -54,10 +64,28 @@ const Flashcard = ({ word, onResult }) => {
                             {word.plural && <span style={{ opacity: 0.6, marginLeft: 4 }}>, {word.plural}</span>}
                         </div>
 
-                        {/* Audio icon placeholder */}
-                        <div style={{ marginTop: 'var(--space-lg)', opacity: 0.5 }}>
-                            <Volume2 size={28} />
-                        </div>
+                        {/* Audio button - speaks the word */}
+                        <button
+                            onClick={handleSpeak}
+                            style={{
+                                marginTop: 'var(--space-lg)',
+                                background: isSpeaking ? 'var(--color-accent)' : 'var(--bg-surface)',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: 48,
+                                height: 48,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            <Volume2
+                                size={24}
+                                color={isSpeaking ? 'white' : 'var(--text-secondary)'}
+                            />
+                        </button>
                     </div>
                 )}
             </div>
@@ -101,3 +129,4 @@ const Flashcard = ({ word, onResult }) => {
 };
 
 export default Flashcard;
+
