@@ -5,6 +5,7 @@ import useStore from './store/useStore';
 
 // Components
 import BottomNav from './components/BottomNav';
+import HomeTab from './components/HomeTab';
 import LessonsTab from './components/LessonsTab';
 import LessonDetail from './components/LessonDetail';
 import DictionaryTab from './components/DictionaryTab';
@@ -38,6 +39,8 @@ function App() {
 
     // Main tab views
     switch (currentTab) {
+      case 'home':
+        return <HomeTab />;
       case 'lessons':
         return <LessonsTab />;
       case 'dictionary':
@@ -51,7 +54,7 @@ function App() {
       case 'progress':
         return <ProgressTab />;
       default:
-        return <LessonsTab />;
+        return <HomeTab />;
     }
   };
 

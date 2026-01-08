@@ -2,7 +2,7 @@
 // Нижня навігація для мобільного - 4 вкладки
 import React from 'react';
 import useStore from '../store/useStore';
-import { BookOpen, Library, BarChart2, Zap, GraduationCap, MessageCircle } from 'lucide-react';
+import { Home, BookOpen, Library, Zap, GraduationCap, MessageCircle } from 'lucide-react';
 
 const BottomNav = () => {
     const currentTab = useStore(state => state.currentTab);
@@ -15,11 +15,11 @@ const BottomNav = () => {
     }
 
     const tabs = [
+        { id: 'home', label: 'Дім', icon: Home },
         { id: 'lessons', label: 'Уроки', icon: BookOpen },
         { id: 'dictionary', label: 'Слова', icon: Library },
         { id: 'verbs', label: 'Verben', icon: Zap },
-        { id: 'exam', label: 'Екзамен', icon: GraduationCap },
-        { id: 'chat', label: 'AI Chat', icon: MessageCircle },
+        { id: 'chat', label: 'AI', icon: MessageCircle },
     ];
 
     return (
