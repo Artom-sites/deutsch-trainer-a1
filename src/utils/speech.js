@@ -48,7 +48,12 @@ export const speak = (text, options = {}) => {
         utterance.onerror = (event) => reject(event.error);
 
         // Speak
-        window.speechSynthesis.speak(utterance);
+        try {
+            window.speechSynthesis.speak(utterance);
+        } catch (e) {
+            console.error("Speech synthesis failed", e);
+            reject(e);
+        }
     });
 };
 

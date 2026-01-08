@@ -10,7 +10,36 @@ const ChatSession = ({ scenario, onBack }) => {
     const [messages, setMessages] = useState([]);
     const [currentNodeId, setCurrentNodeId] = useState(scenario.startNode);
     const [isTyping, setIsTyping] = useState(false);
+    const [isListening, setIsListening] = useState(false);
     const messagesEndRef = useRef(null);
+
+    // Speech Recognition Setup
+    const recognitionRef = useRef(null);
+
+    useEffect(() => {
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognitionRef.current = new SpeechRecognition();
+            recognitionRef.current.lang = 'de-DE';
+            recognitionRef.current.continuous = false;
+            recognitionRef.current.interimResults = false;
+
+            recognitionRef.current.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                handleVoiceInput(transcript);
+                setIsListening(false);
+            };
+
+            recognitionRef.current.onerror = (event) => {
+                console.error("Speech recognition error", event.error);
+                setIsListening(false);
+            };
+
+            recognitionRef.current.onend = () => {
+                setIsListening(false);
+            };
+        }
+    }, [currentNodeId]);
 
     const currentNode = scenario.nodes[currentNodeId];
 
@@ -21,32 +50,77 @@ const ChatSession = ({ scenario, onBack }) => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages, isTyping]);
+    }, [messages, isTyping, isListening]);
 
     // Initial message
     useEffect(() => {
         if (messages.length === 0) {
-            addAIMessage(currentNode.message);
+            addAIMessage(currentNode?.message);
         }
     }, []);
 
     const addAIMessage = (text) => {
+        if (!text) return;
         setIsTyping(true);
         setTimeout(() => {
             setIsTyping(false);
             setMessages(prev => [...prev, { id: Date.now(), sender: 'ai', text }]);
             speakSentence(text);
-        }, 1000); // Fake typing delay
+        }, 1000);
     };
 
-    const handleOptionClick = (option) => {
-        // Add user message
-        setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text: option.text }]);
+    const handleVoiceInput = (transcript) => {
+        // Find best matching option
+        // Simple logic: check if transcript contains key words from option
+        // or just pick the first option if "fuzzy" match is hard
+        // For A1, we usually have 1 or 2 options.
 
-        // Move to next node
+        let bestMatch = null;
+        let highestScore = 0;
+
+        currentNode.options.forEach(opt => {
+            // Simple word overlap score
+            const optWords = opt.text.toLowerCase().split(/[\s,.?!]+/);
+            const transWords = transcript.toLowerCase().split(/[\s,.?!]+/);
+            let matches = 0;
+            optWords.forEach(w => {
+                if (transWords.includes(w)) matches++;
+            });
+            const score = matches / optWords.length;
+            if (score > highestScore) {
+                highestScore = score;
+                bestMatch = opt;
+            }
+        });
+
+        // Threshold or fallback
+        if (highestScore > 0.3) {
+            handleOptionClick(bestMatch, transcript);
+        } else {
+            // If no match, maybe add as a "misunderstood" message or just force the first option for flow?
+            // "I heard: [transcript]. Did you mean [Option 1]?"
+            // For smoother UX, let's just add the user's audio text, and proceed with the first option BUT warn user?
+            // Or just 'retry'.
+            // Let's add a system message:
+            setMessages(prev => [...prev, { id: Date.now(), sender: 'system', text: `Ви сказали: "${transcript}". Спробуйте ще раз, ближче до тексту.` }]);
+        }
+    };
+
+    const toggleListening = () => {
+        if (isListening) {
+            recognitionRef.current?.stop();
+        } else {
+            setIsListening(true);
+            recognitionRef.current?.start();
+        }
+    };
+
+    const handleOptionClick = (option, headerText = null) => {
+        // headerText is usually the transcript, if passed
+        setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text: headerText || option.text }]);
+
         if (option.nextNode) {
             setCurrentNodeId(option.nextNode);
-            // Trigger AI response
             const nextNode = scenario.nodes[option.nextNode];
             if (nextNode) {
                 addAIMessage(nextNode.message);
@@ -62,6 +136,7 @@ const ChatSession = ({ scenario, onBack }) => {
     };
 
     const isEnded = currentNode?.end;
+    const hasSpeechSupport = !!recognitionRef.current;
 
     return (
         <div className="screen" style={{ display: 'flex', flexDirection: 'column', padding: 0, height: '100vh', maxHeight: '100vh' }}>
@@ -83,7 +158,7 @@ const ChatSession = ({ scenario, onBack }) => {
                 </button>
                 <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 700 }}>{scenario.title}</div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>AI Bot</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Голосовий чат</div>
                 </div>
                 <button
                     onClick={handleRestart}
@@ -101,73 +176,81 @@ const ChatSession = ({ scenario, onBack }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 'var(--space-md)',
-                background: 'var(--bg-background)' // Ensure correct background
+                background: 'var(--bg-background)'
             }}>
                 {messages.map(msg => (
                     <div
                         key={msg.id}
                         className={`fade-in`}
                         style={{
-                            alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                            maxWidth: '80%',
+                            alignSelf: msg.sender === 'user' ? 'flex-end' : (msg.sender === 'system' ? 'center' : 'flex-start'),
+                            maxWidth: msg.sender === 'system' ? '90%' : '80%',
                             display: 'flex',
                             flexDirection: 'column',
-                            alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start'
+                            alignItems: msg.sender === 'user' ? 'flex-end' : (msg.sender === 'system' ? 'center' : 'flex-start')
                         }}
                     >
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 8,
-                            flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row',
-                            marginBottom: 4
-                        }}>
-                            <div style={{
-                                width: 24,
-                                height: 24,
-                                borderRadius: '50%',
-                                background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
-                                border: '1px solid var(--border-color)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                                {msg.sender === 'user' ? <User size={14} color="white" /> : <Bot size={14} color="var(--text-primary)" />}
+                        {msg.sender === 'system' ? (
+                            <div style={{ fontSize: '0.8rem', color: 'var(--color-warning)', fontStyle: 'italic', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 12px', borderRadius: 12 }}>
+                                {msg.text}
                             </div>
-                            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                                {msg.sender === 'user' ? 'Du' : 'AI'}
-                            </span>
-                        </div>
-                        <div style={{
-                            padding: '12px 16px',
-                            borderRadius: '16px',
-                            borderTopLeftRadius: msg.sender === 'ai' ? 4 : 16,
-                            borderTopRightRadius: msg.sender === 'user' ? 4 : 16,
-                            background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
-                            color: msg.sender === 'user' ? 'black' : 'var(--text-primary)',
-                            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                            position: 'relative',
-                            border: msg.sender === 'ai' ? '1px solid var(--border-color)' : 'none'
-                        }}>
-                            {msg.text}
-                            {msg.sender === 'ai' && (
-                                <button
-                                    onClick={() => speakSentence(msg.text)}
-                                    style={{
-                                        position: 'absolute',
-                                        right: -30,
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        background: 'none',
-                                        border: 'none',
-                                        cursor: 'pointer',
-                                        opacity: 0.7
-                                    }}
-                                >
-                                    <Volume2 size={16} color="var(--text-secondary)" />
-                                </button>
-                            )}
-                        </div>
+                        ) : (
+                            <>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 8,
+                                    flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row',
+                                    marginBottom: 4
+                                }}>
+                                    <div style={{
+                                        width: 24,
+                                        height: 24,
+                                        borderRadius: '50%',
+                                        background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
+                                        border: '1px solid var(--border-color)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        {msg.sender === 'user' ? <User size={14} color="white" /> : <Bot size={14} color="var(--text-primary)" />}
+                                    </div>
+                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+                                        {msg.sender === 'user' ? 'Du' : 'AI'}
+                                    </span>
+                                </div>
+                                <div style={{
+                                    padding: '12px 16px',
+                                    borderRadius: '16px',
+                                    borderTopLeftRadius: msg.sender === 'ai' ? 4 : 16,
+                                    borderTopRightRadius: msg.sender === 'user' ? 4 : 16,
+                                    background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
+                                    color: msg.sender === 'user' ? 'black' : 'var(--text-primary)',
+                                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                                    position: 'relative',
+                                    border: msg.sender === 'ai' ? '1px solid var(--border-color)' : 'none'
+                                }}>
+                                    {msg.text}
+                                    {msg.sender === 'ai' && (
+                                        <button
+                                            onClick={() => speakSentence(msg.text)}
+                                            style={{
+                                                position: 'absolute',
+                                                right: -30,
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
+                                                background: 'none',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                opacity: 0.7
+                                            }}
+                                        >
+                                            <Volume2 size={16} color="var(--text-secondary)" />
+                                        </button>
+                                    )}
+                                </div>
+                            </>
+                        )}
                     </div>
                 ))}
 
@@ -180,12 +263,13 @@ const ChatSession = ({ scenario, onBack }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area (Options) */}
+            {/* Input Area (Voice) */}
             <div style={{
                 padding: 'var(--space-md)',
                 background: 'var(--bg-card)',
                 borderTop: '1px solid var(--border-color)',
-                minHeight: 80
+                minHeight: 120,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-md)'
             }}>
                 {isEnded ? (
                     <div style={{ textAlign: 'center' }}>
@@ -193,26 +277,62 @@ const ChatSession = ({ scenario, onBack }) => {
                         <button className="btn btn-outline" onClick={onBack}>Назад до списку</button>
                     </div>
                 ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
-                        {currentNode && currentNode.options.map((option, idx) => (
+                    <>
+                        {/* Hints (Options content) */}
+                        <div style={{ width: '100%', display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+                            {currentNode && currentNode.options.map((opt, idx) => (
+                                <button
+                                    key={idx}
+                                    onClick={() => handleOptionClick(opt)}
+                                    className="fade-in"
+                                    style={{
+                                        whiteSpace: 'nowrap',
+                                        padding: '8px 16px',
+                                        borderRadius: 20,
+                                        background: 'rgba(255,255,255,0.05)',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        color: 'var(--text-secondary)',
+                                        fontSize: '0.9rem',
+                                        cursor: 'pointer',
+                                        flexShrink: 0
+                                    }}
+                                >
+                                    {opt.text}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Mic Button */}
+                        {hasSpeechSupport ? (
                             <button
-                                key={idx}
-                                className="btn"
-                                onClick={() => handleOptionClick(option)}
-                                disabled={isTyping}
+                                onClick={toggleListening}
                                 style={{
-                                    background: 'var(--bg-surface)',
-                                    color: 'var(--text-primary)',
-                                    border: '1px solid var(--color-primary)',
-                                    textAlign: 'left',
-                                    justifyContent: 'flex-start',
-                                    opacity: isTyping ? 0.5 : 1
+                                    width: 72,
+                                    height: 72,
+                                    borderRadius: '50%',
+                                    background: isListening ? 'var(--color-error)' : 'var(--color-accent)',
+                                    border: 'none',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    boxShadow: isListening ? '0 0 30px rgba(239, 68, 68, 0.4)' : '0 0 20px rgba(204, 255, 0, 0.3)',
+                                    transition: 'all 0.3s ease',
+                                    position: 'relative'
                                 }}
                             >
-                                {option.text}
+                                {isListening && (
+                                    <div className="pulse" style={{
+                                        position: 'absolute', width: '100%', height: '100%', borderRadius: '50%',
+                                        border: '2px solid var(--color-error)', animation: 'pulse 1.5s infinite'
+                                    }} />
+                                )}
+                                <Volume2 size={32} color={isListening ? 'white' : 'black'} />
                             </button>
-                        ))}
-                    </div>
+                        ) : (
+                            <div style={{ color: 'var(--color-error)' }}>Ваш браузер не підтримує розпізнавання мови</div>
+                        )}
+                        <div style={{ fontSize: '0.85rem', color: isListening ? 'var(--color-error)' : 'var(--text-secondary)' }}>
+                            {isListening ? 'Слухаю...' : 'Натисніть і говоріть'}
+                        </div>
+                    </>
                 )}
             </div>
         </div>

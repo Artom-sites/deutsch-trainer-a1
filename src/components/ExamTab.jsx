@@ -158,7 +158,7 @@ const TestSession = ({ test, type, onBack }) => {
                                 borderRadius: 100
                             }}
                         >
-                            {isPlaying ? <Pause size={24} className="pulse" /> : <Play size={24} fill="black" />}
+                            {isPlaying ? <Pause size={24} /> : <Play size={24} fill="black" />}
                             {isPlaying ? 'Hören...' : 'Audio abspielen'}
                         </button>
                     </div>
@@ -247,8 +247,12 @@ const TestSession = ({ test, type, onBack }) => {
                     disabled={Object.keys(answers).length < test.questions.length}
                     style={{
                         opacity: Object.keys(answers).length < test.questions.length ? 0.5 : 1,
-                        position: 'fixed', bottom: 140, left: '50%', transform: 'translateX(-50%)',
-                        width: '90%', maxWidth: 400, boxShadow: '0 10px 30px rgba(0,0,0,0.5)', zIndex: 50
+                        width: '100%',
+                        maxWidth: 400,
+                        margin: '0 auto',
+                        display: 'block',
+                        marginTop: 'var(--space-xl)',
+                        marginBottom: 'var(--space-xl)'
                     }}
                 >
                     Перевірити відповіді
