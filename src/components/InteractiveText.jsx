@@ -112,10 +112,26 @@ const InteractiveText = ({ text }) => {
                         <div>
                             <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                                 {selectedWord.word}
-                                {selectedWord.article && <span style={{ fontSize: '0.9rem', color: 'var(--color-info)', marginLeft: 8 }}>{selectedWord.article}</span>}
+                                {selectedWord.article && (
+                                    <span style={{
+                                        fontSize: '0.9rem',
+                                        marginLeft: 8,
+                                        color: selectedWord.article === 'der' ? 'var(--color-masculine)' :
+                                            selectedWord.article === 'die' ? 'var(--color-feminine)' :
+                                                selectedWord.article === 'das' ? 'var(--color-neuter)' : 'var(--color-info)'
+                                    }}>
+                                        {selectedWord.article}
+                                    </span>
+                                )}
                             </div>
                             <div style={{ fontSize: '1rem', color: selectedWord.notFound ? 'var(--text-muted)' : 'var(--text-secondary)' }}>
-                                {selectedWord.translation}
+                                <span style={{
+                                    color: selectedWord.article === 'der' ? 'var(--color-masculine)' :
+                                        selectedWord.article === 'die' ? 'var(--color-feminine)' :
+                                            selectedWord.article === 'das' ? 'var(--color-neuter)' : 'var(--text-primary)'
+                                }}>
+                                    {selectedWord.translation}
+                                </span>
                             </div>
                         </div>
                     </div>

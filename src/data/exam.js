@@ -141,6 +141,96 @@ Achtung: Im August ist die Bibliothek zwei Wochen geschlossen (1.08 - 14.08).`,
                 correct: 1
             }
         ]
+    },
+    {
+        id: "read-5",
+        title: "Mein Arbeitstag als Krankenschwester",
+        text: `Ich heiße Julia, bin 28 Jahre alt und arbeite als Krankenschwester in einem großen Krankenhaus in Berlin. Mein Beruf ist anstrengend, aber ich mag ihn sehr, weil ich Menschen helfen kann.
+
+Mein Arbeitstag beginnt oft sehr früh. Wenn ich Frühschicht habe, muss ich schon um 6:00 Uhr morgens im Krankenhaus sein. Das bedeutet, dass mein Wecker um 4:30 Uhr klingelt. Ich trinke schnell einen Kaffee, dusche und fahre dann mit der U-Bahn zur Arbeit. Die Fahrt dauert etwa 30 Minuten.
+
+Um 6:00 Uhr gibt es eine Übergabe mit den Kollegen von der Nachtschicht. Danach wecke ich die Patienten, messe Blutdruck und helfe ihnen beim Waschen. Um 8:00 Uhr gibt es Frühstück für die Patienten. Vormittags kommen oft die Ärzte zur Visite. Ich muss dann alle wichtigen Informationen notieren.
+
+Um 12:00 Uhr mache ich eine kurze Pause. Ich esse meistens in der Kantine oder esse ein Brot, das ich von zu Hause mitgebracht habe. Nachmittags gebe ich Medikamente und schreibe Berichte. Um 14:30 Uhr ist mein Arbeitstag zu Ende. Ich bin dann oft müde, aber zufrieden.
+
+Am Abend treffe ich mich manchmal mit Freunden oder gehe zum Sport. Ich gehe meistens früh schlafen, weil ich am nächsten Tag wieder fit sein muss.`,
+        questions: [
+            {
+                id: "r5-q1",
+                question: "Was ist Julias Beruf?",
+                options: ["Lehrerin", "Krankenschwester", "Ärztin"],
+                correct: 1
+            },
+            {
+                id: "r5-q2",
+                question: "Wann steht Julia auf, wenn sie Frühschicht hat?",
+                options: ["Um 6:00 Uhr", "Um 5:00 Uhr", "Um 4:30 Uhr"],
+                correct: 2
+            },
+            {
+                id: "r5-q3",
+                question: "Wie fährt sie zur Arbeit?",
+                options: ["Mit dem Auto", "Mit der U-Bahn", "Mit dem Fahrrad"],
+                correct: 1
+            },
+            {
+                id: "r5-q4",
+                question: "Was macht Julia um 12:00 Uhr?",
+                options: ["Sie geht nach Hause", "Sie macht Pause", "Sie spricht mit den Ärzten"],
+                correct: 1
+            },
+            {
+                id: "r5-q5",
+                question: "Warum geht sie abends früh schlafen?",
+                options: ["Weil sie krank ist", "Weil sie keine Freunde hat", "Weil sie am nächsten Tag fit sein muss"],
+                correct: 2
+            }
+        ]
+    },
+    {
+        id: "read-6",
+        title: "Ein Wochenende in München",
+        text: `Letztes Wochenende habe ich meinen Bruder Thomas in München besucht. Ich wohne in Hamburg, also war die Reise ziemlich lang. Ich bin am Freitagnachmittag mit dem Zug gefahren. Die Fahrt hat fast sechs Stunden gedauert, aber der ICE war sehr komfortabel und ich habe ein interessantes Buch gelesen.
+
+Thomas hat mich am Hauptbahnhof abgeholt. Wir haben uns lange nicht gesehen und hatten uns viel zu erzählen. Wir sind zuerst in eine typisch bayerische Gaststätte gegangen. Ich habe Weißwurst mit Brezel gegessen und Thomas hat einen Schweinebraten bestellt. Das Essen war super lecker!
+
+Am Samstag war das Wetter fantastisch. Die Sonne schien und es war warm. Wir waren im Englischen Garten, das ist ein riesiger Park im Zentrum von München. Dort haben wir viele Leute gesehen, die Eis gegessen oder Fußball gespielt haben. Später waren wir auf dem Marienplatz und haben das Rathaus fotografiert. Die Architektur in München ist wirklich wunderschön.
+
+Am Sonntag haben wir das Deutsche Museum besucht. Es ist eines der größten Museen für Technik in der Welt. Das war sehr interessant, aber nach drei Stunden waren meine Beine müde. Am Nachmittag musste ich leider schon wieder zurück nach Hamburg fahren.
+
+Der Abschied war traurig, aber ich komme bestimmt bald wieder. München ist eine tolle Stadt!`,
+        questions: [
+            {
+                id: "r6-q1",
+                question: "Wen hat der Erzähler in München besucht?",
+                options: ["Seine Eltern", "Seinen Bruder", "Einen Freund"],
+                correct: 1
+            },
+            {
+                id: "r6-q2",
+                question: "Wie lang war die Zugfahrt?",
+                options: ["Fast sechs Stunden", "Drei Stunden", "Einen Tag"],
+                correct: 0
+            },
+            {
+                id: "r6-q3",
+                question: "Was haben sie am Freitagabend gemacht?",
+                options: ["Sie waren im Kino", "Sie haben Fußball gespielt", "Sie haben bayerisch gegessen"],
+                correct: 2
+            },
+            {
+                id: "r6-q4",
+                question: "Wo waren sie am Samstag?",
+                options: ["Im Deutschen Museum", "Im Englischen Garten", "In Hamburg"],
+                correct: 1
+            },
+            {
+                id: "r6-q5",
+                question: "Wie findet der Erzähler München?",
+                options: ["Er findet die Stadt langweilig", "Er findet die Stadt toll", "Er mag das Essen nicht"],
+                correct: 1
+            }
+        ]
     }
 ];
 

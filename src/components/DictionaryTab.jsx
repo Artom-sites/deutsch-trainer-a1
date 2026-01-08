@@ -64,6 +64,17 @@ const DictionaryTab = () => {
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                             <div>
                                 <div style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: 4 }}>
+                                    {dailyWord.article && (
+                                        <span style={{
+                                            color: dailyWord.article === 'der' ? 'var(--color-masculine)' :
+                                                dailyWord.article === 'die' ? 'var(--color-feminine)' :
+                                                    dailyWord.article === 'das' ? 'var(--color-neuter)' : 'var(--color-accent)',
+                                            marginRight: 8,
+                                            fontSize: '0.8em'
+                                        }}>
+                                            {dailyWord.article}
+                                        </span>
+                                    )}
                                     {dailyWord.word}
                                 </div>
                                 <div style={{ fontSize: '1.1rem', opacity: 0.8 }}>
