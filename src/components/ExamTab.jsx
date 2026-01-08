@@ -2,7 +2,7 @@
 // Вкладка "Екзамен" - підготовка до Goethe-Zertifikat A1
 
 import React, { useState } from 'react';
-import { BookOpen, Headphones, CheckCircle, XCircle, Play, Pause, ArrowRight } from 'lucide-react';
+import { BookOpen, Headphones, CheckCircle, XCircle, Play, ArrowRight } from 'lucide-react';
 import { readingTests, listeningTests } from '../data/exam';
 import InteractiveText from './InteractiveText';
 import { speakSentence } from '../utils/speech';
@@ -77,11 +77,14 @@ const TestSession = ({ test, type, onBack }) => {
     };
 
     const handlePlay = () => {
+        if (!test || !test.text) return;
         if (isPlaying) return;
+
         setIsPlaying(true);
         speakSentence(test.text).then(() => {
             setIsPlaying(false);
-        }).catch(() => {
+        }).catch((e) => {
+            console.error("Playback error:", e);
             setIsPlaying(false);
         });
     };
@@ -158,7 +161,11 @@ const TestSession = ({ test, type, onBack }) => {
                                 borderRadius: 100
                             }}
                         >
-                            {isPlaying ? <Pause size={24} /> : <Play size={24} fill="black" />}
+                            {isPlaying ? (
+                                <span style={{ fontSize: 24, fontWeight: 900, lineHeight: 1 }}>||</span>
+                            ) : (
+                                <Play size={24} fill="black" />
+                            )}
                             {isPlaying ? 'Hören...' : 'Audio abspielen'}
                         </button>
                     </div>
