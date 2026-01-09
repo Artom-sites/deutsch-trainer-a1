@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  /* Colors - Warm Glassmorphism Theme */
-  --bg-surface: rgba(255, 255, 255, 0.08);
-  --bg-card: rgba(255, 255, 255, 0.12);
-  --bg-glass: rgba(255, 255, 255, 0.15);
-  --bg-glass-strong: rgba(255, 255, 255, 0.2);
+  /* Colors - Walnut Noir Theme */
+  --bg-surface: rgba(94, 75, 67, 0.3);
+  --bg-card: rgba(94, 75, 67, 0.4);
+  --bg-glass: rgba(94, 75, 67, 0.5);
+  --bg-glass-strong: rgba(94, 75, 67, 0.6);
 
   /* Colors - Text */
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-muted: rgba(255, 255, 255, 0.5);
-  --text-inverse: #1a1a1a;
+  --text-inverse: #2E1F1B;
 
-  /* Colors - Genders (warm tones only) */
+  /* Colors - Genders (warm tones) */
   --color-masculine: #7dd3fc;
   --color-feminine: #fda4af;
   --color-neuter: #bef264;
   --color-plural: #fcd34d;
 
-  /* Colors - UI (Soft Cream/Peach Accent) */
-  --color-accent: #fcd9b6;
-  --color-accent-light: #fef3e2;
-  --color-accent-secondary: #f5c28e;
-  --color-primary: #fcd9b6;
+  /* Colors - UI (Walnut Noir Accents) */
+  --color-accent: #d4c4bc;
+  --color-accent-light: #e8ddd7;
+  --color-accent-secondary: #5E4B43;
+  --color-primary: #d4c4bc;
   --color-success: #a3e635;
   --color-error: #fca5a5;
   --color-warning: #fcd34d;
@@ -63,8 +63,8 @@ html {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: url('/deutsch-trainer-a1/bg.png') center center / cover no-repeat fixed;
-  background-color: #1a1108;
+  background: linear-gradient(135deg, #2E1F1B 0%, #3d2a24 50%, #2E1F1B 100%);
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.5;
   min-height: 100vh;
