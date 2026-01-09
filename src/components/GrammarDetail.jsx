@@ -5,6 +5,127 @@ import useStore from '../store/useStore';
 import { getGrammarContent, getExercisesForTopic } from '../data/lexicon';
 import { ArrowLeft, PenTool, ChevronRight } from 'lucide-react';
 
+// Simple markdown parser for grammar content
+const parseContent = (text) => {
+    if (!text) return null;
+
+    const lines = text.split('\n');
+    const elements = [];
+    let tableRows = [];
+    let inTable = false;
+
+    lines.forEach((line, i) => {
+        // Skip table separator line
+        if (line.match(/^\|[-:| ]+\|$/)) return;
+
+        // Table row
+        if (line.startsWith('|') && line.endsWith('|')) {
+            if (!inTable) inTable = true;
+            const cells = line.split('|').filter(c => c.trim());
+            tableRows.push(cells.map(c => c.trim()));
+            return;
+        }
+
+        // End of table
+        if (inTable && tableRows.length > 0) {
+            elements.push(
+                <div key={`table-${i}`} style={{
+                    overflowX: 'auto',
+                    marginBottom: 16,
+                    borderRadius: 12,
+                    border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}>
+                    <table style={{
+                        width: '100%',
+                        borderCollapse: 'collapse',
+                        fontSize: '0.9rem'
+                    }}>
+                        <tbody>
+                            {tableRows.map((row, ri) => (
+                                <tr key={ri} style={{
+                                    background: ri === 0 ? 'rgba(255, 107, 53, 0.1)' : 'transparent'
+                                }}>
+                                    {row.map((cell, ci) => (
+                                        <td key={ci} style={{
+                                            padding: '10px 12px',
+                                            borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                                            fontWeight: ri === 0 ? 600 : 400
+                                        }}>
+                                            {parseBold(cell)}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            );
+            tableRows = [];
+            inTable = false;
+        }
+
+        // Empty line
+        if (!line.trim()) {
+            elements.push(<div key={`br-${i}`} style={{ height: 8 }} />);
+            return;
+        }
+
+        // Regular text line
+        elements.push(
+            <div key={`line-${i}`} style={{ marginBottom: 4 }}>
+                {parseBold(line)}
+            </div>
+        );
+    });
+
+    // Handle remaining table at end
+    if (tableRows.length > 0) {
+        elements.push(
+            <div key="table-end" style={{
+                overflowX: 'auto',
+                marginBottom: 16,
+                borderRadius: 12,
+                border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}>
+                <table style={{
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                    fontSize: '0.9rem'
+                }}>
+                    <tbody>
+                        {tableRows.map((row, ri) => (
+                            <tr key={ri} style={{
+                                background: ri === 0 ? 'rgba(255, 107, 53, 0.1)' : 'transparent'
+                            }}>
+                                {row.map((cell, ci) => (
+                                    <td key={ci} style={{
+                                        padding: '10px 12px',
+                                        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+                                        fontWeight: ri === 0 ? 600 : 400
+                                    }}>
+                                        {parseBold(cell)}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
+
+    return elements;
+};
+
+// Parse **bold** text
+const parseBold = (text) => {
+    if (!text) return text;
+    const parts = text.split(/\*\*(.+?)\*\*/g);
+    return parts.map((part, i) =>
+        i % 2 === 1 ? <strong key={i} style={{ color: 'var(--color-accent)' }}>{part}</strong> : part
+    );
+};
+
 const GrammarDetail = () => {
     const activeGrammarTopicId = useStore(state => state.activeGrammarTopicId);
     const goBack = useStore(state => state.goBack);
@@ -20,73 +141,84 @@ const GrammarDetail = () => {
             case 'rule':
             case 'tip':
                 return (
-                    <div key={index} className="card" style={{ marginBottom: 'var(--space-md)' }}>
+                    <div key={index} style={{
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: 16,
+                        padding: 16,
+                        marginBottom: 12
+                    }}>
                         <div style={{
-                            fontSize: '0.8rem',
-                            color: section.type === 'tip' ? 'var(--color-warning)' : 'var(--color-accent)',
+                            fontSize: '0.75rem',
+                            color: section.type === 'tip' ? '#fbbf24' : 'var(--color-accent)',
                             fontWeight: 600,
-                            marginBottom: 'var(--space-sm)',
+                            marginBottom: 8,
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px'
                         }}>
                             {section.title}
                         </div>
-                        <div style={{
-                            fontSize: '0.95rem',
-                            lineHeight: 1.7,
-                            whiteSpace: 'pre-line'
-                        }}>
-                            {section.content}
+                        <div style={{ fontSize: '0.95rem', lineHeight: 1.7 }}>
+                            {parseContent(section.content)}
                         </div>
                     </div>
                 );
 
             case 'table':
                 return (
-                    <div key={index} className="card" style={{ marginBottom: 'var(--space-md)', overflowX: 'auto' }}>
+                    <div key={index} style={{
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: 16,
+                        padding: 16,
+                        marginBottom: 12,
+                        overflowX: 'auto'
+                    }}>
                         <div style={{
-                            fontSize: '0.8rem',
+                            fontSize: '0.75rem',
                             color: 'var(--text-muted)',
                             fontWeight: 600,
-                            marginBottom: 'var(--space-sm)',
+                            marginBottom: 8,
                             textTransform: 'uppercase'
                         }}>
                             {section.title}
                         </div>
-                        <div style={{
-                            fontFamily: 'monospace',
-                            fontSize: '0.85rem',
-                            whiteSpace: 'pre-wrap',
-                            lineHeight: 1.6
-                        }}>
-                            {section.content}
+                        <div style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>
+                            {parseContent(section.content)}
                         </div>
                     </div>
                 );
 
             case 'examples':
                 return (
-                    <div key={index} className="card" style={{ marginBottom: 'var(--space-md)' }}>
+                    <div key={index} style={{
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        borderRadius: 16,
+                        padding: 16,
+                        marginBottom: 12
+                    }}>
                         <div style={{
-                            fontSize: '0.8rem',
-                            color: 'var(--color-success)',
+                            fontSize: '0.75rem',
+                            color: '#4ade80',
                             fontWeight: 600,
-                            marginBottom: 'var(--space-sm)',
+                            marginBottom: 12,
                             textTransform: 'uppercase'
                         }}>
                             {section.title}
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                             {section.items.map((item, i) => (
                                 <div key={i} style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 2,
-                                    paddingBottom: 'var(--space-sm)',
-                                    borderBottom: i < section.items.length - 1 ? '1px solid var(--bg-surface)' : 'none'
+                                    paddingBottom: 10,
+                                    borderBottom: i < section.items.length - 1 ? '1px solid rgba(255, 255, 255, 0.06)' : 'none'
                                 }}>
-                                    <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{item.german}</div>
-                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{item.translation}</div>
+                                    <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: 2 }}>
+                                        {item.german}
+                                    </div>
+                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                                        {item.translation}
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -101,16 +233,31 @@ const GrammarDetail = () => {
     return (
         <div className="screen">
             {/* Header */}
-            <div className="back-header">
-                <button className="back-btn" onClick={goBack}>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-md)',
+                marginBottom: 'var(--space-lg)',
+                paddingTop: 'var(--space-sm)'
+            }}>
+                <button
+                    onClick={goBack}
+                    style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 12,
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        color: 'var(--text-primary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer'
+                    }}
+                >
                     <ArrowLeft size={20} />
                 </button>
-                <div className="back-title">Граматика</div>
-            </div>
-
-            {/* Title */}
-            <div style={{ marginBottom: 'var(--space-lg)', textAlign: 'center' }}>
-                <h1 style={{ fontSize: '1.4rem', fontWeight: 700 }}>
+                <h1 style={{ fontSize: '1.2rem', fontWeight: 600, flex: 1 }}>
                     {content.title}
                 </h1>
             </div>
@@ -120,20 +267,28 @@ const GrammarDetail = () => {
 
             {/* Exercises Button */}
             {exercises.length > 0 && (
-                <div
-                    className="lesson-item"
+                <button
                     onClick={() => startTopicExercises(activeGrammarTopicId)}
-                    style={{ marginTop: 'var(--space-lg)' }}
+                    style={{
+                        width: '100%',
+                        marginTop: 16,
+                        padding: '14px 20px',
+                        background: '#4ade80',
+                        border: 'none',
+                        borderRadius: 14,
+                        color: '#0d0d0d',
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8
+                    }}
                 >
-                    <div className="lesson-item-icon" style={{ background: 'rgba(34, 197, 94, 0.2)' }}>
-                        <PenTool size={22} color="var(--color-success)" />
-                    </div>
-                    <div className="lesson-item-content">
-                        <div className="lesson-item-title">Практика</div>
-                        <div className="lesson-item-subtitle">{exercises.length} вправ</div>
-                    </div>
-                    <ChevronRight size={18} color="var(--text-muted)" />
-                </div>
+                    <PenTool size={20} />
+                    Практика ({exercises.length} вправ)
+                </button>
             )}
         </div>
     );
