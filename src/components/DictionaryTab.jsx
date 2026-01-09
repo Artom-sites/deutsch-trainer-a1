@@ -128,10 +128,10 @@ const DictionaryTab = () => {
                     width: '100%',
                     padding: '16px',
                     marginBottom: 'var(--space-lg)',
-                    background: 'linear-gradient(135deg, var(--color-accent) 0%, #a3e635 100%)',
-                    border: 'none',
+                    background: 'rgba(212, 196, 188, 0.9)',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: 16,
-                    color: 'black',
+                    color: '#2E1F1B',
                     fontWeight: 700,
                     fontSize: '1rem',
                     display: 'flex',
@@ -139,7 +139,7 @@ const DictionaryTab = () => {
                     justifyContent: 'center',
                     gap: 8,
                     cursor: 'pointer',
-                    boxShadow: '0 4px 20px rgba(204, 255, 0, 0.3)'
+                    boxShadow: '0 4px 20px rgba(46, 31, 27, 0.3)'
                 }}
             >
                 <Play size={20} />
