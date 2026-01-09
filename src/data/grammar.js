@@ -240,7 +240,7 @@ export const grammarTopics = [
         shortDescription: "Dativ"
     },
     {
-        id: "praepositionen-dativ",
+        id: "lokale-praepositionen-dativ",
         name: "Präpositionen mit Dativ",
         icon: "🚇",
         description: "mit, bei, nach, zu, von, aus, seit",
@@ -262,7 +262,7 @@ export const grammarTopics = [
     {
         id: "personalpronomen-dativ",
         name: "Personalpronomen im Dativ",
-        icon: "👥",
+        icon: "👤",
         description: "mir, dir, ihm, ihr...",
         lesson: 12,
         shortDescription: "Займенники в Dativ"
@@ -728,7 +728,7 @@ export const grammarContent = {
     },
 
     // --- PERSONALPRONOMEN (всі відмінки) ---
-    "personalpronomen-akkusativ-dativ": {
+    "personalpronomen-dativ": {
         title: "Personalpronomen: Akkusativ & Dativ (Lektion 13-14)",
         sections: [
             {
@@ -783,7 +783,7 @@ export const grammarContent = {
                 type: "rule",
                 content: `**Вказівні займенники** вказують на конкретний предмет.
 
-| | Nominativ | Akkusativ |
+| Nomen | Nominativ | Akkusativ |
 |---|-----------|-----------|
 | der Gürtel | **Der** ist schön. | **Den** finde ich super. |
 | das Hemd | **Das** ist schön. | **Das** finde ich super. |
@@ -796,7 +796,7 @@ export const grammarContent = {
                 content: `**Welcher?** = Який? (питання)
 **Dieser** = Цей (відповідь)
 
-| | Nominativ | Akkusativ |
+| Nomen | Nominativ | Akkusativ |
 |---|-----------|-----------|
 | m. | Welch**er** Mantel? | Welch**en** Mantel? |
 | | Dies**er**. | Dies**en**. |
@@ -1343,6 +1343,428 @@ export const grammarContent = {
                 ]
             }
         ]
+    },
+
+    // --- SEIN KONJUGATION ---
+    "sein-konjugation": {
+        title: "Konjugation: sein (Бути)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `| Person | sein |
+|--------|------|
+| ich | **bin** |
+| du | **bist** |
+| er/sie/es | **ist** |
+| wir | **sind** |
+| ihr | **seid** |
+| sie/Sie | **sind** |`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich bin Tom.", translation: "Я Том." },
+                    { german: "Das ist Anna.", translation: "Це Анна." },
+                    { german: "Wir sind zu Hause.", translation: "Ми вдома." }
+                ]
+            }
+        ]
+    },
+
+    // --- W-FRAGEN ---
+    "w-fragen": {
+        title: "W-Fragen (Питальні слова)",
+        sections: [
+            {
+                title: "Список",
+                type: "rule",
+                content: `**Wer?** — Хто? (Person)
+**Was?** — Що? (Sache)
+**Wo?** — Де? (Ort)
+**Wohin?** — Куди? (Richtung)
+**Woher?** — Звідки? (Herkunft)
+**Wie?** — Як? (Eigenschaft)
+**Wann?** — Коли? (Zeit)
+**Warum?** — Чому? (Grund)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Wer ist das?", translation: "Хто це?" },
+                    { german: "Was machst du?", translation: "Що ти робиш?" },
+                    { german: "Wo wohnst du?", translation: "Де ти живеш?" },
+                    { german: "Woher kommst du?", translation: "Звідки ти (родом)?" },
+                    { german: "Wie heißt du?", translation: "Як тебе звати?" }
+                ]
+            }
+        ]
+    },
+
+    // --- ZEITANGABEN ---
+    "zeitangaben": {
+        title: "Zeitangaben (Позначення часу)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**am** + дні/частини дня:
+→ am Montag, am Morgen
+(АЛЕ: in der Nacht)
+
+**um** + година:
+→ um 8 Uhr
+
+**im** + місяці/пори року:
+→ im Januar, im Sommer`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Der Kurs ist am Montag.", translation: "Курс у понеділок." },
+                    { german: "Wir kommen um 9 Uhr.", translation: "Ми прийдемо о 9." },
+                    { german: "Im Winter ist es kalt.", translation: "Взимку холодно." }
+                ]
+            }
+        ]
+    },
+
+    // --- UHRZEIT ---
+    "uhrzeit": {
+        title: "Uhrzeit (Котра година?)",
+        sections: [
+            {
+                title: "Офіційно vs Неофіційно",
+                type: "rule",
+                content: `**Офіційно (24h):**
+14:15 → Es ist vierzehn Uhr fünfzehn.
+14:30 → Es ist vierzehn Uhr dreißig.
+
+**Неофіційно (12h):**
+14:15 → Es ist Viertel nach zwei.
+14:30 → Es ist halb drei.
+14:45 → Es ist Viertel vor drei.`
+            },
+            {
+                title: "Слова",
+                type: "tip",
+                content: `**nach** = після (хвилин)
+**vor** = до
+**halb** = пів (на наступну годину!)
+**Viertel** = чверть`
+            }
+        ]
+    },
+
+    // --- GERN / LIEBER / AM LIEBSTEN ---
+    "gern-lieber-am-liebsten": {
+        title: "Komparation: gern (Порівняння)",
+        sections: [
+            {
+                title: "Ступені",
+                type: "rule",
+                content: `| Ступінь | Форма | Значення |
+|---------|-------|----------|
+| 1 | **gern** | охоче (люблю) |
+| 2 | **lieber** | охочіше (більше люблю) |
+| 3 | **am liebsten** | найохочіше (найбільше люблю) |`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich trinke gern Tee.", translation: "Я люблю пити чай." },
+                    { german: "Ich trinke lieber Kaffee.", translation: "Я більше люблю каву." },
+                    { german: "Am liebsten trinke ich Wasser.", translation: "Найбільше я люблю воду." }
+                ]
+            }
+        ]
+    },
+
+    // --- PERFEKT (REGELMÄSSIG) ---
+    "perfekt-regelmaessig": {
+        title: "Perfekt: Regelmäßige Verben",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `Formel: **haben/sein** + **Partizip II**
+
+**Partizip II** (слабкі дієслова):
+**ge** + Stamm + **t**
+
+kaufen → **ge**kauf**t**
+machen → **ge**mach**t**
+sagen → **ge**sag**t**`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich habe Saft gekauft.", translation: "Я купив сік." },
+                    { german: "Er hat 'Hallo' gesagt.", translation: "Він сказав 'Привіт'." },
+                    { german: "Wir haben Fußball gespielt.", translation: "Ми грали у футбол." }
+                ]
+            }
+        ]
+    },
+
+    // --- PERFEKT (UNREGELMÄSSIG) ---
+    "perfekt-unregelmaessig": {
+        title: "Perfekt: Unregelmäßige Verben",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `Сильні дієслова (закінчення **-en** + часто зміна голосної):
+
+essen → ge**gessen**
+trinken → ge**trunken**
+schreiben → ge**schrieben**
+sehen → ge**sehen**
+gehen → ge**gangen**`
+            },
+            {
+                title: "sein чи haben?",
+                type: "tip",
+                content: `**sein** (рух/зміна стану):
+gehen, fahren, fliegen, kommen, aufstehen
+
+**haben** (решта):
+essen, trinken, schlafen, arbeiten`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich bin nach Hause gegangen.", translation: "Я пішов додому." },
+                    { german: "Er hat eine Pizza gegessen.", translation: "Він з'їв піцу." }
+                ]
+            }
+        ]
+    },
+
+    // --- DATUM ---
+    "datum": {
+        title: "Datum (Дата)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `Питання **Wann?** (Коли?)
+
+**am** + порядковий номер + **-ten**:
+→ am ers**ten** Mai (01.05)
+→ am zwei**ten** Januar (02.01)
+
+Питання **Der Wievielte ist heute?**
+**der** + порядковий номер + **-te**:
+→ Heute ist der ers**te** Mai.
+→ Heute ist der zwei**te** Januar.`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich habe am dritten März Geburtstag.", translation: "У мене день народження 3 березня." },
+                    { german: "Heute ist der zehnte Juni.", translation: "Сьогодні 10 червня." }
+                ]
+            }
+        ]
+    },
+
+    // --- MODALVERB: SOLLEN ---
+    "modalverb-sollen": {
+        title: "Modalverb: sollen (Повинен/Варто)",
+        sections: [
+            {
+                title: "Кон'югація",
+                type: "rule",
+                content: `| Person | sollen |
+|--------|--------|
+| ich | **soll** |
+| du | **sollst** |
+| er/sie/es | **soll** |
+| wir | **sollen** |
+| ihr | **sollt** |
+| sie/Sie | **sollen** |`
+            },
+            {
+                title: "Вживання",
+                type: "tip",
+                content: `Використовується для **порад** або **доручень**:
+→ Du sollst viel Wasser trinken. (Тобі варто пити багато води)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Der Arzt sagt, ich soll schlafen.", translation: "Ліка каже, я маю я спати." },
+                    { german: "Soll ich helfen?", translation: "Мені допомогти? (Чи маю я допомогти?)" }
+                ]
+            }
+        ]
+    },
+
+    // --- KÖRPERTEILE ---
+    "koerperteile": {
+        title: "Körperteile (Частини тіла)",
+        sections: [
+            {
+                title: "Словник",
+                type: "rule",
+                content: `**der** Kopf (голова), **der** Hals (шия), **der** Rücken (спина), **der** Bauch (живіт), **der** Arm (рука), **der** Fuß (нога/ступня), **der** Finger (палець)
+
+**die** Hand (рука/кисть), **die** Nase (ніс)
+
+**das** Bein (нога), **das** Auge (око), **das** Ohr (вухо), **das** Haar (волосся)`
+            },
+            {
+                title: "Вираз болю",
+                type: "tip",
+                content: `**tun** + **weh** (боліть)
+
+Однина:
+→ Mein Kopf **tut weh**.
+
+Множина:
+→ Meine Augen **tun weh**.`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Mein Hals tut weh.", translation: "У мене болить горло." },
+                    { german: "Hast du Fieber?", translation: "У тебе є температура?" },
+                    { german: "Ich bin krank.", translation: "Я хворий." }
+                ]
+            }
+        ]
+    },
+
+    // --- KONJUNKTION: WENN ---
+    "konjunktion-wenn": {
+        title: "Konjunktion: wenn (Якщо/Коли)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**wenn** = якщо (умова) або коли (багаторазова дія).
+
+Дієслово йде в **КІНЕЦЬ** підрядного речення!
+
+[Hauptsatz], **wenn** ... [Verb am Ende].
+або
+**Wenn** ... [Verb am Ende], [Verb] [Subjekt] ...`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich bleibe zu Hause, wenn ich krank bin.", translation: "Я залишаюсь вдома, якщо я хворий." },
+                    { german: "Wenn ich Zeit habe, komme ich.", translation: "Якщо я матиму час, я прийду." },
+                    { german: "Ich freue mich, wenn du kommst.", translation: "Я радію, коли ти приходиш." }
+                ]
+            }
+        ]
+    },
+
+    // --- ADJEKTIVE (PRÄDIKATIV) ---
+    "adjektive-praedikativ": {
+        title: "Adjektive: prädikativ (Прикметники)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `Якщо прикметник стоїть ПІСЛЯ дієслова (sein, werden, bleiben), він **не змінюється**!
+
+→ Das Auto ist **schnell**.
+→ Die Autos sind **schnell**.`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Das Kleid ist schön.", translation: "Сукня гарна." },
+                    { german: "Der Mann ist alt.", translation: "Чоловік старий." }
+                ]
+            }
+        ]
+    },
+
+    // --- FARBEN ---
+    "farben": {
+        title: "Farben (Кольори)",
+        sections: [
+            {
+                title: "Список",
+                type: "rule",
+                content: `rot (червоний)
+blau (синій)
+grün (зелений)
+gelb (жовтий)
+schwarz (чорний)
+weiß (білий)
+braun (коричневий)
+grau (сірий)
+orange (помаранчевий)
+lila (фіолетовий)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Der Himmel ist blau.", translation: "Небо блакитне." },
+                    { german: "Schnee ist weiß.", translation: "Сніг білий." }
+                ]
+            }
+        ]
+    },
+
+    // --- KONJUNKTION: DASS ---
+    "konjunktion-dass": {
+        title: "Konjunktion: dass (що)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**dass** = що (підрядне речення).
+
+Дієслово йде в **КІНЕЦЬ**!
+
+Ich weiß, **dass** du heute **kommst**.`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Er sagt, dass er krank ist.", translation: "Він каже, що він хворий." },
+                    { german: "Ich hoffe, dass alles gut ist.", translation: "Я сподіваюсь, що все добре." }
+                ]
+            }
+        ]
+    },
+
+    // --- EINLADUNG & GRATULATION ---
+    "einladung-gratulation": {
+        title: "Einladung & Gratulation (Запрошення і вітання)",
+        sections: [
+            {
+                title: "Фрази",
+                type: "rule",
+                content: `**Einladung (Запрошення):**
+• Ich lade dich ein! (Я тебе запрошую)
+• Kommst du zu meiner Party? (Ти прийдеш на вечірку?)
+
+**Gratulation (Вітання):**
+• Herzlichen Glückwunsch! (Вітаю!)
+• Alles Gute zum Geburtstag! (З Днем народження!)
+• Frohe Weihnachten! (Веселого Різдва!)`
+            }
+        ]
     }
 };
 
@@ -1351,7 +1773,22 @@ export function getGrammarForLesson(lessonId) {
 }
 
 export function getGrammarContent(topicId) {
-    return grammarContent[topicId] || null;
+    if (!topicId) return null;
+
+    // Normalize ID: remove whitespace, convert to string
+    const id = String(topicId).trim();
+
+    let content = grammarContent[id];
+
+    // Fallback logic for legacy/mismatched IDs
+    if (!content && id === 'personalpronomen-dativ') {
+        content = grammarContent['personalpronomen-akkusativ-dativ'];
+    }
+    if (!content && id === 'personalpronomen-akkusativ-dativ') {
+        content = grammarContent['personalpronomen-dativ'];
+    }
+
+    return content || null;
 }
 
 export default grammarTopics;

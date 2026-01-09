@@ -21,8 +21,12 @@ const parseContent = (text) => {
         // Table row
         if (line.startsWith('|') && line.endsWith('|')) {
             if (!inTable) inTable = true;
-            const cells = line.split('|').filter(c => c.trim());
-            tableRows.push(cells.map(c => c.trim()));
+            // Remove first and last empty strings from split (markdown pipe structure)
+            const parts = line.split('|');
+            const cells = parts.slice(1, -1).map(c => c.trim());
+            // Note: We use slice(1, -1) because split('|...|') gives empty strings at start/end
+            // We map to trim, but we DO NOT filter empty strings, to preserve alignment for empty cells
+            tableRows.push(cells);
             return;
         }
 

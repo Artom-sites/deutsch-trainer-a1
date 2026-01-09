@@ -172,6 +172,9 @@ const LessonDetail = () => {
                     {grammarTopics.map(topic => {
                         const topicExercises = getExercisesForTopic(topic.id);
                         const hasContent = getGrammarContent(topic.id) !== null;
+                        if (activeLessonId === 12) {
+                            console.log(`[DEBUG] Topic: ${topic.id}, Content:`, getGrammarContent(topic.id), "HasContent:", hasContent);
+                        }
 
                         return (
                             <div
