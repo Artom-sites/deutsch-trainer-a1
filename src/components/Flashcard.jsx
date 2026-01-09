@@ -13,13 +13,13 @@ const Flashcard = ({ word, onResult }) => {
         setIsFlipped(false);
     }, [word.id]);
 
-    // Get color style based on article
+    // Get color style based on article - NEW PALETTE
     const getGenderColor = (article) => {
         switch (article) {
-            case 'der': return '#3b82f6'; // Blue
-            case 'die': return '#ec4899'; // Pink/Red
-            case 'das': return '#10b981'; // Green
-            default: return '#ffffff';
+            case 'der': return '#4A90E2'; // Blue
+            case 'die': return '#E94B5A'; // Red/Pink
+            case 'das': return '#2ECC71'; // Green
+            default: return '#E5E7EB';
         }
     };
 

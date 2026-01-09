@@ -2,38 +2,39 @@
 
 :root {
   /* ============================================
-     MIDNIGHT GOLD THEME
-     Premium dark design with warm gold accents
+     DARK ORANGE THEME
+     Premium dark design with vibrant orange brand
      ============================================ */
 
-  /* Background layers */
-  --bg-primary: #0d0d0d;
-  --bg-elevated: rgba(25, 25, 25, 0.9);
-  --bg-card: rgba(30, 30, 30, 0.8);
-  --bg-glass: rgba(40, 40, 40, 0.6);
+  /* BASE */
+  --bg-primary: #0B0B0F;
+  --bg-surface: #111118;
+  --bg-card: #111118;
+  --bg-elevated: #111118;
+  --border-color: #1A1A22;
 
-  /* Text hierarchy */
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.65);
-  --text-muted: rgba(255, 255, 255, 0.4);
-  --text-inverse: #0d0d0d;
+  /* TEXT */
+  --text-primary: #E5E7EB;
+  --text-secondary: #B0B3C0;
+  --text-muted: #7A7D8A;
+  --text-inverse: #0B0B0F;
 
-  /* Accent palette - Vibrant Orange */
-  --color-accent: #ff6b35;
-  --color-accent-bright: #ff8c5a;
-  --color-accent-dark: #e85a24;
-  --color-accent-glow: rgba(255, 107, 53, 0.3);
+  /* BRAND - Orange Accent */
+  --color-accent: #FF6B35;
+  --color-accent-focus: #F26A1B;
+  --color-accent-pressed: #C94F10;
+  --color-accent-glow: rgba(242, 106, 27, 0.2);
 
-  /* Gender colors (soft, muted) */
-  --color-masculine: #6ba3d6;
-  --color-feminine: #d68fb3;
-  --color-neuter: #7dc495;
-  --color-plural: #d4a574;
+  /* GRAMMAR - Gender colors */
+  --color-masculine: #4A90E2;
+  --color-feminine: #E94B5A;
+  --color-neuter: #2ECC71;
+  --color-plural: #FF6B35;
 
   /* Semantic colors */
-  --color-success: #4ade80;
-  --color-error: #f87171;
-  --color-warning: #fbbf24;
+  --color-success: #2ECC71;
+  --color-error: #E94B5A;
+  --color-warning: #F26A1B;
 
   /* Spacing */
   --space-xs: 4px;

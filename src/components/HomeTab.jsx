@@ -27,28 +27,28 @@ const HomeTab = () => {
             icon: BookOpen,
             title: 'Lektionen',
             subtitle: '14 уроків A1',
-            color: '#ff6b35'
+            color: '#FF6B35'
         },
         {
             id: 'dictionary',
             icon: BookText,
             title: 'Wörterbuch',
             subtitle: 'Словник',
-            color: '#ff6b35'
+            color: '#FF6B35'
         },
         {
             id: 'verbs',
             icon: Languages,
             title: 'Verben',
             subtitle: 'Дієслова',
-            color: '#ff6b35'
+            color: '#FF6B35'
         },
         {
             id: 'exam',
             icon: GraduationCap,
             title: 'Prüfung',
             subtitle: 'Тести A1',
-            color: '#ff6b35'
+            color: '#FF6B35'
         }
     ];
 
@@ -62,7 +62,7 @@ const HomeTab = () => {
                 <h1 style={{
                     fontSize: '2rem',
                     fontWeight: 700,
-                    color: '#ff6b35',
+                    color: '#FF6B35',
                     marginBottom: 8
                 }}>
                     {getGreeting()}
@@ -152,14 +152,14 @@ const HomeTab = () => {
                             width: 48,
                             height: 48,
                             borderRadius: 14,
-                            background: 'rgba(255, 107, 53, 0.15)',
-                            border: '1px solid rgba(255, 107, 53, 0.2)',
+                            background: 'rgba(242, 106, 27, 0.15)',
+                            border: '1px solid rgba(242, 106, 27, 0.2)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             marginBottom: 12
                         }}>
-                            <f.icon size={24} color="#ff6b35" />
+                            <f.icon size={24} color="#FF6B35" />
                         </div>
                         <div style={{
                             fontWeight: 700,
