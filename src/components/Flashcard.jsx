@@ -130,7 +130,7 @@ const Flashcard = ({ word, onResult }) => {
                             </div>
                         )}
 
-                        {/* Word - Colored by gender */}
+                        {/* Word - Colored by gender + inline plural */}
                         <div style={{
                             color: genderColor,
                             fontSize: 'clamp(1.8rem, 7vw, 3rem)',
@@ -140,18 +140,14 @@ const Flashcard = ({ word, onResult }) => {
                             marginBottom: 'var(--space-sm)'
                         }}>
                             {word.word}
+                            {hasValidPlural && (
+                                <span style={{
+                                    fontWeight: 500,
+                                    opacity: 0.6,
+                                    fontSize: '0.6em'
+                                }}>, {word.plural}</span>
+                            )}
                         </div>
-
-                        {/* Plural ending - only if valid */}
-                        {hasValidPlural && (
-                            <div style={{
-                                fontSize: '1rem',
-                                color: 'var(--text-secondary)',
-                                marginTop: 4
-                            }}>
-                                Plural: {word.plural}
-                            </div>
-                        )}
 
                         {/* Audio button - CENTERED */}
                         <button
