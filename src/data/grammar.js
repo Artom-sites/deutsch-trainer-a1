@@ -995,6 +995,201 @@ export const grammarContent = {
                 ]
             }
         ]
+    },
+
+    // --- NEGATION (nicht/kein) ---
+    "negation": {
+        title: "Negation: nicht та kein",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**nicht** та **kein** — два способи заперечення:
+
+| Що заперечуємо | Використовуємо |
+|----------------|----------------|
+| Дієслово, прикметник | **nicht** |
+| Іменник з артиклем | **kein/keine** |
+
+**nicht** стоїть в кінці речення або перед тим, що заперечуємо
+**kein** замінює невизначений артикль (ein → kein)`
+            },
+            {
+                title: "Як обрати?",
+                type: "tip",
+                content: `🔹 **nicht** = НЕ (для дієслів)
+→ Ich schlafe **nicht**. = Я не сплю.
+→ Das ist **nicht** gut. = Це не добре.
+
+🔹 **kein** = НІЯКИЙ/НІЯКА (замість ein/eine)
+→ Ich habe **kein** Auto. = Я не маю машини.
+→ Das ist **keine** Katze. = Це не кішка.
+
+⚠️ Форми **kein**: kein (m/n), keine (f/pl)
+⚠️ **kein** відмінюється як ein!`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich spreche nicht Deutsch.", translation: "Я не говорю німецькою." },
+                    { german: "Er kommt heute nicht.", translation: "Він сьогодні не прийде." },
+                    { german: "Ich habe keine Zeit.", translation: "Я не маю часу." },
+                    { german: "Das ist kein Problem.", translation: "Це не проблема." },
+                    { german: "Sie haben keine Kinder.", translation: "Вони не мають дітей." }
+                ]
+            }
+        ]
+    },
+
+    // --- ARTIKEL ---
+    "artikel": {
+        title: "Bestimmter und Unbestimmter Artikel",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**Визначений артикль** (the) — вказує на конкретний об'єкт:
+| Masculinum | Femininum | Neutrum | Plural |
+|------------|-----------|---------|--------|
+| **der** | **die** | **das** | **die** |
+
+**Невизначений артикль** (a/an) — вказує на будь-який об'єкт:
+| Masculinum | Femininum | Neutrum |
+|------------|-----------|---------|
+| **ein** | **eine** | **ein** |
+
+⚠️ У множині невизначеного артикля НЕМАЄ!`
+            },
+            {
+                title: "Як запам'ятати рід?",
+                type: "tip",
+                content: `🔵 **der** (чоловічий):
+- дні тижня: der Montag
+- місяці: der Januar
+- пори року: der Sommer
+
+🔴 **die** (жіночий):
+- -ung, -heit, -keit: die Zeitung
+- -tion: die Information
+- -e (часто): die Lampe
+
+🟢 **das** (середній):
+- -chen, -lein: das Mädchen
+- -um: das Museum
+- Ge-: das Gespräch`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Der Tisch ist groß.", translation: "Стіл великий. (конкретний)" },
+                    { german: "Ich brauche einen Tisch.", translation: "Мені потрібен стіл. (будь-який)" },
+                    { german: "Die Frau ist Lehrerin.", translation: "Жінка — вчителька." },
+                    { german: "Ich sehe eine Katze.", translation: "Я бачу кота/кішку." },
+                    { german: "Das Kind spielt.", translation: "Дитина грає." }
+                ]
+            }
+        ]
+    },
+
+    // --- TRENNBARE VERBEN ---
+    "trennbare-verben": {
+        title: "Trennbare Verben (Відокремлювані дієслова)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**Відокремлювані дієслова** мають префікс, який відділяється в реченні:
+
+Структура: **Дієслово (корінь)** + ... + **Префікс** (в кінці)
+
+| Інфінітив | У реченні |
+|-----------|-----------|
+| **auf**stehen | Ich **stehe** um 7 Uhr **auf**. |
+| **ein**kaufen | Er **kauft** im Supermarkt **ein**. |
+| **an**fangen | Der Kurs **fängt** um 9 **an**. |
+
+Популярні відокремлювані префікси:
+**ab-, an-, auf-, aus-, ein-, mit-, vor-, zu-**`
+            },
+            {
+                title: "Лайфхак",
+                type: "tip",
+                content: `🎯 Як розпізнати відокремлюваний префікс?
+→ Префікс НАГОЛОШЕНИЙ = відокремлюється
+→ **AUF**stehen, **EIN**kaufen, **MIT**kommen
+
+⚠️ В Infinitiv залишаються разом:
+→ Ich muss früh **aufstehen**.
+→ Er kann heute **mitkommen**.
+
+⚠️ Питальний порядок слів:
+→ **Stehst** du früh **auf**?
+→ **Kaufst** du heute **ein**?`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich stehe um 6 Uhr auf.", translation: "Я встаю о 6 годині." },
+                    { german: "Sie kauft im Supermarkt ein.", translation: "Вона робить покупки в супермаркеті." },
+                    { german: "Der Film fängt um 20 Uhr an.", translation: "Фільм починається о 20:00." },
+                    { german: "Kommst du mit?", translation: "Ти підеш з нами?" },
+                    { german: "Er macht das Fenster auf.", translation: "Він відкриває вікно." }
+                ]
+            }
+        ]
+    },
+
+    // --- MODALVERBEN: können & wollen ---
+    "modalverben-koennen-wollen": {
+        title: "Modalverben: können & wollen",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**können** = могти (здатність)
+**wollen** = хотіти
+
+| Person | können | wollen |
+|--------|--------|--------|
+| ich | **kann** | **will** |
+| du | kannst | willst |
+| er/sie/es | **kann** | **will** |
+| wir | können | wollen |
+| ihr | könnt | wollt |
+| sie/Sie | können | wollen |
+
+Структура: **Modalverb** + ... + **Infinitiv** (в кінці)`
+            },
+            {
+                title: "Важливо!",
+                type: "tip",
+                content: `⚠️ Модальне дієслово — на 2 позиції
+⚠️ Основне дієслово — в кінці (Infinitiv)
+
+✅ Ich **kann** gut Deutsch **sprechen**.
+✅ Er **will** morgen **arbeiten**.
+
+🔹 **können** = мати здатність/дозвіл
+→ Kannst du schwimmen? = Ти вмієш плавати?
+
+🔹 **wollen** = мати бажання
+→ Ich will nach Hause gehen. = Я хочу піти додому.`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich kann Klavier spielen.", translation: "Я вмію грати на піаніно." },
+                    { german: "Kannst du mir helfen?", translation: "Ти можеш мені допомогти?" },
+                    { german: "Sie will Ärztin werden.", translation: "Вона хоче стати лікаркою." },
+                    { german: "Wir wollen ins Kino gehen.", translation: "Ми хочемо піти в кіно." },
+                    { german: "Hier kann man nicht rauchen.", translation: "Тут не можна курити." }
+                ]
+            }
+        ]
     }
 };
 
