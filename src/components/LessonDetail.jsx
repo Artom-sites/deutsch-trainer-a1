@@ -124,100 +124,7 @@ const LessonDetail = () => {
             </div>
 
             {/* ==========================================
-                СЛОВНИК - Головний CTA
-            ========================================== */}
-            <button
-                onClick={() => startLessonWords(activeLessonId)}
-                style={{
-                    width: '100%',
-                    padding: '20px',
-                    marginBottom: 'var(--space-md)',
-                    background: '#FF6B35',
-                    border: 'none',
-                    borderRadius: 20,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 'var(--space-md)',
-                    boxShadow: '0 4px 24px rgba(242, 106, 27, 0.25)'
-                }}
-            >
-                <div style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 16,
-                    background: 'rgba(0, 0, 0, 0.15)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <Play size={28} color="#0d0d0d" />
-                </div>
-                <div style={{ textAlign: 'left', flex: 1 }}>
-                    <div style={{
-                        fontSize: '1.1rem',
-                        fontWeight: 600,
-                        color: '#0d0d0d',
-                        marginBottom: 4
-                    }}>
-                        Вчити слова
-                    </div>
-                    <div style={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.6)' }}>
-                        {lessonWords.length} слів • {progress.learned} вивчено
-                    </div>
-                </div>
-                <ChevronRight size={24} color="#0d0d0d" />
-            </button>
-
-            {/* ==========================================
-                ТЕСТ - Перевірка знань
-            ========================================== */}
-            {lessonTest && (
-                <button
-                    onClick={() => startLessonTest && startLessonTest(activeLessonId)}
-                    style={{
-                        width: '100%',
-                        padding: '16px 20px',
-                        marginBottom: 'var(--space-lg)',
-                        background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0.05) 100%)',
-                        border: '1px solid rgba(46, 204, 113, 0.3)',
-                        borderRadius: 16,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--space-md)'
-                    }}
-                >
-                    <div style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 12,
-                        background: 'rgba(46, 204, 113, 0.2)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        <ClipboardCheck size={22} color="#2ECC71" />
-                    </div>
-                    <div style={{ textAlign: 'left', flex: 1 }}>
-                        <div style={{
-                            fontSize: '1rem',
-                            fontWeight: 600,
-                            color: '#2ECC71',
-                            marginBottom: 2
-                        }}>
-                            Пройти тест
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                            {lessonTest.questions.length} питань • Перевірка знань
-                        </div>
-                    </div>
-                    <ChevronRight size={20} color="#2ECC71" />
-                </button>
-            )}
-
-            {/* ==========================================
-                ГРАМАТИКА
+                ГРАМАТИКА (Підтягнуто нагору)
             ========================================== */}
             {grammarTopics.length > 0 && (
                 <div style={{ marginBottom: 'var(--space-lg)' }}>
@@ -335,6 +242,99 @@ const LessonDetail = () => {
                         );
                     })}
                 </div>
+            )}
+
+            {/* ==========================================
+                СЛОВНИК - Головний CTA
+            ========================================== */}
+            <button
+                onClick={() => startLessonWords(activeLessonId)}
+                style={{
+                    width: '100%',
+                    padding: '20px',
+                    marginBottom: 'var(--space-md)',
+                    background: '#FF6B35',
+                    border: 'none',
+                    borderRadius: 20,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-md)',
+                    boxShadow: '0 4px 24px rgba(242, 106, 27, 0.25)'
+                }}
+            >
+                <div style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: 16,
+                    background: 'rgba(0, 0, 0, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <Play size={28} color="#0d0d0d" />
+                </div>
+                <div style={{ textAlign: 'left', flex: 1 }}>
+                    <div style={{
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        color: '#0d0d0d',
+                        marginBottom: 4
+                    }}>
+                        Вчити слова
+                    </div>
+                    <div style={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.6)' }}>
+                        {lessonWords.length} слів • {progress.learned} вивчено
+                    </div>
+                </div>
+                <ChevronRight size={24} color="#0d0d0d" />
+            </button>
+
+            {/* ==========================================
+                ТЕСТ - Перевірка знань
+            ========================================== */}
+            {lessonTest && (
+                <button
+                    onClick={() => startLessonTest && startLessonTest(activeLessonId)}
+                    style={{
+                        width: '100%',
+                        padding: '16px 20px',
+                        marginBottom: 'var(--space-lg)',
+                        background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0.05) 100%)',
+                        border: '1px solid rgba(46, 204, 113, 0.3)',
+                        borderRadius: 16,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--space-md)'
+                    }}
+                >
+                    <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 12,
+                        background: 'rgba(46, 204, 113, 0.2)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <ClipboardCheck size={22} color="#2ECC71" />
+                    </div>
+                    <div style={{ textAlign: 'left', flex: 1 }}>
+                        <div style={{
+                            fontSize: '1rem',
+                            fontWeight: 600,
+                            color: '#2ECC71',
+                            marginBottom: 2
+                        }}>
+                            Пройти тест
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                            {lessonTest.questions.length} питань • Перевірка знань
+                        </div>
+                    </div>
+                    <ChevronRight size={20} color="#2ECC71" />
+                </button>
             )}
         </div>
     );
