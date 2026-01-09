@@ -27,28 +27,28 @@ const HomeTab = () => {
             icon: BookOpen,
             title: 'Lektionen',
             subtitle: '14 уроків A1',
-            color: '#d4a574'
+            color: '#cfb169'
         },
         {
             id: 'dictionary',
             icon: BookText,
             title: 'Wörterbuch',
             subtitle: 'Словник',
-            color: '#d4a574'
+            color: '#cfb169'
         },
         {
             id: 'verbs',
             icon: Languages,
             title: 'Verben',
             subtitle: 'Дієслова',
-            color: '#d4a574'
+            color: '#cfb169'
         },
         {
             id: 'exam',
             icon: GraduationCap,
             title: 'Prüfung',
             subtitle: 'Тести A1',
-            color: '#d4a574'
+            color: '#cfb169'
         }
     ];
 
@@ -62,7 +62,7 @@ const HomeTab = () => {
                 <h1 style={{
                     fontSize: '2rem',
                     fontWeight: 700,
-                    color: '#d4a574',
+                    color: '#cfb169',
                     marginBottom: 8
                 }}>
                     {getGreeting()}
@@ -159,7 +159,7 @@ const HomeTab = () => {
                             justifyContent: 'center',
                             marginBottom: 12
                         }}>
-                            <f.icon size={24} color="#d4a574" />
+                            <f.icon size={24} color="#cfb169" />
                         </div>
                         <div style={{
                             fontWeight: 700,

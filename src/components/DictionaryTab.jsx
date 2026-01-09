@@ -128,7 +128,7 @@ const DictionaryTab = () => {
                     width: '100%',
                     padding: '16px',
                     marginBottom: 'var(--space-lg)',
-                    background: '#d4a574',
+                    background: '#cfb169',
                     border: 'none',
                     borderRadius: 16,
                     color: '#0d0d0d',

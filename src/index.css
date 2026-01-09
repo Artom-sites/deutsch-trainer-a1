@@ -18,11 +18,11 @@
   --text-muted: rgba(255, 255, 255, 0.4);
   --text-inverse: #0d0d0d;
 
-  /* Gold accent palette */
-  --color-accent: #d4a574;
-  --color-accent-bright: #e8c39e;
-  --color-accent-dark: #b8956a;
-  --color-accent-glow: rgba(212, 165, 116, 0.3);
+  /* Gold accent palette - True Gold */
+  --color-accent: #cfb169;
+  --color-accent-bright: #e0c67a;
+  --color-accent-dark: #b89b52;
+  --color-accent-glow: rgba(207, 177, 105, 0.3);
 
   /* Gender colors (soft, muted) */
   --color-masculine: #6ba3d6;
