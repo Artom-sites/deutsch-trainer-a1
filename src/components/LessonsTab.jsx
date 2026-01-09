@@ -11,9 +11,20 @@ const LessonsTab = () => {
 
     return (
         <div className="screen">
-            <div className="screen-header">
-                <h1 className="screen-title">Lektionen</h1>
-                <p className="screen-subtitle">Schritte plus Neu A1 • 14 уроків</p>
+            {/* Header */}
+            <div style={{
+                background: 'linear-gradient(135deg, rgba(242, 106, 27, 0.12) 0%, rgba(255, 107, 53, 0.04) 100%)',
+                borderRadius: 20,
+                padding: 20,
+                marginBottom: 16,
+                border: '1px solid rgba(242, 106, 27, 0.15)'
+            }}>
+                <h1 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB', marginBottom: 4 }}>
+                    Lektionen 📖
+                </h1>
+                <p style={{ color: '#B0B3C0', fontSize: '0.9rem' }}>
+                    14 уроків для рівня A1
+                </p>
             </div>
 
             <div>

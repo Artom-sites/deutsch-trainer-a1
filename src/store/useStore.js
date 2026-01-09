@@ -15,7 +15,7 @@ const useStore = create(
             // ==========================================
             // NAVIGATION STATE
             // ==========================================
-            currentTab: 'lessons',
+            currentTab: 'home',
             currentView: 'main', // 'main' | 'lesson-detail' | 'flashcards' | 'exercises' | 'grammar-detail'
 
             activeLessonId: null,
