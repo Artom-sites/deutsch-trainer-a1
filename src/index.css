@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* Colors - Walnut Noir Theme */
-  --bg-surface: rgba(94, 75, 67, 0.3);
-  --bg-card: rgba(94, 75, 67, 0.4);
-  --bg-glass: rgba(94, 75, 67, 0.5);
-  --bg-glass-strong: rgba(94, 75, 67, 0.6);
+  /* Colors - Dark Gray + Orange Theme */
+  --bg-surface: rgba(58, 58, 58, 0.5);
+  --bg-card: rgba(50, 50, 50, 0.6);
+  --bg-glass: rgba(45, 45, 45, 0.7);
+  --bg-glass-strong: rgba(40, 40, 40, 0.8);
 
   /* Colors - Text */
   --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --text-muted: rgba(255, 255, 255, 0.5);
-  --text-inverse: #2E1F1B;
+  --text-inverse: #2a2a2a;
 
   /* Colors - Genders (warm tones) */
   --color-masculine: #7dd3fc;
@@ -19,14 +19,14 @@
   --color-neuter: #bef264;
   --color-plural: #fcd34d;
 
-  /* Colors - UI (Walnut Noir Accents) */
-  --color-accent: #d4c4bc;
-  --color-accent-light: #e8ddd7;
-  --color-accent-secondary: #5E4B43;
-  --color-primary: #d4c4bc;
-  --color-success: #a3e635;
-  --color-error: #fca5a5;
-  --color-warning: #fcd34d;
+  /* Colors - UI (Orange Accents) */
+  --color-accent: #e67e22;
+  --color-accent-light: #f39c12;
+  --color-accent-secondary: #d35400;
+  --color-primary: #e67e22;
+  --color-success: #27ae60;
+  --color-error: #e74c3c;
+  --color-warning: #f39c12;
 
   /* Mobile-first spacing */
   --space-xs: 4px;
@@ -64,11 +64,9 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background:
-    radial-gradient(ellipse at 20% 20%, rgba(94, 75, 67, 0.8) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 30%, rgba(120, 90, 70, 0.6) 0%, transparent 40%),
-    radial-gradient(ellipse at 40% 80%, rgba(80, 60, 50, 0.7) 0%, transparent 45%),
-    radial-gradient(ellipse at 90% 90%, rgba(100, 75, 60, 0.5) 0%, transparent 50%),
-    linear-gradient(135deg, #2E1F1B 0%, #3a2820 25%, #2E1F1B 50%, #352418 75%, #2E1F1B 100%);
+    radial-gradient(ellipse at 30% 20%, rgba(230, 126, 34, 0.15) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 80%, rgba(230, 126, 34, 0.1) 0%, transparent 35%),
+    linear-gradient(180deg, #c9b8a8 0%, #b8a696 30%, #a89684 70%, #9a8878 100%);
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.5;
@@ -140,20 +138,22 @@ body {
 
 .bottom-nav-inner {
   pointer-events: auto;
-  /* Warm frosted glass */
-  background: rgba(60, 40, 30, 0.7);
-  backdrop-filter: blur(30px) saturate(150%);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  /* Liquid Glass Effect - Dark Gray */
+  background: rgba(50, 50, 50, 0.85);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
 
-  /* Soft warm shadow */
+  /* Multi-layer liquid glass shadow */
   box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.3),
+    0 0 60px rgba(230, 126, 34, 0.1);
 
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
