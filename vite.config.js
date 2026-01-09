@@ -14,24 +14,30 @@ export default defineConfig({
       manifest: {
         name: 'Deutsch Trainer A1',
         short_name: 'DE Trainer',
-        description: 'German Learning App A1',
-        theme_color: '#2dd4bf',
-        background_color: '#000000',
+        description: 'Вивчай німецьку мову - рівень A1',
+        theme_color: '#0B0B0F',
+        background_color: '#0B0B0F',
         display: 'standalone',
         orientation: 'portrait',
         start_url: '.',
+        scope: '.',
         icons: [
           {
             src: 'logo.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
           },
           {
             src: 'logo.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
           }
         ]
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}']
       }
     })
   ],
