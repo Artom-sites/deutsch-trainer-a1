@@ -1190,6 +1190,159 @@ export const grammarContent = {
                 ]
             }
         ]
+    },
+
+    // --- PLURAL DER NOMEN ---
+    "plural": {
+        title: "Plural der Nomen (Множина іменників)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `Утворення множини в німецькій:
+
+| Закінчення | Приклад | Множина |
+|------------|---------|---------|
+| **-e** | der Tisch | die Tisch**e** |
+| **-en** | die Lampe | die Lamp**en** |
+| **-er** | das Kind | die Kind**er** |
+| **-s** | das Auto | die Auto**s** |
+| **Umlaut + e** | der Stuhl | die St**ü**hl**e** |
+| **без зміни** | der Lehrer | die Lehrer |
+
+⚠️ У множині артикль завжди **die**!`
+            },
+            {
+                title: "Як запам'ятати?",
+                type: "tip",
+                content: `🔹 **-en** — найчастіше для die-слів
+→ die Zeitung → die Zeitung**en**
+→ die Frau → die Frau**en**
+
+🔹 **-er + Umlaut** — для das-слів
+→ das Buch → die B**ü**ch**er**
+→ das Haus → die H**ä**us**er**
+
+🔹 **-s** — для іноземних слів
+→ das Hobby → die Hobby**s**
+→ das Taxi → die Taxi**s**
+
+💡 Вчи множину ОДРАЗУ зі словом!`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "der Tisch → die Tische", translation: "стіл → столи" },
+                    { german: "die Lampe → die Lampen", translation: "лампа → лампи" },
+                    { german: "das Kind → die Kinder", translation: "дитина → діти" },
+                    { german: "der Mann → die Männer", translation: "чоловік → чоловіки" },
+                    { german: "das Auto → die Autos", translation: "авто → авто (мн.)" }
+                ]
+            }
+        ]
+    },
+
+    // --- ES GIBT + AKKUSATIV ---
+    "es-gibt": {
+        title: "es gibt + Akkusativ",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**es gibt** = є, існує (безособове)
+
+Завжди з **Akkusativ**!
+
+| es gibt + Akkusativ |
+|---------------------|
+| Es gibt **einen** Tisch. |
+| Es gibt **eine** Lampe. |
+| Es gibt **ein** Bett. |
+| Es gibt **keine** Stühle. |
+
+⚠️ **gibt** ніколи не змінюється!`
+            },
+            {
+                title: "Коли використовувати?",
+                type: "tip",
+                content: `🏠 **Опис приміщення:**
+→ Im Zimmer gibt es einen Schrank.
+→ In der Küche gibt es einen Kühlschrank.
+
+🏙️ **Опис місця:**
+→ In der Stadt gibt es viele Parks.
+→ Hier gibt es ein gutes Restaurant.
+
+❓ **Питання:**
+→ Was gibt es heute zum Essen?
+→ Gibt es hier einen Supermarkt?`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Es gibt einen Tisch.", translation: "Є стіл." },
+                    { german: "Im Wohnzimmer gibt es ein Sofa.", translation: "У вітальні є диван." },
+                    { german: "Gibt es hier ein WLAN?", translation: "Тут є Wi-Fi?" },
+                    { german: "Es gibt keine Probleme.", translation: "Немає проблем." },
+                    { german: "Was gibt es Neues?", translation: "Що нового?" }
+                ]
+            }
+        ]
+    },
+
+    // --- LOKALE PRÄPOSITIONEN ---
+    "lokale-praepositionen": {
+        title: "Lokale Präpositionen (Місцеві прийменники)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `Місцеві прийменники відповідають на **Wo?** (де?)
+
+| Прийменник | Значення | Приклад |
+|------------|----------|---------|
+| **in** | в, у | in der Küche |
+| **auf** | на (горизонт.) | auf dem Tisch |
+| **an** | біля, на (верт.) | an der Wand |
+| **unter** | під | unter dem Bett |
+| **über** | над | über dem Schrank |
+| **neben** | поруч | neben dem Fenster |
+| **vor** | перед | vor der Tür |
+| **hinter** | за | hinter dem Haus |
+| **zwischen** | між | zwischen den Stühlen |
+
+⚠️ Wo? → завжди **Dativ**!`
+            },
+            {
+                title: "Скорочення",
+                type: "tip",
+                content: `🔹 **in + dem = im**
+→ im Zimmer, im Haus
+
+🔹 **an + dem = am**
+→ am Fenster, am Tisch
+
+🔹 **auf + dem** (не скорочується)
+→ auf dem Boden
+
+💡 Лайфхак:
+**auf** = на чомусь горизонтальному (стіл, підлога)
+**an** = на чомусь вертикальному (стіна, двері)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Das Buch liegt auf dem Tisch.", translation: "Книга лежить на столі." },
+                    { german: "Das Bild hängt an der Wand.", translation: "Картина висить на стіні." },
+                    { german: "Die Katze ist unter dem Bett.", translation: "Кіт під ліжком." },
+                    { german: "Die Lampe hängt über dem Tisch.", translation: "Лампа висить над столом." },
+                    { german: "Der Stuhl steht neben dem Schrank.", translation: "Стілець стоїть біля шафи." }
+                ]
+            }
+        ]
     }
 };
 

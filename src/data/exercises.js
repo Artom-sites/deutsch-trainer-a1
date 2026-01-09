@@ -1146,6 +1146,295 @@ export const exercises = {
         sentence: "Was machst du heute",
         translation: "Що ти робиш сьогодні?",
         explanation: "W-слово -> Дієслово -> Суб'єкт"
+    },
+    // ==========================================
+    // NEGATION: nicht / kein
+    // Lektion 2 - 15 вправ
+    // ==========================================
+    "neg-1": {
+        id: "neg-1",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Ich habe ___ Zeit.",
+        options: ["nicht", "keine", "kein"],
+        correct: 1,
+        explanation: "Zeit = die (жіночий рід). keine Zeit = немає часу."
+    },
+    "neg-2": {
+        id: "neg-2",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Das ist ___ gut.",
+        options: ["nicht", "kein", "keine"],
+        correct: 0,
+        explanation: "Заперечуємо прикметник → nicht. Das ist nicht gut."
+    },
+    "neg-3": {
+        id: "neg-3",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Ich habe ___ Bruder.",
+        options: ["nicht", "keinen", "keine"],
+        correct: 1,
+        explanation: "Bruder = der (чоловічий), Akkusativ → keinen Bruder."
+    },
+    "neg-4": {
+        id: "neg-4",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Er kommt heute ___.",
+        options: ["nicht", "kein", "keine"],
+        correct: 0,
+        explanation: "Заперечуємо дієслово → nicht в кінці. Er kommt nicht."
+    },
+    "neg-5": {
+        id: "neg-5",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Das ist ___ Problem.",
+        options: ["nicht", "keine", "kein"],
+        correct: 2,
+        explanation: "Problem = das (середній рід) → kein Problem."
+    },
+    "neg-6": {
+        id: "neg-6",
+        type: "fill-blank",
+        topic: "negation",
+        question: "Ich spreche ___ Französisch.",
+        correct: "nicht",
+        explanation: "Заперечуємо дієслово → nicht."
+    },
+    "neg-7": {
+        id: "neg-7",
+        type: "fill-blank",
+        topic: "negation",
+        question: "Sie hat ___ Kinder.",
+        correct: "keine",
+        explanation: "Kinder = множина → keine Kinder."
+    },
+    "neg-8": {
+        id: "neg-8",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Wir haben ___ Auto.",
+        options: ["nicht", "kein", "keine"],
+        correct: 1,
+        explanation: "Auto = das (середній рід) → kein Auto."
+    },
+    "neg-9": {
+        id: "neg-9",
+        type: "multiple-choice",
+        topic: "negation",
+        question: "Ich verstehe das ___.",
+        options: ["nicht", "kein", "keine"],
+        correct: 0,
+        explanation: "Заперечуємо дієслово → nicht в кінці."
+    },
+    "neg-10": {
+        id: "neg-10",
+        type: "fill-blank",
+        topic: "negation",
+        question: "Das ist ___ Katze, das ist ein Hund.",
+        correct: "keine",
+        explanation: "Katze = die (жіночий рід) → keine Katze."
+    },
+
+    // ==========================================
+    // PLURAL DER NOMEN
+    // Lektion 3 - 12 вправ
+    // ==========================================
+    "pl-1": {
+        id: "pl-1",
+        type: "multiple-choice",
+        topic: "plural",
+        question: "der Tisch → die ___",
+        options: ["Tischen", "Tische", "Tischs"],
+        correct: 1,
+        explanation: "der Tisch → die Tische (-e)"
+    },
+    "pl-2": {
+        id: "pl-2",
+        type: "multiple-choice",
+        topic: "plural",
+        question: "das Kind → die ___",
+        options: ["Kinde", "Kindes", "Kinder"],
+        correct: 2,
+        explanation: "das Kind → die Kinder (-er)"
+    },
+    "pl-3": {
+        id: "pl-3",
+        type: "multiple-choice",
+        topic: "plural",
+        question: "die Lampe → die ___",
+        options: ["Lampen", "Lampes", "Lampeen"],
+        correct: 0,
+        explanation: "die Lampe → die Lampen (-en)"
+    },
+    "pl-4": {
+        id: "pl-4",
+        type: "multiple-choice",
+        topic: "plural",
+        question: "das Auto → die ___",
+        options: ["Autoen", "Autos", "Auten"],
+        correct: 1,
+        explanation: "das Auto → die Autos (-s для іноземних слів)"
+    },
+    "pl-5": {
+        id: "pl-5",
+        type: "multiple-choice",
+        topic: "plural",
+        question: "der Mann → die ___",
+        options: ["Manns", "Männe", "Männer"],
+        correct: 2,
+        explanation: "der Mann → die Männer (Umlaut + er)"
+    },
+    "pl-6": {
+        id: "pl-6",
+        type: "fill-blank",
+        topic: "plural",
+        question: "die Frau → die ___",
+        correct: "Frauen",
+        explanation: "die Frau → die Frauen (-en)"
+    },
+    "pl-7": {
+        id: "pl-7",
+        type: "fill-blank",
+        topic: "plural",
+        question: "das Buch → die ___",
+        correct: "Bücher",
+        explanation: "das Buch → die Bücher (Umlaut + er)"
+    },
+    "pl-8": {
+        id: "pl-8",
+        type: "multiple-choice",
+        topic: "plural",
+        question: "der Stuhl → die ___",
+        options: ["Stuhle", "Stühle", "Stuhlen"],
+        correct: 1,
+        explanation: "der Stuhl → die Stühle (Umlaut + e)"
+    },
+
+    // ==========================================
+    // ES GIBT + AKKUSATIV
+    // Lektion 4 - 10 вправ
+    // ==========================================
+    "esgibt-1": {
+        id: "esgibt-1",
+        type: "multiple-choice",
+        topic: "es-gibt",
+        question: "Es gibt ___ Tisch im Zimmer.",
+        options: ["ein", "einen", "einer"],
+        correct: 1,
+        explanation: "Tisch = der (чоловічий), Akkusativ → einen Tisch."
+    },
+    "esgibt-2": {
+        id: "esgibt-2",
+        type: "multiple-choice",
+        topic: "es-gibt",
+        question: "Es gibt ___ Lampe hier.",
+        options: ["ein", "eine", "einen"],
+        correct: 1,
+        explanation: "Lampe = die (жіночий), Akkusativ → eine Lampe."
+    },
+    "esgibt-3": {
+        id: "esgibt-3",
+        type: "multiple-choice",
+        topic: "es-gibt",
+        question: "Gibt es hier ___ Supermarkt?",
+        options: ["ein", "einen", "eine"],
+        correct: 1,
+        explanation: "Supermarkt = der (чоловічий), Akkusativ → einen Supermarkt."
+    },
+    "esgibt-4": {
+        id: "esgibt-4",
+        type: "fill-blank",
+        topic: "es-gibt",
+        question: "Es gibt ___ Probleme.",
+        correct: "keine",
+        explanation: "Probleme = множина, заперечення → keine Probleme."
+    },
+    "esgibt-5": {
+        id: "esgibt-5",
+        type: "multiple-choice",
+        topic: "es-gibt",
+        question: "Im Wohnzimmer gibt es ___ Sofa.",
+        options: ["ein", "einen", "eine"],
+        correct: 0,
+        explanation: "Sofa = das (середній), Akkusativ → ein Sofa."
+    },
+    "esgibt-6": {
+        id: "esgibt-6",
+        type: "fill-blank",
+        topic: "es-gibt",
+        question: "In der Küche ___ es einen Kühlschrank.",
+        correct: "gibt",
+        explanation: "Es gibt = є, існує."
+    },
+
+    // ==========================================
+    // LOKALE PRÄPOSITIONEN
+    // Lektion 4 - 10 вправ
+    // ==========================================
+    "lokal-1": {
+        id: "lokal-1",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen",
+        question: "Das Buch liegt ___ dem Tisch.",
+        options: ["in", "auf", "an"],
+        correct: 1,
+        explanation: "auf = на (горизонтальній поверхні). Auf dem Tisch."
+    },
+    "lokal-2": {
+        id: "lokal-2",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen",
+        question: "Das Bild hängt ___ der Wand.",
+        options: ["auf", "in", "an"],
+        correct: 2,
+        explanation: "an = на (вертикальній поверхні). An der Wand."
+    },
+    "lokal-3": {
+        id: "lokal-3",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen",
+        question: "Die Katze ist ___ dem Bett.",
+        options: ["auf", "unter", "über"],
+        correct: 1,
+        explanation: "unter = під. Unter dem Bett."
+    },
+    "lokal-4": {
+        id: "lokal-4",
+        type: "fill-blank",
+        topic: "lokale-praepositionen",
+        question: "Der Stuhl steht ___ dem Schrank.",
+        correct: "neben",
+        explanation: "neben = поруч. Neben dem Schrank."
+    },
+    "lokal-5": {
+        id: "lokal-5",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen",
+        question: "Die Lampe hängt ___ dem Tisch.",
+        options: ["unter", "über", "neben"],
+        correct: 1,
+        explanation: "über = над. Über dem Tisch."
+    },
+    "lokal-6": {
+        id: "lokal-6",
+        type: "fill-blank",
+        topic: "lokale-praepositionen",
+        question: "Wir wohnen ___ Zimmer.",
+        correct: "im",
+        explanation: "in + dem = im. Im Zimmer."
+    },
+    "lokal-7": {
+        id: "lokal-7",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen",
+        question: "Der Hund liegt ___ der Tür.",
+        options: ["vor", "hinter", "zwischen"],
+        correct: 0,
+        explanation: "vor = перед. Vor der Tür."
     }
 };
 
