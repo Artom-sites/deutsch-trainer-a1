@@ -14,6 +14,7 @@ import VerbsTab from './components/VerbsTab';
 import ProgressTab from './components/ProgressTab';
 import FlashcardSession from './components/FlashcardSession';
 import ExerciseSession from './components/ExerciseSession';
+import TestSession from './components/TestSession';
 import ExamTab from './components/ExamTab';
 import AIChatTab from './components/AIChatTab';
 
@@ -59,6 +60,11 @@ function App() {
     // Exercise session
     if (currentView === 'exercises') {
       return <ExerciseSession />;
+    }
+
+    // Test session
+    if (currentView === 'test') {
+      return <TestSession />;
     }
 
     // Lesson detail view

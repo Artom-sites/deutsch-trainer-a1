@@ -47,7 +47,7 @@ const useStore = create(
 
             goBack: () => {
                 const state = get();
-                if (state.currentView === 'flashcards' || state.currentView === 'exercises') {
+                if (state.currentView === 'flashcards' || state.currentView === 'exercises' || state.currentView === 'test') {
                     // If we have an active lesson, go back to it; otherwise go to main
                     if (state.activeLessonId) {
                         set({
@@ -139,6 +139,14 @@ const useStore = create(
                     currentView: 'flashcards',
                     flashcardWords: sortedWords,
                     currentCardIndex: 0
+                });
+            },
+
+            // Start lesson test
+            startLessonTest: (lessonId) => {
+                set({
+                    currentView: 'test',
+                    activeLessonId: lessonId
                 });
             },
 
