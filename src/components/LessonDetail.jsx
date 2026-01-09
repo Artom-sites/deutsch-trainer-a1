@@ -66,14 +66,14 @@ const LessonDetail = () => {
                     width: '100%',
                     padding: '20px',
                     marginBottom: 'var(--space-lg)',
-                    background: '#cfb169',
+                    background: '#ff6b35',
                     border: 'none',
                     borderRadius: 20,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 'var(--space-md)',
-                    boxShadow: '0 4px 24px rgba(207, 177, 105, 0.25)'
+                    boxShadow: '0 4px 24px rgba(255, 107, 53, 0.25)'
                 }}
             >
                 <div style={{
@@ -145,7 +145,7 @@ const LessonDetail = () => {
                                         width: 40,
                                         height: 40,
                                         borderRadius: 12,
-                                        background: 'rgba(207, 177, 105, 0.15)',
+                                        background: 'rgba(255, 107, 53, 0.15)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
@@ -173,10 +173,10 @@ const LessonDetail = () => {
                                             style={{
                                                 flex: 1,
                                                 padding: '10px 12px',
-                                                background: 'rgba(207, 177, 105, 0.15)',
-                                                border: '1px solid rgba(207, 177, 105, 0.25)',
+                                                background: 'rgba(255, 107, 53, 0.15)',
+                                                border: '1px solid rgba(255, 107, 53, 0.25)',
                                                 borderRadius: 10,
-                                                color: '#cfb169',
+                                                color: '#ff6b35',
                                                 fontSize: '0.85rem',
                                                 fontWeight: 500,
                                                 cursor: 'pointer',

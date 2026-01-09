@@ -128,7 +128,7 @@ const DictionaryTab = () => {
                     width: '100%',
                     padding: '16px',
                     marginBottom: 'var(--space-lg)',
-                    background: '#cfb169',
+                    background: '#ff6b35',
                     border: 'none',
                     borderRadius: 16,
                     color: '#0d0d0d',
@@ -139,7 +139,7 @@ const DictionaryTab = () => {
                     justifyContent: 'center',
                     gap: 8,
                     cursor: 'pointer',
-                    boxShadow: '0 4px 20px rgba(212, 165, 116, 0.3)'
+                    boxShadow: '0 4px 20px rgba(255, 107, 53, 0.3)'
                 }}
             >
                 <Play size={20} />
