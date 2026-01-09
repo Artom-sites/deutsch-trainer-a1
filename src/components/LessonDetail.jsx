@@ -2,7 +2,7 @@
 // Деталі уроку: Wortschatz, Grammatik, Übungen, Test
 import React from 'react';
 import useStore from '../store/useStore';
-import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent } from '../data/lexicon';
+import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent, lessons } from '../data/lexicon';
 import { getTestForLesson } from '../data/lessonTests';
 import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck } from 'lucide-react';
 
@@ -23,40 +23,103 @@ const LessonDetail = () => {
 
     if (!lesson) return null;
 
+    // Find current lesson index for navigation
+    const currentIndex = lessons.findIndex(l => l.id === activeLessonId);
+    const prevLesson = currentIndex > 0 ? lessons[currentIndex - 1] : null;
+    const nextLesson = currentIndex < lessons.length - 1 ? lessons[currentIndex + 1] : null;
+
+    const handleLessonChange = (newId) => {
+        // We use the same action intended for opening a lesson
+        useStore.getState().openLesson(newId);
+    };
+
     return (
-        <div className="screen">
-            {/* Back Header */}
+        <div className="screen" style={{ paddingTop: '80px' }}>
+            {/* Sticky Header */}
             <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '70px',
+                paddingTop: 'env(safe-area-inset-top)',
+                paddingLeft: 'var(--space-md)',
+                paddingRight: 'var(--space-md)',
+                background: 'rgba(11, 11, 15, 0.85)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                zIndex: 100,
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--space-md)',
-                marginBottom: 'var(--space-lg)',
-                paddingTop: 'var(--space-sm)'
+                justifyContent: 'space-between'
             }}>
-                <button
-                    onClick={goBack}
-                    style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 12,
-                        background: 'rgba(255, 255, 255, 0.08)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        color: 'var(--text-primary)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer'
-                    }}
-                >
-                    <ArrowLeft size={20} />
-                </button>
-                <div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                        {lesson.number}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <button
+                        onClick={goBack}
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 12,
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            color: 'var(--text-primary)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                    <div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1 }}>
+                            {lesson.number}
+                        </div>
+                        <div style={{ fontSize: '1rem', fontWeight: 600, lineHeight: 1.2 }}>
+                            {lesson.title.length > 20 ? lesson.title.substring(0, 20) + '...' : lesson.title}
+                        </div>
                     </div>
-                    <h1 style={{ fontSize: '1.25rem', fontWeight: 600 }}>
-                        {lesson.title}
-                    </h1>
+                </div>
+
+                {/* Navigation Arrows */}
+                <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                        onClick={() => prevLesson && handleLessonChange(prevLesson.id)}
+                        disabled={!prevLesson}
+                        style={{
+                            width: 36,
+                            height: 36,
+                            borderRadius: 10,
+                            background: 'transparent',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            color: prevLesson ? 'var(--text-primary)' : 'rgba(255,255,255,0.2)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: prevLesson ? 'pointer' : 'default'
+                        }}
+                    >
+                        <ChevronRight size={20} style={{ transform: 'rotate(180deg)' }} />
+                    </button>
+                    <button
+                        onClick={() => nextLesson && handleLessonChange(nextLesson.id)}
+                        disabled={!nextLesson}
+                        style={{
+                            width: 36,
+                            height: 36,
+                            borderRadius: 10,
+                            background: 'transparent',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            color: nextLesson ? 'var(--text-primary)' : 'rgba(255,255,255,0.2)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: nextLesson ? 'pointer' : 'default'
+                        }}
+                    >
+                        <ChevronRight size={20} />
+                    </button>
                 </div>
             </div>
 
