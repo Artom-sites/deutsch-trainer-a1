@@ -526,10 +526,495 @@ export const lessonTests = {
                 explanation: "von...bis = з...до"
             }
         ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 6 - Jahreszeiten, Wetter
+    // ==========================================
+    6: {
+        title: "Test zu Lektion 6",
+        description: "Погода, пори року, знахідний відмінок (Akkusativ)",
+        questions: [
+            // 1. Wetter
+            {
+                id: "l6-1",
+                type: "match",
+                question: "З'єднайте речення про погоду",
+                pairs: [
+                    { left: "Es sind 25 Grad.", right: "Es ist warm." },
+                    { left: "Es schneit.", right: "Es ist kalt." },
+                    { left: "Die Sonne scheint.", right: "Es ist schön." },
+                    { left: "Es regnet.", right: "Es ist nass." }
+                ]
+            },
+            // 2. Verben ergänzen
+            {
+                id: "l6-2",
+                type: "fill-blank",
+                question: "Klaus und Gabi ___ (grillen) heute.",
+                correct: "grillen",
+                explanation: "Klaus und Gabi = sie (Plural) -> grillen"
+            },
+            {
+                id: "l6-3",
+                type: "fill-blank",
+                question: "Sara ___ (treffen) heute Freunde.",
+                correct: "trifft",
+                explanation: "treffen -> sie trifft (e -> i)"
+            },
+            {
+                id: "l6-4",
+                type: "fill-blank",
+                question: "Lin ___ (trinken) Peter einen Pullover.",
+                correct: "trickt",
+                explanation: "?"
+            },
+            {
+                id: "l6-5",
+                type: "fill-blank",
+                question: "Meine Kinder gehen heute ___ (schwimmen).",
+                correct: "schwimmen",
+                explanation: "gehen schwimmen"
+            },
+            {
+                id: "l6-6",
+                type: "fill-blank",
+                question: "Heute ___ (surfen) ich im Internet.",
+                correct: "surfe",
+                explanation: "ich surfe"
+            },
+            // 3. Jahreszeiten ordnen
+            {
+                id: "l6-7",
+                type: "match",
+                question: "Розташуйте пори року",
+                pairs: [
+                    { left: "1", right: "der Frühling" },
+                    { left: "2", right: "der Sommer" },
+                    { left: "3", right: "der Herbst" },
+                    { left: "4", right: "der Winter" }
+                ]
+            },
+            // 4. Akkusativ (den/das/die)
+            {
+                id: "l6-8",
+                type: "multiple-choice",
+                question: "Ich glaube, wir haben ___ Käse nicht dabei.",
+                options: ["den", "das", "die"],
+                correct: 0,
+                explanation: "der Käse (Akk) -> den Käse"
+            },
+            {
+                id: "l6-9",
+                type: "multiple-choice",
+                question: "Ich möchte gern ___ Saft. Hast du ___ Saft?",
+                options: ["der ... den", "den ... den", "den ... der"],
+                correct: 1,
+                explanation: "der Saft (Akk) -> den Saft"
+            },
+            // 5. Akkusativ Dialog
+            {
+                id: "l6-10",
+                type: "match",
+                question: "З'єднайте питання та відповіді (Akkusativ)",
+                pairs: [
+                    { left: "Trinken Sie keinen Tee?", right: "Doch, ich trinke gern Tee." },
+                    { left: "Möchten Sie ein Glas Wein?", right: "Nein, ich trinke keinen Wein." },
+                    { left: "Essen Sie gern Kuchen?", right: "Ja, ich esse gern Kuchen." }
+                ]
+            },
+            // 6. Possessiv im Akkusativ
+            {
+                id: "l6-11",
+                type: "fill-blank",
+                question: "Ja, richtig, ich verkaufe ___ Computer. (mein)",
+                correct: "meinen",
+                explanation: "der Computer (Akk) -> meinen Computer"
+            },
+            {
+                id: "l6-12",
+                type: "fill-blank",
+                question: "Ich verkaufe ___ Waschmaschine. (mein)",
+                correct: "meine",
+                explanation: "die Waschmaschine (Akk) -> meine Waschmaschine"
+            },
+            {
+                id: "l6-13",
+                type: "fill-blank",
+                question: "Ich verkaufe ___ Auto. (mein)",
+                correct: "mein",
+                explanation: "das Auto (Akk) -> mein Auto"
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 7 - Freizeit, Können
+    // ==========================================
+    7: {
+        title: "Test zu Lektion 7",
+        description: "Хобі, модальні дієслова (können/wollen), Perfekt",
+        questions: [
+            // 1. Wortschatz Hobbys
+            {
+                id: "l7-1",
+                type: "match",
+                question: "З'єднайте дієслова з іменниками",
+                pairs: [
+                    { left: "Musik", right: "hören" },
+                    { left: "ein Diktat", right: "schreiben" },
+                    { left: "ein Lied", right: "singen" },
+                    { left: "nach Hause", right: "fahren" },
+                    { left: "Tennis", right: "spielen" }
+                ]
+            },
+            // 2. Was machen die Leute?
+            {
+                id: "l7-2",
+                type: "multiple-choice",
+                question: "Was machen sie im Winter in den Bergen?",
+                options: ["Schach spielen", "Ski fahren", "schwimmen"],
+                correct: 1,
+                explanation: "Ski fahren (кататися на лижах)"
+            },
+            // 3. Modalverben (können/wollen)
+            {
+                id: "l7-3",
+                type: "fill-blank",
+                question: "Paul ist krank. Er ___ nicht zur Schule gehen. (können)",
+                correct: "kann",
+                explanation: "er kann"
+            },
+            {
+                id: "l7-4",
+                type: "fill-blank",
+                question: "___ du heute abend essen? (wollen)",
+                correct: "Willst",
+                explanation: "du willst"
+            },
+            {
+                id: "l7-5",
+                type: "fill-blank",
+                question: "Ich gehe jetzt einkaufen. Was ___ du heute abend essen? (wollen)",
+                correct: "willst",
+                explanation: "du willst"
+            },
+            {
+                id: "l7-6",
+                type: "fill-blank",
+                question: "Du lernst schon lange Spanisch. ___ du schon spanische Bücher lesen? (können)",
+                correct: "Kannst",
+                explanation: "du kannst"
+            },
+            {
+                id: "l7-7",
+                type: "fill-blank",
+                question: "___ wir heute Abend ins Kino gehen? (wollen)",
+                correct: "Wollen",
+                explanation: "wir wollen"
+            },
+            // 4. Perfekt (haben + ge-)
+            {
+                id: "l7-8",
+                type: "fill-blank",
+                question: "Gestern ___ ich nicht gearbeitet. (haben)",
+                correct: "habe",
+                explanation: "ich habe"
+            },
+            {
+                id: "l7-9",
+                type: "fill-blank",
+                question: "Letztes Wochenende ___ wir nach Paris gefahren. (sein)",
+                correct: "sind",
+                explanation: "wir sind gefahren (Bewegung)"
+            },
+            {
+                id: "l7-10",
+                type: "fill-blank",
+                question: "Barbara ___ gestern ihre Freundin getroffen. (haben)",
+                correct: "hat",
+                explanation: "hat getroffen"
+            },
+            // 5. Perfekt Partizipien
+            {
+                id: "l7-11",
+                type: "fill-blank",
+                question: "Was hast du heute nicht gut ___? (schlafen)",
+                correct: "geschlafen",
+                explanation: "Partizip II von schlafen"
+            },
+            {
+                id: "l7-12",
+                type: "fill-blank",
+                question: "Nein, ich ___ mit dem Bus ___. (fahren)",
+                correct: "bin...gefahren",
+                explanation: "sein + gefahren"
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 8 - Berufe, Präteritum
+    // ==========================================
+    8: {
+        title: "Test zu Lektion 8",
+        description: "Професії, минулий час (waren/hatten), прийменники часу",
+        questions: [
+            // 1. Berufe finden
+            {
+                id: "l8-1",
+                type: "match",
+                question: "Знайдіть професії",
+                pairs: [
+                    { left: "Der Hausmeister", right: "ремонтує все в будинку" },
+                    { left: "Die Krankenschwester", right: "допомагає хворим" },
+                    { left: "Der Polizist", right: "забезпечує порядок" },
+                    { left: "Der Koch", right: "готує їжу" }
+                ]
+            },
+            // 2. seit / wann / wie lange / vor / für
+            {
+                id: "l8-2",
+                type: "fill-blank",
+                question: "___ sind Sie geboren? – 1995.",
+                correct: "Wann",
+                explanation: "Wann = коли (дата)"
+            },
+            {
+                id: "l8-3",
+                type: "fill-blank",
+                question: "Wann haben Sie Ihre Ausbildung gemacht? – ___ zwei Jahren.",
+                correct: "Vor",
+                explanation: "Vor = тому (назад)"
+            },
+            {
+                id: "l8-4",
+                type: "fill-blank",
+                question: "___ lernen Sie schon Deutsch? – Seit sechs Wochen.",
+                correct: "Wie lange",
+                explanation: "Wie lange = як довго"
+            },
+            {
+                id: "l8-5",
+                type: "fill-blank",
+                question: "Sind Sie schon arbeitslos? – ___ drei Monaten.",
+                correct: "Seit",
+                explanation: "Seit = з (минулого до тепер)"
+            },
+            {
+                id: "l8-6",
+                type: "fill-blank",
+                question: "Haben Sie Koch gelernt? – ___ fünf Jahren.",
+                correct: "Vor",
+                explanation: "Vor = тому"
+            },
+            {
+                id: "l8-7",
+                type: "fill-blank",
+                question: "Für wie lange suchen Sie eine Wohnung? – ___ zwei Jahre.",
+                correct: "Für",
+                explanation: "Für = на (період в майбутньому)"
+            },
+            // 3. Präteritum (war/hatte)
+            {
+                id: "l8-8",
+                type: "fill-blank",
+                question: "Ich ___ am Morgen die Anzeigen in der Zeitung. (lesen -> Perfekt)",
+                correct: "habe...gelesen",
+                explanation: "Ich habe gelesen"
+            },
+            {
+                id: "l8-9",
+                type: "fill-blank",
+                question: "Eine Anzeige ___ besonders interessant. (sein -> Präteritum)",
+                correct: "war",
+                explanation: "war (була)"
+            },
+            {
+                id: "l8-10",
+                type: "fill-blank",
+                question: "Schon zehn Minuten später ___ ich eine Antwort. (haben -> Präteritum)",
+                correct: "hatte",
+                explanation: "hatte (мав)"
+            },
+            // 4. Was passt zusammen?
+            {
+                id: "l8-11",
+                type: "match",
+                question: "З'єднайте питання та відповіді про роботу",
+                pairs: [
+                    { left: "Was sind Sie von Beruf?", right: "Ich bin Journalist." },
+                    { left: "Wie lange haben Sie als Koch gearbeitet?", right: "Vier Jahre." },
+                    { left: "Wo arbeiten Sie?", right: "Bei Heppel und Co." }
+                ]
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 9 - Unterwegs
+    // ==========================================
+    9: {
+        title: "Test zu Lektion 9",
+        description: "Подорожі, готель, модальні дієслова (müssen/dürfen)",
+        questions: [
+            // 1. Wortschatz Hotel
+            {
+                id: "l9-1",
+                type: "match",
+                question: "З'єднайте слова",
+                pairs: [
+                    { left: "Das Doppelzimmer", right: "Кімната на двох" },
+                    { left: "Die Halbpension", right: "Сніданок і вечеря" },
+                    { left: "Die Sehenswürdigkeiten", right: "Визначні місця" },
+                    { left: "Die Kreditkarte", right: "Кредитна картка" }
+                ]
+            },
+            // 2. Ergänzen Sie in der richtigen Form
+            {
+                id: "l9-2",
+                type: "fill-blank",
+                question: "Hey, Sabine, ___ doch mal leise! (sein - Imperativ)",
+                correct: "sei",
+                explanation: "du -> sei!"
+            },
+            {
+                id: "l9-3",
+                type: "fill-blank",
+                question: "___ Sie das Formular da drüben ___. (ausfüllen - Bitte)",
+                correct: "Füllen...aus",
+                explanation: "Füllen Sie aus!"
+            },
+            {
+                id: "l9-4",
+                type: "fill-blank",
+                question: "Paul, ___ mir mal die Wasserflasche. (geben)",
+                correct: "gib",
+                explanation: "du -> gib!"
+            },
+            // 3. Müssen oder Dürfen?
+            {
+                id: "l9-5",
+                type: "fill-blank",
+                question: "Hier ___ man nur 30 fahren. (dürfen)",
+                correct: "darf",
+                explanation: "man darf"
+            },
+            {
+                id: "l9-6",
+                type: "fill-blank",
+                question: "Mach die Zigarette aus. Hier ___ du nicht rauchen. (dürfen)",
+                correct: "darfst",
+                explanation: "du darfst nicht"
+            },
+            {
+                id: "l9-7",
+                type: "fill-blank",
+                question: "Morgen ___ ich zum Zahnarzt gehen. (müssen)",
+                correct: "muss",
+                explanation: "ich muss"
+            },
+            // 4. Dialog ordnen
+            {
+                id: "l9-8",
+                type: "match",
+                question: "Розташуйте діалог в готелі",
+                pairs: [
+                    { left: "1", right: "Guten Tag. Kann ich Ihnen helfen?" },
+                    { left: "2", right: "Ja, guten Tag. Mein Name ist Gerber." },
+                    { left: "3", right: "Ah, ja, Herr Gerber. Sie sind sehr früh." },
+                    { left: "4", right: "Ja, es tut mir leid." }
+                ]
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 10 - Gesundheit
+    // ==========================================
+    10: {
+        title: "Test zu Lektion 10",
+        description: "Здоров'я, тіло, поради (sollen. Imperativ)",
+        questions: [
+            // 1. Körperteile und Schmerzen
+            {
+                id: "l10-1",
+                type: "fill-blank",
+                question: "Sein ___ tut weh. (Arm)",
+                correct: "Arm",
+                explanation: "Der Arm"
+            },
+            {
+                id: "l10-2",
+                type: "fill-blank",
+                question: "Ihre ___ tun weh. (Ohr - Plural)",
+                correct: "Ohren",
+                explanation: "Die Ohren"
+            },
+            {
+                id: "l10-3",
+                type: "fill-blank",
+                question: "Mein ___ tut weh. (Bauch)",
+                correct: "Bauch",
+                explanation: "Der Bauch"
+            },
+            // 2. Ergänzen Sie: mein, sein, ihr
+            {
+                id: "l10-4",
+                type: "multiple-choice",
+                question: "Wie siehst du denn aus? ___ Fuß ist ja ganz dick! (du)",
+                options: ["Mein", "Dein", "Sein"],
+                correct: 1,
+                explanation: "Dein Fuß (твій)"
+            },
+            {
+                id: "l10-5",
+                type: "multiple-choice",
+                question: "Was haben Sie denn gemacht? - ___ Hand ist ja ganz dick! (Sie)",
+                options: ["Ihre", "Deine", "Seine"],
+                correct: 0,
+                explanation: "Ihre Hand (Ваша)"
+            },
+            {
+                id: "l10-6",
+                type: "fill-blank",
+                question: "Wie geht's Sabine? Ist sie krank? ___ Nase ist ganz rot! (sie)",
+                correct: "Ihre",
+                explanation: "Ihre Nase (її)"
+            },
+            {
+                id: "l10-7",
+                type: "fill-blank",
+                question: "Wie geht's Markus? ___ Zahn tut weh. (er)",
+                correct: "Sein",
+                explanation: "Sein Zahn (його)"
+            },
+            // 3. Ratschläge geben (sollen)
+            {
+                id: "l10-8",
+                type: "match",
+                question: "З'єднайте поради лікаря",
+                pairs: [
+                    { left: "Er hat auch gesagt, du", right: "sollst viel schlafen." },
+                    { left: "Und", right: "Tee trinken." },
+                    { left: "Er meint auch, du", right: "sollst nicht lesen." }
+                ]
+            },
+            // 4. Termin vereinbaren
+            {
+                id: "l10-9",
+                type: "match",
+                question: "Діалог запису до лікаря",
+                pairs: [
+                    { left: "Fitness-Studio 'Body up', guten Tag!", right: "Guten Morgen. Hier ist Bremer." },
+                    { left: "Ich möchte gern bei Ihnen trainieren.", right: "Gerne! Aber wir machen zuerst einen Check." },
+                    { left: "Wann haben Sie Zeit?", right: "Passt es Ihnen am Dienstag um 16 Uhr?" },
+                    { left: "Ja, das passt gut.", right: "Prima! Dann bis Dienstag!" }
+                ]
+            }
+        ]
     }
 };
-
-// Helper functions
 export function getTestForLesson(lessonId) {
     return lessonTests[lessonId] || null;
 }
