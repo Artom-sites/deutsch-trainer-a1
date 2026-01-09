@@ -196,22 +196,25 @@ const Flashcard = ({ word, onResult }) => {
                     onClick={handleLearn}
                     style={{
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: 8,
-                        padding: '16px',
-                        background: 'rgba(239, 68, 68, 0.15)',
-                        border: '1px solid rgba(239, 68, 68, 0.4)',
-                        borderRadius: 20,
-                        color: '#fca5a5',
-                        fontWeight: 700,
-                        fontSize: '1rem',
+                        gap: 4,
+                        padding: '14px 16px',
+                        background: 'rgba(233, 75, 90, 0.12)',
+                        border: '1px solid rgba(233, 75, 90, 0.3)',
+                        borderRadius: 16,
                         cursor: 'pointer',
                         transition: 'all 0.2s'
                     }}
                 >
-                    <X size={20} />
-                    Вчу
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <X size={18} color="#E94B5A" />
+                        <span style={{ color: '#E94B5A', fontWeight: 600, fontSize: '0.95rem' }}>Вчу</span>
+                    </div>
+                    <span style={{ color: '#7A7D8A', fontSize: '0.7rem' }}>
+                        Повернеться завтра
+                    </span>
                 </button>
 
                 {/* Know */}
@@ -219,22 +222,25 @@ const Flashcard = ({ word, onResult }) => {
                     onClick={handleKnow}
                     style={{
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: 8,
-                        padding: '16px',
-                        background: 'rgba(34, 197, 94, 0.15)',
-                        border: '1px solid rgba(34, 197, 94, 0.4)',
-                        borderRadius: 20,
-                        color: '#86efac',
-                        fontWeight: 700,
-                        fontSize: '1rem',
+                        gap: 4,
+                        padding: '14px 16px',
+                        background: 'rgba(46, 204, 113, 0.12)',
+                        border: '1px solid rgba(46, 204, 113, 0.3)',
+                        borderRadius: 16,
                         cursor: 'pointer',
                         transition: 'all 0.2s'
                     }}
                 >
-                    <Check size={20} />
-                    Знаю
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Check size={18} color="#2ECC71" />
+                        <span style={{ color: '#2ECC71', fontWeight: 600, fontSize: '0.95rem' }}>Знаю</span>
+                    </div>
+                    <span style={{ color: '#7A7D8A', fontSize: '0.7rem' }}>
+                        Повернеться пізніше
+                    </span>
                 </button>
             </div>
         </div>
