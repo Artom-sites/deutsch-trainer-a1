@@ -27,28 +27,28 @@ const HomeTab = () => {
             icon: BookOpen,
             title: 'Lektionen',
             subtitle: '14 уроків A1',
-            gradient: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'
+            color: '#d4a574'
         },
         {
             id: 'dictionary',
             icon: BookText,
             title: 'Wörterbuch',
             subtitle: 'Словник',
-            gradient: 'linear-gradient(135deg, #2dd4bf 0%, #22d3ee 100%)'
+            color: '#d4a574'
         },
         {
             id: 'verbs',
             icon: Languages,
             title: 'Verben',
             subtitle: 'Дієслова',
-            gradient: 'linear-gradient(135deg, #f472b6 0%, #fb7185 100%)'
+            color: '#d4a574'
         },
         {
             id: 'exam',
             icon: GraduationCap,
             title: 'Prüfung',
             subtitle: 'Тести A1',
-            gradient: 'linear-gradient(135deg, #fbbf24 0%, #f97316 100%)'
+            color: '#d4a574'
         }
     ];
 
@@ -61,11 +61,8 @@ const HomeTab = () => {
             }}>
                 <h1 style={{
                     fontSize: '2rem',
-                    fontWeight: 800,
-                    background: 'linear-gradient(135deg, #6366f1 0%, #2dd4bf 100%)',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
+                    fontWeight: 700,
+                    color: '#d4a574',
                     marginBottom: 8
                 }}>
                     {getGreeting()}
@@ -155,13 +152,14 @@ const HomeTab = () => {
                             width: 48,
                             height: 48,
                             borderRadius: 14,
-                            background: f.gradient,
+                            background: 'rgba(212, 165, 116, 0.15)',
+                            border: '1px solid rgba(212, 165, 116, 0.2)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             marginBottom: 12
                         }}>
-                            <f.icon size={24} color="white" />
+                            <f.icon size={24} color="#d4a574" />
                         </div>
                         <div style={{
                             fontWeight: 700,

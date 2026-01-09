@@ -35,13 +35,13 @@ const BottomNav = () => {
                             className={`nav-item ${isActive ? 'active' : ''}`}
                             onClick={() => setTab(tab.id)}
                             style={tab.isCenter ? {
-                                background: isActive ? '#d4c4bc' : 'rgba(94, 75, 67, 0.9)',
+                                background: isActive ? '#d4a574' : 'rgba(212, 165, 116, 0.2)',
                                 borderRadius: '50%',
-                                width: 56,
-                                height: 56,
-                                marginTop: -20,
-                                boxShadow: '0 4px 20px rgba(46, 31, 27, 0.5)',
-                                border: '1px solid rgba(255, 255, 255, 0.2)'
+                                width: 52,
+                                height: 52,
+                                marginTop: -16,
+                                boxShadow: '0 4px 20px rgba(212, 165, 116, 0.3)',
+                                border: '1px solid rgba(212, 165, 116, 0.3)'
                             } : {}}
                         >
                             <div className="nav-icon-wrapper">
