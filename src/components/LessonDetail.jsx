@@ -1,9 +1,10 @@
 // src/components/LessonDetail.jsx
-// Деталі уроку: Wortschatz, Grammatik, Übungen
+// Деталі уроку: Wortschatz, Grammatik, Übungen, Test
 import React from 'react';
 import useStore from '../store/useStore';
 import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent } from '../data/lexicon';
-import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play } from 'lucide-react';
+import { getTestForLesson } from '../data/lessonTests';
+import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck } from 'lucide-react';
 
 const LessonDetail = () => {
     const activeLessonId = useStore(state => state.activeLessonId);
@@ -12,11 +13,13 @@ const LessonDetail = () => {
     const startTopicExercises = useStore(state => state.startTopicExercises);
     const openGrammarTopic = useStore(state => state.openGrammarTopic);
     const getLessonProgress = useStore(state => state.getLessonProgress);
+    const startLessonTest = useStore(state => state.startLessonTest);
 
     const lesson = getLessonById(activeLessonId);
     const lessonWords = getWordsForLesson(activeLessonId);
     const grammarTopics = getGrammarForLesson(activeLessonId);
     const progress = getLessonProgress(activeLessonId);
+    const lessonTest = getTestForLesson(activeLessonId);
 
     if (!lesson) return null;
 
@@ -65,7 +68,7 @@ const LessonDetail = () => {
                 style={{
                     width: '100%',
                     padding: '20px',
-                    marginBottom: 'var(--space-lg)',
+                    marginBottom: 'var(--space-md)',
                     background: '#FF6B35',
                     border: 'none',
                     borderRadius: 20,
@@ -102,6 +105,53 @@ const LessonDetail = () => {
                 </div>
                 <ChevronRight size={24} color="#0d0d0d" />
             </button>
+
+            {/* ==========================================
+                ТЕСТ - Перевірка знань
+            ========================================== */}
+            {lessonTest && (
+                <button
+                    onClick={() => startLessonTest && startLessonTest(activeLessonId)}
+                    style={{
+                        width: '100%',
+                        padding: '16px 20px',
+                        marginBottom: 'var(--space-lg)',
+                        background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0.05) 100%)',
+                        border: '1px solid rgba(46, 204, 113, 0.3)',
+                        borderRadius: 16,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--space-md)'
+                    }}
+                >
+                    <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 12,
+                        background: 'rgba(46, 204, 113, 0.2)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <ClipboardCheck size={22} color="#2ECC71" />
+                    </div>
+                    <div style={{ textAlign: 'left', flex: 1 }}>
+                        <div style={{
+                            fontSize: '1rem',
+                            fontWeight: 600,
+                            color: '#2ECC71',
+                            marginBottom: 2
+                        }}>
+                            Пройти тест
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                            {lessonTest.questions.length} питань • Перевірка знань
+                        </div>
+                    </div>
+                    <ChevronRight size={20} color="#2ECC71" />
+                </button>
+            )}
 
             {/* ==========================================
                 ГРАМАТИКА
