@@ -1,5 +1,5 @@
 // src/components/BottomNav.jsx
-// Нижня навігація - 5 вкладок з Home по центру
+// Нижня навігація - 5 вкладок з однаковим стилем
 import React from 'react';
 import useStore from '../store/useStore';
 import { Home, BookOpen, Library, Zap, MessageCircle } from 'lucide-react';
@@ -15,11 +15,11 @@ const BottomNav = () => {
     }
 
     const tabs = [
-        { id: 'lessons', icon: BookOpen },
-        { id: 'dictionary', icon: Library },
-        { id: 'home', icon: Home, isCenter: true },
-        { id: 'verbs', icon: Zap },
-        { id: 'chat', icon: MessageCircle },
+        { id: 'lessons', icon: BookOpen, label: 'Уроки' },
+        { id: 'dictionary', icon: Library, label: 'Словник' },
+        { id: 'home', icon: Home, label: 'Головна' },
+        { id: 'verbs', icon: Zap, label: 'Дієслова' },
+        { id: 'chat', icon: MessageCircle, label: 'Чат' },
     ];
 
     return (
@@ -32,25 +32,49 @@ const BottomNav = () => {
                     return (
                         <button
                             key={tab.id}
-                            className={`nav-item ${isActive ? 'active' : ''}`}
                             onClick={() => setTab(tab.id)}
-                            style={tab.isCenter ? {
-                                background: isActive ? '#FF6B35' : 'rgba(242, 106, 27, 0.2)',
-                                borderRadius: '50%',
-                                width: 52,
-                                height: 52,
-                                marginTop: -16,
-                                boxShadow: '0 4px 20px rgba(242, 106, 27, 0.3)',
-                                border: '1px solid rgba(242, 106, 27, 0.3)'
-                            } : {}}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: 4,
+                                padding: '8px 12px',
+                                background: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                                minWidth: 56,
+                                borderRadius: 12,
+                                transition: 'all 0.2s ease'
+                            }}
                         >
-                            <div className="nav-icon-wrapper">
+                            {/* Icon container */}
+                            <div style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 12,
+                                background: isActive ? 'rgba(255, 107, 53, 0.15)' : 'transparent',
+                                border: isActive ? '1px solid rgba(255, 107, 53, 0.3)' : '1px solid transparent',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease'
+                            }}>
                                 <Icon
-                                    size={tab.isCenter ? 28 : 24}
-                                    strokeWidth={isActive ? 2.5 : 2}
-                                    color={tab.isCenter ? 'white' : undefined}
+                                    size={22}
+                                    strokeWidth={isActive ? 2.5 : 1.8}
+                                    color={isActive ? '#FF6B35' : '#7A7D8A'}
                                 />
                             </div>
+                            {/* Label */}
+                            <span style={{
+                                fontSize: '0.65rem',
+                                fontWeight: isActive ? 600 : 400,
+                                color: isActive ? '#FF6B35' : '#7A7D8A',
+                                transition: 'all 0.2s ease'
+                            }}>
+                                {tab.label}
+                            </span>
                         </button>
                     );
                 })}
