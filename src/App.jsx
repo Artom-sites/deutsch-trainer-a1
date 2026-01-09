@@ -1,6 +1,6 @@
 // src/App.jsx
-// Main App - Mobile-first structure with all views
-import React from 'react';
+// Main App - Mobile-first structure with all views + browser history support
+import React, { useEffect } from 'react';
 import useStore from './store/useStore';
 
 // Components
@@ -20,6 +20,34 @@ import AIChatTab from './components/AIChatTab';
 function App() {
   const currentTab = useStore(state => state.currentTab);
   const currentView = useStore(state => state.currentView);
+  const goBack = useStore(state => state.goBack);
+
+  // Handle browser back button / swipe back
+  useEffect(() => {
+    // Push initial state
+    if (window.history.state === null) {
+      window.history.replaceState({ view: currentView, tab: currentTab }, '');
+    }
+
+    const handlePopState = (event) => {
+      // Call store's goBack when browser back is triggered
+      if (currentView !== 'main') {
+        goBack();
+        // Push state again to keep history alive
+        window.history.pushState({ view: currentView, tab: currentTab }, '');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [currentView, currentTab, goBack]);
+
+  // Push to history when view changes
+  useEffect(() => {
+    if (currentView !== 'main' || currentTab !== 'home') {
+      window.history.pushState({ view: currentView, tab: currentTab }, '');
+    }
+  }, [currentView, currentTab]);
 
   // Determine what to render based on current view
   const renderContent = () => {
