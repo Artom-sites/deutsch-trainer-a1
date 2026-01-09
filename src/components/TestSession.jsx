@@ -98,7 +98,28 @@ const TestSession = () => {
         setMatchSelections({});
     };
 
+    // Check correctness helper
+    const checkCorrectness = (qId, answer) => {
+        const q = questions.find(question => question.id === qId);
+        if (!q) return false;
+
+        if (q.type === 'multiple-choice') {
+            return answer === q.correct;
+        } else if (q.type === 'fill-blank') {
+            return answer?.toLowerCase() === q.correct.toLowerCase();
+        } else if (q.type === 'match') {
+            if (!answer) return false;
+            let allCorrect = true;
+            q.pairs.forEach((pair, idx) => {
+                if (answer[idx] !== pair.right) allCorrect = false;
+            });
+            return allCorrect;
+        }
+        return false;
+    };
+
     const isAnswered = answers[currentQuestion?.id] !== undefined;
+    const isCurrentCorrect = isAnswered ? checkCorrectness(currentQuestion.id, answers[currentQuestion.id]) : false;
 
     // Results screen
     if (showResults) {
@@ -106,7 +127,12 @@ const TestSession = () => {
         const emoji = results.percent >= 80 ? '🏆' : results.percent >= 60 ? '👍' : '📚';
 
         return (
-            <div className="screen" style={{ paddingTop: 60, textAlign: 'center' }}>
+            <div className="screen" style={{
+                paddingTop: 60,
+                textAlign: 'center',
+                overflowY: 'auto',
+                paddingBottom: 40
+            }}>
                 <div style={{
                     fontSize: '4rem',
                     marginBottom: 16
@@ -155,8 +181,51 @@ const TestSession = () => {
                     </div>
                 </div>
 
+                {/* Review Mistakes Section - Only show if there are mistakes */}
+                {results.correct < results.total && (
+                    <div style={{ textAlign: 'left', padding: '0 20px', marginBottom: 32 }}>
+                        <h3 style={{ fontSize: '1.1rem', marginBottom: 16 }}>Робота над помилками:</h3>
+                        {questions.map((q, idx) => {
+                            const userAnswer = answers[q.id];
+                            const isCorrect = checkCorrectness(q.id, userAnswer);
+                            if (isCorrect) return null;
+
+                            return (
+                                <div key={q.id} style={{
+                                    background: 'rgba(233, 75, 90, 0.1)',
+                                    border: '1px solid rgba(233, 75, 90, 0.3)',
+                                    borderRadius: 12,
+                                    padding: 16,
+                                    marginBottom: 12
+                                }}>
+                                    <div style={{ fontWeight: 600, marginBottom: 8, fontSize: '0.9rem' }}>
+                                        {idx + 1}. {q.question}
+                                    </div>
+                                    <div style={{ fontSize: '0.9rem', color: '#E94B5A', marginBottom: 4 }}>
+                                        Ваша відповідь: <span style={{ fontWeight: 600 }}>
+                                            {q.type === 'multiple-choice' ? q.options[userAnswer] :
+                                                q.type === 'match' ? 'Невірно з\'єднано' : userAnswer}
+                                        </span>
+                                    </div>
+                                    <div style={{ fontSize: '0.9rem', color: '#2ECC71' }}>
+                                        Правильно: <span style={{ fontWeight: 600 }}>
+                                            {q.type === 'multiple-choice' ? q.options[q.correct] :
+                                                q.type === 'match' ? 'Див. пояснення' : q.correct}
+                                        </span>
+                                    </div>
+                                    {q.explanation && (
+                                        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: 8, fontStyle: 'italic' }}>
+                                            ℹ️ {q.explanation}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+
                 {/* Action buttons */}
-                <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+                <div style={{ display: 'flex', gap: 12, padding: '0 20px', marginBottom: 20 }}>
                     <button
                         onClick={restartTest}
                         style={{
@@ -260,7 +329,7 @@ const TestSession = () => {
             </div>
 
             {/* Question content */}
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 100 }}>
                 {/* Question text */}
                 <div style={{
                     fontSize: '1.2rem',
@@ -276,24 +345,38 @@ const TestSession = () => {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                         {currentQuestion.options.map((option, idx) => {
                             const isSelected = answers[currentQuestion.id] === idx;
+                            const isCorrect = currentQuestion.correct === idx;
+                            const showCorrect = isAnswered && isCorrect;
+                            const showWrong = isAnswered && isSelected && !isCorrect;
+
                             return (
                                 <button
                                     key={idx}
-                                    onClick={() => handleChoiceAnswer(idx)}
+                                    onClick={() => !isAnswered && handleChoiceAnswer(idx)}
+                                    disabled={isAnswered}
                                     style={{
                                         padding: '16px 20px',
-                                        background: isSelected ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255, 255, 255, 0.06)',
-                                        border: isSelected ? '2px solid #2ECC71' : '1px solid rgba(255, 255, 255, 0.1)',
+                                        background: showCorrect ? 'rgba(46, 204, 113, 0.2)' :
+                                            showWrong ? 'rgba(233, 75, 90, 0.2)' :
+                                                isSelected ? 'rgba(46, 204, 113, 0.15)' : 'rgba(255, 255, 255, 0.06)',
+                                        border: showCorrect ? '2px solid #2ECC71' :
+                                            showWrong ? '2px solid #E94B5A' :
+                                                isSelected ? '2px solid #2ECC71' : '1px solid rgba(255, 255, 255, 0.1)',
                                         borderRadius: 14,
-                                        color: isSelected ? '#2ECC71' : 'var(--text-primary)',
+                                        color: showCorrect ? '#2ECC71' :
+                                            showWrong ? '#E94B5A' :
+                                                isSelected ? '#2ECC71' : 'var(--text-primary)',
                                         fontSize: '1rem',
-                                        fontWeight: isSelected ? 600 : 400,
+                                        fontWeight: (isSelected || showCorrect) ? 600 : 400,
                                         textAlign: 'left',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.2s ease'
+                                        cursor: isAnswered ? 'default' : 'pointer',
+                                        transition: 'all 0.2s ease',
+                                        pointerEvents: isAnswered ? 'none' : 'auto'
                                     }}
                                 >
                                     {option}
+                                    {showCorrect && <Check size={18} style={{ float: 'right' }} />}
+                                    {showWrong && <X size={18} style={{ float: 'right' }} />}
                                 </button>
                             );
                         })}
@@ -307,21 +390,27 @@ const TestSession = () => {
                             type="text"
                             value={answers[currentQuestion.id] || inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleFillBlankSubmit()}
+                            onKeyPress={(e) => e.key === 'Enter' && !isAnswered && handleFillBlankSubmit()}
                             placeholder="Введіть відповідь..."
-                            disabled={answers[currentQuestion.id] !== undefined}
+                            disabled={isAnswered}
                             style={{
                                 width: '100%',
                                 padding: '16px 20px',
-                                background: 'rgba(255, 255, 255, 0.08)',
-                                border: '1px solid rgba(255, 255, 255, 0.15)',
+                                background: isAnswered
+                                    ? (isCurrentCorrect ? 'rgba(46, 204, 113, 0.1)' : 'rgba(233, 75, 90, 0.1)')
+                                    : 'rgba(255, 255, 255, 0.08)',
+                                border: isAnswered
+                                    ? (isCurrentCorrect ? '1px solid #2ECC71' : '1px solid #E94B5A')
+                                    : '1px solid rgba(255, 255, 255, 0.15)',
                                 borderRadius: 14,
-                                color: 'var(--text-primary)',
+                                color: isAnswered
+                                    ? (isCurrentCorrect ? '#2ECC71' : '#E94B5A')
+                                    : 'var(--text-primary)',
                                 fontSize: '1.1rem',
                                 outline: 'none'
                             }}
                         />
-                        {!answers[currentQuestion.id] && (
+                        {!isAnswered && (
                             <button
                                 onClick={handleFillBlankSubmit}
                                 disabled={!inputValue.trim()}
@@ -339,52 +428,68 @@ const TestSession = () => {
                                 Відповісти
                             </button>
                         )}
+                        {isAnswered && !isCurrentCorrect && (
+                            <div style={{ marginTop: 12, fontSize: '0.95rem', color: '#2ECC71' }}>
+                                Правильно: <strong>{currentQuestion.correct}</strong>
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {/* Match pairs */}
                 {currentQuestion.type === 'match' && (
                     <div>
-                        {currentQuestion.pairs.map((pair, idx) => (
-                            <div key={idx} style={{
-                                display: 'flex',
-                                gap: 12,
-                                marginBottom: 12,
-                                alignItems: 'center'
-                            }}>
-                                <div style={{
-                                    flex: 1,
-                                    padding: '12px 16px',
-                                    background: 'rgba(242, 106, 27, 0.1)',
-                                    border: '1px solid rgba(242, 106, 27, 0.2)',
-                                    borderRadius: 10,
-                                    fontSize: '0.9rem'
+                        {currentQuestion.pairs.map((pair, idx) => {
+                            const userAnswer = answers[currentQuestion.id]?.[idx];
+                            const isThisCorrect = userAnswer === pair.right;
+
+                            return (
+                                <div key={idx} style={{
+                                    display: 'flex',
+                                    gap: 12,
+                                    marginBottom: 12,
+                                    alignItems: 'center'
                                 }}>
-                                    {pair.left}
-                                </div>
-                                <ChevronRight size={16} color="var(--text-muted)" />
-                                <select
-                                    value={matchSelections[idx] || answers[currentQuestion.id]?.[idx] || ''}
-                                    onChange={(e) => handleMatchSelect(idx, e.target.value)}
-                                    disabled={answers[currentQuestion.id] !== undefined}
-                                    style={{
+                                    <div style={{
                                         flex: 1,
                                         padding: '12px 16px',
-                                        background: 'rgba(255, 255, 255, 0.08)',
-                                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                                        background: 'rgba(242, 106, 27, 0.1)',
+                                        border: '1px solid rgba(242, 106, 27, 0.2)',
                                         borderRadius: 10,
-                                        color: 'var(--text-primary)',
                                         fontSize: '0.9rem'
-                                    }}
-                                >
-                                    <option value="">Оберіть...</option>
-                                    {currentQuestion.pairs.map((p, i) => (
-                                        <option key={i} value={p.right}>{p.right}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        ))}
-                        {!answers[currentQuestion.id] && (
+                                    }}>
+                                        {pair.left}
+                                    </div>
+                                    <ChevronRight size={16} color="var(--text-muted)" />
+                                    <select
+                                        value={matchSelections[idx] || userAnswer || ''}
+                                        onChange={(e) => handleMatchSelect(idx, e.target.value)}
+                                        disabled={isAnswered}
+                                        style={{
+                                            flex: 1,
+                                            padding: '12px 16px',
+                                            background: isAnswered
+                                                ? (isThisCorrect ? 'rgba(46, 204, 113, 0.1)' : 'rgba(233, 75, 90, 0.1)')
+                                                : 'rgba(255, 255, 255, 0.08)',
+                                            border: isAnswered
+                                                ? (isThisCorrect ? '1px solid #2ECC71' : '1px solid #E94B5A')
+                                                : '1px solid rgba(255, 255, 255, 0.15)',
+                                            borderRadius: 10,
+                                            color: isAnswered
+                                                ? (isThisCorrect ? '#2ECC71' : '#E94B5A')
+                                                : 'var(--text-primary)',
+                                            fontSize: '0.9rem'
+                                        }}
+                                    >
+                                        <option value="">Оберіть...</option>
+                                        {currentQuestion.pairs.map((p, i) => (
+                                            <option key={i} value={p.right}>{p.right}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            );
+                        })}
+                        {!isAnswered && (
                             <button
                                 onClick={handleMatchSubmit}
                                 disabled={Object.keys(matchSelections).length !== currentQuestion.pairs.length}
@@ -402,35 +507,66 @@ const TestSession = () => {
                                 Підтвердити
                             </button>
                         )}
+                        {isAnswered && !isCurrentCorrect && (
+                            <div style={{ marginTop: 12, fontSize: '0.9rem', color: '#E94B5A' }}>
+                                Є помилки у з'єднаннях. Перевірте правильні відповіді.
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Explanation - Show only after answering */}
+                {isAnswered && currentQuestion.explanation && (
+                    <div style={{
+                        marginTop: 24,
+                        padding: 16,
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        borderRadius: 12,
+                        borderLeft: '4px solid #F26A1B',
+                        fontSize: '0.95rem',
+                        lineHeight: 1.5,
+                        color: 'var(--text-secondary)'
+                    }}>
+                        <strong>Пояснення:</strong> {currentQuestion.explanation}
                     </div>
                 )}
             </div>
 
             {/* Next button */}
             {isAnswered && (
-                <button
-                    onClick={handleNext}
-                    style={{
-                        width: '100%',
-                        padding: '18px',
-                        marginTop: 24,
-                        marginBottom: 24,
-                        background: '#2ECC71',
-                        border: 'none',
-                        borderRadius: 16,
-                        color: '#0d0d0d',
-                        fontWeight: 600,
-                        fontSize: '1rem',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 8
-                    }}
-                >
-                    {currentIndex < questions.length - 1 ? 'Далі' : 'Завершити тест'}
-                    <ChevronRight size={20} />
-                </button>
+                <div style={{
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: '16px 20px',
+                    background: 'var(--bg-primary)',
+                    borderTop: '1px solid rgba(255,255,255,0.1)',
+                    zIndex: 100
+                }}>
+                    <button
+                        onClick={handleNext}
+                        style={{
+                            width: '100%',
+                            padding: '18px',
+                            background: isCurrentCorrect ? '#2ECC71' : '#E94B5A', // Status color for button
+                            border: 'none',
+                            borderRadius: 16,
+                            color: '#0d0d0d', // Dark text for contrast
+                            fontWeight: 700,
+                            fontSize: '1.1rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 12,
+                            boxShadow: isCurrentCorrect ? '0 4px 12px rgba(46, 204, 113, 0.3)' : '0 4px 12px rgba(233, 75, 90, 0.3)'
+                        }}
+                    >
+                        {currentIndex < questions.length - 1 ? 'ДАЛІ' : 'ЗАВЕРШИТИ'}
+                        <ChevronRight size={24} strokeWidth={3} />
+                    </button>
+                </div>
             )}
         </div>
     );

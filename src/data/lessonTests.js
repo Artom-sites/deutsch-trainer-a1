@@ -1013,10 +1013,442 @@ export const lessonTests = {
                 ]
             }
         ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 11 - In der Stadt
+    // ==========================================
+    11: {
+        title: "Test zu Lektion 11",
+        description: "Місто, транспорт, орієнтування (Wo? Wohin?)",
+        questions: [
+            // 1. Ergänzen Sie: auf, in, an...
+            {
+                id: "l11-1",
+                type: "fill-blank",
+                question: "Beispiel: ___ dem Stuhl. (auf)",
+                correct: "auf",
+                explanation: "auf dem Stuhl"
+            },
+            {
+                id: "l11-2",
+                type: "fill-blank",
+                question: "Wo ist die Post? – ___ der Ecke. (an)",
+                correct: "An",
+                explanation: "An der Ecke"
+            },
+            {
+                id: "l11-3",
+                type: "fill-blank",
+                question: "Wo wartet er? – ___ der Haltestelle. (an)",
+                correct: "An",
+                explanation: "An der Haltestelle"
+            },
+            {
+                id: "l11-4",
+                type: "fill-blank",
+                question: "Wo sind die Würste? – ___ Kühlschrank. (in)",
+                correct: "Im",
+                explanation: "In dem -> Im"
+            },
+            // 2. Orte in der Stadt
+            {
+                id: "l11-5",
+                type: "fill-blank",
+                question: "In der ___ kauft Louis Fleisch. (Metzgerei)",
+                correct: "Metzgerei",
+                explanation: "die Metzgerei"
+            },
+            {
+                id: "l11-6",
+                type: "fill-blank",
+                question: "Am ___ kauft Louis Zeitungen. (Kiosk)",
+                correct: "Kiosk",
+                explanation: "der Kiosk"
+            },
+            {
+                id: "l11-7",
+                type: "fill-blank",
+                question: "Im Urlaub isst und schläft Louis im ___. (Hotel)",
+                correct: "Hotel",
+                explanation: "das Hotel"
+            },
+            // 3. Ordnen Sie zu: in die, zum, nach... (Richtung)
+            {
+                id: "l11-8",
+                type: "fill-blank",
+                question: "Mama, wohin gehst du? – Ich gehe noch schnell ___ Supermarkt.",
+                correct: "zum",
+                explanation: "zu dem -> zum (Supermarkt ist maskulin)"
+            },
+            {
+                id: "l11-9",
+                type: "fill-blank",
+                question: "Hallo Paul. Gehst du ___ Hause?",
+                correct: "nach",
+                explanation: "nach Hause"
+            },
+            {
+                id: "l11-10",
+                type: "fill-blank",
+                question: "Fliegt ihr ___ USA? (in)",
+                correct: "in die",
+                explanation: "in die USA (Plural)"
+            },
+            // 4. Was ist richtig? (Präpositionen)
+            {
+                id: "l11-11",
+                type: "multiple-choice",
+                question: "Die Bank ist ___ der Post.",
+                options: ["die", "dem", "neben"],
+                correct: 2,
+                explanation: "neben der Post"
+            },
+            {
+                id: "l11-12",
+                type: "multiple-choice",
+                question: "Die Autos stehen ___ dem Parkplatz.",
+                options: ["auf", "aus", "über"],
+                correct: 0,
+                explanation: "auf dem Parkplatz"
+            },
+            {
+                id: "l11-13",
+                type: "multiple-choice",
+                question: "Die U-Bahn fährt ___ die Häuser.",
+                options: ["unter", "hinter", "an"],
+                correct: 0,
+                explanation: "unter die Häuser (Bewegung)"
+            },
+            // 5. Am Schalter (Dialog)
+            {
+                id: "l11-14",
+                type: "match",
+                question: "Kartenkauf am Automaten/Schalter",
+                pairs: [
+                    { left: "1", right: "Ich brauche eine Auskunft: Wann fährt der nächste Zug?" },
+                    { left: "2", right: "Um 17.05 Uhr." },
+                    { left: "3", right: "Vielen Dank." },
+                    { left: "4", right: "Und von welchem Gleis fährt der Zug ab?" },
+                    { left: "5", right: "Von Gleis 10." }
+                ]
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 12 - Kundenservice
+    // ==========================================
+    12: {
+        title: "Test zu Lektion 12",
+        description: "Обслуговування, ремонт, ввічливі прохання",
+        questions: [
+            // 1. Ordnen Sie zu (Wortschatz)
+            {
+                id: "l12-1",
+                type: "fill-blank",
+                question: "Die Kaffeemaschine musst du mit ___ reinigen. (Essig/Papier)",
+                correct: "Essig",
+                explanation: "чистити оцтом"
+            },
+            {
+                id: "l12-2",
+                type: "fill-blank",
+                question: "Was? Du hast das ___ von der Universität nicht mehr? (Zeugnis/Fenster)",
+                correct: "Zeugnis",
+                explanation: "Das Zeugnis"
+            },
+            {
+                id: "l12-3",
+                type: "fill-blank",
+                question: "Ich kann nichts drucken. Mein Drucker hat kein ___ mehr. (Papier/Modell)",
+                correct: "Papier",
+                explanation: "Das Papier"
+            },
+            {
+                id: "l12-4",
+                type: "fill-blank",
+                question: "Du willst in Deutschland arbeiten? Dann brauchst du eine ___ von deinem Zeugnis. (Übersetzung/Rechnung)",
+                correct: "Übersetzung",
+                explanation: "Die Übersetzung (переклад)"
+            },
+            // 2. Ordnen Sie zu (Temporale Präpositionen)
+            {
+                id: "l12-5",
+                type: "fill-blank",
+                question: "Tomasz isst ___ dem Training nur Obst. (vor)",
+                correct: "vor",
+                explanation: "vor dem Training"
+            },
+            {
+                id: "l12-6",
+                type: "fill-blank",
+                question: "Das ist Herr Schmitz ___ der Arbeit. (bei)",
+                correct: "bei",
+                explanation: "bei der Arbeit"
+            },
+            {
+                id: "l12-7",
+                type: "fill-blank",
+                question: "Samuel sieht ___ dem Deutschkurs gern fern. (nach)",
+                correct: "nach",
+                explanation: "nach dem Kurs"
+            },
+            // 3. Ergänzen Sie ab, am, bis, in...
+            {
+                id: "l12-8",
+                type: "fill-blank",
+                question: "Herr Kunze ist morgen ___ 8 Uhr wieder im Haus.",
+                correct: "ab",
+                explanation: "ab 8 Uhr"
+            },
+            {
+                id: "l12-9",
+                type: "fill-blank",
+                question: "Wir haben jeden Tag ___ 20 Uhr und Samstag ___ 18 Uhr geöffnet. (bis)",
+                correct: "bis...bis",
+                explanation: "bis (до)"
+            },
+            {
+                id: "l12-10",
+                type: "fill-blank",
+                question: "Ihr Computer ist ___ zwei Tagen fertig. (in)",
+                correct: "in",
+                explanation: "in zwei Tagen (через)"
+            },
+            // 4. Höfliche Bitten (Könnten Sie...)
+            {
+                id: "l12-11",
+                type: "fill-blank",
+                question: "Mein Auto fährt nicht mehr. ___ Sie bitte vorbeikommen? (Können)",
+                correct: "Könnten",
+                explanation: "Könnten Sie... (Konjunktiv II)"
+            },
+            {
+                id: "l12-12",
+                type: "fill-blank",
+                question: "Wir haben keine Kugelschreiber. ___ du Kugelschreiber bestellen? (Bestellen Sie bitte -> Würdest)",
+                correct: "Würdest",
+                explanation: "Würdest du..."
+            },
+            {
+                id: "l12-13",
+                type: "fill-blank",
+                question: "Hier ist eine Prüfung. ___ leise. (Seid - Imperativ)",
+                correct: "Seid",
+                explanation: "Befehl an ihr -> Seid"
+            },
+            // 5. Reparatur Dialog
+            {
+                id: "l12-14",
+                type: "match",
+                question: "Anruf beim Reparaturservice",
+                pairs: [
+                    { left: "1", right: "Elektro Mars, was kann ich für Sie tun?" },
+                    { left: "2", right: "Guten Tag. Hier ist Bremer. Ich möchte gern den Reparaturservice sprechen." },
+                    { left: "3", right: "Ja, hier sind Sie richtig." },
+                    { left: "4", right: "Meine Spülmaschine funktioniert nicht." }
+                ]
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 13 - Kleidung, Wetter
+    // ==========================================
+    13: {
+        title: "Test zu Lektion 13",
+        description: "Одяг, погода, відпустка, Komparation (gern-lieber)",
+        questions: [
+            // 1. Kleidung
+            {
+                id: "l13-1",
+                type: "fill-blank",
+                question: "Das ___ (T-Shirt).",
+                correct: "T-Shirt",
+                explanation: "das T-Shirt"
+            },
+            {
+                id: "l13-2",
+                type: "fill-blank",
+                question: "Das ___ (Hemd).",
+                correct: "Hemd",
+                explanation: "das Hemd"
+            },
+            {
+                id: "l13-3",
+                type: "fill-blank",
+                question: "Die ___ (Hose).",
+                correct: "Hose",
+                explanation: "die Hose"
+            },
+            // 2. Koffer packen
+            {
+                id: "l13-4",
+                type: "fill-blank",
+                question: "Ich fahre in den Ferien ans Meer und nehme mit: einen ___. (Koffer)",
+                correct: "Koffer",
+                explanation: "den Koffer"
+            },
+            {
+                id: "l13-5",
+                type: "fill-blank",
+                question: "Einen ___ (Regenschirm) für das schlechte Wetter.",
+                correct: "Regenschirm",
+                explanation: "den Regenschirm"
+            },
+            // 3. Welcher/Dies-
+            {
+                id: "l13-6",
+                type: "multiple-choice",
+                question: "___ mal, die Hose! - Die ist langweilig.",
+                options: ["Sieh", "Seh", "Guck"],
+                correct: 0,
+                explanation: "Sieh mal!"
+            },
+            {
+                id: "l13-7",
+                type: "fill-blank",
+                question: "Wie findest du ___ Mantel? (der)",
+                correct: "den",
+                explanation: "den Mantel (Akk)"
+            },
+            {
+                id: "l13-8",
+                type: "fill-blank",
+                question: "Und ___ Bluse? (die)",
+                correct: "die",
+                explanation: "die Bluse"
+            },
+            // 4. Personalpronomen im Dativ
+            {
+                id: "l13-9",
+                type: "multiple-choice",
+                question: "Gefällt ___ der Rock? (du - formell/informell?)",
+                options: ["mir", "ihnen", "dir"],
+                correct: 1,
+                explanation: "Gefällt Ihnen... (Sie -> Ihnen)"
+            },
+            {
+                id: "l13-10",
+                type: "fill-blank",
+                question: "Ja, aber er ist zu groß. Er gefällt ___/___/___ nicht. (ich - mir?)",
+                correct: "mir",
+                explanation: "Er gefällt mir nicht."
+            },
+            {
+                id: "l13-11",
+                type: "fill-blank",
+                question: "Schmeckt ___ der Salat? (ihr - Plural)",
+                correct: "euch",
+                explanation: "Schmeckt euch..."
+            },
+            // 5. Komparation
+            {
+                id: "l13-12",
+                type: "fill-blank",
+                question: "Kannst du gut Auto fahren? - Ja, aber ich fahre noch ___ Fahrrad. (gut)",
+                correct: "besser",
+                explanation: "gut -> besser"
+            },
+            {
+                id: "l13-13",
+                type: "fill-blank",
+                question: "Möchtest du gern mal nach Wien fahren? - Ja, aber noch ___ möchte ich nach Zürich. (gern)",
+                correct: "lieber",
+                explanation: "gern -> lieber"
+            }
+        ]
+    },
+
+    // ==========================================
+    // TEST ZU LEKTION 14 - Feste, Datum
+    // ==========================================
+    14: {
+        title: "Test zu Lektion 14",
+        description: "Свята, дати, порядкові числівники, сполучник 'denn'",
+        questions: [
+            // 1. Datum
+            {
+                id: "l14-1",
+                type: "fill-blank",
+                question: "14.7. -> Heute ist der ___ Juli.",
+                correct: "vierzehnte",
+                explanation: "der vierzehnte"
+            },
+            {
+                id: "l14-2",
+                type: "fill-blank",
+                question: "17.4. -> Heute ist der ___ April.",
+                correct: "siebzehnte",
+                explanation: "der siebzehnte"
+            },
+            {
+                id: "l14-3",
+                type: "fill-blank",
+                question: "1.12. -> Heute ist der ___ Dezember.",
+                correct: "erste",
+                explanation: "der erste"
+            },
+            // 2. Präpositionen Zeit
+            {
+                id: "l14-4",
+                type: "fill-blank",
+                question: "Welcher Tag ist heute? - Heute ist ___ 14. Juli. (der/am)",
+                correct: "der",
+                explanation: "Heute ist der..."
+            },
+            {
+                id: "l14-5",
+                type: "fill-blank",
+                question: "Wann bekommst man in Deutschland die Weihnachtsgeschenke? - ___ 24. Dezember. (Am)",
+                correct: "Am",
+                explanation: "Am 24. Dezember"
+            },
+            {
+                id: "l14-6",
+                type: "fill-blank",
+                question: "Wie lange dauern die Ferien? - ___ 12. ___ 23. April. (Vom...bis)",
+                correct: "Vom...bis",
+                explanation: "Vom ... bis zum ..."
+            },
+            // 3. Perfekt und Begründung (denn)
+            {
+                id: "l14-7",
+                type: "multiple-choice",
+                question: "Ist das dein Fahrrad? - Ja, ich habe es erst ___ zwei Wochen. (seit/vor)",
+                options: ["seit", "vor"],
+                correct: 0,
+                explanation: "seit zwei Wochen (триває досі)"
+            },
+            {
+                id: "l14-8",
+                type: "match",
+                question: "Verbinden Sie die Sätze mit denn",
+                pairs: [
+                    { left: "Laras Mutter kann nicht kommen,", right: "denn ihre Schwester ist krank." },
+                    { left: "Sebastian darf nicht Tennis spielen,", right: "denn der Arzt hat es verboten." },
+                    { left: "Maryam lernt Deutsch,", right: "denn sie möchte eine Arbeit finden." }
+                ]
+            },
+            // 4. Glückwünsche
+            {
+                id: "l14-9",
+                type: "match",
+                question: "Was sagen Sie? (Свята)",
+                pairs: [
+                    { left: "🎄 Weihnachten", right: "Frohe Weihnachten!" },
+                    { left: "🎆 Neujahr", right: "Ein gutes neues Jahr!" },
+                    { left: "🎂 Geburtstag", right: "Herzlichen Glückwunsch!" },
+                    { left: "🚗 Reise", right: "Gute Reise!" }
+                ]
+            }
+        ]
     }
 };
 export function getTestForLesson(lessonId) {
-    return lessonTests[lessonId] || null;
+    if (!lessonId) return null;
+    return lessonTests[lessonId] || lessonTests[String(lessonId)] || lessonTests[Number(lessonId)] || null;
 }
 
 export function getQuestionCount(lessonId) {
