@@ -47,12 +47,27 @@ const useStore = create(
 
             goBack: () => {
                 const state = get();
-                if (state.currentView === 'flashcards' || state.currentView === 'exercises' || state.currentView === 'grammar-detail') {
+                if (state.currentView === 'flashcards' || state.currentView === 'exercises') {
+                    // If we have an active lesson, go back to it; otherwise go to main
+                    if (state.activeLessonId) {
+                        set({
+                            currentView: 'lesson-detail',
+                            flashcardWords: [],
+                            currentCardIndex: 0,
+                            activeExercises: []
+                        });
+                    } else {
+                        set({
+                            currentView: 'main',
+                            flashcardWords: [],
+                            currentCardIndex: 0,
+                            activeExercises: [],
+                            activeLessonId: null
+                        });
+                    }
+                } else if (state.currentView === 'grammar-detail') {
                     set({
                         currentView: 'lesson-detail',
-                        flashcardWords: [],
-                        currentCardIndex: 0,
-                        activeExercises: [],
                         activeGrammarTopicId: null
                     });
                 } else {
