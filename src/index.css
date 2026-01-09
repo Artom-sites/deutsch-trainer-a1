@@ -131,6 +131,46 @@ body {
 }
 
 /* ==========================================
+   BACK HEADER & NAVIGATION
+   ========================================== */
+.back-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  padding-top: var(--space-sm);
+}
+
+.back-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+}
+
+.back-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ==========================================
    BOTTOM NAVIGATION - Floating Glass Bar
    ========================================== */
 .bottom-nav {
