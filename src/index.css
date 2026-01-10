@@ -57,6 +57,16 @@
   /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* GRADIENTS */
+  --bg-gradient-mesh:
+    radial-gradient(circle at 15% 15%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(74, 144, 226, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(255, 107, 53, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(74, 144, 226, 0.04) 0%, transparent 40%);
+
+  --primary-gradient: linear-gradient(135deg, #FF6B35 0%, #F25C05 100%);
+  --card-gradient: linear-gradient(160deg, rgba(30, 30, 35, 0.7) 0%, rgba(20, 20, 25, 0.6) 100%);
+  --glass-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
 }
 
 /* ==========================================
@@ -76,10 +86,7 @@ html {
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-primary);
-  background-image:
-    radial-gradient(ellipse at 50% 0%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 0% 50%, rgba(212, 165, 116, 0.04) 0%, transparent 40%),
-    radial-gradient(ellipse at 100% 100%, rgba(212, 165, 116, 0.06) 0%, transparent 45%);
+  background-image: var(--bg-gradient-mesh);
   background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.5;
