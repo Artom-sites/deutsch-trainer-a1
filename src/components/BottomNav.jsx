@@ -41,7 +41,7 @@ const BottomNav = () => {
                 backdropFilter: 'blur(30px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(30px) saturate(180%)',
                 borderRadius: 32,
-                padding: '10px 16px',
+                padding: '16px 16px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
