@@ -1,14 +1,16 @@
 // src/components/HomeTab.jsx
-// Dashboard з streak, daily goal, weekly activity
+// Dashboard - Premium "Focus" Design
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
-import { words } from '../data/lexicon';
-import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download } from 'lucide-react';
+import { words, lessons } from '../data/lexicon';
+import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download, Play, Trophy } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
     const getLearnedCount = useStore(state => state.getLearnedCount);
+    const getLessonProgress = useStore(state => state.getLessonProgress);
+    const openLesson = useStore(state => state.openLesson);
 
     // PWA Install prompt
     const [installPrompt, setInstallPrompt] = useState(null);
@@ -36,95 +38,84 @@ const HomeTab = () => {
     const streak = useAuthStore(state => state.streak);
     const dailyProgress = useAuthStore(state => state.dailyProgress);
     const dailyGoal = useAuthStore(state => state.dailyGoal);
-    const weeklyActivity = useAuthStore(state => state.weeklyActivity);
     const logout = useAuthStore(state => state.logout);
-
-    const learned = getLearnedCount();
-    const total = words.length;
-    const progress = Math.round((learned / total) * 100) || 0;
-    const dailyPercent = Math.min((dailyProgress / dailyGoal) * 100, 100);
-
-    // Get greeting based on time
-    const getGreeting = () => {
-        const hour = new Date().getHours();
-        if (hour < 12) return 'Guten Morgen';
-        if (hour < 18) return 'Guten Tag';
-        return 'Guten Abend';
-    };
 
     const userName = user?.displayName || 'Друже';
 
+    // Current Lesson Logic
+    const currentLesson = lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[lessons.length - 1];
+    const lessonProgress = getLessonProgress(currentLesson.id);
+
+    // Features Grid
     const features = [
-        { id: 'lessons', icon: BookOpen, title: 'Lektionen', subtitle: '14 уроків' },
-        { id: 'dictionary', icon: BookText, title: 'Wörterbuch', subtitle: 'Словник' },
-        { id: 'verbs', icon: Languages, title: 'Verben', subtitle: 'Дієслова' },
-        { id: 'exam', icon: GraduationCap, title: 'Prüfung', subtitle: 'Тести A1' }
+        { id: 'dictionary', icon: BookText, title: 'Словник', color: '#3B82F6' },
+        { id: 'verbs', icon: Languages, title: 'Дієслова', color: '#8B5CF6' },
+        { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: '#10B981' },
+        { id: 'exam', icon: GraduationCap, title: 'Тести', color: '#F59E0B' }
     ];
 
-    // Days of week for chart
-    const days = ['П', 'В', 'С', 'Ч', 'П', 'С', 'Н'];
-    const maxActivity = Math.max(...weeklyActivity, 1);
-
     return (
-        <div className="screen" style={{ paddingTop: 20 }}>
-            {/* Header with user */}
+        <div className="screen" style={{ paddingTop: 20, paddingBottom: 100 }}>
+            {/* Header */}
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 marginBottom: 24
             }}>
-                <div>
-                    <p style={{ color: '#7A7D8A', fontSize: '0.85rem', marginBottom: 4 }}>
-                        {getGreeting()},
-                    </p>
-                    <h1 style={{
-                        fontSize: '1.75rem',
-                        fontWeight: 700,
-                        color: '#E5E7EB',
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 14,
+                        background: '#1A1A22',
+                        border: '1px solid rgba(255,255,255,0.05)',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 8
+                        justifyContent: 'center',
+                        fontSize: '1.2rem'
                     }}>
-                        {userName} 👋
-                    </h1>
+                        👋
+                    </div>
+                    <div>
+                        <div style={{ fontSize: '0.85rem', color: '#7A7D8A' }}>Вітаємо,</div>
+                        <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#E5E7EB' }}>{userName}</div>
+                    </div>
                 </div>
 
-                {/* Logout button */}
-                {user && user.uid !== 'guest' && (
-                    <button
-                        onClick={logout}
-                        style={{
-                            background: '#1A1A22',
-                            border: '1px solid rgba(255,255,255,0.04)',
-                            borderRadius: 10,
-                            padding: 10,
-                            cursor: 'pointer'
-                        }}
-                    >
-                        <LogOut size={18} color="#7A7D8A" />
-                    </button>
-                )}
+                {/* Streak Badge */}
+                <div style={{
+                    background: streak > 0 ? 'rgba(242, 106, 27, 0.1)' : '#1A1A22',
+                    border: streak > 0 ? '1px solid rgba(242, 106, 27, 0.2)' : '1px solid rgba(255,255,255,0.05)',
+                    borderRadius: 12,
+                    padding: '6px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6
+                }}>
+                    <Flame size={18} color={streak > 0 ? '#F26A1B' : '#7A7D8A'} fill={streak > 0 ? '#F26A1B' : 'none'} />
+                    <span style={{ fontWeight: 700, color: streak > 0 ? '#F26A1B' : '#7A7D8A' }}>{streak}</span>
+                </div>
             </div>
 
-            {/* Install App Banner */}
+            {/* PWA Install Banner */}
             {installPrompt && (
                 <div style={{
                     background: 'linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%)',
-                    borderRadius: 16,
-                    padding: 16,
-                    marginBottom: 20,
+                    borderRadius: 20,
+                    padding: 20,
+                    marginBottom: 24,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    boxShadow: '0 4px 12px rgba(242, 106, 27, 0.3)'
+                    boxShadow: '0 8px 20px rgba(242, 106, 27, 0.25)'
                 }}>
                     <div style={{ color: 'white' }}>
-                        <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 2 }}>
-                            Встановити додаток 📲
+                        <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: 2 }}>
+                            Встановити додаток
                         </div>
-                        <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>
-                            Вивчайте німецьку офлайн
+                        <div style={{ fontSize: '0.85rem', opacity: 0.9 }}>
+                            Вивчайте німецьку офлайн ⚡️
                         </div>
                     </div>
                     <button
@@ -133,206 +124,173 @@ const HomeTab = () => {
                             background: 'white',
                             color: '#F26A1B',
                             border: 'none',
-                            borderRadius: 10,
-                            padding: '10px 16px',
-                            fontWeight: 700,
-                            fontSize: '0.85rem',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6
+                            borderRadius: 12,
+                            padding: '10px 14px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
                         }}
                     >
-                        <Download size={16} />
-                        Завантажити
+                        <Download size={20} />
                     </button>
                 </div>
             )}
 
-            {/* Streak & Daily Goal Row */}
+            {/* HERO: Current Lesson Focus */}
+            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7A7D8A', marginBottom: 12, marginLeft: 4 }}>
+                ПРОДОВЖИТИ НАВЧАННЯ
+            </h2>
+            <div
+                onClick={() => openLesson(currentLesson.id)}
+                style={{
+                    background: 'linear-gradient(145deg, #1A1A22 0%, #111115 100%)',
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    borderRadius: 24,
+                    padding: 24,
+                    marginBottom: 32,
+                    position: 'relative',
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
+                }}
+            >
+                {/* Background Decor */}
+                <div style={{
+                    position: 'absolute',
+                    top: -20,
+                    right: -20,
+                    width: 100,
+                    height: 100,
+                    borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(242,106,27,0.1) 0%, transparent 70%)',
+                    zIndex: 0
+                }} />
+
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        marginBottom: 20
+                    }}>
+                        <div>
+                            <div style={{
+                                display: 'inline-block',
+                                background: 'rgba(242, 106, 27, 0.15)',
+                                color: '#F26A1B',
+                                fontSize: '0.75rem',
+                                fontWeight: 700,
+                                padding: '4px 10px',
+                                borderRadius: 8,
+                                marginBottom: 10
+                            }}>
+                                УРОК {currentLesson.id}
+                            </div>
+                            <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#E5E7EB', lineHeight: 1.2 }}>
+                                {currentLesson.title}
+                            </h3>
+                            <p style={{ color: '#7A7D8A', fontSize: '0.9rem', marginTop: 4 }}>
+                                {currentLesson.description}
+                            </p>
+                        </div>
+
+                        {/* Play Button */}
+                        <div style={{
+                            width: 56,
+                            height: 56,
+                            borderRadius: '50%',
+                            background: '#F26A1B',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0 4px 12px rgba(242, 106, 27, 0.3)',
+                            flexShrink: 0,
+                            marginLeft: 16
+                        }}>
+                            <Play size={24} color="#0B0B0F" fill="#0B0B0F" style={{ marginLeft: 4 }} />
+                        </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.8rem' }}>
+                            <span style={{ color: '#7A7D8A' }}>Прогрес</span>
+                            <span style={{ color: '#E5E7EB', fontWeight: 600 }}>{lessonProgress.percent}%</span>
+                        </div>
+                        <div style={{ height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 3 }}>
+                            <div style={{
+                                width: `${lessonProgress.percent}%`,
+                                height: '100%',
+                                background: '#2ECC71',
+                                borderRadius: 3,
+                                transition: 'width 0.3s'
+                            }} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Daily Goal & Stats */}
+            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7A7D8A', marginBottom: 12, marginLeft: 4 }}>
+                ТВІЙ ДЕНЬ
+            </h2>
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: 12,
-                marginBottom: 16
+                marginBottom: 32
             }}>
-                {/* Streak Card */}
-                <div style={{
-                    background: streak > 0
-                        ? 'linear-gradient(135deg, rgba(242, 106, 27, 0.15) 0%, #1A1A22 100%)'
-                        : '#1A1A22',
-                    border: streak > 0
-                        ? '1px solid rgba(242, 106, 27, 0.2)'
-                        : '1px solid rgba(255,255,255,0.04)',
-                    borderRadius: 16,
-                    padding: 16
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 10,
-                        marginBottom: 8
-                    }}>
-                        <div style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: 10,
-                            background: '#F26A1B',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <Flame size={18} color="#0B0B0F" />
-                        </div>
-                        <div style={{
-                            fontSize: '1.5rem',
-                            fontWeight: 700,
-                            color: '#F26A1B'
-                        }}>
-                            {streak}
-                        </div>
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
-                        днів поспіль
-                    </div>
-                </div>
-
-                {/* Daily Goal Card */}
+                {/* Daily Goal */}
                 <div style={{
                     background: '#1A1A22',
+                    borderRadius: 20,
+                    padding: 16,
                     border: '1px solid rgba(255,255,255,0.04)',
-                    borderRadius: 16,
-                    padding: 16
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 10,
-                        marginBottom: 8
-                    }}>
-                        <div style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: 10,
-                            background: '#2ECC71',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <Target size={18} color="#0B0B0F" />
-                        </div>
-                        <div style={{
-                            fontSize: '1rem',
-                            fontWeight: 600,
-                            color: '#E5E7EB'
-                        }}>
-                            {dailyProgress}/{dailyGoal}
-                        </div>
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A', marginBottom: 8 }}>
-                        слів сьогодні
-                    </div>
-                    {/* Progress bar */}
-                    <div style={{
-                        height: 4,
-                        background: 'rgba(255,255,255,0.06)',
-                        borderRadius: 2
-                    }}>
-                        <div style={{
-                            width: `${dailyPercent}%`,
-                            height: '100%',
-                            background: '#2ECC71',
-                            borderRadius: 2,
-                            transition: 'width 0.3s'
-                        }} />
-                    </div>
-                </div>
-            </div>
-
-            {/* Weekly Activity */}
-            <div style={{
-                background: '#1A1A22',
-                border: '1px solid rgba(255,255,255,0.04)',
-                borderRadius: 16,
-                padding: 16,
-                marginBottom: 16
-            }}>
-                <div style={{
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    color: '#E5E7EB',
-                    marginBottom: 12
-                }}>
-                    Активність за тиждень
-                </div>
-                <div style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end',
-                    height: 60
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
                 }}>
-                    {weeklyActivity.map((value, i) => (
-                        <div key={i} style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: 6,
-                            flex: 1
-                        }}>
-                            <div style={{
-                                width: '70%',
-                                height: Math.max((value / maxActivity) * 40, 4),
-                                background: value > 0
-                                    ? 'linear-gradient(to top, #F26A1B, #E55A0A)'
-                                    : 'rgba(255,255,255,0.06)',
-                                borderRadius: 4,
-                                transition: 'height 0.3s'
-                            }} />
-                            <span style={{
-                                fontSize: '0.65rem',
-                                color: '#7A7D8A'
-                            }}>
-                                {days[i]}
-                            </span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                        <Target size={20} color="#2ECC71" />
+                        <span style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>Ціль</span>
+                    </div>
+                    <div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB' }}>
+                            {dailyProgress}<span style={{ fontSize: '1rem', color: '#7A7D8A' }}>/{dailyGoal}</span>
                         </div>
-                    ))}
+                        <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>слів вивчено</div>
+                    </div>
                 </div>
-            </div>
 
-            {/* Total Progress */}
-            <div style={{
-                background: '#1A1A22',
-                border: '1px solid rgba(255,255,255,0.04)',
-                borderRadius: 16,
-                padding: 16,
-                marginBottom: 16,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-            }}>
-                <div>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#E5E7EB' }}>
-                        Загальний прогрес
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>
-                        {learned} з {total} слів
-                    </div>
-                </div>
+                {/* Total Stats */}
                 <div style={{
-                    fontSize: '1.5rem',
-                    fontWeight: 700,
-                    color: '#2ECC71'
+                    background: '#1A1A22',
+                    borderRadius: 20,
+                    padding: 16,
+                    border: '1px solid rgba(255,255,255,0.04)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
                 }}>
-                    {progress}%
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                        <Trophy size={20} color="#F59E0B" />
+                        <span style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>Всього</span>
+                    </div>
+                    <div>
+                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB' }}>
+                            {getLearnedCount()}
+                        </div>
+                        <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>слів у скарбничці</div>
+                    </div>
                 </div>
             </div>
 
-            {/* Quick Actions - 2x2 Grid */}
+            {/* Quick Actions Grid */}
+            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7A7D8A', marginBottom: 12, marginLeft: 4 }}>
+                ШВИДКИЙ ДОСТУП
+            </h2>
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 10,
-                marginBottom: 12
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: 8
             }}>
                 {features.map(f => (
                     <button
@@ -340,79 +298,49 @@ const HomeTab = () => {
                         onClick={() => setTab(f.id)}
                         style={{
                             background: '#1A1A22',
-                            border: '1px solid rgba(255, 255, 255, 0.04)',
-                            borderRadius: 14,
-                            padding: 14,
-                            textAlign: 'left',
-                            cursor: 'pointer',
-                            WebkitTapHighlightColor: 'transparent'
+                            border: '1px solid rgba(255,255,255,0.04)',
+                            borderRadius: 16,
+                            padding: '12px 4px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: 8,
+                            cursor: 'pointer'
                         }}
                     >
                         <div style={{
                             width: 36,
                             height: 36,
                             borderRadius: 10,
-                            background: '#F26A1B',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: 10
+                            background: `${f.color}20`, // 20% opacity
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
                         }}>
-                            <f.icon size={18} color="#0B0B0F" strokeWidth={2.5} />
+                            <f.icon size={18} color={f.color} />
                         </div>
-                        <div style={{
-                            fontWeight: 600,
-                            fontSize: '0.9rem',
-                            color: '#E5E7EB'
-                        }}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#E5E7EB' }}>
                             {f.title}
-                        </div>
-                        <div style={{ fontSize: '0.7rem', color: '#7A7D8A' }}>
-                            {f.subtitle}
-                        </div>
+                        </span>
                     </button>
                 ))}
             </div>
 
-            {/* AI Chat */}
-            <button
-                onClick={() => setTab('chat')}
-                style={{
-                    width: '100%',
-                    background: '#1A1A22',
-                    border: '1px solid rgba(255, 255, 255, 0.04)',
-                    borderRadius: 14,
-                    padding: 14,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                    cursor: 'pointer',
-                    textAlign: 'left'
-                }}
-            >
-                <div style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 12,
-                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <MessageCircle size={20} color="white" />
-                </div>
-                <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#E5E7EB' }}>
-                        Голосовий чат з AI
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>
-                        Практикуй розмовну 🎤
-                    </div>
-                </div>
-                <ChevronRight size={18} color="#7A7D8A" />
-            </button>
-
-            <div style={{ height: 20 }} />
+            {/* Logout (Small, at bottom) */}
+            <div style={{ marginTop: 40, display: 'flex', justifyContent: 'center' }}>
+                <button
+                    onClick={logout}
+                    style={{
+                        color: '#7A7D8A',
+                        fontSize: '0.8rem',
+                        background: 'transparent',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6
+                    }}
+                >
+                    <LogOut size={14} /> Вийти з акаунту
+                </button>
+            </div>
         </div>
     );
 };
