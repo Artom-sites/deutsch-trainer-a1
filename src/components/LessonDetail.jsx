@@ -297,44 +297,42 @@ const LessonDetail = () => {
                     onClick={() => startLessonTest && startLessonTest(activeLessonId)}
                     style={{
                         width: '100%',
-                        padding: '20px 24px',
+                        padding: '16px',
                         marginBottom: 'var(--space-lg)',
-                        background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.02) 100%)',
-                        border: '1px solid rgba(46, 204, 113, 0.2)',
-                        borderRadius: 24,
+                        background: '#1A1A22',
+                        border: '1px solid rgba(255, 255, 255, 0.04)',
+                        borderRadius: 16,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 'var(--space-md)',
-                        backdropFilter: 'blur(10px)'
+                        gap: 14
                     }}
                 >
                     <div style={{
-                        width: 52,
-                        height: 52,
-                        borderRadius: 16,
-                        background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.2) 0%, rgba(46, 204, 113, 0.1) 100%)',
+                        width: 44,
+                        height: 44,
+                        borderRadius: 14,
+                        background: '#2ECC71',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        border: '1px solid rgba(46, 204, 113, 0.2)'
+                        justifyContent: 'center'
                     }}>
-                        <ClipboardCheck size={24} color="#2ECC71" />
+                        <ClipboardCheck size={22} color="#0B0B0F" />
                     </div>
                     <div style={{ textAlign: 'left', flex: 1 }}>
                         <div style={{
-                            fontSize: '1.1rem',
+                            fontSize: '0.95rem',
                             fontWeight: 600,
-                            color: '#2ECC71',
+                            color: '#E5E7EB',
                             marginBottom: 2
                         }}>
                             Пройти тест
                         </div>
-                        <div style={{ fontSize: '0.9rem', color: 'rgba(46, 204, 113, 0.7)' }}>
-                            {lessonTest.questions.length} питань • Перевірка знань
+                        <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                            {lessonTest.questions.length} питань
                         </div>
                     </div>
-                    <ChevronRight size={22} color="#2ECC71" style={{ opacity: 0.8 }} />
+                    <ChevronRight size={20} color="#7A7D8A" />
                 </button>
             )}
         </div>
