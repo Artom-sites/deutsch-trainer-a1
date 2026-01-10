@@ -1,18 +1,17 @@
 // src/firebase.js
-// Firebase configuration - замініть на свої ключі з Firebase Console
+// Firebase configuration
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// TODO: Замініть ці значення на ваші з Firebase Console
-// https://console.firebase.google.com/ -> Project Settings -> Your apps
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCJE_8NCsJ3pAHCP33MDuDZPRLtHOColtk",
+    authDomain: "de-app-98e1a.firebaseapp.com",
+    projectId: "de-app-98e1a",
+    storageBucket: "de-app-98e1a.firebasestorage.app",
+    messagingSenderId: "960950356774",
+    appId: "1:960950356774:web:97d4e743eb7398bda48fe7",
+    measurementId: "G-9TBL8VE77D"
 };
 
 // Initialize Firebase
