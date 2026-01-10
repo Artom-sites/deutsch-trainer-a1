@@ -1,10 +1,10 @@
 // src/components/Flashcard.jsx
-// Картка з нескінченним перевертанням, кнопками "Знаю"/"Вчу", кольорами та множиною
+// Preview-only Flashcard - No mastery buttons (swipe/tap to navigate)
 import React, { useState, useEffect } from 'react';
-import { Volume2, Check, X } from 'lucide-react';
+import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 
-const Flashcard = ({ word, onResult }) => {
+const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -13,12 +13,12 @@ const Flashcard = ({ word, onResult }) => {
         setIsFlipped(false);
     }, [word.id]);
 
-    // Get color style based on article - NEW PALETTE
+    // Get color style based on article
     const getGenderColor = (article) => {
         switch (article) {
-            case 'der': return '#4A90E2'; // Blue
-            case 'die': return '#E94B5A'; // Red/Pink
-            case 'das': return '#2ECC71'; // Green
+            case 'der': return '#4A90E2';
+            case 'die': return '#E94B5A';
+            case 'das': return '#2ECC71';
             default: return '#E5E7EB';
         }
     };
@@ -38,16 +38,7 @@ const Flashcard = ({ word, onResult }) => {
         setIsFlipped(!isFlipped);
     };
 
-    // Handle result buttons
-    const handleKnow = () => {
-        onResult(5); // Good score
-    };
-
-    const handleLearn = () => {
-        onResult(0); // Need to learn more
-    };
-
-    // Check if plural is valid (not empty, not just "Sg." or similar)
+    // Check if plural is valid
     const hasValidPlural = word.plural &&
         word.plural.trim() !== '' &&
         !word.plural.toLowerCase().includes('sg') &&
@@ -83,9 +74,7 @@ const Flashcard = ({ word, onResult }) => {
                 }}
             >
                 {!isFlipped ? (
-                    // ==========================================
                     // FRONT: Ukrainian translation
-                    // ==========================================
                     <div className="fade-in" style={{ width: '100%', padding: 'var(--space-md)' }}>
                         <div style={{
                             fontSize: 'clamp(1.5rem, 6vw, 2.5rem)',
@@ -102,13 +91,11 @@ const Flashcard = ({ word, onResult }) => {
                             color: 'var(--text-secondary)',
                             opacity: 0.6
                         }}>
-                            Натисніть, щоб перевернути
+                            Натисни, щоб побачити слово
                         </div>
                     </div>
                 ) : (
-                    // ==========================================
                     // BACK: German word with article, color, plural
-                    // ==========================================
                     <div className="fade-in" style={{
                         width: '100%',
                         padding: 'var(--space-md)',
@@ -145,11 +132,11 @@ const Flashcard = ({ word, onResult }) => {
                                     fontWeight: 500,
                                     opacity: 0.6,
                                     fontSize: '0.6em'
-                                }}>, {word.plural.replace('-', '-¨')}</span>
+                                }}>, {word.plural}</span>
                             )}
                         </div>
 
-                        {/* Audio button - CENTERED */}
+                        {/* Audio button */}
                         <button
                             onClick={handleSpeak}
                             style={{
@@ -179,56 +166,58 @@ const Flashcard = ({ word, onResult }) => {
                             color: 'var(--text-secondary)',
                             opacity: 0.5
                         }}>
-                            Натисніть, щоб перевернути
+                            Натисни, щоб перевернути
                         </div>
                     </div>
                 )}
             </div>
 
-            {/* Control Buttons - Always visible */}
+            {/* Navigation Buttons - Simple Prev/Next */}
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: 12
             }}>
-                {/* Learn / Don't Know */}
+                {/* Previous */}
                 <button
-                    onClick={handleLearn}
+                    onClick={onPrev}
+                    disabled={!canGoPrev}
                     style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: 8,
                         padding: '16px',
-                        background: 'rgba(233, 75, 90, 0.12)',
-                        border: '1px solid rgba(233, 75, 90, 0.3)',
+                        background: canGoPrev ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
                         borderRadius: 16,
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
+                        cursor: canGoPrev ? 'pointer' : 'default',
+                        transition: 'all 0.2s',
+                        opacity: canGoPrev ? 1 : 0.4
                     }}
                 >
-                    <X size={20} color="#E94B5A" />
-                    <span style={{ color: '#E94B5A', fontWeight: 600, fontSize: '1rem' }}>Вчу</span>
+                    <ChevronLeft size={20} color="#E5E7EB" />
+                    <span style={{ color: '#E5E7EB', fontWeight: 600, fontSize: '1rem' }}>Назад</span>
                 </button>
 
-                {/* Know */}
+                {/* Next */}
                 <button
-                    onClick={handleKnow}
+                    onClick={onNext}
                     style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: 8,
                         padding: '16px',
-                        background: 'rgba(46, 204, 113, 0.12)',
-                        border: '1px solid rgba(46, 204, 113, 0.3)',
+                        background: 'rgba(242, 106, 27, 0.15)',
+                        border: '1px solid rgba(242, 106, 27, 0.3)',
                         borderRadius: 16,
                         cursor: 'pointer',
                         transition: 'all 0.2s'
                     }}
                 >
-                    <Check size={20} color="#2ECC71" />
-                    <span style={{ color: '#2ECC71', fontWeight: 600, fontSize: '1rem' }}>Знаю</span>
+                    <span style={{ color: '#F26A1B', fontWeight: 600, fontSize: '1rem' }}>Далі</span>
+                    <ChevronRight size={20} color="#F26A1B" />
                 </button>
             </div>
         </div>
