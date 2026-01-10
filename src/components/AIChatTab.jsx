@@ -1,10 +1,10 @@
 // src/components/AIChatTab.jsx
-// Вкладка "AI Чат" - симуляція розмови
+// Вкладка "AI Чат" - Clean Dark Design
 
 import React, { useState, useEffect, useRef } from 'react';
 import { chatScenarios } from '../data/chatScenarios';
 import { speakSentence } from '../utils/speech';
-import { MessageCircle, User, Bot, ArrowLeft, RefreshCw, Volume2 } from 'lucide-react';
+import { MessageCircle, User, Bot, ArrowLeft, RefreshCw, Volume2, Mic, ChevronRight } from 'lucide-react';
 
 const ChatSession = ({ scenario, onBack }) => {
     const [messages, setMessages] = useState([]);
@@ -12,8 +12,6 @@ const ChatSession = ({ scenario, onBack }) => {
     const [isTyping, setIsTyping] = useState(false);
     const [isListening, setIsListening] = useState(false);
     const messagesEndRef = useRef(null);
-
-    // Speech Recognition Setup
     const recognitionRef = useRef(null);
 
     useEffect(() => {
@@ -30,29 +28,21 @@ const ChatSession = ({ scenario, onBack }) => {
                 setIsListening(false);
             };
 
-            recognitionRef.current.onerror = (event) => {
-                console.error("Speech recognition error", event.error);
-                setIsListening(false);
-            };
-
-            recognitionRef.current.onend = () => {
-                setIsListening(false);
-            };
+            recognitionRef.current.onerror = () => setIsListening(false);
+            recognitionRef.current.onend = () => setIsListening(false);
         }
     }, [currentNodeId]);
 
     const currentNode = scenario.nodes[currentNodeId];
 
-    // Auto-scroll
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages, isTyping, isListening]);
+    }, [messages, isTyping]);
 
-    // Initial message
     useEffect(() => {
         if (messages.length === 0) {
             addAIMessage(currentNode?.message);
@@ -66,20 +56,14 @@ const ChatSession = ({ scenario, onBack }) => {
             setIsTyping(false);
             setMessages(prev => [...prev, { id: Date.now(), sender: 'ai', text }]);
             speakSentence(text);
-        }, 1000);
+        }, 800);
     };
 
     const handleVoiceInput = (transcript) => {
-        // Find best matching option
-        // Simple logic: check if transcript contains key words from option
-        // or just pick the first option if "fuzzy" match is hard
-        // For A1, we usually have 1 or 2 options.
-
         let bestMatch = null;
         let highestScore = 0;
 
         currentNode.options.forEach(opt => {
-            // Simple word overlap score
             const optWords = opt.text.toLowerCase().split(/[\s,.?!]+/);
             const transWords = transcript.toLowerCase().split(/[\s,.?!]+/);
             let matches = 0;
@@ -93,16 +77,14 @@ const ChatSession = ({ scenario, onBack }) => {
             }
         });
 
-        // Threshold or fallback
         if (highestScore > 0.3) {
             handleOptionClick(bestMatch, transcript);
         } else {
-            // If no match, maybe add as a "misunderstood" message or just force the first option for flow?
-            // "I heard: [transcript]. Did you mean [Option 1]?"
-            // For smoother UX, let's just add the user's audio text, and proceed with the first option BUT warn user?
-            // Or just 'retry'.
-            // Let's add a system message:
-            setMessages(prev => [...prev, { id: Date.now(), sender: 'system', text: `Ви сказали: "${transcript}". Спробуйте ще раз, ближче до тексту.` }]);
+            setMessages(prev => [...prev, {
+                id: Date.now(),
+                sender: 'system',
+                text: `"${transcript}" — спробуйте ще раз`
+            }]);
         }
     };
 
@@ -116,7 +98,6 @@ const ChatSession = ({ scenario, onBack }) => {
     };
 
     const handleOptionClick = (option, headerText = null) => {
-        // headerText is usually the transcript, if passed
         setMessages(prev => [...prev, { id: Date.now(), sender: 'user', text: headerText || option.text }]);
 
         if (option.nextNode) {
@@ -139,160 +120,186 @@ const ChatSession = ({ scenario, onBack }) => {
     const hasSpeechSupport = !!recognitionRef.current;
 
     return (
-        <div className="screen" style={{ display: 'flex', flexDirection: 'column', padding: 0, height: '100vh', maxHeight: '100vh' }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+            background: '#0B0B0F'
+        }}>
             {/* Header */}
             <div style={{
-                padding: 'var(--space-md)',
-                background: 'var(--bg-surface)',
-                borderBottom: '1px solid var(--border-color)',
+                padding: '16px',
+                paddingTop: 'calc(16px + env(safe-area-inset-top))',
+                background: '#1A1A22',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--space-md)',
-                zIndex: 10
+                gap: 12
             }}>
                 <button
                     onClick={onBack}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 8,
+                        borderRadius: 10,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
                 >
-                    <ArrowLeft size={24} color="var(--text-primary)" />
+                    <ArrowLeft size={22} color="#E5E7EB" />
                 </button>
                 <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700 }}>{scenario.title}</div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Голосовий чат</div>
+                    <div style={{ fontWeight: 600, fontSize: '1rem', color: '#E5E7EB' }}>
+                        {scenario.title}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>
+                        Голосовий чат
+                    </div>
                 </div>
                 <button
                     onClick={handleRestart}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                    style={{
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 8
+                    }}
                 >
-                    <RefreshCw size={20} color="var(--text-secondary)" />
+                    <RefreshCw size={18} color="#7A7D8A" />
                 </button>
             </div>
 
-            {/* Messages Area */}
+            {/* Messages */}
             <div style={{
                 flex: 1,
                 overflowY: 'auto',
-                padding: 'var(--space-md)',
+                padding: '16px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 'var(--space-md)',
-                background: 'var(--bg-background)'
+                gap: 12
             }}>
                 {messages.map(msg => (
                     <div
                         key={msg.id}
-                        className={`fade-in`}
                         style={{
-                            alignSelf: msg.sender === 'user' ? 'flex-end' : (msg.sender === 'system' ? 'center' : 'flex-start'),
-                            maxWidth: msg.sender === 'system' ? '90%' : '80%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: msg.sender === 'user' ? 'flex-end' : (msg.sender === 'system' ? 'center' : 'flex-start')
+                            alignSelf: msg.sender === 'user' ? 'flex-end' :
+                                msg.sender === 'system' ? 'center' : 'flex-start',
+                            maxWidth: '85%'
                         }}
                     >
                         {msg.sender === 'system' ? (
-                            <div style={{ fontSize: '0.8rem', color: 'var(--color-warning)', fontStyle: 'italic', background: 'rgba(245, 158, 11, 0.1)', padding: '4px 12px', borderRadius: 12 }}>
+                            <div style={{
+                                fontSize: '0.75rem',
+                                color: '#F26A1B',
+                                background: 'rgba(242, 106, 27, 0.1)',
+                                padding: '6px 12px',
+                                borderRadius: 10
+                            }}>
                                 {msg.text}
                             </div>
                         ) : (
-                            <>
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 8,
-                                    flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row',
-                                    marginBottom: 4
-                                }}>
-                                    <div style={{
-                                        width: 24,
-                                        height: 24,
-                                        borderRadius: '50%',
-                                        background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
-                                        border: '1px solid var(--border-color)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                        {msg.sender === 'user' ? <User size={14} color="white" /> : <Bot size={14} color="var(--text-primary)" />}
-                                    </div>
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                                        {msg.sender === 'user' ? 'Du' : 'AI'}
-                                    </span>
-                                </div>
-                                <div style={{
-                                    padding: '12px 16px',
-                                    borderRadius: '16px',
-                                    borderTopLeftRadius: msg.sender === 'ai' ? 4 : 16,
-                                    borderTopRightRadius: msg.sender === 'user' ? 4 : 16,
-                                    background: msg.sender === 'user' ? 'var(--color-primary)' : 'var(--bg-surface)',
-                                    color: msg.sender === 'user' ? 'black' : 'var(--text-primary)',
-                                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                                    position: 'relative',
-                                    border: msg.sender === 'ai' ? '1px solid var(--border-color)' : 'none'
-                                }}>
-                                    {msg.text}
-                                    {msg.sender === 'ai' && (
-                                        <button
-                                            onClick={() => speakSentence(msg.text)}
-                                            style={{
-                                                position: 'absolute',
-                                                right: -30,
-                                                top: '50%',
-                                                transform: 'translateY(-50%)',
-                                                background: 'none',
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                opacity: 0.7
-                                            }}
-                                        >
-                                            <Volume2 size={16} color="var(--text-secondary)" />
-                                        </button>
-                                    )}
-                                </div>
-                            </>
+                            <div style={{
+                                padding: '12px 16px',
+                                borderRadius: 16,
+                                borderTopLeftRadius: msg.sender === 'ai' ? 4 : 16,
+                                borderTopRightRadius: msg.sender === 'user' ? 4 : 16,
+                                background: msg.sender === 'user' ? '#F26A1B' : '#1A1A22',
+                                color: msg.sender === 'user' ? '#0B0B0F' : '#E5E7EB',
+                                fontSize: '0.95rem',
+                                lineHeight: 1.4,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 10
+                            }}>
+                                <span>{msg.text}</span>
+                                {msg.sender === 'ai' && (
+                                    <button
+                                        onClick={() => speakSentence(msg.text)}
+                                        style={{
+                                            background: 'transparent',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            padding: 4,
+                                            opacity: 0.6,
+                                            flexShrink: 0
+                                        }}
+                                    >
+                                        <Volume2 size={16} color="#7A7D8A" />
+                                    </button>
+                                )}
+                            </div>
                         )}
                     </div>
                 ))}
 
                 {isTyping && (
-                    <div style={{ alignSelf: 'flex-start', marginLeft: 32, color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                        AI schreibt...
+                    <div style={{
+                        alignSelf: 'flex-start',
+                        color: '#7A7D8A',
+                        fontSize: '0.8rem',
+                        padding: '8px 16px',
+                        background: '#1A1A22',
+                        borderRadius: 12
+                    }}>
+                        ···
                     </div>
                 )}
 
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area (Voice) */}
+            {/* Input Area */}
             <div style={{
-                padding: 'var(--space-md)',
-                background: 'var(--bg-card)',
-                borderTop: '1px solid var(--border-color)',
-                minHeight: 120,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-md)'
+                padding: '16px',
+                paddingBottom: 'calc(16px + env(safe-area-inset-bottom))',
+                background: '#1A1A22',
+                borderTop: '1px solid rgba(255, 255, 255, 0.06)'
             }}>
                 {isEnded ? (
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{ marginBottom: 'var(--space-sm)', color: 'var(--text-secondary)' }}>Діалог завершено</div>
-                        <button className="btn btn-outline" onClick={onBack}>Назад до списку</button>
+                        <div style={{ marginBottom: 12, color: '#7A7D8A', fontSize: '0.9rem' }}>
+                            Діалог завершено ✓
+                        </div>
+                        <button
+                            onClick={onBack}
+                            style={{
+                                padding: '12px 24px',
+                                background: '#F26A1B',
+                                border: 'none',
+                                borderRadius: 12,
+                                color: '#0B0B0F',
+                                fontWeight: 600,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Назад
+                        </button>
                     </div>
                 ) : (
                     <>
-                        {/* Hints (Options content) */}
-                        <div style={{ width: '100%', display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+                        {/* Quick responses */}
+                        <div style={{
+                            display: 'flex',
+                            gap: 8,
+                            overflowX: 'auto',
+                            marginBottom: 16,
+                            paddingBottom: 4
+                        }}>
                             {currentNode && currentNode.options.map((opt, idx) => (
                                 <button
                                     key={idx}
                                     onClick={() => handleOptionClick(opt)}
-                                    className="fade-in"
                                     style={{
                                         whiteSpace: 'nowrap',
-                                        padding: '8px 16px',
-                                        borderRadius: 20,
-                                        background: 'rgba(255,255,255,0.05)',
-                                        border: '1px solid rgba(255,255,255,0.1)',
-                                        color: 'var(--text-secondary)',
-                                        fontSize: '0.9rem',
+                                        padding: '10px 16px',
+                                        borderRadius: 12,
+                                        background: 'rgba(255,255,255,0.04)',
+                                        border: '1px solid rgba(255,255,255,0.08)',
+                                        color: '#E5E7EB',
+                                        fontSize: '0.85rem',
                                         cursor: 'pointer',
                                         flexShrink: 0
                                     }}
@@ -302,35 +309,42 @@ const ChatSession = ({ scenario, onBack }) => {
                             ))}
                         </div>
 
-                        {/* Mic Button */}
-                        {hasSpeechSupport ? (
-                            <button
-                                onClick={toggleListening}
-                                style={{
-                                    width: 72,
-                                    height: 72,
-                                    borderRadius: '50%',
-                                    background: isListening ? 'var(--color-error)' : 'var(--color-accent)',
-                                    border: 'none',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    boxShadow: isListening ? '0 0 30px rgba(239, 68, 68, 0.4)' : '0 0 20px rgba(204, 255, 0, 0.3)',
-                                    transition: 'all 0.3s ease',
-                                    position: 'relative'
-                                }}
-                            >
-                                {isListening && (
-                                    <div className="pulse" style={{
-                                        position: 'absolute', width: '100%', height: '100%', borderRadius: '50%',
-                                        border: '2px solid var(--color-error)', animation: 'pulse 1.5s infinite'
-                                    }} />
-                                )}
-                                <Volume2 size={32} color={isListening ? 'white' : 'black'} />
-                            </button>
-                        ) : (
-                            <div style={{ color: 'var(--color-error)' }}>Ваш браузер не підтримує розпізнавання мови</div>
-                        )}
-                        <div style={{ fontSize: '0.85rem', color: isListening ? 'var(--color-error)' : 'var(--text-secondary)' }}>
-                            {isListening ? 'Слухаю...' : 'Натисніть і говоріть'}
+                        {/* Mic button */}
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12 }}>
+                            {hasSpeechSupport ? (
+                                <>
+                                    <button
+                                        onClick={toggleListening}
+                                        style={{
+                                            width: 64,
+                                            height: 64,
+                                            borderRadius: '50%',
+                                            background: isListening ? '#E94B5A' : '#F26A1B',
+                                            border: 'none',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            cursor: 'pointer',
+                                            boxShadow: isListening
+                                                ? '0 0 24px rgba(233, 75, 90, 0.4)'
+                                                : '0 4px 16px rgba(242, 106, 27, 0.3)',
+                                            transition: 'all 0.2s'
+                                        }}
+                                    >
+                                        <Mic size={28} color="#0B0B0F" />
+                                    </button>
+                                    <span style={{
+                                        fontSize: '0.8rem',
+                                        color: isListening ? '#E94B5A' : '#7A7D8A'
+                                    }}>
+                                        {isListening ? 'Слухаю...' : 'Говоріть'}
+                                    </span>
+                                </>
+                            ) : (
+                                <div style={{ color: '#E94B5A', fontSize: '0.85rem' }}>
+                                    Браузер не підтримує мікрофон
+                                </div>
+                            )}
                         </div>
                     </>
                 )}
@@ -348,37 +362,64 @@ const AIChatTab = () => {
 
     return (
         <div className="screen">
-            <div className="screen-header">
-                <h1 className="screen-title">AI Chat</h1>
-                <p className="screen-subtitle">Тренуй розмовну німецьку</p>
+            {/* Header */}
+            <div style={{ marginBottom: 24, paddingTop: 8 }}>
+                <h1 style={{
+                    fontSize: '1.75rem',
+                    fontWeight: 700,
+                    color: '#E5E7EB',
+                    marginBottom: 4
+                }}>
+                    AI Chat
+                </h1>
+                <p style={{ color: '#7A7D8A', fontSize: '0.9rem' }}>
+                    Тренуй розмовну німецьку 🎤
+                </p>
             </div>
 
-            <div style={{ display: 'grid', gap: 'var(--space-md)' }}>
+            {/* Scenarios */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {chatScenarios.map(scenario => (
                     <div
                         key={scenario.id}
-                        className="card card-clickable"
                         onClick={() => setActiveScenario(scenario)}
-                        style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}
+                        style={{
+                            background: '#1A1A22',
+                            borderRadius: 16,
+                            padding: '16px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 14,
+                            border: '1px solid rgba(255, 255, 255, 0.04)'
+                        }}
                     >
                         <div style={{
-                            fontSize: '2rem',
-                            width: 50,
-                            height: 50,
+                            width: 48,
+                            height: 48,
+                            borderRadius: 14,
+                            background: 'rgba(242, 106, 27, 0.15)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            background: 'var(--bg-surface)',
-                            borderRadius: '50%'
+                            fontSize: '1.5rem'
                         }}>
                             {scenario.icon}
                         </div>
-                        <div>
-                            <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>{scenario.title}</div>
-                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                        <div style={{ flex: 1 }}>
+                            <div style={{
+                                fontWeight: 600,
+                                fontSize: '0.95rem',
+                                color: '#E5E7EB',
+                                marginBottom: 2
+                            }}>
+                                {scenario.title}
+                            </div>
+                            <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
                                 {scenario.description}
                             </div>
                         </div>
+                        <ChevronRight size={20} color="#7A7D8A" />
                     </div>
                 ))}
             </div>
