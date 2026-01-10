@@ -253,14 +253,14 @@ const LessonDetail = () => {
                     width: '100%',
                     padding: '24px',
                     marginBottom: 'var(--space-md)',
-                    background: 'linear-gradient(135deg, #FF6B35 0%, #F25C05 100%)',
+                    background: 'linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)',
                     border: 'none',
                     borderRadius: 24,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 'var(--space-md)',
-                    boxShadow: '0 8px 32px -4px rgba(242, 106, 27, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
+                    boxShadow: '0 8px 32px -4px rgba(46, 204, 113, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
                     position: 'relative',
                     overflow: 'hidden'
                 }}

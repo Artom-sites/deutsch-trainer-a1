@@ -63,30 +63,33 @@ const BottomNav = () => {
                                 key={tab.id}
                                 onClick={() => setTab(tab.id)}
                                 style={{
-                                    width: 64,
-                                    height: 64,
-                                    borderRadius: 24,
-                                    background: 'linear-gradient(135deg, #FF6B35 0%, #F25C05 100%)',
-                                    border: 'none',
+                                    width: 50,
+                                    height: 50,
+                                    borderRadius: 20,
+                                    background: isActive
+                                        ? 'linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)'
+                                        : 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.1) 100%)',
+                                    border: isActive
+                                        ? 'none'
+                                        : '1px solid rgba(46, 204, 113, 0.2)',
                                     boxShadow: isActive
-                                        ? '0 12px 28px -6px rgba(255, 107, 53, 0.5), 0 0 0 4px rgba(255, 107, 53, 0.15)'
-                                        : '0 8px 24px -6px rgba(255, 107, 53, 0.4)',
+                                        ? 'rgba(46, 204, 113, 0.4) 0px 8px 24px -6px'
+                                        : '0 2px 8px rgba(0, 0, 0, 0.2)',
                                     display: 'flex',
+                                    flexDirection: 'column',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    gap: 0,
                                     cursor: 'pointer',
-                                    marginTop: -40,
-                                    transform: isActive ? 'scale(1.05)' : 'scale(1)',
-                                    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                    marginTop: -25,
+                                    transform: isActive ? 'scale(1)' : 'scale(1)',
+                                    transition: '0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
                                 }}
                             >
                                 <Icon
-                                    size={30}
-                                    strokeWidth={2.5}
-                                    color="#FFFFFF"
-                                    style={{
-                                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))'
-                                    }}
+                                    size={24}
+                                    strokeWidth={2.2}
+                                    color={isActive ? '#0B0B0F' : '#2ECC71'}
                                 />
                             </button>
                         );
@@ -116,7 +119,7 @@ const BottomNav = () => {
                                 strokeWidth={isActive ? 2.5 : 2}
                                 color={isActive ? '#FFFFFF' : '#A0A0B0'}
                                 style={{
-                                    filter: isActive ? 'drop-shadow(0 0 12px rgba(255,255,255,0.4))' : 'none',
+                                    filter: isActive ? 'drop-shadow(0 0 12px rgba(46, 204, 113, 0.4))' : 'none',
                                     transition: 'all 0.3s ease'
                                 }}
                             />

@@ -19,22 +19,24 @@
   --text-muted: #7A7D8A;
   --text-inverse: #0B0B0F;
 
-  /* BRAND - Orange Accent */
-  --color-accent: #FF6B35;
-  --color-accent-focus: #F26A1B;
-  --color-accent-pressed: #C94F10;
-  --color-accent-glow: rgba(242, 106, 27, 0.2);
+  /* BRAND - Green Accent (Forest Theme) */
+  --color-accent: #2ECC71;
+  --color-accent-focus: #27AE60;
+  --color-accent-pressed: #219150;
+  --color-accent-glow: rgba(46, 204, 113, 0.2);
 
   /* GRAMMAR - Gender colors */
   --color-masculine: #4A90E2;
   --color-feminine: #E94B5A;
-  --color-neuter: #2ECC71;
-  --color-plural: #FF6B35;
+  --color-neuter: #F1C40F;
+  /* Changed from green to yellow/gold */
+  --color-plural: #E67E22;
+  /* Changed from orange to dark orange */
 
   /* Semantic colors */
   --color-success: #2ECC71;
   --color-error: #E94B5A;
-  --color-warning: #F26A1B;
+  --color-warning: #F39C12;
 
   /* Spacing */
   --space-xs: 4px;
@@ -59,13 +61,13 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   /* GRADIENTS */
   --bg-gradient-mesh:
-    radial-gradient(circle at 15% 15%, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 85% 15%, rgba(74, 144, 226, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(255, 107, 53, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 15% 85%, rgba(74, 144, 226, 0.04) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(46, 204, 113, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(46, 204, 113, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(39, 174, 96, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(46, 204, 113, 0.05) 0%, transparent 40%);
 
-  --primary-gradient: linear-gradient(135deg, #FF6B35 0%, #F25C05 100%);
-  --card-gradient: linear-gradient(160deg, rgba(30, 30, 35, 0.7) 0%, rgba(20, 20, 25, 0.6) 100%);
+  --primary-gradient: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+  --card-gradient: linear-gradient(160deg, rgba(30, 35, 30, 0.7) 0%, rgba(20, 25, 20, 0.6) 100%);
   --glass-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
 }
 
