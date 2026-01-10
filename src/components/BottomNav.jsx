@@ -67,13 +67,13 @@ const BottomNav = () => {
                                     height: 50,
                                     borderRadius: 20,
                                     background: isActive
-                                        ? 'linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)'
-                                        : 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.1) 100%)',
+                                        ? 'linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%)'
+                                        : 'linear-gradient(135deg, rgba(242, 106, 27, 0.15) 0%, rgba(229, 90, 10, 0.1) 100%)',
                                     border: isActive
                                         ? 'none'
-                                        : '1px solid rgba(46, 204, 113, 0.2)',
+                                        : '1px solid rgba(242, 106, 27, 0.2)',
                                     boxShadow: isActive
-                                        ? 'rgba(46, 204, 113, 0.4) 0px 8px 24px -6px'
+                                        ? 'rgba(242, 106, 27, 0.4) 0px 8px 24px -6px'
                                         : '0 2px 8px rgba(0, 0, 0, 0.2)',
                                     display: 'flex',
                                     flexDirection: 'column',
@@ -89,7 +89,7 @@ const BottomNav = () => {
                                 <Icon
                                     size={24}
                                     strokeWidth={2.2}
-                                    color={isActive ? '#0B0B0F' : '#2ECC71'}
+                                    color={isActive ? '#FFFFFF' : '#F26A1B'}
                                 />
                             </button>
                         );
@@ -119,7 +119,7 @@ const BottomNav = () => {
                                 strokeWidth={isActive ? 2.5 : 2}
                                 color={isActive ? '#FFFFFF' : '#A0A0B0'}
                                 style={{
-                                    filter: isActive ? 'drop-shadow(0 0 12px rgba(46, 204, 113, 0.4))' : 'none',
+                                    filter: isActive ? 'drop-shadow(0 0 12px rgba(242, 106, 27, 0.4))' : 'none',
                                     transition: 'all 0.3s ease'
                                 }}
                             />

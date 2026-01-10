@@ -19,25 +19,23 @@
   --text-muted: #7A7D8A;
   --text-inverse: #0B0B0F;
 
-  /* BRAND - Green Accent (Forest Theme) */
-  /* Using Emerald-500 (#10B981) for a more balanced, less neon look */
-  --color-accent: #10B981;
-  --color-accent-focus: #059669;
-  --color-accent-pressed: #047857;
-  --color-accent-glow: rgba(16, 185, 129, 0.2);
+  /* BRAND - Orange Accent (Action/Focus) */
+  --color-accent: #F26A1B;
+  --color-accent-focus: #E55A0A;
+  --color-accent-pressed: #C94F10;
+  --color-accent-glow: rgba(242, 106, 27, 0.2);
 
   /* GRAMMAR - Gender colors */
   --color-masculine: #4A90E2;
   --color-feminine: #E94B5A;
-  --color-neuter: #F1C40F;
-  /* Changed from green to yellow/gold */
-  --color-plural: #E67E22;
-  /* Changed from orange to dark orange */
+  --color-neuter: #2ECC71;
+  /* das = green */
+  --color-plural: #F26A1B;
 
   /* Semantic colors */
-  --color-success: #10B981;
-  --color-error: #EF4444;
-  --color-warning: #F59E0B;
+  --color-success: #2ECC71;
+  --color-error: #E94B5A;
+  --color-warning: #F26A1B;
 
   /* Spacing */
   --space-xs: 4px;
@@ -60,15 +58,16 @@
   /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+
   /* GRADIENTS */
   --bg-gradient-mesh:
-    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(5, 150, 105, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(242, 106, 27, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(46, 204, 113, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(242, 106, 27, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(46, 204, 113, 0.03) 0%, transparent 40%);
 
-  --primary-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  --card-gradient: linear-gradient(160deg, rgba(30, 35, 30, 0.7) 0%, rgba(20, 25, 20, 0.6) 100%);
+  --primary-gradient: linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%);
+  --card-gradient: linear-gradient(160deg, rgba(25, 25, 30, 0.7) 0%, rgba(15, 15, 18, 0.6) 100%);
   --glass-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
 }
 

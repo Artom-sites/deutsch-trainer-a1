@@ -77,8 +77,8 @@ const HomeTab = () => {
 
             {/* Progress Card */}
             <div style={{
-                background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.15) 100%)',
-                border: '1px solid rgba(46, 204, 113, 0.3)',
+                background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.12) 0%, rgba(39, 174, 96, 0.08) 100%)',
+                border: '1px solid rgba(46, 204, 113, 0.2)',
                 borderRadius: 20,
                 padding: 'var(--space-lg)',
                 marginBottom: 'var(--space-lg)',
@@ -152,14 +152,14 @@ const HomeTab = () => {
                             width: 48,
                             height: 48,
                             borderRadius: 14,
-                            background: 'rgba(46, 204, 113, 0.15)',
-                            border: '1px solid rgba(46, 204, 113, 0.2)',
+                            background: 'rgba(242, 106, 27, 0.15)',
+                            border: '1px solid rgba(242, 106, 27, 0.2)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             marginBottom: 12
                         }}>
-                            <f.icon size={24} color="#2ECC71" />
+                            <f.icon size={24} color="#F26A1B" />
                         </div>
                         <div style={{
                             fontWeight: 700,
