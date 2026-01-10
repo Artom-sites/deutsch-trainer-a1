@@ -1,7 +1,8 @@
 // src/App.jsx
-// Main App - Mobile-first structure with all views + browser history support
+// Main App with Auth integration
 import React, { useEffect } from 'react';
 import useStore from './store/useStore';
+import useAuthStore from './store/authStore';
 
 // Components
 import BottomNav from './components/BottomNav';
@@ -17,24 +18,32 @@ import ExerciseSession from './components/ExerciseSession';
 import TestSession from './components/TestSession';
 import ExamTab from './components/ExamTab';
 import AIChatTab from './components/AIChatTab';
+import AuthScreen from './components/AuthScreen';
 
 function App() {
   const currentTab = useStore(state => state.currentTab);
   const currentView = useStore(state => state.currentView);
   const goBack = useStore(state => state.goBack);
 
+  // Auth
+  const user = useAuthStore(state => state.user);
+  const isLoading = useAuthStore(state => state.isLoading);
+  const initAuth = useAuthStore(state => state.initAuth);
+
+  // Initialize auth listener on mount
+  useEffect(() => {
+    initAuth();
+  }, [initAuth]);
+
   // Handle browser back button / swipe back
   useEffect(() => {
-    // Push initial state
     if (window.history.state === null) {
       window.history.replaceState({ view: currentView, tab: currentTab }, '');
     }
 
-    const handlePopState = (event) => {
-      // Call store's goBack when browser back is triggered
+    const handlePopState = () => {
       if (currentView !== 'main') {
         goBack();
-        // Push state again to keep history alive
         window.history.pushState({ view: currentView, tab: currentTab }, '');
       }
     };
@@ -43,41 +52,56 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [currentView, currentTab, goBack]);
 
-  // Push to history when view changes
   useEffect(() => {
     if (currentView !== 'main' || currentTab !== 'home') {
       window.history.pushState({ view: currentView, tab: currentTab }, '');
     }
   }, [currentView, currentTab]);
 
-  // Determine what to render based on current view
+  // Loading state
+  if (isLoading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#0B0B0F',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        gap: 16
+      }}>
+        <div style={{ fontSize: '3rem' }}>🇩🇪</div>
+        <div style={{ color: '#7A7D8A', fontSize: '0.9rem' }}>Завантаження...</div>
+      </div>
+    );
+  }
+
+  // Show auth screen if not logged in
+  if (!user) {
+    return <AuthScreen />;
+  }
+
   const renderContent = () => {
-    // Flashcard session (full screen, no tabs)
     if (currentView === 'flashcards') {
       return <FlashcardSession />;
     }
 
-    // Exercise session
     if (currentView === 'exercises') {
       return <ExerciseSession />;
     }
 
-    // Test session
     if (currentView === 'test') {
       return <TestSession />;
     }
 
-    // Lesson detail view
     if (currentView === 'lesson-detail') {
       return <LessonDetail />;
     }
 
-    // Grammar detail view
     if (currentView === 'grammar-detail') {
       return <GrammarDetail />;
     }
 
-    // Main tab views
     switch (currentTab) {
       case 'home':
         return <HomeTab />;

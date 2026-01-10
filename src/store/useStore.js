@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { words, lessons, getWordsForLesson, getAllWords, getLessonById, getExercisesForLesson, getExercisesForTopic, getGrammarForLesson } from '../data/lexicon';
 import { calculateNextReview } from '../core/srs';
+import useAuthStore from './authStore';
 
 const useStore = create(
     persist(
@@ -188,7 +189,14 @@ const useStore = create(
             // ==========================================
             submitReview: (wordId, quality) => set((state) => {
                 const stats = state.userProgress[wordId] || {};
+                const isNewWord = !state.userProgress[wordId];
                 const newStats = calculateNextReview(stats, quality);
+
+                // Increment daily progress for newly learned words
+                if (isNewWord && quality >= 3) {
+                    useAuthStore.getState().incrementDailyProgress();
+                }
+
                 return {
                     userProgress: {
                         ...state.userProgress,
