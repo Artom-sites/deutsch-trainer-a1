@@ -1,9 +1,9 @@
 // src/components/HomeTab.jsx
-// Головний екран з привітанням та швидким доступом
+// Головний екран - Clean Dark Design
 import React from 'react';
 import useStore from '../store/useStore';
 import { words } from '../data/lexicon';
-import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Zap } from 'lucide-react';
+import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, TrendingUp, ChevronRight } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
@@ -22,126 +22,106 @@ const HomeTab = () => {
     };
 
     const features = [
-        {
-            id: 'lessons',
-            icon: BookOpen,
-            title: 'Lektionen',
-            subtitle: '14 уроків A1',
-            color: 'var(--color-accent)'
-        },
-        {
-            id: 'dictionary',
-            icon: BookText,
-            title: 'Wörterbuch',
-            subtitle: 'Словник',
-            color: 'var(--color-accent)'
-        },
-        {
-            id: 'verbs',
-            icon: Languages,
-            title: 'Verben',
-            subtitle: 'Дієслова',
-            color: 'var(--color-accent)'
-        },
-        {
-            id: 'exam',
-            icon: GraduationCap,
-            title: 'Prüfung',
-            subtitle: 'Тести A1',
-            color: 'var(--color-accent)'
-        }
+        { id: 'lessons', icon: BookOpen, title: 'Lektionen', subtitle: '14 уроків' },
+        { id: 'dictionary', icon: BookText, title: 'Wörterbuch', subtitle: 'Словник' },
+        { id: 'verbs', icon: Languages, title: 'Verben', subtitle: 'Дієслова' },
+        { id: 'exam', icon: GraduationCap, title: 'Prüfung', subtitle: 'Тести A1' }
     ];
 
     return (
-        <div className="screen" style={{ paddingTop: 'var(--space-xl)' }}>
-            {/* Greeting (no logo) */}
-            <div style={{
-                textAlign: 'center',
-                marginBottom: 'var(--space-xl)'
-            }}>
+        <div className="screen" style={{ paddingTop: 24 }}>
+            {/* Clean Header */}
+            <div style={{ marginBottom: 28 }}>
                 <h1 style={{
                     fontSize: '2rem',
                     fontWeight: 700,
-                    color: 'var(--color-accent)',
-                    marginBottom: 8
+                    color: '#E5E7EB',
+                    marginBottom: 4
                 }}>
                     {getGreeting()}
                 </h1>
-                <p style={{
-                    color: 'var(--text-secondary)',
-                    fontSize: '1rem'
-                }}>
+                <p style={{ color: '#7A7D8A', fontSize: '0.95rem' }}>
                     Вивчай німецьку легко 🇩🇪
                 </p>
             </div>
 
-            {/* Progress Card */}
+            {/* Progress Card - Clean Dark Style */}
             <div style={{
-                background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.12) 0%, rgba(39, 174, 96, 0.08) 100%)',
-                border: '1px solid rgba(46, 204, 113, 0.2)',
+                background: '#1A1A22',
                 borderRadius: 20,
-                padding: 'var(--space-lg)',
-                marginBottom: 'var(--space-lg)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 'var(--space-md)'
+                padding: 20,
+                marginBottom: 20,
+                border: '1px solid rgba(255, 255, 255, 0.04)'
             }}>
                 <div style={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #2ECC71, #27AE60)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'space-between',
+                    marginBottom: 16
                 }}>
-                    <Zap size={28} color="white" />
-                </div>
-                <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>
-                        Твій прогрес: {progress}%
-                    </div>
-                    <div style={{
-                        marginTop: 8,
-                        height: 8,
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        borderRadius: 4,
-                        overflow: 'hidden'
-                    }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                         <div style={{
-                            width: `${progress}%`,
-                            height: '100%',
-                            background: 'linear-gradient(90deg, #2ECC71, #27AE60)',
-                            borderRadius: 4,
-                            transition: 'width 0.5s'
-                        }} />
+                            width: 44,
+                            height: 44,
+                            borderRadius: 14,
+                            background: '#2ECC71',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
+                            <TrendingUp size={22} color="#0B0B0F" strokeWidth={2.5} />
+                        </div>
+                        <div>
+                            <div style={{ fontWeight: 600, fontSize: '0.95rem', color: '#E5E7EB' }}>
+                                Твій прогрес
+                            </div>
+                            <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                                {learned} з {total} слів
+                            </div>
+                        </div>
                     </div>
                     <div style={{
-                        marginTop: 4,
-                        fontSize: '0.8rem',
-                        color: 'var(--text-secondary)'
+                        fontSize: '1.5rem',
+                        fontWeight: 700,
+                        color: '#2ECC71'
                     }}>
-                        {learned} з {total} слів вивчено
+                        {progress}%
                     </div>
+                </div>
+
+                {/* Thin Progress Line */}
+                <div style={{
+                    height: 4,
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    borderRadius: 2,
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        width: `${progress}%`,
+                        height: '100%',
+                        background: '#2ECC71',
+                        borderRadius: 2,
+                        transition: 'width 0.5s'
+                    }} />
                 </div>
             </div>
 
-            {/* Feature Cards Grid */}
+            {/* Quick Actions - 2x2 Grid */}
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: 12,
-                marginBottom: 'var(--space-lg)'
+                marginBottom: 16
             }}>
                 {features.map(f => (
                     <button
                         key={f.id}
                         onClick={() => setTab(f.id)}
                         style={{
-                            background: 'rgba(255, 255, 255, 0.03)',
-                            border: '1px solid rgba(255, 255, 255, 0.08)',
-                            borderRadius: 20,
-                            padding: 'var(--space-lg)',
+                            background: '#1A1A22',
+                            border: '1px solid rgba(255, 255, 255, 0.04)',
+                            borderRadius: 16,
+                            padding: 16,
                             textAlign: 'left',
                             cursor: 'pointer',
                             transition: 'all 0.2s',
@@ -149,80 +129,77 @@ const HomeTab = () => {
                         }}
                     >
                         <div style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: 14,
-                            background: 'rgba(242, 106, 27, 0.15)',
-                            border: '1px solid rgba(242, 106, 27, 0.2)',
+                            width: 40,
+                            height: 40,
+                            borderRadius: 12,
+                            background: '#F26A1B',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             marginBottom: 12
                         }}>
-                            <f.icon size={24} color="#F26A1B" />
+                            <f.icon size={20} color="#0B0B0F" strokeWidth={2.5} />
                         </div>
                         <div style={{
-                            fontWeight: 700,
-                            fontSize: '1rem',
-                            color: 'var(--text-primary)',
+                            fontWeight: 600,
+                            fontSize: '0.95rem',
+                            color: '#E5E7EB',
                             marginBottom: 2
                         }}>
                             {f.title}
                         </div>
-                        <div style={{
-                            fontSize: '0.8rem',
-                            color: 'var(--text-secondary)'
-                        }}>
+                        <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>
                             {f.subtitle}
                         </div>
                     </button>
                 ))}
             </div>
 
-            {/* AI Chat Card */}
+            {/* AI Chat - Full Width Card */}
             <button
                 onClick={() => setTab('chat')}
                 style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, rgba(45, 212, 191, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%)',
-                    border: '1px solid rgba(45, 212, 191, 0.3)',
-                    borderRadius: 20,
-                    padding: 'var(--space-lg)',
+                    background: '#1A1A22',
+                    border: '1px solid rgba(255, 255, 255, 0.04)',
+                    borderRadius: 16,
+                    padding: 16,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'var(--space-md)',
+                    gap: 14,
                     cursor: 'pointer',
                     textAlign: 'left',
                     WebkitTapHighlightColor: 'transparent'
                 }}
             >
                 <div style={{
-                    width: 48,
-                    height: 48,
+                    width: 44,
+                    height: 44,
                     borderRadius: 14,
-                    background: 'linear-gradient(135deg, #2dd4bf, #6366f1)',
+                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <MessageCircle size={24} color="white" />
+                    <MessageCircle size={22} color="white" />
                 </div>
-                <div>
+                <div style={{ flex: 1 }}>
                     <div style={{
-                        fontWeight: 700,
-                        fontSize: '1rem',
-                        color: 'var(--text-primary)'
+                        fontWeight: 600,
+                        fontSize: '0.95rem',
+                        color: '#E5E7EB'
                     }}>
                         Голосовий чат з AI
                     </div>
-                    <div style={{
-                        fontSize: '0.85rem',
-                        color: 'var(--text-secondary)'
-                    }}>
+                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
                         Практикуй розмовну німецьку 🎤
                     </div>
                 </div>
+                <ChevronRight size={20} color="#7A7D8A" />
             </button>
+
+            {/* Bottom spacing */}
+            <div style={{ height: 20 }} />
         </div>
     );
 };
