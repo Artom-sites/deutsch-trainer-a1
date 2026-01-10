@@ -1,45 +1,90 @@
 // src/components/DictionaryTab.jsx
-// Redesigned "Словник" tab - Clean, minimal with lesson filters
+// Redesigned "Словник" tab - With theme filters instead of lessons
 import React, { useState } from 'react';
 import useStore from '../store/useStore';
-import { words } from '../data/lexicon';
-import { lessons } from '../data/lessons';
-import { Play, Search, BookOpen, ChevronRight, Volume2 } from 'lucide-react';
+import { vocabularyThemes, themedWords, getWordsByTheme, getTotalThemedWordCount } from '../data/themedWords';
+import { Play, Search, Volume2, Eye, Dumbbell } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 
 const DictionaryTab = () => {
-    const startAllWords = useStore(state => state.startAllWords);
-    const startLessonWords = useStore(state => state.startLessonWords);
+    const setFlashcardWords = useStore(state => state.setFlashcardWords);
+    const setCurrentView = useStore(state => state.setCurrentView);
+    const setNounMasterWords = useStore(state => state.setNounMasterWords);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedLesson, setSelectedLesson] = useState(null);
+    const [selectedTheme, setSelectedTheme] = useState(null);
     const [visibleCount, setVisibleCount] = useState(50);
 
+    // Get all themed words flattened
+    const getAllThemedWords = () => {
+        return Object.values(themedWords).flat();
+    };
+
     // Filter words
-    const filteredWords = words.filter(w => {
-        const matchesSearch = searchQuery === '' ||
+    const getFilteredWords = () => {
+        const wordsToFilter = selectedTheme
+            ? getWordsByTheme(selectedTheme)
+            : getAllThemedWords();
+
+        if (searchQuery === '') return wordsToFilter;
+
+        return wordsToFilter.filter(w =>
             w.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            w.translation.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesLesson = selectedLesson === null || w.lesson === selectedLesson;
-        return matchesSearch && matchesLesson;
-    });
+            w.translation.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    };
+
+    const filteredWords = getFilteredWords();
 
     // Get gender color
     const getGenderColor = (article) => {
         switch (article) {
-            case 'der': return '#3b82f6';
-            case 'die': return '#ec4899';
-            case 'das': return '#10b981';
-            default: return '#ffffff';
+            case 'der': return '#4A90E2';
+            case 'die': return '#E94B5A';
+            case 'das': return '#2ECC71';
+            default: return '#E5E7EB';
         }
     };
+
+    // Start flashcards
+    const startFlashcards = () => {
+        const formattedWords = filteredWords.map(w => ({
+            id: w.id,
+            word: w.word.replace(/^(der|die|das)\s+/, ''),
+            article: w.article || null,
+            plural: w.plural || null,
+            translation: w.translation,
+            theme: w.theme
+        }));
+        setFlashcardWords(formattedWords);
+        setCurrentView('flashcards');
+    };
+
+    // Start NounMaster
+    const startNounMaster = () => {
+        const nouns = filteredWords.filter(w => w.article);
+        if (nouns.length === 0) {
+            alert('Ця тема не містить іменників для тренування');
+            return;
+        }
+        const formattedNouns = nouns.map(w => ({
+            id: w.id,
+            word: w.word.replace(/^(der|die|das)\s+/, ''),
+            article: w.article,
+            plural: w.plural || '-',
+            translation: w.translation
+        }));
+        setNounMasterWords(formattedNouns);
+    };
+
+    const totalWords = getTotalThemedWordCount();
 
     return (
         <div className="screen">
             <div className="screen-header">
                 <div>
                     <h1 className="screen-title">Wörterbuch</h1>
-                    <p className="screen-subtitle">Словник рівня A1</p>
+                    <p className="screen-subtitle">{totalWords} слів за темами</p>
                 </div>
             </div>
 
@@ -75,7 +120,7 @@ const DictionaryTab = () => {
                 />
             </div>
 
-            {/* Lesson Filter Pills */}
+            {/* Theme Filter Pills */}
             <div style={{
                 display: 'flex',
                 gap: 8,
@@ -85,13 +130,13 @@ const DictionaryTab = () => {
                 scrollbarWidth: 'none'
             }}>
                 <button
-                    onClick={() => setSelectedLesson(null)}
+                    onClick={() => setSelectedTheme(null)}
                     style={{
                         padding: '8px 16px',
                         borderRadius: 20,
                         border: 'none',
-                        background: selectedLesson === null ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                        color: selectedLesson === null ? 'black' : 'white',
+                        background: selectedTheme === null ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
+                        color: selectedTheme === null ? 'black' : 'white',
                         fontWeight: 600,
                         fontSize: '0.85rem',
                         whiteSpace: 'nowrap',
@@ -100,51 +145,86 @@ const DictionaryTab = () => {
                 >
                     Всі
                 </button>
-                {lessons.map(l => (
+                {vocabularyThemes.map(theme => (
                     <button
-                        key={l.id}
-                        onClick={() => setSelectedLesson(l.id)}
+                        key={theme.id}
+                        onClick={() => setSelectedTheme(theme.id)}
                         style={{
                             padding: '8px 16px',
                             borderRadius: 20,
                             border: 'none',
-                            background: selectedLesson === l.id ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                            color: selectedLesson === l.id ? 'black' : 'white',
+                            background: selectedTheme === theme.id ? theme.color : 'rgba(255,255,255,0.1)',
+                            color: selectedTheme === theme.id ? 'white' : 'white',
                             fontWeight: 600,
                             fontSize: '0.85rem',
                             whiteSpace: 'nowrap',
                             cursor: 'pointer'
                         }}
                     >
-                        L{l.id}
+                        {theme.name}
                     </button>
                 ))}
             </div>
 
-            {/* Start Training Button */}
-            <button
-                onClick={() => selectedLesson ? startLessonWords(selectedLesson) : startAllWords()}
-                style={{
-                    width: '100%',
-                    padding: '16px',
-                    marginBottom: 'var(--space-lg)',
-                    background: '#FF6B35',
-                    border: 'none',
-                    borderRadius: 16,
-                    color: '#0d0d0d',
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 20px rgba(242, 106, 27, 0.3)'
-                }}
-            >
-                <Play size={20} />
-                Вчити {selectedLesson ? `Lektion ${selectedLesson}` : 'всі слова'} ({filteredWords.length})
-            </button>
+            {/* Action Buttons */}
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: 12,
+                marginBottom: 'var(--space-lg)'
+            }}>
+                <button
+                    onClick={startFlashcards}
+                    style={{
+                        padding: '14px 16px',
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: 16,
+                        color: 'white',
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        cursor: 'pointer'
+                    }}
+                >
+                    <Eye size={18} />
+                    Переглянути
+                </button>
+                <button
+                    onClick={startNounMaster}
+                    style={{
+                        padding: '14px 16px',
+                        background: 'rgba(242, 106, 27, 0.15)',
+                        border: '1px solid rgba(242, 106, 27, 0.3)',
+                        borderRadius: 16,
+                        color: '#F26A1B',
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 8,
+                        cursor: 'pointer'
+                    }}
+                >
+                    <Dumbbell size={18} />
+                    Вивчати
+                </button>
+            </div>
+
+            {/* Words Count */}
+            <div style={{
+                fontSize: '0.85rem',
+                color: 'var(--text-secondary)',
+                marginBottom: 'var(--space-sm)'
+            }}>
+                {selectedTheme
+                    ? vocabularyThemes.find(t => t.id === selectedTheme)?.nameUa
+                    : 'Усі теми'}: {filteredWords.length} слів
+            </div>
 
             {/* Words List */}
             <div style={{
@@ -172,7 +252,6 @@ const DictionaryTab = () => {
                                 fontWeight: 600,
                                 fontSize: '1rem'
                             }}>
-                                {word.article && <span style={{ opacity: 0.7, marginRight: 4 }}>{word.article}</span>}
                                 {word.word}
                                 {word.plural && <span style={{ opacity: 0.5, marginLeft: 4 }}>, {word.plural}</span>}
                             </div>
@@ -188,7 +267,7 @@ const DictionaryTab = () => {
 
                         {/* Audio button */}
                         <button
-                            onClick={() => speakWord(word.word, word.article)}
+                            onClick={() => speakWord(word.word.replace(/^(der|die|das)\s+/, ''), word.article)}
                             style={{
                                 background: 'rgba(255, 255, 255, 0.05)',
                                 border: 'none',

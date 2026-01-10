@@ -1,5 +1,5 @@
 // src/components/Flashcard.jsx
-// Preview-only Flashcard - No mastery buttons (swipe/tap to navigate)
+// Preview-only Flashcard - Swipe navigation on mobile, buttons on desktop
 import React, { useState, useEffect } from 'react';
 import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakWord } from '../utils/speech';
@@ -8,9 +8,18 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
 
+    // Swipe state
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+    const [isSwiping, setIsSwiping] = useState(false);
+    const [swipeOffset, setSwipeOffset] = useState(0);
+
+    const minSwipeDistance = 50;
+
     // Reset when word changes
     useEffect(() => {
         setIsFlipped(false);
+        setSwipeOffset(0);
     }, [word.id]);
 
     // Get color style based on article
@@ -35,7 +44,53 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
 
     // Handle card flip (infinite toggle)
     const handleFlip = () => {
-        setIsFlipped(!isFlipped);
+        if (!isSwiping) {
+            setIsFlipped(!isFlipped);
+        }
+    };
+
+    // Touch handlers for swipe
+    const onTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+        setIsSwiping(false);
+    };
+
+    const onTouchMove = (e) => {
+        const currentTouch = e.targetTouches[0].clientX;
+        setTouchEnd(currentTouch);
+
+        if (touchStart) {
+            const offset = currentTouch - touchStart;
+            // Limit offset for visual feedback
+            setSwipeOffset(Math.max(-100, Math.min(100, offset)));
+            if (Math.abs(offset) > 10) {
+                setIsSwiping(true);
+            }
+        }
+    };
+
+    const onTouchEnd = () => {
+        setSwipeOffset(0);
+
+        if (!touchStart || !touchEnd) {
+            setIsSwiping(false);
+            return;
+        }
+
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > minSwipeDistance;
+        const isRightSwipe = distance < -minSwipeDistance;
+
+        if (isLeftSwipe) {
+            onNext();
+        } else if (isRightSwipe && canGoPrev) {
+            onPrev();
+        }
+
+        setIsSwiping(false);
+        setTouchStart(null);
+        setTouchEnd(null);
     };
 
     // Check if plural is valid
@@ -52,9 +107,12 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
             padding: 'var(--space-md)',
             gap: 'var(--space-md)'
         }}>
-            {/* The Card - Click to flip */}
+            {/* The Card - Click to flip, swipe to navigate */}
             <div
                 onClick={handleFlip}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
                 style={{
                     flex: 1,
                     display: 'flex',
@@ -68,7 +126,8 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
                     textAlign: 'center',
                     cursor: 'pointer',
                     boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    transition: isSwiping ? 'none' : 'transform 0.2s, box-shadow 0.2s',
+                    transform: `translateX(${swipeOffset}px)`,
                     userSelect: 'none',
                     overflow: 'hidden'
                 }}
@@ -85,13 +144,6 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
                             lineHeight: 1.3
                         }}>
                             {word.translation}
-                        </div>
-                        <div style={{
-                            fontSize: '0.9rem',
-                            color: 'var(--text-secondary)',
-                            opacity: 0.6
-                        }}>
-                            Натисни, щоб побачити слово
                         </div>
                     </div>
                 ) : (
@@ -158,22 +210,12 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
                                 color={isSpeaking ? 'black' : 'var(--text-primary)'}
                             />
                         </button>
-
-                        {/* Flip hint */}
-                        <div style={{
-                            marginTop: 'var(--space-md)',
-                            fontSize: '0.8rem',
-                            color: 'var(--text-secondary)',
-                            opacity: 0.5
-                        }}>
-                            Натисни, щоб перевернути
-                        </div>
                     </div>
                 )}
             </div>
 
-            {/* Navigation Buttons - Simple Prev/Next */}
-            <div style={{
+            {/* Navigation Buttons - Hidden on mobile, visible on desktop */}
+            <div className="flashcard-nav-desktop" style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: 12
@@ -220,8 +262,23 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
                     <ChevronRight size={20} color="#F26A1B" />
                 </button>
             </div>
+
+            {/* CSS to hide buttons on mobile */}
+            <style>{`
+                @media (max-width: 768px) {
+                    .flashcard-nav-desktop {
+                        display: none !important;
+                    }
+                }
+                @media (min-width: 769px) {
+                    .swipe-hint {
+                        display: none !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 };
 
 export default Flashcard;
+

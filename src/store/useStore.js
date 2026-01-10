@@ -38,6 +38,16 @@ const useStore = create(
                 activeExercises: []
             }),
 
+            // Direct setters for themed words
+            setFlashcardWords: (words) => set({ flashcardWords: words }),
+            setCurrentView: (view) => set({ currentView: view }),
+            setNounMasterWords: (words) => set({
+                currentView: 'noun-master',
+                flashcardWords: words,
+                currentCardIndex: 0,
+                activeLessonId: null
+            }),
+
             // ==========================================
             // LESSON ACTIONS
             // ==========================================
