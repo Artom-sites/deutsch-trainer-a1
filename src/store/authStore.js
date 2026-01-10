@@ -28,6 +28,10 @@ const useAuthStore = create(
             dailyProgress: 0,
             weeklyActivity: [0, 0, 0, 0, 0, 0, 0], // Mon-Sun
 
+            // Economy
+            coins: 100, // Initial bonus
+            inventory: [], // IDs of purchased items
+
             // Initialize auth listener
             initAuth: () => {
                 onAuthStateChanged(auth, async (user) => {
@@ -96,6 +100,7 @@ const useAuthStore = create(
                         displayName: name,
                         createdAt: serverTimestamp(),
                         streak: 0,
+                        coins: 100,
                         dailyGoal: 10,
                         learnedWords: [],
                         completedLessons: []
@@ -138,6 +143,7 @@ const useAuthStore = create(
                             photoURL: result.user.photoURL,
                             createdAt: serverTimestamp(),
                             streak: 0,
+                            coins: 100,
                             dailyGoal: 10,
                             learnedWords: [],
                             completedLessons: []
@@ -156,7 +162,7 @@ const useAuthStore = create(
             logout: async () => {
                 try {
                     await signOut(auth);
-                    set({ user: null, streak: 0, dailyProgress: 0 });
+                    set({ user: null, streak: 0, dailyProgress: 0, coins: 0, inventory: [] });
                 } catch (e) {
                     console.error('Logout error:', e);
                 }
@@ -203,6 +209,26 @@ const useAuthStore = create(
                 });
             },
 
+            // Economy Actions
+            addCoins: async (amount) => {
+                const { coins, saveUserData } = get();
+                const newBalance = (coins || 0) + amount;
+                set({ coins: newBalance });
+                await saveUserData({ coins: newBalance });
+            },
+
+            spendCoins: async (amount, itemId) => {
+                const { coins, inventory, saveUserData } = get();
+                if (coins < amount) return false;
+
+                const newBalance = coins - amount;
+                const newInventory = [...(inventory || []), itemId];
+
+                set({ coins: newBalance, inventory: newInventory });
+                await saveUserData({ coins: newBalance, inventory: newInventory });
+                return true;
+            },
+
             // Increment daily progress
             incrementDailyProgress: async () => {
                 const { dailyProgress, dailyGoal, saveUserData, updateStreak } = get();
@@ -224,6 +250,8 @@ const useAuthStore = create(
             name: 'auth-storage',
             partialize: (state) => ({
                 streak: state.streak,
+                coins: state.coins,
+                inventory: state.inventory,
                 lastActiveDate: state.lastActiveDate,
                 dailyProgress: state.dailyProgress,
                 weeklyActivity: state.weeklyActivity

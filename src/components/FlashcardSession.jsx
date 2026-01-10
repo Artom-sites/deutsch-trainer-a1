@@ -10,9 +10,14 @@ const FlashcardSession = () => {
     const currentCardIndex = useStore(state => state.currentCardIndex);
     const nextCard = useStore(state => state.nextCard);
     const submitReview = useStore(state => state.submitReview);
+    const userProgress = useStore(state => state.userProgress);
     const goBack = useStore(state => state.goBack);
 
-    const currentWord = flashcardWords[currentCardIndex];
+    const currentWordRaw = flashcardWords[currentCardIndex];
+    const currentWord = currentWordRaw ? {
+        ...currentWordRaw,
+        masteryStage: userProgress[currentWordRaw.id]?.masteryStage || 0
+    } : null;
     const isComplete = currentCardIndex >= flashcardWords.length;
     const progress = flashcardWords.length > 0
         ? Math.round((currentCardIndex / flashcardWords.length) * 100)
@@ -41,9 +46,24 @@ const FlashcardSession = () => {
                     fontSize: '0.85rem',
                     color: 'var(--text-secondary)',
                     marginLeft: 'var(--space-md)',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8
                 }}>
-                    {currentCardIndex + 1} / {flashcardWords.length}
+                    <div style={{ display: 'flex', gap: 2 }}>
+                        {[0, 1, 2, 3, 4].slice(0, 4).map(i => {
+                            const stage = currentWord?.masteryStage || 0;
+                            return (
+                                <div key={i} style={{
+                                    width: 8,
+                                    height: 4,
+                                    borderRadius: 2,
+                                    background: i < stage ? '#F26A1B' : 'rgba(255,255,255,0.1)'
+                                }} />
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 

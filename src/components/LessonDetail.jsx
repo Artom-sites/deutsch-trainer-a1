@@ -290,6 +290,51 @@ const LessonDetail = () => {
             </button>
 
             {/* ==========================================
+                NOUN MASTER - Нова вправа
+            ========================================== */}
+            <button
+                onClick={() => useStore.getState().startNounMaster(activeLessonId)}
+                style={{
+                    width: '100%',
+                    padding: '16px',
+                    marginBottom: 'var(--space-md)',
+                    background: '#1A1A22',
+                    border: '1px solid rgba(255, 255, 255, 0.04)',
+                    borderRadius: 16,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14
+                }}
+            >
+                <div style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 14,
+                    background: '#8B5CF6',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}>
+                    <PenTool size={22} color="#0B0B0F" />
+                </div>
+                <div style={{ textAlign: 'left', flex: 1 }}>
+                    <div style={{
+                        fontSize: '0.95rem',
+                        fontWeight: 600,
+                        color: '#E5E7EB',
+                        marginBottom: 2
+                    }}>
+                        Noun Master
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                        Артикль • Слово • Множина
+                    </div>
+                </div>
+                <ChevronRight size={20} color="#7A7D8A" />
+            </button>
+
+            {/* ==========================================
                 ТЕСТ - Перевірка знань
             ========================================== */}
             {lessonTest && (

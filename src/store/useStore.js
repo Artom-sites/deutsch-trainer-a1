@@ -141,6 +141,22 @@ const useStore = create(
                     flashcardWords: sortedWords,
                     currentCardIndex: 0
                 });
+                set({
+                    currentView: 'flashcards',
+                    flashcardWords: sortedWords,
+                    currentCardIndex: 0
+                });
+            },
+
+            // Start Noun Master
+            startNounMaster: (lessonId) => {
+                const lessonWords = getWordsForLesson(lessonId).filter(w => w.article && w.plural); // Only nouns
+                set({
+                    currentView: 'noun-master',
+                    activeLessonId: lessonId,
+                    flashcardWords: lessonWords, // Reuse this for word list
+                    currentCardIndex: 0
+                });
             },
 
             // Start lesson test
@@ -188,19 +204,40 @@ const useStore = create(
             // SRS ACTIONS
             // ==========================================
             submitReview: (wordId, quality) => set((state) => {
-                const stats = state.userProgress[wordId] || {};
-                const isNewWord = !state.userProgress[wordId];
+                const stats = state.userProgress[wordId] || { masteryStage: 0 };
+                const currentStage = stats.masteryStage || 0;
+
+                // Calculate SRS
                 const newStats = calculateNextReview(stats, quality);
 
-                // Increment daily progress for newly learned words
-                if (isNewWord && quality >= 3) {
+                // MASTERY LOGIC
+                let nextStage = currentStage;
+                if (quality >= 3) {
+                    // Promotion if quality is high enough
+                    // Stage 0 -> 1 -> 2 -> 3 -> 4 (Mastered)
+                    if (currentStage < 4) {
+                        nextStage = currentStage + 1;
+                    }
+                } else {
+                    // Demotion on failure
+                    if (currentStage > 0) {
+                        nextStage = Math.max(0, currentStage - 1);
+                    }
+                }
+
+                // Merge SRS stats with Mastery Stage
+                const finalStats = { ...newStats, masteryStage: nextStage };
+
+                // AWARD LOGIC: Only when hitting Stage 4 for the first time
+                if (currentStage < 4 && nextStage === 4) {
                     useAuthStore.getState().incrementDailyProgress();
+                    useAuthStore.getState().addCoins(10); // Award 10 coins for mastery
                 }
 
                 return {
                     userProgress: {
                         ...state.userProgress,
-                        [wordId]: newStats
+                        [wordId]: finalStats
                     }
                 };
             }),
@@ -229,7 +266,10 @@ const useStore = create(
             getLessonProgress: (lessonId) => {
                 const state = get();
                 const lessonWords = getWordsForLesson(lessonId);
-                const learned = lessonWords.filter(w => state.userProgress[w.id]).length;
+                const learned = lessonWords.filter(w => {
+                    const prog = state.userProgress[w.id];
+                    return prog && prog.masteryStage === 4;
+                }).length;
                 return {
                     total: lessonWords.length,
                     learned,

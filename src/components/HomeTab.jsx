@@ -35,9 +35,9 @@ const HomeTab = () => {
 
     // Auth store
     const user = useAuthStore(state => state.user);
-    const streak = useAuthStore(state => state.streak);
-    const dailyProgress = useAuthStore(state => state.dailyProgress);
     const dailyGoal = useAuthStore(state => state.dailyGoal);
+    const coins = useAuthStore(state => state.coins);
+    const streak = useAuthStore(state => state.streak);
     const logout = useAuthStore(state => state.logout);
 
     const userName = user?.displayName || 'Друже';
@@ -51,7 +51,7 @@ const HomeTab = () => {
         { id: 'dictionary', icon: BookText, title: 'Словник', color: '#3B82F6' },
         { id: 'verbs', icon: Languages, title: 'Дієслова', color: '#8B5CF6' },
         { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: '#10B981' },
-        { id: 'exam', icon: GraduationCap, title: 'Тести', color: '#F59E0B' }
+        { id: 'shop', icon: ShoppingBag, title: 'Магазин', color: '#F59E0B' } // Added Shop
     ];
 
     return (
@@ -83,18 +83,38 @@ const HomeTab = () => {
                     </div>
                 </div>
 
-                {/* Streak Badge */}
-                <div style={{
-                    background: streak > 0 ? 'rgba(242, 106, 27, 0.1)' : '#1A1A22',
-                    border: streak > 0 ? '1px solid rgba(242, 106, 27, 0.2)' : '1px solid rgba(255,255,255,0.05)',
-                    borderRadius: 12,
-                    padding: '6px 12px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6
-                }}>
-                    <Flame size={18} color={streak > 0 ? '#F26A1B' : '#7A7D8A'} fill={streak > 0 ? '#F26A1B' : 'none'} />
-                    <span style={{ fontWeight: 700, color: streak > 0 ? '#F26A1B' : '#7A7D8A' }}>{streak}</span>
+                <div style={{ display: 'flex', gap: 8 }}>
+                    {/* Coin Badge */}
+                    <div
+                        onClick={() => setTab('shop')}
+                        style={{
+                            background: '#1A1A22',
+                            border: '1px solid rgba(255,255,255,0.05)',
+                            borderRadius: 12,
+                            padding: '6px 12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 6,
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <span style={{ fontSize: '1.1rem' }}>🪙</span>
+                        <span style={{ fontWeight: 700, color: '#E5E7EB' }}>{coins}</span>
+                    </div>
+
+                    {/* Streak Badge */}
+                    <div style={{
+                        background: streak > 0 ? 'rgba(242, 106, 27, 0.1)' : '#1A1A22',
+                        border: streak > 0 ? '1px solid rgba(242, 106, 27, 0.2)' : '1px solid rgba(255,255,255,0.05)',
+                        borderRadius: 12,
+                        padding: '6px 12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 6
+                    }}>
+                        <Flame size={18} color={streak > 0 ? '#F26A1B' : '#7A7D8A'} fill={streak > 0 ? '#F26A1B' : 'none'} />
+                        <span style={{ fontWeight: 700, color: streak > 0 ? '#F26A1B' : '#7A7D8A' }}>{streak}</span>
+                    </div>
                 </div>
             </div>
 

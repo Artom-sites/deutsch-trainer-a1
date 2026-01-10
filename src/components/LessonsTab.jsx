@@ -92,7 +92,8 @@ const LessonsTab = () => {
                     const progress = getLessonProgress(lesson.id);
                     const isComplete = progress.percent === 100;
                     const isCurrent = lesson.id === currentLessonId;
-                    const isLocked = !isComplete && !isCurrent && index > 0 && getLessonProgress(allLessons[index - 1].id).percent < 100;
+                    // ALLOW ACCESS TO ALL LESSONS
+                    const isLocked = false; // Previously: !isComplete && !isCurrent && index > 0 ...
 
                     // Alternating layout for variety (optional, keeping centered for now for solid mobile feel)
 

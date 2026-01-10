@@ -18,6 +18,9 @@ import ExerciseSession from './components/ExerciseSession';
 import TestSession from './components/TestSession';
 import ExamTab from './components/ExamTab';
 import AIChatTab from './components/AIChatTab';
+import AIChatTab from './components/AIChatTab';
+import ShopTab from './components/ShopTab';
+import NounMaster from './components/exercises/NounMaster';
 import AuthScreen from './components/AuthScreen';
 
 function App() {
@@ -86,6 +89,10 @@ function App() {
       return <FlashcardSession />;
     }
 
+    if (currentView === 'noun-master') {
+      return <NounMaster />;
+    }
+
     if (currentView === 'exercises') {
       return <ExerciseSession />;
     }
@@ -117,6 +124,8 @@ function App() {
         return <AIChatTab />;
       case 'progress':
         return <ProgressTab />;
+      case 'shop':
+        return <ShopTab />;
       default:
         return <HomeTab />;
     }
