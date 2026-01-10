@@ -65,31 +65,28 @@ const BottomNav = () => {
                                 style={{
                                     width: 50,
                                     height: 50,
-                                    borderRadius: 20,
+                                    borderRadius: 18,
                                     background: isActive
-                                        ? 'linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%)'
-                                        : 'linear-gradient(135deg, rgba(242, 106, 27, 0.15) 0%, rgba(229, 90, 10, 0.1) 100%)',
+                                        ? '#F26A1B'
+                                        : '#1A1A22',
                                     border: isActive
                                         ? 'none'
-                                        : '1px solid rgba(242, 106, 27, 0.2)',
+                                        : '1px solid rgba(255, 255, 255, 0.08)',
                                     boxShadow: isActive
-                                        ? 'rgba(242, 106, 27, 0.4) 0px 8px 24px -6px'
-                                        : '0 2px 8px rgba(0, 0, 0, 0.2)',
+                                        ? '0 6px 20px rgba(242, 106, 27, 0.4)'
+                                        : 'none',
                                     display: 'flex',
-                                    flexDirection: 'column',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    gap: 0,
                                     cursor: 'pointer',
-                                    marginTop: -25,
-                                    transform: isActive ? 'scale(1)' : 'scale(1)',
-                                    transition: '0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                    marginTop: -20,
+                                    transition: 'all 0.3s ease'
                                 }}
                             >
                                 <Icon
                                     size={24}
                                     strokeWidth={2.2}
-                                    color={isActive ? '#FFFFFF' : '#F26A1B'}
+                                    color={isActive ? '#0B0B0F' : '#7A7D8A'}
                                 />
                             </button>
                         );
