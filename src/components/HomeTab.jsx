@@ -27,28 +27,28 @@ const HomeTab = () => {
             icon: BookOpen,
             title: 'Lektionen',
             subtitle: '14 уроків A1',
-            color: '#FF6B35'
+            color: 'var(--color-accent)'
         },
         {
             id: 'dictionary',
             icon: BookText,
             title: 'Wörterbuch',
             subtitle: 'Словник',
-            color: '#FF6B35'
+            color: 'var(--color-accent)'
         },
         {
             id: 'verbs',
             icon: Languages,
             title: 'Verben',
             subtitle: 'Дієслова',
-            color: '#FF6B35'
+            color: 'var(--color-accent)'
         },
         {
             id: 'exam',
             icon: GraduationCap,
             title: 'Prüfung',
             subtitle: 'Тести A1',
-            color: '#FF6B35'
+            color: 'var(--color-accent)'
         }
     ];
 
@@ -62,7 +62,7 @@ const HomeTab = () => {
                 <h1 style={{
                     fontSize: '2rem',
                     fontWeight: 700,
-                    color: '#FF6B35',
+                    color: 'var(--color-accent)',
                     marginBottom: 8
                 }}>
                     {getGreeting()}
@@ -77,8 +77,8 @@ const HomeTab = () => {
 
             {/* Progress Card */}
             <div style={{
-                background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(45, 212, 191, 0.15) 100%)',
-                border: '1px solid rgba(99, 102, 241, 0.3)',
+                background: 'linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(39, 174, 96, 0.15) 100%)',
+                border: '1px solid rgba(46, 204, 113, 0.3)',
                 borderRadius: 20,
                 padding: 'var(--space-lg)',
                 marginBottom: 'var(--space-lg)',
@@ -90,7 +90,7 @@ const HomeTab = () => {
                     width: 56,
                     height: 56,
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #6366f1, #2dd4bf)',
+                    background: 'linear-gradient(135deg, #2ECC71, #27AE60)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -111,7 +111,7 @@ const HomeTab = () => {
                         <div style={{
                             width: `${progress}%`,
                             height: '100%',
-                            background: 'linear-gradient(90deg, #6366f1, #2dd4bf)',
+                            background: 'linear-gradient(90deg, #2ECC71, #27AE60)',
                             borderRadius: 4,
                             transition: 'width 0.5s'
                         }} />
@@ -152,14 +152,14 @@ const HomeTab = () => {
                             width: 48,
                             height: 48,
                             borderRadius: 14,
-                            background: 'rgba(242, 106, 27, 0.15)',
-                            border: '1px solid rgba(242, 106, 27, 0.2)',
+                            background: 'rgba(46, 204, 113, 0.15)',
+                            border: '1px solid rgba(46, 204, 113, 0.2)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             marginBottom: 12
                         }}>
-                            <f.icon size={24} color="#FF6B35" />
+                            <f.icon size={24} color="#2ECC71" />
                         </div>
                         <div style={{
                             fontWeight: 700,

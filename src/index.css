@@ -20,10 +20,11 @@
   --text-inverse: #0B0B0F;
 
   /* BRAND - Green Accent (Forest Theme) */
-  --color-accent: #2ECC71;
-  --color-accent-focus: #27AE60;
-  --color-accent-pressed: #219150;
-  --color-accent-glow: rgba(46, 204, 113, 0.2);
+  /* Using Emerald-500 (#10B981) for a more balanced, less neon look */
+  --color-accent: #10B981;
+  --color-accent-focus: #059669;
+  --color-accent-pressed: #047857;
+  --color-accent-glow: rgba(16, 185, 129, 0.2);
 
   /* GRAMMAR - Gender colors */
   --color-masculine: #4A90E2;
@@ -34,9 +35,9 @@
   /* Changed from orange to dark orange */
 
   /* Semantic colors */
-  --color-success: #2ECC71;
-  --color-error: #E94B5A;
-  --color-warning: #F39C12;
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-warning: #F59E0B;
 
   /* Spacing */
   --space-xs: 4px;
@@ -61,12 +62,12 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   /* GRADIENTS */
   --bg-gradient-mesh:
-    radial-gradient(circle at 15% 15%, rgba(46, 204, 113, 0.06) 0%, transparent 45%),
-    radial-gradient(circle at 85% 15%, rgba(46, 204, 113, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(39, 174, 96, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 15% 85%, rgba(46, 204, 113, 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(5, 150, 105, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
 
-  --primary-gradient: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+  --primary-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
   --card-gradient: linear-gradient(160deg, rgba(30, 35, 30, 0.7) 0%, rgba(20, 25, 20, 0.6) 100%);
   --glass-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
 }
@@ -265,14 +266,28 @@ body {
    CARDS
    ========================================== */
 .card {
-  background: var(--bg-card);
+  background: linear-gradient(145deg, rgba(35, 45, 35, 0.7) 0%, rgba(15, 20, 18, 0.8) 100%);
   backdrop-filter: var(--blur-sm);
   -webkit-backdrop-filter: var(--blur-sm);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(46, 204, 113, 0.15);
   border-radius: var(--radius-md);
   padding: var(--space-lg);
   margin-bottom: var(--space-md);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add a subtle glow/shine effect */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.3), transparent);
+  opacity: 0.5;
 }
 
 .card-clickable {
