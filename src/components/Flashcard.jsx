@@ -145,7 +145,7 @@ const Flashcard = ({ word, onResult }) => {
                                     fontWeight: 500,
                                     opacity: 0.6,
                                     fontSize: '0.6em'
-                                }}>, {word.plural.replace('-', '-̈')}</span>
+                                }}>, {word.plural.replace('-', '-¨')}</span>
                             )}
                         </div>
 
