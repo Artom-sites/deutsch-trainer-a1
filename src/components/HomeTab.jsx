@@ -1,14 +1,35 @@
 // src/components/HomeTab.jsx
 // Dashboard з streak, daily goal, weekly activity
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { words } from '../data/lexicon';
-import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight } from 'lucide-react';
+import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
     const getLearnedCount = useStore(state => state.getLearnedCount);
+
+    // PWA Install prompt
+    const [installPrompt, setInstallPrompt] = useState(null);
+
+    useEffect(() => {
+        const handler = (e) => {
+            e.preventDefault();
+            setInstallPrompt(e);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+        return () => window.removeEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    const handleInstall = async () => {
+        if (!installPrompt) return;
+        installPrompt.prompt();
+        const { outcome } = await installPrompt.userChoice;
+        if (outcome === 'accepted') {
+            setInstallPrompt(null);
+        }
+    };
 
     // Auth store
     const user = useAuthStore(state => state.user);
@@ -85,6 +106,48 @@ const HomeTab = () => {
                     </button>
                 )}
             </div>
+
+            {/* Install App Banner */}
+            {installPrompt && (
+                <div style={{
+                    background: 'linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%)',
+                    borderRadius: 16,
+                    padding: 16,
+                    marginBottom: 20,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    boxShadow: '0 4px 12px rgba(242, 106, 27, 0.3)'
+                }}>
+                    <div style={{ color: 'white' }}>
+                        <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 2 }}>
+                            Встановити додаток 📲
+                        </div>
+                        <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>
+                            Вивчайте німецьку офлайн
+                        </div>
+                    </div>
+                    <button
+                        onClick={handleInstall}
+                        style={{
+                            background: 'white',
+                            color: '#F26A1B',
+                            border: 'none',
+                            borderRadius: 10,
+                            padding: '10px 16px',
+                            fontWeight: 700,
+                            fontSize: '0.85rem',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 6
+                        }}
+                    >
+                        <Download size={16} />
+                        Завантажити
+                    </button>
+                </div>
+            )}
 
             {/* Streak & Daily Goal Row */}
             <div style={{
