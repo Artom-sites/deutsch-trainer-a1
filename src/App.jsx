@@ -18,7 +18,7 @@ import ExerciseSession from './components/ExerciseSession';
 import TestSession from './components/TestSession';
 import ExamTab from './components/ExamTab';
 import AIChatTab from './components/AIChatTab';
-import AIChatTab from './components/AIChatTab';
+// Duplicate import removed
 import ShopTab from './components/ShopTab';
 import NounMaster from './components/exercises/NounMaster';
 import AuthScreen from './components/AuthScreen';
