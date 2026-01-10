@@ -251,58 +251,42 @@ const LessonDetail = () => {
                 onClick={() => startLessonWords(activeLessonId)}
                 style={{
                     width: '100%',
-                    padding: '24px',
+                    padding: '16px',
                     marginBottom: 'var(--space-md)',
-                    background: 'linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%)',
-                    border: 'none',
-                    borderRadius: 24,
+                    background: '#1A1A22',
+                    border: '1px solid rgba(255, 255, 255, 0.04)',
+                    borderRadius: 16,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'var(--space-md)',
-                    boxShadow: '0 8px 32px -4px rgba(242, 106, 27, 0.3), inset 0 1px 0 rgba(255,255,255,0.2)',
-                    position: 'relative',
-                    overflow: 'hidden'
+                    gap: 14
                 }}
             >
                 <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
-                    pointerEvents: 'none'
-                }} />
-
-                <div style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 18,
-                    background: 'rgba(0, 0, 0, 0.15)',
+                    width: 44,
+                    height: 44,
+                    borderRadius: 14,
+                    background: '#F26A1B',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    backdropFilter: 'blur(4px)'
+                    justifyContent: 'center'
                 }}>
-                    <Play size={28} color="#FFFFFF" fill="currentColor" />
+                    <Play size={22} color="#0B0B0F" fill="#0B0B0F" />
                 </div>
-                <div style={{ textAlign: 'left', flex: 1, zIndex: 1 }}>
+                <div style={{ textAlign: 'left', flex: 1 }}>
                     <div style={{
-                        fontSize: '1.2rem',
-                        fontWeight: 700,
-                        color: '#FFFFFF',
-                        marginBottom: 4,
-                        letterSpacing: '-0.02em',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                        fontSize: '0.95rem',
+                        fontWeight: 600,
+                        color: '#E5E7EB',
+                        marginBottom: 2
                     }}>
                         Вчити слова
                     </div>
-                    <div style={{ fontSize: '0.95rem', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
+                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
                         {lessonWords.length} слів • {progress.learned} вивчено
                     </div>
                 </div>
-                <ChevronRight size={24} color="#FFFFFF" style={{ opacity: 0.8 }} />
+                <ChevronRight size={20} color="#7A7D8A" />
             </button>
 
             {/* ==========================================
