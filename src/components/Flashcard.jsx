@@ -196,11 +196,10 @@ const Flashcard = ({ word, onResult }) => {
                     onClick={handleLearn}
                     style={{
                         display: 'flex',
-                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: 4,
-                        padding: '14px 16px',
+                        gap: 8,
+                        padding: '16px',
                         background: 'rgba(233, 75, 90, 0.12)',
                         border: '1px solid rgba(233, 75, 90, 0.3)',
                         borderRadius: 16,
@@ -208,13 +207,8 @@ const Flashcard = ({ word, onResult }) => {
                         transition: 'all 0.2s'
                     }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <X size={18} color="#E94B5A" />
-                        <span style={{ color: '#E94B5A', fontWeight: 600, fontSize: '0.95rem' }}>Вчу</span>
-                    </div>
-                    <span style={{ color: '#7A7D8A', fontSize: '0.7rem' }}>
-                        Повернеться завтра
-                    </span>
+                    <X size={20} color="#E94B5A" />
+                    <span style={{ color: '#E94B5A', fontWeight: 600, fontSize: '1rem' }}>Вчу</span>
                 </button>
 
                 {/* Know */}
@@ -222,11 +216,10 @@ const Flashcard = ({ word, onResult }) => {
                     onClick={handleKnow}
                     style={{
                         display: 'flex',
-                        flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: 4,
-                        padding: '14px 16px',
+                        gap: 8,
+                        padding: '16px',
                         background: 'rgba(46, 204, 113, 0.12)',
                         border: '1px solid rgba(46, 204, 113, 0.3)',
                         borderRadius: 16,
@@ -234,13 +227,8 @@ const Flashcard = ({ word, onResult }) => {
                         transition: 'all 0.2s'
                     }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <Check size={18} color="#2ECC71" />
-                        <span style={{ color: '#2ECC71', fontWeight: 600, fontSize: '0.95rem' }}>Знаю</span>
-                    </div>
-                    <span style={{ color: '#7A7D8A', fontSize: '0.7rem' }}>
-                        Повернеться пізніше
-                    </span>
+                    <Check size={20} color="#2ECC71" />
+                    <span style={{ color: '#2ECC71', fontWeight: 600, fontSize: '1rem' }}>Знаю</span>
                 </button>
             </div>
         </div>
