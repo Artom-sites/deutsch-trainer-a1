@@ -10,11 +10,11 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['logo.png'],
+      includeAssets: ['icon-192.png', 'icon-512.png'],
       manifest: {
-        name: 'Deutsch Trainer A1',
-        short_name: 'DE Trainer',
-        description: 'Вивчай німецьку мову - рівень A1',
+        name: 'Deutsch Trainer',
+        short_name: 'Deutsch',
+        description: 'Вивчай німецьку мову',
         theme_color: '#0B0B0F',
         background_color: '#0B0B0F',
         display: 'standalone',
@@ -23,13 +23,13 @@ export default defineConfig({
         scope: '.',
         icons: [
           {
-            src: 'logo.png',
+            src: 'icon-192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: 'logo.png',
+            src: 'icon-512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
