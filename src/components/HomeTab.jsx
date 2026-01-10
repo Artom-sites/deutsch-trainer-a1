@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { words, lessons } from '../data/lexicon';
-import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download, Play, Trophy } from 'lucide-react';
+import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download, Play, Trophy, ShoppingBag } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);

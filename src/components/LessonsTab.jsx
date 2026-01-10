@@ -3,7 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import useStore from '../store/useStore';
 import { lessons } from '../data/lexicon';
-import { Check, Lock, Star, Play, Zap, Trophy } from 'lucide-react';
+import { Check, Lock, Star, Play, Zap, Trophy, BookOpen } from 'lucide-react';
 
 const LessonsTab = () => {
     const openLesson = useStore(state => state.openLesson);
