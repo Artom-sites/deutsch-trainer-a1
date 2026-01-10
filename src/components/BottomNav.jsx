@@ -1,5 +1,5 @@
 // src/components/BottomNav.jsx
-// Нижня навігація - преміальний дизайн з glass ефектом
+// Нижня навігація - Clean Minimal Design
 import React from 'react';
 import useStore from '../store/useStore';
 import { Home, BookOpen, Library, Zap, MessageCircle } from 'lucide-react';
@@ -17,7 +17,7 @@ const BottomNav = () => {
     const tabs = [
         { id: 'lessons', icon: BookOpen, label: 'Уроки' },
         { id: 'dictionary', icon: Library, label: 'Словник' },
-        { id: 'home', icon: Home, label: 'Головна', isCenter: true },
+        { id: 'home', icon: Home, label: 'Головна' },
         { id: 'verbs', icon: Zap, label: 'Дієслова' },
         { id: 'chat', icon: MessageCircle, label: 'Чат' },
     ];
@@ -28,69 +28,21 @@ const BottomNav = () => {
             bottom: 0,
             left: 0,
             right: 0,
-            padding: '12px 24px',
-            paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))',
+            paddingBottom: 'env(safe-area-inset-bottom, 0px)',
             zIndex: 1000,
-            display: 'flex',
-            justifyContent: 'center',
-            pointerEvents: 'none'
+            background: '#0B0B0F',
+            borderTop: '1px solid rgba(255, 255, 255, 0.06)'
         }}>
             <div style={{
-                pointerEvents: 'auto',
-                background: 'rgba(23, 23, 28, 0.75)',
-                backdropFilter: 'blur(30px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(30px) saturate(180%)',
-                borderRadius: 32,
-                padding: '16px 16px',
                 display: 'flex',
-                justifyContent: 'space-between',
+                justifyContent: 'space-around',
                 alignItems: 'center',
-                width: '100%',
-                maxWidth: 400,
-                boxShadow: `
-                    0 20px 40px -10px rgba(0, 0, 0, 0.5),
-                    0 0 0 1px rgba(255, 255, 255, 0.08),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.1)
-                `,
+                padding: '12px 8px 8px'
             }}>
                 {tabs.map(tab => {
                     const Icon = tab.icon;
                     const isActive = currentTab === tab.id;
-
-                    if (tab.isCenter) {
-                        return (
-                            <button
-                                key={tab.id}
-                                onClick={() => setTab(tab.id)}
-                                style={{
-                                    width: 50,
-                                    height: 50,
-                                    borderRadius: 18,
-                                    background: isActive
-                                        ? '#F26A1B'
-                                        : '#1A1A22',
-                                    border: isActive
-                                        ? 'none'
-                                        : '1px solid rgba(255, 255, 255, 0.08)',
-                                    boxShadow: isActive
-                                        ? '0 6px 20px rgba(242, 106, 27, 0.4)'
-                                        : 'none',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    marginTop: -20,
-                                    transition: 'all 0.3s ease'
-                                }}
-                            >
-                                <Icon
-                                    size={24}
-                                    strokeWidth={2.2}
-                                    color={isActive ? '#0B0B0F' : '#7A7D8A'}
-                                />
-                            </button>
-                        );
-                    }
+                    const isHome = tab.id === 'home';
 
                     return (
                         <button
@@ -101,25 +53,43 @@ const BottomNav = () => {
                                 flexDirection: 'column',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                gap: 6,
+                                gap: 4,
                                 background: 'transparent',
                                 border: 'none',
                                 cursor: 'pointer',
-                                minWidth: 60,
-                                opacity: isActive ? 1 : 0.5,
-                                transform: isActive ? 'translateY(-2px)' : 'none',
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                                padding: '4px 12px',
+                                borderRadius: 12,
+                                transition: 'all 0.2s ease'
                             }}
                         >
-                            <Icon
-                                size={24}
-                                strokeWidth={isActive ? 2.5 : 2}
-                                color={isActive ? '#FFFFFF' : '#A0A0B0'}
-                                style={{
-                                    filter: isActive ? 'drop-shadow(0 0 12px rgba(242, 106, 27, 0.4))' : 'none',
-                                    transition: 'all 0.3s ease'
-                                }}
-                            />
+                            <div style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 12,
+                                background: isActive
+                                    ? (isHome ? '#F26A1B' : 'rgba(242, 106, 27, 0.15)')
+                                    : 'transparent',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s ease'
+                            }}>
+                                <Icon
+                                    size={22}
+                                    strokeWidth={isActive ? 2.5 : 2}
+                                    color={isActive
+                                        ? (isHome ? '#0B0B0F' : '#F26A1B')
+                                        : '#7A7D8A'}
+                                />
+                            </div>
+                            <span style={{
+                                fontSize: '0.65rem',
+                                fontWeight: isActive ? 600 : 500,
+                                color: isActive ? '#E5E7EB' : '#7A7D8A',
+                                transition: 'all 0.2s ease'
+                            }}>
+                                {tab.label}
+                            </span>
                         </button>
                     );
                 })}
