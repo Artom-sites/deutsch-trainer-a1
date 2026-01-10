@@ -63,9 +63,15 @@ const useAuthStore = create(
                     const docRef = doc(db, 'users', uid);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
-                        return docSnap.data();
+                        const data = docSnap.data();
+                        // Ensure defaults for new fields (Economy)
+                        return {
+                            coins: 100,
+                            inventory: [],
+                            ...data
+                        };
                     }
-                    return {};
+                    return { coins: 100, inventory: [] };
                 } catch (e) {
                     console.error('Error fetching user data:', e);
                     return {};

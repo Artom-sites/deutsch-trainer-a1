@@ -125,12 +125,16 @@ const LessonsTab = () => {
                                     ? '#2ECC71' // Green for done
                                     : isCurrent
                                         ? 'linear-gradient(135deg, #F26A1B, #E55A0A)' // Orange for current
-                                        : '#1A1A22', // Dark for locked/upcoming
+                                        : !isLocked
+                                            ? '#2A2A33' // Lighter dark for unlocked
+                                            : '#1A1A22', // Dark for locked
                                 border: isCurrent
                                     ? '4px solid rgba(242, 106, 27, 0.3)'
                                     : isComplete
                                         ? '4px solid rgba(46, 204, 113, 0.3)'
-                                        : '4px solid #2A2A35',
+                                        : !isLocked
+                                            ? '2px solid rgba(255,255,255,0.1)' // Border for unlocked
+                                            : '4px solid #2A2A35',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
@@ -147,7 +151,7 @@ const LessonsTab = () => {
                                 ) : isLocked ? (
                                     <Lock size={24} color="#7A7D8A" />
                                 ) : (
-                                    <Star size={24} color="#7A7D8A" />
+                                    <BookOpen size={24} color="#E5E7EB" />
                                 )}
 
                                 {/* Floating star count or ID if completed/current ?? */}
