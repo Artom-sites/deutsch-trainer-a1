@@ -36,6 +36,7 @@ const HomeTab = () => {
     // Auth store
     const user = useAuthStore(state => state.user);
     const dailyGoal = useAuthStore(state => state.dailyGoal);
+    const dailyProgress = useAuthStore(state => state.dailyProgress);
     const coins = useAuthStore(state => state.coins);
     const streak = useAuthStore(state => state.streak);
     const logout = useAuthStore(state => state.logout);
