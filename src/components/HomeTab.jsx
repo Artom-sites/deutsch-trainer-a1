@@ -48,11 +48,17 @@ const HomeTab = () => {
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
     // Last visited lesson (or fall back to first incomplete)
+    // Last visited lesson (or fall back to first incomplete)
     const lastVisitedLessonId = useStore(state => state.lastVisitedLessonId);
+
+    // Safety: ensure lessons exist
+    const safeLessons = lessons && lessons.length > 0 ? lessons : [];
+
     const currentLesson = lastVisitedLessonId
-        ? (lessons.find(l => l.id === lastVisitedLessonId) || lessons[0])
-        : (lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[0]);
-    const lessonProgress = getLessonProgress(currentLesson.id);
+        ? (safeLessons.find(l => l.id === lastVisitedLessonId) || safeLessons[0])
+        : (safeLessons.find(l => getLessonProgress(l.id).percent < 100) || safeLessons[0]);
+
+    const lessonProgress = currentLesson ? getLessonProgress(currentLesson.id) : { percent: 0, total: 0, learned: 0 };
 
     if (activeAudioLesson) {
         return <AudioSession lesson={activeAudioLesson} onBack={() => setActiveAudioLesson(null)} />;
@@ -101,97 +107,108 @@ const HomeTab = () => {
             {/* =====================
                 HERO LESSON CARD
             ===================== */}
-            <div
-                onClick={() => openLesson(currentLesson.id)}
-                style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
-                    border: '1px solid var(--stroke)',
-                    borderRadius: 24,
-                    padding: 20,
-                    marginBottom: 24,
-                    cursor: 'pointer',
-                    boxShadow: 'var(--sh-1)'
-                }}
-            >
-                <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
-                    {/* Play Icon */}
-                    <div style={{
-                        width: 52, height: 52, borderRadius: 14,
-                        background: 'linear-gradient(180deg, rgba(255,107,53,0.22), rgba(255,107,53,0.08))',
-                        border: '1px solid rgba(255,107,53,0.2)',
-                        boxShadow: '0 12px 30px rgba(255,107,53,0.12)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        flexShrink: 0
-                    }}>
-                        <Play size={24} color="#fff" fill="#fff" style={{ marginLeft: 2 }} />
-                    </div>
-
-                    <div style={{ flex: 1 }}>
-                        {/* Meta */}
+            {currentLesson ? (
+                <div
+                    onClick={() => openLesson(currentLesson.id)}
+                    style={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 24,
+                        padding: 20,
+                        marginBottom: 24,
+                        cursor: 'pointer',
+                        boxShadow: 'var(--sh-1)'
+                    }}
+                >
+                    <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
+                        {/* Play Icon */}
                         <div style={{
-                            display: 'flex', alignItems: 'center', gap: 8,
-                            marginBottom: 6, flexWrap: 'wrap'
+                            width: 52, height: 52, borderRadius: 14,
+                            background: 'linear-gradient(180deg, rgba(255,107,53,0.22), rgba(255,107,53,0.08))',
+                            border: '1px solid rgba(255,107,53,0.2)',
+                            boxShadow: '0 12px 30px rgba(255,107,53,0.12)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            flexShrink: 0
                         }}>
-                            <span style={{
-                                background: 'var(--surface)',
-                                padding: '4px 10px', borderRadius: 8,
-                                fontSize: '0.75rem', color: 'var(--text-1)', fontWeight: 500
-                            }}>
-                                Урок {currentLesson.id}
-                            </span>
-                            <span style={{
-                                display: 'flex', alignItems: 'center', gap: 4,
-                                fontSize: '0.75rem', color: 'var(--text-2)'
-                            }}>
-                                <Clock size={12} /> ~6 хв
-                            </span>
+                            <Play size={24} color="#fff" fill="#fff" style={{ marginLeft: 2 }} />
                         </div>
 
-                        {/* Title */}
-                        <h2 style={{
-                            fontSize: '1.15rem', fontWeight: 700,
-                            color: 'var(--text-0)', margin: 0, lineHeight: 1.3,
-                            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                        <div style={{ flex: 1 }}>
+                            {/* Meta */}
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: 8,
+                                marginBottom: 6, flexWrap: 'wrap'
+                            }}>
+                                <span style={{
+                                    background: 'var(--surface)',
+                                    padding: '4px 10px', borderRadius: 8,
+                                    fontSize: '0.75rem', color: 'var(--text-1)', fontWeight: 500
+                                }}>
+                                    Урок {currentLesson.id}
+                                </span>
+                                <span style={{
+                                    display: 'flex', alignItems: 'center', gap: 4,
+                                    fontSize: '0.75rem', color: 'var(--text-2)'
+                                }}>
+                                    <Clock size={12} /> ~6 хв
+                                </span>
+                            </div>
+
+                            {/* Title */}
+                            <h2 style={{
+                                fontSize: '1.15rem', fontWeight: 700,
+                                color: 'var(--text-0)', margin: 0, lineHeight: 1.3,
+                                display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                            }}>
+                                {currentLesson.title}
+                            </h2>
+
+                            <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: 4, marginBottom: 0 }}>
+                                {currentLesson.description}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Progress */}
+                    <div style={{ marginBottom: 14 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Прогрес</span>
+                            <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-0)' }}>{lessonProgress.percent}%</span>
+                        </div>
+                        <div style={{ height: 6, background: 'var(--surface)', borderRadius: 3 }}>
+                            <div style={{
+                                height: '100%', borderRadius: 3,
+                                background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
+                                width: `${lessonProgress.percent}%`
+                            }} />
+                        </div>
+                    </div>
+
+                    {/* Continue Button */}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <button style={{
+                            background: 'var(--pri)',
+                            color: '#0B0B0F',
+                            border: 'none', borderRadius: 999,
+                            padding: '10px 20px',
+                            fontWeight: 600, fontSize: '0.9rem',
+                            display: 'flex', alignItems: 'center', gap: 6,
+                            boxShadow: '0 8px 24px rgba(255,107,53,.25)'
                         }}>
-                            {currentLesson.title}
-                        </h2>
-
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: 4, marginBottom: 0 }}>
-                            {currentLesson.description}
-                        </p>
+                            Продовжити <ChevronRight size={18} />
+                        </button>
                     </div>
                 </div>
-
-                {/* Progress */}
-                <div style={{ marginBottom: 14 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Прогрес</span>
-                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-0)' }}>{lessonProgress.percent}%</span>
-                    </div>
-                    <div style={{ height: 6, background: 'var(--surface)', borderRadius: 3 }}>
-                        <div style={{
-                            height: '100%', borderRadius: 3,
-                            background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
-                            width: `${lessonProgress.percent}%`
-                        }} />
-                    </div>
+            ) : (
+                <div style={{
+                    padding: 24, textAlign: 'center', marginBottom: 24,
+                    background: 'var(--surface)', borderRadius: 24, border: '1px solid var(--stroke)'
+                }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 12 }}>🎉</div>
+                    <h3 style={{ color: 'var(--text-0)', marginBottom: 8 }}>Вітаємо!</h3>
+                    <p style={{ color: 'var(--text-2)', fontSize: '0.9rem' }}>Ви пройшли всі доступні уроки.</p>
                 </div>
-
-                {/* Continue Button */}
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button style={{
-                        background: 'var(--pri)',
-                        color: '#0B0B0F',
-                        border: 'none', borderRadius: 999,
-                        padding: '10px 20px',
-                        fontWeight: 600, fontSize: '0.9rem',
-                        display: 'flex', alignItems: 'center', gap: 6,
-                        boxShadow: '0 8px 24px rgba(255,107,53,.25)'
-                    }}>
-                        Продовжити <ChevronRight size={18} />
-                    </button>
-                </div>
-            </div>
+            )}
 
             {/* =====================
                 ТВІЙ ДЕНЬ (Stats)
@@ -316,7 +333,7 @@ const HomeTab = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
                 {/* Картки */}
                 <div
-                    onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
+                    onClick={() => currentLesson && useStore.getState().startLessonWords(currentLesson.id)}
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(47,230,166,0.25)',
@@ -345,7 +362,7 @@ const HomeTab = () => {
 
                 {/* Noun Master */}
                 <div
-                    onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
+                    onClick={() => currentLesson && useStore.getState().startNounMaster(currentLesson.id)}
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(87,166,255,0.25)',
