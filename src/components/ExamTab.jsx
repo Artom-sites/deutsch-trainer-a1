@@ -9,29 +9,37 @@ import { speakSentence, stopSpeaking } from '../utils/speech';
 
 const ExamCard = ({ test, type, onStart }) => (
     <div
-        className="card card-clickable"
         onClick={() => onStart(test)}
-        style={{ marginBottom: 'var(--space-md)' }}
+        style={{
+            background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+            border: '1px solid var(--stroke)',
+            borderRadius: 20,
+            marginBottom: 12,
+            padding: 16,
+            cursor: 'pointer',
+            boxShadow: 'var(--sh-1)'
+        }}
     >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{
                 width: 48,
                 height: 48,
-                borderRadius: 'var(--radius-md)',
-                background: type === 'reading' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(168, 85, 247, 0.1)',
+                borderRadius: 14,
+                background: type === 'reading' ? 'rgba(59, 130, 246, 0.15)' : 'rgba(168, 85, 247, 0.15)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                border: type === 'reading' ? '1px solid rgba(59, 130, 246, 0.3)' : '1px solid rgba(168, 85, 247, 0.3)'
             }}>
                 {type === 'reading' ? (
-                    <BookOpen size={24} color="var(--color-info)" />
+                    <BookOpen size={24} color="#3b82f6" />
                 ) : (
-                    <Headphones size={24} color="var(--color-accent)" />
+                    <Headphones size={24} color="#a855f7" />
                 )}
             </div>
             <div>
-                <div style={{ fontWeight: 600, marginBottom: 4 }}>{test.title}</div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                <div style={{ fontWeight: 600, marginBottom: 4, color: 'var(--text-0)' }}>{test.title}</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>
                     {test.questions.length} завдань
                 </div>
             </div>
@@ -108,14 +116,14 @@ const TestSession = ({ test, type, onBack }) => {
     return (
         <div className="screen fade-in" style={{ paddingBottom: 180 }}>
             {/* Header with Timer */}
-            <div className="back-header" style={{ justifyContent: 'space-between' }}>
-                <button className="back-btn" onClick={onBack}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+                <button className="v-backBtn" onClick={onBack}>
                     ←
                 </button>
                 <div style={{
                     fontWeight: 700,
                     fontVariantNumeric: 'tabular-nums',
-                    color: timeLeft < 60 ? 'var(--color-error)' : 'var(--text-primary)'
+                    color: timeLeft < 60 ? 'var(--bad)' : 'var(--text-0)'
                 }}>
                     ⏱ {formatTime(timeLeft)}
                 </div>
@@ -136,8 +144,9 @@ const TestSession = ({ test, type, onBack }) => {
                 marginBottom: 'var(--space-lg)',
                 padding: 'var(--space-lg)',
                 background: 'rgba(255, 255, 255, 0.03)',
-                color: 'var(--text-primary)',
-                border: '1px solid rgba(255, 255, 255, 0.05)'
+                color: 'var(--text-0)',
+                border: '1px solid var(--stroke)',
+                borderRadius: 20
             }}>
                 {type === 'reading' ? (
                     <div style={{ padding: '0 8px' }}>
@@ -262,8 +271,8 @@ const TestSession = ({ test, type, onBack }) => {
                         maxWidth: 400,
                         margin: '0 auto',
                         display: 'block',
-                        marginTop: 'var(--space-xl)',
-                        marginBottom: 'var(--space-xl)'
+                        marginTop: 24,
+                        marginBottom: 32
                     }}
                 >
                     Перевірити відповіді
@@ -303,24 +312,29 @@ const ExamTab = () => {
 
     return (
         <div className="screen">
-            <div className="screen-header">
-                <h1 className="screen-title">Prüfung</h1>
-                <p className="screen-subtitle">Підготовка до екзамену A1</p>
+            <div style={{ marginBottom: 20 }}>
+                <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-0)', margin: '0 0 4px' }}>
+                    Prüfung
+                </h1>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
+                    Підготовка до екзамену A1
+                </p>
             </div>
 
             {/* Tabs */}
-            <div style={{ display: 'flex', gap: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>
+            <div style={{ display: 'flex', gap: 10, marginBottom: 24 }}>
                 <button
                     onClick={() => setActiveType('reading')}
                     style={{
                         flex: 1,
                         padding: '12px',
-                        borderRadius: 'var(--radius-md)',
-                        background: activeType === 'reading' ? 'var(--color-primary)' : 'var(--bg-card)',
-                        color: activeType === 'reading' ? 'white' : 'var(--text-secondary)',
-                        border: 'none',
+                        borderRadius: 14,
+                        background: activeType === 'reading' ? 'var(--pri)' : 'var(--surface)',
+                        color: activeType === 'reading' ? '#0B0B0F' : 'var(--text-2)',
+                        border: activeType === 'reading' ? 'none' : '1px solid var(--stroke)',
                         fontWeight: 600,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
                     }}
                 >
                     📖 Lesen
@@ -330,12 +344,13 @@ const ExamTab = () => {
                     style={{
                         flex: 1,
                         padding: '12px',
-                        borderRadius: 'var(--radius-md)',
-                        background: activeType === 'listening' ? 'var(--color-primary)' : 'var(--bg-card)',
-                        color: activeType === 'listening' ? 'white' : 'var(--text-secondary)',
-                        border: 'none',
+                        borderRadius: 14,
+                        background: activeType === 'listening' ? 'var(--pri)' : 'var(--surface)',
+                        color: activeType === 'listening' ? '#0B0B0F' : 'var(--text-2)',
+                        border: activeType === 'listening' ? 'none' : '1px solid var(--stroke)',
                         fontWeight: 600,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
                     }}
                 >
                     🎧 Hören
@@ -344,7 +359,7 @@ const ExamTab = () => {
 
             {/* List */}
             <div>
-                <h3 style={{ marginBottom: 'var(--space-md)' }}>
+                <h3 style={{ marginBottom: 16, fontSize: '1rem', color: 'var(--text-0)' }}>
                     {activeType === 'reading' ? 'Читання' : 'Аудіювання'}
                 </h3>
 
