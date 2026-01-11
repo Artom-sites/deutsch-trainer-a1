@@ -275,67 +275,49 @@ const TestSession = () => {
     }
 
     return (
-        <div className="screen" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowX: 'hidden' }}>
-            {/* Header */}
+        <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)', overflow: 'hidden' }}>
+            {/* Header Row - Back button left, Counter right */}
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 16,
-                marginBottom: 16,
-                paddingTop: 8
+                justifyContent: 'space-between',
+                marginBottom: 16
             }}>
-                <button
-                    onClick={goBack}
-                    style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 12,
-                        background: 'rgba(255, 255, 255, 0.08)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        color: 'var(--text-primary)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        cursor: 'pointer'
-                    }}
-                >
-                    <X size={20} />
+                <button className="v-backBtn" onClick={goBack}>
+                    <X size={20} color="#fff" />
                 </button>
-                <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                        {test.title}
-                    </div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
-                        Питання {currentIndex + 1} з {questions.length}
-                    </div>
+
+                <div style={{
+                    fontSize: '0.9rem',
+                    fontWeight: 600,
+                    color: 'var(--text-1)',
+                    background: 'var(--surface)',
+                    padding: '6px 12px',
+                    borderRadius: 12,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    border: '1px solid var(--stroke)'
+                }}>
+                    <Target size={16} color="var(--ok)" />
+                    <span>{currentIndex + 1} <span style={{ color: 'var(--text-2)' }}>/ {questions.length}</span></span>
                 </div>
-                <Target size={20} color="#2ECC71" />
             </div>
 
             {/* Progress bar */}
-            <div style={{
-                height: 4,
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: 2,
-                marginBottom: 24,
-                overflow: 'hidden'
-            }}>
-                <div style={{
-                    width: `${progress}%`,
-                    height: '100%',
-                    background: '#2ECC71',
-                    transition: 'width 0.3s ease'
-                }} />
+            <div className="progress-bar" style={{ marginBottom: 20 }}>
+                <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
             </div>
 
             {/* Question content */}
-            <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingBottom: 100 }}>
+            <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingBottom: 120 }}>
                 {/* Question text */}
                 <div style={{
-                    fontSize: '1.2rem',
+                    fontSize: '1.15rem',
                     fontWeight: 600,
-                    marginBottom: 24,
-                    lineHeight: 1.4
+                    marginBottom: 20,
+                    lineHeight: 1.4,
+                    color: 'var(--text-0)'
                 }}>
                     {currentQuestion.question}
                 </div>
@@ -445,22 +427,20 @@ const TestSession = () => {
 
                             return (
                                 <div key={idx} style={{
-                                    display: 'flex',
-                                    gap: 8,
-                                    marginBottom: 12,
-                                    alignItems: 'stretch',
-                                    flexWrap: 'nowrap'
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: 10,
+                                    marginBottom: 10
                                 }}>
                                     <div style={{
-                                        minWidth: 0,
-                                        flex: '0 0 auto',
-                                        maxWidth: '40%',
-                                        padding: '10px 12px',
-                                        background: 'rgba(242, 106, 27, 0.1)',
-                                        border: '1px solid rgba(242, 106, 27, 0.2)',
-                                        borderRadius: 10,
-                                        fontSize: '0.85rem',
-                                        wordBreak: 'break-word'
+                                        padding: '12px 14px',
+                                        background: 'var(--surface)',
+                                        border: '1px solid var(--stroke)',
+                                        borderRadius: 12,
+                                        fontSize: '0.9rem',
+                                        color: 'var(--text-0)',
+                                        display: 'flex',
+                                        alignItems: 'center'
                                     }}>
                                         {pair.left}
                                     </div>
@@ -469,22 +449,19 @@ const TestSession = () => {
                                         onChange={(e) => handleMatchSelect(idx, e.target.value)}
                                         disabled={isAnswered}
                                         style={{
-                                            flex: 1,
-                                            minWidth: 0,
-                                            padding: '10px 12px',
+                                            padding: '12px 14px',
                                             background: isAnswered
-                                                ? (isThisCorrect ? 'rgba(46, 204, 113, 0.1)' : 'rgba(233, 75, 90, 0.1)')
-                                                : 'rgba(255, 255, 255, 0.08)',
+                                                ? (isThisCorrect ? 'rgba(46, 204, 113, 0.15)' : 'rgba(233, 75, 90, 0.15)')
+                                                : 'var(--surface)',
                                             border: isAnswered
-                                                ? (isThisCorrect ? '1px solid #2ECC71' : '1px solid #E94B5A')
-                                                : '1px solid rgba(255, 255, 255, 0.15)',
-                                            borderRadius: 10,
+                                                ? (isThisCorrect ? '1px solid var(--ok)' : '1px solid var(--bad)')
+                                                : '1px solid var(--stroke)',
+                                            borderRadius: 12,
                                             color: isAnswered
-                                                ? (isThisCorrect ? '#2ECC71' : '#E94B5A')
-                                                : 'var(--text-primary)',
-                                            fontSize: '0.85rem',
-                                            WebkitAppearance: 'none',
-                                            appearance: 'none'
+                                                ? (isThisCorrect ? 'var(--ok)' : 'var(--bad)')
+                                                : 'var(--text-0)',
+                                            fontSize: '0.9rem',
+                                            cursor: isAnswered ? 'default' : 'pointer'
                                         }}
                                     >
                                         <option value="">Оберіть...</option>
