@@ -174,11 +174,15 @@ const HomeTab = () => {
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 28 }}>
                 {/* Words */}
-                <div style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                    border: '1px solid var(--stroke)',
-                    borderRadius: 20, padding: 16
-                }}>
+                <div
+                    onClick={() => setTab('dictionary')}
+                    style={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 20, padding: 16,
+                        cursor: 'pointer'
+                    }}
+                >
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Слова</p>
                     <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 8 }}>
                         {dailyProgress}<span style={{ color: 'var(--text-2)', fontSize: '1.2rem' }}>/{dailyGoal}</span>
@@ -193,11 +197,15 @@ const HomeTab = () => {
                 </div>
 
                 {/* Learned total */}
-                <div style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                    border: '1px solid var(--stroke)',
-                    borderRadius: 20, padding: 16
-                }}>
+                <div
+                    onClick={() => setTab('lessons')}
+                    style={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 20, padding: 16,
+                        cursor: 'pointer'
+                    }}
+                >
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Граматика</p>
                     <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 8 }}>
                         {getLearnedCount()}<span style={{ color: 'var(--text-2)', fontSize: '1.2rem' }}>/100</span>
@@ -216,7 +224,7 @@ const HomeTab = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
                 {/* Картки */}
                 <div
-                    onClick={() => setTab('dictionary')}
+                    onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(47,230,166,0.25)',
@@ -245,7 +253,7 @@ const HomeTab = () => {
 
                 {/* Noun Master */}
                 <div
-                    onClick={() => setTab('lessons')}
+                    onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(87,166,255,0.25)',
@@ -283,7 +291,10 @@ const HomeTab = () => {
                 <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
                     Рекомендовано
                 </h3>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-2)', cursor: 'pointer' }}>
+                <span
+                    onClick={() => setTab('lessons')}
+                    style={{ fontSize: '0.8rem', color: 'var(--text-2)', cursor: 'pointer' }}
+                >
                     Дивитись все
                 </span>
             </div>
