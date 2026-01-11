@@ -48,6 +48,18 @@ const ReadingSession = () => {
         if (!found) found = words.find(w => w.word.toLowerCase().startsWith(cleanWord) && cleanWord.length >= 3);
         if (!found) found = words.find(w => cleanWord.startsWith(w.word.toLowerCase().replace(/-/g, '')) && w.word.length >= 3);
 
+        // Try matching verb conjugations (beginnt -> beginnen, macht -> machen)
+        if (!found && cleanWord.length >= 4) {
+            // Common verb endings to try
+            const verbEndings = ['en', 'n'];
+            for (const ending of verbEndings) {
+                // Try adding 'en' to stem (beginnt -> beginn -> beginnen)
+                const stem = cleanWord.replace(/(t|st|e)$/, '');
+                found = words.find(w => w.word.toLowerCase() === stem + ending);
+                if (found) break;
+            }
+        }
+
         if (found) {
             setSelectedWord({ word: found.word, translation: found.translation, article: found.article });
             speakSentence(found.word);
