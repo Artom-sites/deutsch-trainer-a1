@@ -420,7 +420,7 @@ const TestSession = () => {
 
                 {/* Match pairs */}
                 {currentQuestion.type === 'match' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                         {currentQuestion.pairs.map((pair, idx) => {
                             const userAnswer = answers[currentQuestion.id]?.[idx];
                             const isThisCorrect = userAnswer === pair.right;
@@ -428,28 +428,25 @@ const TestSession = () => {
 
                             return (
                                 <div key={idx} style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: 12,
-                                    alignItems: 'center'
+                                    background: 'var(--surface)',
+                                    border: isAnswered
+                                        ? (isThisCorrect ? '1px solid var(--ok)' : '1px solid var(--bad)')
+                                        : '1px solid var(--stroke)',
+                                    borderRadius: 16,
+                                    padding: 16,
+                                    transition: 'border-color 0.2s'
                                 }}>
-                                    {/* Left - Question */}
+                                    {/* Question label */}
                                     <div style={{
-                                        padding: '14px 16px',
-                                        background: 'var(--surface)',
-                                        border: '1px solid var(--stroke)',
-                                        borderRadius: 14,
-                                        fontSize: '0.95rem',
-                                        fontWeight: 500,
+                                        fontSize: '1rem',
+                                        fontWeight: 600,
                                         color: 'var(--text-0)',
-                                        minHeight: 48,
-                                        display: 'flex',
-                                        alignItems: 'center'
+                                        marginBottom: 12
                                     }}>
                                         {pair.left}
                                     </div>
 
-                                    {/* Right - Dropdown wrapper */}
+                                    {/* Dropdown */}
                                     <div style={{ position: 'relative' }}>
                                         <select
                                             value={selectedValue}
@@ -457,14 +454,12 @@ const TestSession = () => {
                                             disabled={isAnswered}
                                             style={{
                                                 width: '100%',
-                                                padding: '14px 40px 14px 16px',
+                                                padding: '12px 40px 12px 14px',
                                                 background: isAnswered
-                                                    ? (isThisCorrect ? 'rgba(46, 204, 113, 0.12)' : 'rgba(233, 75, 90, 0.12)')
-                                                    : selectedValue ? 'var(--surface)' : 'rgba(255,255,255,0.04)',
-                                                border: isAnswered
-                                                    ? (isThisCorrect ? '2px solid var(--ok)' : '2px solid var(--bad)')
-                                                    : selectedValue ? '1px solid var(--pri)' : '1px solid var(--stroke)',
-                                                borderRadius: 14,
+                                                    ? (isThisCorrect ? 'rgba(46, 204, 113, 0.15)' : 'rgba(233, 75, 90, 0.15)')
+                                                    : 'rgba(255,255,255,0.06)',
+                                                border: selectedValue && !isAnswered ? '1px solid var(--pri)' : '1px solid var(--stroke)',
+                                                borderRadius: 12,
                                                 color: isAnswered
                                                     ? (isThisCorrect ? 'var(--ok)' : 'var(--bad)')
                                                     : selectedValue ? 'var(--text-0)' : 'var(--text-2)',
@@ -473,25 +468,22 @@ const TestSession = () => {
                                                 cursor: isAnswered ? 'default' : 'pointer',
                                                 appearance: 'none',
                                                 WebkitAppearance: 'none',
-                                                outline: 'none',
-                                                minHeight: 48
+                                                outline: 'none'
                                             }}
                                         >
-                                            <option value="">Оберіть...</option>
+                                            <option value="">Оберіть відповідь...</option>
                                             {currentQuestion.pairs.map((p, i) => (
                                                 <option key={i} value={p.right}>{p.right}</option>
                                             ))}
                                         </select>
-                                        {/* Custom chevron */}
+                                        {/* Chevron */}
                                         <div style={{
                                             position: 'absolute',
-                                            right: 14,
+                                            right: 12,
                                             top: '50%',
                                             transform: 'translateY(-50%)',
                                             pointerEvents: 'none',
-                                            color: isAnswered
-                                                ? (isThisCorrect ? 'var(--ok)' : 'var(--bad)')
-                                                : 'var(--text-2)'
+                                            color: 'var(--text-2)'
                                         }}>
                                             <ChevronRight size={18} style={{ transform: 'rotate(90deg)' }} />
                                         </div>
