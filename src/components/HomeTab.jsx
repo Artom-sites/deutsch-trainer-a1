@@ -83,11 +83,13 @@ const HomeTab = () => {
                     {/* Play Icon */}
                     <div style={{
                         width: 52, height: 52, borderRadius: 16,
-                        background: 'var(--surface-2)',
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '2px solid rgba(255,107,53,0.4)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        flexShrink: 0
+                        flexShrink: 0,
+                        boxShadow: 'inset 0 0 15px rgba(255,107,53,0.15), 0 0 20px rgba(255,107,53,0.1)'
                     }}>
-                        <Play size={24} color="var(--text-0)" fill="var(--text-0)" style={{ marginLeft: 2 }} />
+                        <Play size={24} color="var(--pri)" fill="var(--pri)" style={{ marginLeft: 2 }} />
                     </div>
 
                     <div style={{ flex: 1 }}>
@@ -311,10 +313,12 @@ const HomeTab = () => {
             >
                 <div style={{
                     width: 48, height: 48, borderRadius: 14,
-                    background: 'rgba(87,166,255,.15)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '2px solid rgba(87,166,255,0.4)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: 'inset 0 0 12px rgba(87,166,255,0.12), 0 0 18px rgba(87,166,255,0.1)'
                 }}>
-                    <Languages size={24} color="var(--der)" />
+                    <Languages size={22} color="var(--der)" />
                 </div>
                 <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
@@ -347,10 +351,12 @@ const HomeTab = () => {
             >
                 <div style={{
                     width: 48, height: 48, borderRadius: 14,
-                    background: 'rgba(87,166,255,.15)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '2px solid rgba(46,204,113,0.4)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: 'inset 0 0 12px rgba(46,204,113,0.12), 0 0 18px rgba(46,204,113,0.1)'
                 }}>
-                    <MessageCircle size={24} color="var(--der)" />
+                    <MessageCircle size={22} color="var(--ok)" />
                 </div>
                 <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
