@@ -5,6 +5,7 @@ import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { lessons, exercises } from '../data/lexicon';
 import { audioLessons } from '../data/audioLessons';
+import { chatScenarios } from '../data/chatScenarios';
 import AudioSession from './AudioSession';
 import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, AlertCircle } from 'lucide-react';
 
@@ -22,6 +23,7 @@ const HomeTab = () => {
     const getOverallProgress = useStore(state => state.getOverallProgress);
     const getWeakWords = useStore(state => state.getWeakWords);
     const getMistakes = useStore(state => state.getMistakes);
+    const startChatScenario = useStore(state => state.startChatScenario);
     // Helper to start specific exercises
     const startExerciseSession = useStore(state => (exercisesList) => {
         useStore.setState({
@@ -573,6 +575,53 @@ const HomeTab = () => {
                                 </div>
                                 <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: 4 }}>
                                     <Clock size={10} /> {lesson.duration}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* =====================
+                DIALOGUES
+            ===================== */}
+            <div style={{ marginBottom: 24 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
+                        💬 Інтерактивні діалоги
+                    </h3>
+                </div>
+                <div style={{
+                    display: 'flex', gap: 12, overflowX: 'auto',
+                    paddingRight: 16, paddingBottom: 8, scrollbarWidth: 'none'
+                }}>
+                    {chatScenarios.map(scenario => (
+                        <div
+                            key={scenario.id}
+                            onClick={() => startChatScenario(scenario.id)}
+                            style={{
+                                minWidth: 140, width: 140,
+                                background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+                                border: '1px solid var(--stroke)',
+                                borderRadius: 16, padding: 12,
+                                display: 'flex', flexDirection: 'column', gap: 8,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <div style={{
+                                width: 32, height: 32, borderRadius: 10,
+                                background: 'rgba(242, 106, 27, 0.2)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                fontSize: '1.2rem'
+                            }}>
+                                {scenario.icon}
+                            </div>
+                            <div>
+                                <div style={{ fontSize: '0.85rem', fontWeight: 600, lineHeight: 1.2, marginBottom: 4 }}>
+                                    {scenario.title.split('(')[0]}
+                                </div>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                    {scenario.description}
                                 </div>
                             </div>
                         </div>

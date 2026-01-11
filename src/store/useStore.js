@@ -59,6 +59,13 @@ const useStore = create(
                 lastVisitedLessonId: lessonId // Remember last visited
             }),
 
+            startChatScenario: (scenarioId) => set({
+                currentTab: 'chat',
+                activeChatScenarioId: scenarioId
+            }),
+
+            clearChatScenario: () => set({ activeChatScenarioId: null }),
+
             goBack: () => {
                 const state = get();
                 // All session views that should return to lesson-detail if activeLessonId exists
