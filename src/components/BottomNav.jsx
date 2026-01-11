@@ -38,7 +38,6 @@ const BottomNav = () => {
                         <span className="v-iconBubble">
                             <Icon size={22} strokeWidth={isActive ? 2.5 : 2} className="v-icon" />
                         </span>
-                        <span className="v-tabLabel">{tab.label}</span>
                     </button>
                 );
             })}
