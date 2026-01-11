@@ -1,199 +1,177 @@
 // src/components/LessonsTab.jsx
-// Вкладка "Уроки" - Vertical Timeline Design
-import React, { useRef, useEffect } from 'react';
+// Вкладка "Уроки" - Clean Professional Card Design
+import React from 'react';
 import useStore from '../store/useStore';
 import { lessons } from '../data/lexicon';
-import { Check, Lock, Star, Play, Zap, Trophy, BookOpen } from 'lucide-react';
+import { Check, ChevronRight, BookOpen } from 'lucide-react';
 
 const LessonsTab = () => {
     const openLesson = useStore(state => state.openLesson);
     const getLessonProgress = useStore(state => state.getLessonProgress);
-    const scrollRef = useRef(null);
 
-    // Group lessons if needed, or just flat list for timeline
-    // For timeline, a flat list is often better, maybe with section breakers
-    const allLessons = lessons;
-
-    // Find first incomplete lesson (current)
-    const currentLessonId = allLessons.find(l => getLessonProgress(l.id).percent < 100)?.id || allLessons[allLessons.length - 1].id;
-
-    // Auto-scroll to current lesson
-    useEffect(() => {
-        if (scrollRef.current) {
-            const activeNode = scrollRef.current.querySelector('#active-lesson');
-            if (activeNode) {
-                activeNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-    }, []);
-
-    const completedCount = allLessons.filter(l => getLessonProgress(l.id).percent === 100).length;
+    const completedCount = lessons.filter(l => getLessonProgress(l.id).percent === 100).length;
 
     return (
-        <div className="screen" ref={scrollRef} style={{
-            paddingTop: 20,
-            paddingBottom: 100,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-        }}>
+        <div className="screen" style={{ paddingBottom: 100 }}>
             {/* Header */}
-            <div style={{
-                width: '100%',
-                marginBottom: 32,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
+            <div className="screen-header" style={{ marginBottom: 24 }}>
                 <div>
-                    <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#E5E7EB', marginBottom: 4 }}>
-                        Map
-                    </h1>
-                    <p style={{ color: '#7A7D8A', fontSize: '0.9rem' }}>
-                        Рівень A1 • {completedCount}/{allLessons.length}
+                    <h1 className="screen-title">Lektionen</h1>
+                    <p className="screen-subtitle">
+                        Рівень A1 • {completedCount} з {lessons.length} завершено
                     </p>
-                </div>
-                <div style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    borderRadius: 12,
-                    padding: '8px 12px',
-                    display: 'flex', alignItems: 'center', gap: 6
-                }}>
-                    <Trophy size={16} color="#F26A1B" />
-                    <span style={{ fontWeight: 600, color: '#E5E7EB' }}>{completedCount}</span>
                 </div>
             </div>
 
-            {/* Timeline Container */}
+            {/* Progress Overview */}
             <div style={{
-                position: 'relative',
-                width: '100%',
-                maxWidth: 400,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 40
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.06)',
+                borderRadius: 16,
+                padding: 16,
+                marginBottom: 24
             }}>
-                {/* Vertical Line */}
                 <div style={{
-                    position: 'absolute',
-                    top: 20,
-                    bottom: 20,
-                    left: '50%',
-                    width: 4,
-                    marginLeft: -2,
-                    background: 'linear-gradient(to bottom, #2ECC71 0%, #F26A1B 50%, #1A1A22 100%)',
-                    borderRadius: 2,
-                    zIndex: 0,
-                    opacity: 0.3
-                }} />
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 12
+                }}>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                        Загальний прогрес
+                    </span>
+                    <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
+                        {Math.round((completedCount / lessons.length) * 100)}%
+                    </span>
+                </div>
+                <div style={{
+                    height: 6,
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    borderRadius: 3,
+                    overflow: 'hidden'
+                }}>
+                    <div style={{
+                        height: '100%',
+                        width: `${(completedCount / lessons.length) * 100}%`,
+                        background: 'var(--color-accent)',
+                        borderRadius: 3,
+                        transition: 'width 0.3s ease'
+                    }} />
+                </div>
+            </div>
 
-                {allLessons.map((lesson, index) => {
+            {/* Lessons List */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {lessons.map((lesson, index) => {
                     const progress = getLessonProgress(lesson.id);
                     const isComplete = progress.percent === 100;
-                    const isCurrent = lesson.id === currentLessonId;
-                    // ALLOW ACCESS TO ALL LESSONS
-                    const isLocked = false; // Previously: !isComplete && !isCurrent && index > 0 ...
-
-                    // Alternating layout for variety (optional, keeping centered for now for solid mobile feel)
+                    const isInProgress = progress.percent > 0 && progress.percent < 100;
 
                     return (
                         <div
                             key={lesson.id}
-                            id={isCurrent ? 'active-lesson' : undefined}
-                            onClick={() => !isLocked && openLesson(lesson.id)}
+                            onClick={() => openLesson(lesson.id)}
                             style={{
-                                position: 'relative',
-                                zIndex: 1,
+                                background: 'rgba(255, 255, 255, 0.03)',
+                                border: '1px solid rgba(255, 255, 255, 0.06)',
+                                borderRadius: 16,
+                                padding: 16,
                                 display: 'flex',
-                                flexDirection: 'column',
                                 alignItems: 'center',
-                                opacity: isLocked ? 0.5 : 1,
-                                transform: isCurrent ? 'scale(1.05)' : 'scale(1)',
-                                transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                                cursor: isLocked ? 'default' : 'pointer'
+                                gap: 16,
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease'
                             }}
                         >
-                            {/* Connector status if needed */}
-
-                            {/* The Node/Button */}
+                            {/* Lesson Number */}
                             <div style={{
-                                width: isCurrent ? 80 : 64,
-                                height: isCurrent ? 80 : 64,
-                                borderRadius: '50%',
+                                width: 48,
+                                height: 48,
+                                borderRadius: 12,
                                 background: isComplete
-                                    ? '#2ECC71' // Green for done
-                                    : isCurrent
-                                        ? 'linear-gradient(135deg, #F26A1B, #E55A0A)' // Orange for current
-                                        : !isLocked
-                                            ? '#2A2A33' // Lighter dark for unlocked
-                                            : '#1A1A22', // Dark for locked
-                                border: isCurrent
-                                    ? '4px solid rgba(242, 106, 27, 0.3)'
-                                    : isComplete
-                                        ? '4px solid rgba(46, 204, 113, 0.3)'
-                                        : !isLocked
-                                            ? '2px solid rgba(255,255,255,0.1)' // Border for unlocked
-                                            : '4px solid #2A2A35',
+                                    ? 'rgba(46, 204, 113, 0.15)'
+                                    : isInProgress
+                                        ? 'rgba(242, 106, 27, 0.15)'
+                                        : 'rgba(255, 255, 255, 0.05)',
+                                border: isComplete
+                                    ? '2px solid rgba(46, 204, 113, 0.3)'
+                                    : isInProgress
+                                        ? '2px solid rgba(242, 106, 27, 0.3)'
+                                        : '2px solid rgba(255, 255, 255, 0.08)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                boxShadow: isCurrent
-                                    ? '0 0 20px rgba(242, 106, 27, 0.4)'
-                                    : '0 4px 10px rgba(0,0,0,0.3)',
-                                marginBottom: 12,
-                                position: 'relative'
+                                flexShrink: 0
                             }}>
                                 {isComplete ? (
-                                    <Check size={32} color="#0B0B0F" strokeWidth={3} />
-                                ) : isCurrent ? (
-                                    <Play size={36} color="#0B0B0F" style={{ marginLeft: 4 }} fill="#0B0B0F" />
-                                ) : isLocked ? (
-                                    <Lock size={24} color="#7A7D8A" />
+                                    <Check size={22} color="#2ECC71" strokeWidth={2.5} />
                                 ) : (
-                                    <BookOpen size={24} color="#E5E7EB" />
-                                )}
-
-                                {/* Floating star count or ID if completed/current ?? */}
-                                {isCurrent && (
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: -12,
-                                        right: -12,
-                                        background: '#E55A0A',
-                                        borderRadius: 12,
-                                        padding: '4px 8px',
-                                        fontSize: '0.7rem',
+                                    <span style={{
+                                        fontSize: '1.1rem',
                                         fontWeight: 700,
-                                        color: 'white',
-                                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+                                        color: isInProgress ? 'var(--color-accent)' : 'var(--text-secondary)'
                                     }}>
-                                        START
+                                        {lesson.id}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* Lesson Info */}
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                                <div style={{
+                                    fontWeight: 600,
+                                    fontSize: '1rem',
+                                    color: 'var(--text-primary)',
+                                    marginBottom: 4
+                                }}>
+                                    Lektion {lesson.id}
+                                </div>
+                                <div style={{
+                                    fontSize: '0.85rem',
+                                    color: 'var(--text-secondary)',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis'
+                                }}>
+                                    {lesson.title}
+                                </div>
+
+                                {/* Progress bar for in-progress lessons */}
+                                {isInProgress && (
+                                    <div style={{
+                                        marginTop: 8,
+                                        height: 4,
+                                        background: 'rgba(255, 255, 255, 0.08)',
+                                        borderRadius: 2,
+                                        overflow: 'hidden'
+                                    }}>
+                                        <div style={{
+                                            height: '100%',
+                                            width: `${progress.percent}%`,
+                                            background: 'var(--color-accent)',
+                                            borderRadius: 2
+                                        }} />
                                     </div>
                                 )}
                             </div>
 
-                            {/* Label Board */}
+                            {/* Progress or Arrow */}
                             <div style={{
-                                background: '#1A1A22',
-                                border: isCurrent ? '1px solid rgba(242, 106, 27, 0.3)' : '1px solid rgba(255,255,255,0.05)',
-                                padding: '8px 16px',
-                                borderRadius: 12,
-                                textAlign: 'center',
-                                minWidth: 140,
-                                maxWidth: 200
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                color: 'var(--text-secondary)'
                             }}>
-                                <div style={{
-                                    fontSize: '0.9rem',
-                                    fontWeight: 700,
-                                    color: isCurrent ? '#F26A1B' : isComplete ? '#2ECC71' : '#E5E7EB',
-                                    marginBottom: 2
-                                }}>
-                                    Lektion {lesson.id}
-                                </div>
-                                <div style={{ fontSize: '0.8rem', color: '#B0B3C0' }}>
-                                    {lesson.title}
-                                </div>
+                                {isInProgress && (
+                                    <span style={{
+                                        fontSize: '0.8rem',
+                                        color: 'var(--color-accent)',
+                                        fontWeight: 600
+                                    }}>
+                                        {progress.percent}%
+                                    </span>
+                                )}
+                                <ChevronRight size={20} />
                             </div>
                         </div>
                     );
