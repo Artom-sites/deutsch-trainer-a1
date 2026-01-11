@@ -125,22 +125,22 @@ const NounMaster = () => {
                 </button>
             </div>
 
-            {/* Translation */}
-            <div style={{ textAlign: 'center', paddingBottom: 24 }}>
-                <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#E5E7EB', margin: 0 }}>
-                    {currentWord.translation}
-                </h2>
-                <button onClick={handleSpeak} style={{
-                    marginTop: 8, background: 'rgba(255,255,255,0.08)', border: 'none',
-                    borderRadius: 12, padding: '6px 12px', color: '#E5E7EB',
-                    display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.8rem'
-                }}>
-                    <Volume2 size={14} /> Слухати
-                </button>
-            </div>
+            {/* Main Area - word and input grouped together */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 16px', gap: 16 }}>
 
-            {/* Main Area */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '0 16px', gap: 12 }}>
+                {/* Translation */}
+                <div style={{ textAlign: 'center', marginBottom: 8 }}>
+                    <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#E5E7EB', margin: 0 }}>
+                        {currentWord.translation}
+                    </h2>
+                    <button onClick={handleSpeak} style={{
+                        marginTop: 8, background: 'rgba(255,255,255,0.08)', border: 'none',
+                        borderRadius: 12, padding: '6px 12px', color: '#E5E7EB',
+                        display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.8rem'
+                    }}>
+                        <Volume2 size={14} /> Слухати
+                    </button>
+                </div>
 
                 {/* Articles + Word Input */}
                 <div style={{ display: 'flex', gap: 8, alignItems: 'stretch' }}>
