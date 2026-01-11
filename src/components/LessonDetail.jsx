@@ -4,7 +4,8 @@ import React from 'react';
 import useStore from '../store/useStore';
 import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent, lessons } from '../data/lexicon';
 import { getTestForLesson } from '../data/lessonTests';
-import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck } from 'lucide-react';
+import { getReadingForLesson } from '../data/lessonReadings';
+import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck, BookText } from 'lucide-react';
 
 const LessonDetail = () => {
     const activeLessonId = useStore(state => state.activeLessonId);
@@ -288,6 +289,53 @@ const LessonDetail = () => {
                 </div>
                 <ChevronRight size={20} color="#7A7D8A" />
             </button>
+
+            {/* ==========================================
+                LESEN - Читання з перекладом
+            ========================================== */}
+            {getReadingForLesson(activeLessonId) && (
+                <button
+                    onClick={() => useStore.getState().startReading(activeLessonId)}
+                    style={{
+                        width: '100%',
+                        padding: '16px',
+                        marginBottom: 'var(--space-md)',
+                        background: '#1A1A22',
+                        border: '1px solid rgba(255, 255, 255, 0.04)',
+                        borderRadius: 16,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 14
+                    }}
+                >
+                    <div style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 14,
+                        background: '#3B82F6',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <BookText size={22} color="#0B0B0F" />
+                    </div>
+                    <div style={{ textAlign: 'left', flex: 1 }}>
+                        <div style={{
+                            fontSize: '0.95rem',
+                            fontWeight: 600,
+                            color: '#E5E7EB',
+                            marginBottom: 2
+                        }}>
+                            Lesen
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                            Читання з інтерактивним перекладом
+                        </div>
+                    </div>
+                    <ChevronRight size={20} color="#7A7D8A" />
+                </button>
+            )}
 
             {/* ==========================================
                 NOUN MASTER - Нова вправа

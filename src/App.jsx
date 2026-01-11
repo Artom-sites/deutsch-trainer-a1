@@ -20,6 +20,7 @@ import ExamTab from './components/ExamTab';
 import AIChatTab from './components/AIChatTab';
 
 import NounMaster from './components/exercises/NounMaster';
+import ReadingSession from './components/ReadingSession';
 import AuthScreen from './components/AuthScreen';
 
 function App() {
@@ -214,6 +215,10 @@ function App() {
 
     if (currentView === 'test') {
       return <TestSession />;
+    }
+
+    if (currentView === 'reading') {
+      return <ReadingSession />;
     }
 
     if (currentView === 'lesson-detail') {

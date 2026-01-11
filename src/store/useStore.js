@@ -177,6 +177,14 @@ const useStore = create(
                 });
             },
 
+            // Start reading session (Lesen)
+            startReading: (lessonId) => {
+                set({
+                    currentView: 'reading',
+                    activeLessonId: lessonId
+                });
+            },
+
             nextCard: () => set((state) => ({
                 currentCardIndex: state.currentCardIndex + 1
             })),
