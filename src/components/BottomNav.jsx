@@ -1,5 +1,5 @@
 // src/components/BottomNav.jsx
-// Premium Glass Pill Navigation with Glow Effects
+// Violang Glass Bottom Bar with Glow Effects
 import React from 'react';
 import useStore from '../store/useStore';
 import { Home, BookOpen, Library, Sparkles, MessageCircle } from 'lucide-react';
@@ -17,14 +17,14 @@ const BottomNav = () => {
     const tabs = [
         { id: 'lessons', icon: BookOpen, label: 'Уроки' },
         { id: 'dictionary', icon: Library, label: 'Словник' },
-        { id: 'home', icon: Home, label: 'Головна', isCenter: true },
+        { id: 'home', icon: Home, label: 'Головна' },
         { id: 'verbs', icon: Sparkles, label: 'Трен' },
         { id: 'chat', icon: MessageCircle, label: 'Чат' },
     ];
 
     return (
-        <nav className="bottomBar">
-            <div className="bottomBarNav">
+        <nav className="v-tabbar">
+            <div className="v-tabbar__row">
                 {tabs.map(tab => {
                     const Icon = tab.icon;
                     const isActive = currentTab === tab.id;
@@ -33,10 +33,10 @@ const BottomNav = () => {
                         <button
                             key={tab.id}
                             onClick={() => setTab(tab.id)}
-                            className={`navItem ${isActive ? 'isActive' : ''}`}
+                            className={`v-tab ${isActive ? 'isActive' : ''}`}
                         >
                             <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                            <span>{tab.label}</span>
+                            <span className="v-tab__label">{tab.label}</span>
                         </button>
                     );
                 })}

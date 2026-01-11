@@ -1,0 +1,243 @@
+/*
+  VIOLANG — UI KIT (Glow Icons + Glass Bottom Bar)
+  Goal: the SAME look as the screenshots: dark glass, soft blur, orange glow, inner highlight.
+*/
+
+:root {
+    /* ===== Brand ===== */
+    --pri: #ff6b35;
+    --pri2: #ff8a4f;
+    --ok: #2fe6a6;
+    --blue: #57a6ff;
+
+    /* ===== Neutrals ===== */
+    --bg0: #07080b;
+    --bg1: #0b0d12;
+    --card: #0f1420;
+    --glass: rgba(14, 18, 26, .56);
+    --stroke: rgba(255, 255, 255, .10);
+    --stroke2: rgba(255, 255, 255, .14);
+    --txt: rgba(255, 255, 255, .92);
+    --muted: rgba(255, 255, 255, .60);
+
+    /* ===== Effects ===== */
+    --blur: 18px;
+    --r: 22px;
+}
+
+/* =============================
+   1) GLOW ICON BUBBLE
+   ============================= */
+
+.v-iconBubble {
+    --g: var(--pri);
+    width: 54px;
+    height: 54px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    isolation: isolate;
+
+    background:
+        radial-gradient(60% 60% at 28% 22%, rgba(255, 255, 255, .16), transparent 62%),
+        linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02)),
+        rgba(255, 255, 255, .04);
+
+    border: 1px solid rgba(255, 255, 255, .12);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+
+    box-shadow:
+        0 18px 55px rgba(0, 0, 0, .62),
+        inset 0 1px 0 rgba(255, 255, 255, .14);
+}
+
+/* Outer soft halo */
+.v-iconBubble::before {
+    content: "";
+    position: absolute;
+    inset: -16px;
+    border-radius: inherit;
+    z-index: -2;
+    background: radial-gradient(circle, color-mix(in srgb, var(--g) 28%, transparent) 0%, transparent 65%);
+    filter: blur(14px);
+    opacity: .95;
+}
+
+/* Thin glowing ring */
+.v-iconBubble::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    z-index: -1;
+
+    background: conic-gradient(from 230deg,
+            transparent 0 20%,
+            color-mix(in srgb, var(--g) 38%, transparent) 20% 40%,
+            rgba(255, 255, 255, .12) 40% 46%,
+            transparent 46% 100%);
+
+    mask: radial-gradient(circle, transparent 62%, #000 63%);
+    -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%);
+    opacity: .90;
+}
+
+/* Color variants */
+.v-iconBubble.pri {
+    --g: var(--pri);
+}
+
+.v-iconBubble.ok {
+    --g: var(--ok);
+}
+
+.v-iconBubble.blue {
+    --g: var(--blue);
+}
+
+/* Active bump */
+.v-iconBubble.isActive {
+    background:
+        radial-gradient(60% 60% at 28% 22%, rgba(255, 255, 255, .20), transparent 62%),
+        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02)),
+        rgba(255, 255, 255, .05);
+    border-color: rgba(255, 255, 255, .16);
+    box-shadow:
+        0 22px 70px rgba(0, 0, 0, .66),
+        0 18px 70px color-mix(in srgb, var(--g) 14%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, .16);
+}
+
+/* =============================
+   2) GLASS BOTTOM BAR
+   ============================= */
+
+.v-tabbar {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 14px;
+    z-index: 50;
+
+    width: min(560px, calc(100% - 22px));
+    padding: 10px;
+    border-radius: 999px;
+    isolation: isolate;
+
+    background: rgba(10, 12, 18, .62);
+    border: 1px solid rgba(255, 255, 255, .10);
+
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+
+    box-shadow:
+        0 30px 90px rgba(0, 0, 0, .76),
+        0 12px 28px rgba(0, 0, 0, .42);
+}
+
+/* Inner top highlight */
+.v-tabbar::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, .12),
+            rgba(255, 255, 255, .05) 45%,
+            rgba(255, 255, 255, .02));
+    opacity: .55;
+}
+
+/* Ambient glow around the whole bar */
+.v-tabbar::after {
+    content: "";
+    position: absolute;
+    inset: -22px;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+        radial-gradient(70% 120% at 18% 50%, rgba(255, 107, 53, .18), transparent 60%),
+        radial-gradient(70% 120% at 82% 50%, rgba(47, 230, 166, .10), transparent 60%);
+
+    filter: blur(20px);
+    opacity: .85;
+}
+
+.v-tabbar__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+/* =============================
+   3) TAB ITEM
+   ============================= */
+
+.v-tab {
+    flex: 1;
+    height: 48px;
+    border-radius: 999px;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: rgba(255, 255, 255, .58);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.v-tab__label {
+    font-size: 11px;
+    opacity: .9;
+    font-weight: 500;
+}
+
+.v-tab.isActive {
+    color: rgba(255, 255, 255, .92);
+}
+
+/* Active capsule background */
+.v-tab.isActive::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+/* Local glow under active tab */
+.v-tab.isActive::after {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    border-radius: inherit;
+    z-index: -1;
+
+    background: radial-gradient(circle, rgba(255, 107, 53, .20) 0%, transparent 70%);
+    filter: blur(16px);
+    opacity: .95;
+}
+
+/* Active tab glow variants */
+.v-tab.isActive.ok::after {
+    background: radial-gradient(circle, rgba(47, 230, 166, .18) 0%, transparent 70%);
+}
+
+.v-tab.isActive.blue::after {
+    background: radial-gradient(circle, rgba(87, 166, 255, .16) 0%, transparent 70%);
+}
