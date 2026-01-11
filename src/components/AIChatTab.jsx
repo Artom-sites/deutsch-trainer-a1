@@ -393,18 +393,18 @@ const AIChatTab = () => {
     }
 
     return (
-        <div className="screen">
+        <div className="app">
             {/* Header */}
-            <div style={{ marginBottom: 20, paddingTop: 8 }}>
+            <div style={{ marginBottom: 24 }}>
                 <h1 style={{
-                    fontSize: '1.75rem',
+                    fontSize: '1.6rem',
                     fontWeight: 700,
-                    color: '#E5E7EB',
-                    marginBottom: 4
+                    color: 'var(--text-0)',
+                    margin: '0 0 4px'
                 }}>
                     AI Chat
                 </h1>
-                <p style={{ color: '#7A7D8A', fontSize: '0.9rem' }}>
+                <p style={{ color: 'var(--text-2)', fontSize: '0.9rem', margin: 0 }}>
                     Тренуй розмовну німецьку 🎤
                 </p>
             </div>
@@ -466,42 +466,45 @@ const AIChatTab = () => {
                         key={scenario.id}
                         onClick={() => setActiveScenario(scenario)}
                         style={{
-                            background: '#1A1A22',
-                            borderRadius: 14,
-                            padding: '14px',
+                            background: 'rgba(255,255,255,0.03)',
+                            borderRadius: 18,
+                            padding: 14,
                             cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: 12,
-                            border: '1px solid rgba(255, 255, 255, 0.04)'
+                            gap: 14,
+                            border: '1px solid var(--stroke)',
+                            transition: 'border-color 0.15s ease'
                         }}
                     >
                         <div style={{
-                            width: 44,
-                            height: 44,
-                            borderRadius: 12,
-                            background: 'rgba(242, 106, 27, 0.15)',
+                            width: 48,
+                            height: 48,
+                            borderRadius: 14,
+                            background: 'rgba(255,255,255,0.03)',
+                            border: '2px solid rgba(255,107,53,0.3)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '1.4rem'
+                            fontSize: '1.4rem',
+                            boxShadow: '0 0 20px rgba(255,107,53,0.1)'
                         }}>
                             {scenario.icon}
                         </div>
                         <div style={{ flex: 1 }}>
                             <div style={{
                                 fontWeight: 600,
-                                fontSize: '0.9rem',
-                                color: '#E5E7EB',
-                                marginBottom: 2
+                                fontSize: '0.95rem',
+                                color: 'var(--text-0)',
+                                marginBottom: 4
                             }}>
                                 {scenario.title}
                             </div>
-                            <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
                                 {scenario.description}
                             </div>
                         </div>
-                        <ChevronRight size={18} color="#7A7D8A" />
+                        <ChevronRight size={18} color="var(--text-2)" />
                     </div>
                 ))}
             </div>
