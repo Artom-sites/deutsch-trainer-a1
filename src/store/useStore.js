@@ -58,7 +58,10 @@ const useStore = create(
 
             goBack: () => {
                 const state = get();
-                if (state.currentView === 'flashcards' || state.currentView === 'exercises' || state.currentView === 'test') {
+                // All session views that should return to lesson-detail if activeLessonId exists
+                const sessionViews = ['flashcards', 'exercises', 'test', 'noun-master', 'reading'];
+
+                if (sessionViews.includes(state.currentView)) {
                     // If we have an active lesson, go back to it; otherwise go to main
                     if (state.activeLessonId) {
                         set({
@@ -79,6 +82,12 @@ const useStore = create(
                 } else if (state.currentView === 'grammar-detail') {
                     set({
                         currentView: 'lesson-detail',
+                        activeGrammarTopicId: null
+                    });
+                } else if (state.currentView === 'lesson-detail') {
+                    set({
+                        currentView: 'main',
+                        activeLessonId: null,
                         activeGrammarTopicId: null
                     });
                 } else {
