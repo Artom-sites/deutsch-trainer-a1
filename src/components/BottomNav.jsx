@@ -10,7 +10,7 @@ const BottomNav = () => {
     const setTab = useStore(state => state.setTab);
 
     // Hide navigation during flashcard/exercise sessions
-    if (currentView === 'flashcards' || currentView === 'exercises' || currentView === 'grammar-detail' || currentView === 'noun-master') {
+    if (currentView === 'flashcards' || currentView === 'exercises' || currentView === 'grammar-detail') {
         return null;
     }
 

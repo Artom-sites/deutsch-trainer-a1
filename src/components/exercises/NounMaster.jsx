@@ -96,7 +96,7 @@ const NounMaster = () => {
     return (
         <div style={{
             display: 'flex', flexDirection: 'column',
-            height: '100dvh', background: '#0B0B0F',
+            height: 'calc(100dvh - 80px)', background: '#0B0B0F',
             paddingBottom: 'env(safe-area-inset-bottom, 0px)'
         }}>
             {/* Header - compact */}
