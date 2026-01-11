@@ -1,0 +1,56 @@
+:root {
+    /* Base backgrounds (layered) */
+    --bg-0: #07090C;
+    --bg-1: #0B0F14;
+    --bg-2: #0F1722;
+    --surface: rgba(255, 255, 255, .06);
+    --surface-2: rgba(255, 255, 255, .08);
+    --stroke: rgba(255, 255, 255, .10);
+    --stroke-2: rgba(255, 255, 255, .14);
+
+    /* Text hierarchy */
+    --text-0: rgba(255, 255, 255, .94);
+    --text-1: rgba(255, 255, 255, .74);
+    --text-2: rgba(255, 255, 255, .54);
+
+    /* Accent (Orange) */
+    --pri: #ff6b35;
+    --pri-2: #ff8357;
+    --pri-soft: rgba(255, 107, 53, .18);
+
+    /* Success (Green) */
+    --ok: #2FE6A6;
+    --ok-soft: rgba(47, 230, 166, .18);
+
+    /* Danger / Warning */
+    --bad: #FF4D6D;
+    --bad-soft: rgba(255, 77, 109, .16);
+    --warn: #FFC857;
+    --warn-soft: rgba(255, 200, 87, .16);
+
+    /* Article colors */
+    --der: #57A6FF;
+    --die: #FF4D6D;
+    --das: #2FE6A6;
+
+    /* Radius */
+    --r-xs: 10px;
+    --r-sm: 14px;
+    --r-md: 18px;
+    --r-lg: 26px;
+    --r-xl: 34px;
+
+    /* Shadows */
+    --sh-1: 0 10px 35px rgba(0, 0, 0, .45);
+    --sh-2: 0 18px 60px rgba(0, 0, 0, .55);
+
+    /* Blur */
+    --blur: 18px;
+
+    /* Spacing */
+    --p-1: 10px;
+    --p-2: 14px;
+    --p-3: 18px;
+    --p-4: 22px;
+    --p-5: 28px;
+}

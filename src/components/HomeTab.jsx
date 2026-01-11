@@ -1,10 +1,10 @@
 // src/components/HomeTab.jsx
-// Dashboard - Premium "Focus" Design
+// Dashboard - Premium Design with Design System
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
-import { words, lessons } from '../data/lexicon';
-import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download, Play, Trophy } from 'lucide-react';
+import { lessons } from '../data/lexicon';
+import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Download } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
@@ -12,14 +12,10 @@ const HomeTab = () => {
     const getLessonProgress = useStore(state => state.getLessonProgress);
     const openLesson = useStore(state => state.openLesson);
 
-    // PWA Install prompt
+    // PWA Install
     const [installPrompt, setInstallPrompt] = useState(null);
-
     useEffect(() => {
-        const handler = (e) => {
-            e.preventDefault();
-            setInstallPrompt(e);
-        };
+        const handler = (e) => { e.preventDefault(); setInstallPrompt(e); };
         window.addEventListener('beforeinstallprompt', handler);
         return () => window.removeEventListener('beforeinstallprompt', handler);
     }, []);
@@ -28,322 +24,147 @@ const HomeTab = () => {
         if (!installPrompt) return;
         installPrompt.prompt();
         const { outcome } = await installPrompt.userChoice;
-        if (outcome === 'accepted') {
-            setInstallPrompt(null);
-        }
+        if (outcome === 'accepted') setInstallPrompt(null);
     };
 
-    // Auth store
+    // Auth
     const user = useAuthStore(state => state.user);
     const dailyGoal = useAuthStore(state => state.dailyGoal);
     const dailyProgress = useAuthStore(state => state.dailyProgress);
     const streak = useAuthStore(state => state.streak);
-    const logout = useAuthStore(state => state.logout);
 
-    const userName = user?.displayName || 'Друже';
+    const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
-    // Current Lesson Logic
+    // Current lesson
     const currentLesson = lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[lessons.length - 1];
     const lessonProgress = getLessonProgress(currentLesson.id);
 
-    // Features Grid
+    // Quick actions
     const features = [
-        { id: 'lessons', icon: BookOpen, title: 'Уроки', color: '#3B82F6' },
-        { id: 'dictionary', icon: BookText, title: 'Словник', color: '#8B5CF6' },
-        { id: 'verbs', icon: Languages, title: 'Дієслова', color: '#10B981' },
-        { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: '#F59E0B' }
+        { id: 'lessons', icon: BookOpen, title: 'Уроки', color: 'var(--der)' },
+        { id: 'dictionary', icon: BookText, title: 'Словник', color: 'var(--die)' },
+        { id: 'verbs', icon: Languages, title: 'Дієслова', color: 'var(--das)' },
+        { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: 'var(--warn)' }
     ];
 
     return (
-        <div className="screen" style={{ paddingTop: 20, paddingBottom: 100 }}>
+        <div className="app">
             {/* Header */}
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 24
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 14,
-                        background: '#1A1A22',
-                        border: '1px solid rgba(255,255,255,0.05)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '1.2rem'
-                    }}>
-                        👋
-                    </div>
-                    <div>
-                        <div style={{ fontSize: '0.85rem', color: '#7A7D8A' }}>Вітаємо,</div>
-                        <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#E5E7EB' }}>{userName}</div>
-                    </div>
+            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
+                <div>
+                    <p className="muted small" style={{ marginBottom: 2 }}>Привіт,</p>
+                    <h1 style={{ fontSize: '1.6rem', fontWeight: 700, margin: 0, color: 'var(--text-0)' }}>{userName} 👋</h1>
                 </div>
 
-                <div style={{ display: 'flex', gap: 8 }}>
-                    {/* Streak Badge */}
-                    <div style={{
-                        background: streak > 0 ? 'rgba(242, 106, 27, 0.1)' : '#1A1A22',
-                        border: streak > 0 ? '1px solid rgba(242, 106, 27, 0.2)' : '1px solid rgba(255,255,255,0.05)',
-                        borderRadius: 12,
-                        padding: '6px 12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 6
-                    }}>
-                        <Flame size={18} color={streak > 0 ? '#F26A1B' : '#7A7D8A'} fill={streak > 0 ? '#F26A1B' : 'none'} />
-                        <span style={{ fontWeight: 700, color: streak > 0 ? '#F26A1B' : '#7A7D8A' }}>
-                            {streak} {streak === 1 ? 'день' : streak > 1 && streak < 5 ? 'дні' : 'днів'}
-                        </span>
-                    </div>
+                {/* Streak Badge */}
+                <div className={`badge ${streak > 0 ? 'badge--pri' : ''}`}>
+                    <Flame size={16} />
+                    <span>{streak} {streak === 1 ? 'день' : streak > 1 && streak < 5 ? 'дні' : 'днів'}</span>
                 </div>
-            </div>
+            </header>
 
-            {/* PWA Install Banner */}
+            {/* PWA Install */}
             {installPrompt && (
-                <div style={{
-                    background: 'linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%)',
-                    borderRadius: 20,
-                    padding: 20,
-                    marginBottom: 24,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    boxShadow: '0 8px 20px rgba(242, 106, 27, 0.25)'
-                }}>
-                    <div style={{ color: 'white' }}>
-                        <div style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: 2 }}>
-                            Встановити додаток
+                <div
+                    onClick={handleInstall}
+                    className="card card-pad card-interactive"
+                    style={{ marginBottom: 20, background: 'linear-gradient(135deg, var(--pri), #ff5a1f)' }}
+                >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div>
+                            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#fff' }}>Встановити додаток</div>
+                            <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.85)' }}>Вивчайте офлайн ⚡️</div>
                         </div>
-                        <div style={{ fontSize: '0.85rem', opacity: 0.9 }}>
-                            Вивчайте німецьку офлайн ⚡️
-                        </div>
+                        <Download size={24} color="#fff" />
                     </div>
-                    <button
-                        onClick={handleInstall}
-                        style={{
-                            background: 'white',
-                            color: '#F26A1B',
-                            border: 'none',
-                            borderRadius: 12,
-                            padding: '10px 14px',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center'
-                        }}
-                    >
-                        <Download size={20} />
-                    </button>
                 </div>
             )}
 
-            {/* HERO: Current Lesson Focus */}
-            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7A7D8A', marginBottom: 12, marginLeft: 4 }}>
-                ПРОДОВЖИТИ НАВЧАННЯ
-            </h2>
+            {/* Hero Card - Continue Learning */}
+            <p className="label mb-2">ПРОДОВЖИТИ</p>
             <div
                 onClick={() => openLesson(currentLesson.id)}
-                style={{
-                    background: 'linear-gradient(145deg, #1A1A22 0%, #111115 100%)',
-                    border: '1px solid rgba(255,255,255,0.05)',
-                    borderRadius: 24,
-                    padding: 24,
-                    marginBottom: 32,
-                    position: 'relative',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
-                }}
+                className="card card-pad card-interactive"
+                style={{ marginBottom: 28 }}
             >
-                {/* Background Decor */}
-                <div style={{
-                    position: 'absolute',
-                    top: -20,
-                    right: -20,
-                    width: 100,
-                    height: 100,
-                    borderRadius: '50%',
-                    background: 'radial-gradient(circle, rgba(242,106,27,0.1) 0%, transparent 70%)',
-                    zIndex: 0
-                }} />
-
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                        marginBottom: 20
-                    }}>
-                        <div>
-                            <div style={{
-                                display: 'inline-block',
-                                background: 'rgba(242, 106, 27, 0.15)',
-                                color: '#F26A1B',
-                                fontSize: '0.75rem',
-                                fontWeight: 700,
-                                padding: '4px 10px',
-                                borderRadius: 8,
-                                marginBottom: 10
-                            }}>
-                                УРОК {currentLesson.id}
-                            </div>
-                            <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#E5E7EB', lineHeight: 1.2 }}>
-                                {currentLesson.title}
-                            </h3>
-                            <p style={{ color: '#7A7D8A', fontSize: '0.9rem', marginTop: 4 }}>
-                                {currentLesson.description}
-                            </p>
-                        </div>
-
-                        {/* Play Button */}
-                        <div style={{
-                            width: 56,
-                            height: 56,
-                            borderRadius: '50%',
-                            background: '#F26A1B',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: '0 4px 12px rgba(242, 106, 27, 0.3)',
-                            flexShrink: 0,
-                            marginLeft: 16
-                        }}>
-                            <Play size={24} color="#0B0B0F" fill="#0B0B0F" style={{ marginLeft: 4 }} />
-                        </div>
-                    </div>
-
-                    {/* Progress Bar */}
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
                     <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.8rem' }}>
-                            <span style={{ color: '#7A7D8A' }}>Прогрес</span>
-                            <span style={{ color: '#E5E7EB', fontWeight: 600 }}>{lessonProgress.percent}%</span>
-                        </div>
-                        <div style={{ height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 3 }}>
-                            <div style={{
-                                width: `${lessonProgress.percent}%`,
-                                height: '100%',
-                                background: '#2ECC71',
-                                borderRadius: 3,
-                                transition: 'width 0.3s'
-                            }} />
-                        </div>
+                        <span className="badge badge--pri" style={{ marginBottom: 10 }}>
+                            Урок {currentLesson.id}
+                        </span>
+                        <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-0)', margin: 0, lineHeight: 1.3 }}>
+                            {currentLesson.title}
+                        </h2>
+                        <p className="muted small" style={{ marginTop: 4 }}>{currentLesson.description}</p>
                     </div>
+
+                    <div className="icon-box icon-box--pri" style={{ borderRadius: '50%', width: 52, height: 52 }}>
+                        <Play size={24} color="#0B0B0F" fill="#0B0B0F" style={{ marginLeft: 3 }} />
+                    </div>
+                </div>
+
+                {/* Progress */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                    <span className="muted small">Прогрес</span>
+                    <span style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>{lessonProgress.percent}%</span>
+                </div>
+                <div className="progress">
+                    <div className="progress-fill" style={{ width: `${lessonProgress.percent}%` }} />
                 </div>
             </div>
 
-            {/* Daily Goal & Stats */}
-            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7A7D8A', marginBottom: 12, marginLeft: 4 }}>
-                ТВІЙ ДЕНЬ
-            </h2>
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 12,
-                marginBottom: 32
-            }}>
-                {/* Daily Goal */}
-                <div style={{
-                    background: '#1A1A22',
-                    borderRadius: 20,
-                    padding: 16,
-                    border: '1px solid rgba(255,255,255,0.04)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between'
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                        <Target size={20} color="#2ECC71" />
-                        <span style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>Ціль</span>
+            {/* Stats Row */}
+            <div className="grid-2 mb-4">
+                <div className="card card-pad card-sm">
+                    <p className="muted small mb-1">Сьогодні</p>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-0)' }}>
+                        {dailyProgress}<span className="muted" style={{ fontSize: '1rem' }}>/{dailyGoal}</span>
                     </div>
-                    <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB' }}>
-                            {dailyProgress}<span style={{ fontSize: '1rem', color: '#7A7D8A' }}>/{dailyGoal}</span>
-                        </div>
-                        <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>слів вивчено</div>
-                    </div>
+                    <p className="muted small">слів</p>
                 </div>
-
-                {/* Total Stats */}
-                <div style={{
-                    background: '#1A1A22',
-                    borderRadius: 20,
-                    padding: 16,
-                    border: '1px solid rgba(255,255,255,0.04)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between'
-                }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                        <Trophy size={20} color="#F59E0B" />
-                        <span style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>Всього</span>
+                <div className="card card-pad card-sm">
+                    <p className="muted small mb-1">Всього вивчено</p>
+                    <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--ok)' }}>
+                        {getLearnedCount()}
                     </div>
-                    <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB' }}>
-                            {getLearnedCount()}
-                        </div>
-                        <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>слів у скарбничці</div>
-                    </div>
+                    <p className="muted small">слів</p>
                 </div>
             </div>
 
-            {/* Quick Actions Grid */}
-            <h2 style={{ fontSize: '0.9rem', fontWeight: 600, color: '#7A7D8A', marginBottom: 12, marginLeft: 4 }}>
-                ШВИДКИЙ ДОСТУП
-            </h2>
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
-                gap: 8
-            }}>
+            {/* Quick Actions */}
+            <p className="label mb-2">ШВИДКИЙ ДОСТУП</p>
+            <div className="grid-4">
                 {features.map(f => (
                     <button
                         key={f.id}
                         onClick={() => setTab(f.id)}
+                        className="card card-interactive"
                         style={{
-                            background: '#1A1A22',
-                            border: '1px solid rgba(255,255,255,0.04)',
-                            borderRadius: 16,
-                            padding: '12px 4px',
+                            padding: '14px 8px',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: 8,
-                            cursor: 'pointer'
+                            border: 'none'
                         }}
                     >
-                        <div style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: 10,
-                            background: `${f.color}20`, // 20% opacity
-                            display: 'flex', alignItems: 'center', justifyContent: 'center'
-                        }}>
-                            <f.icon size={18} color={f.color} />
+                        <div
+                            className="icon-box"
+                            style={{
+                                background: `${f.color}20`,
+                                color: f.color,
+                                width: 40,
+                                height: 40,
+                                borderRadius: 12
+                            }}
+                        >
+                            <f.icon size={20} />
                         </div>
-                        <span style={{ fontSize: '0.7rem', fontWeight: 500, color: '#E5E7EB' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-1)' }}>
                             {f.title}
                         </span>
                     </button>
                 ))}
-            </div>
-
-            {/* Logout (Small, at bottom) */}
-            <div style={{ marginTop: 40, display: 'flex', justifyContent: 'center' }}>
-                <button
-                    onClick={logout}
-                    style={{
-                        color: '#7A7D8A',
-                        fontSize: '0.8rem',
-                        background: 'transparent',
-                        border: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 6
-                    }}
-                >
-                    <LogOut size={14} /> Вийти з акаунту
-                </button>
             </div>
         </div>
     );

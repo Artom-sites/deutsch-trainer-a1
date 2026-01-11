@@ -1,477 +1,72 @@
-@import "tailwindcss";
+/* Design System Imports */
+@import "./styles/tokens.css";
+@import "./styles/base.css";
+@import "./styles/components.css";
 
+/* Legacy variables for compatibility */
 :root {
-  /* ============================================
-     DARK ORANGE THEME
-     Premium dark design with vibrant orange brand
-     ============================================ */
+  /* Map old variables to new tokens */
+  --bg-primary: var(--bg-1);
+  --bg-surface: var(--bg-2);
+  --bg-card: var(--bg-2);
+  --bg-elevated: var(--bg-2);
+  --border-color: var(--stroke);
 
-  /* BASE */
-  --bg-primary: #0B0B0F;
-  --bg-surface: #111118;
-  --bg-card: #111118;
-  --bg-elevated: #111118;
-  --border-color: #1A1A22;
-
-  /* TEXT */
-  --text-primary: #E5E7EB;
-  --text-secondary: #B0B3C0;
-  --text-muted: #7A7D8A;
+  --text-primary: var(--text-0);
+  --text-secondary: var(--text-1);
+  --text-muted: var(--text-2);
   --text-inverse: #0B0B0F;
 
-  /* BRAND - Orange Accent (Action/Focus) */
-  --color-accent: #F26A1B;
-  --color-accent-focus: #E55A0A;
-  --color-accent-pressed: #C94F10;
-  --color-accent-glow: rgba(242, 106, 27, 0.2);
+  --color-accent: var(--pri);
+  --color-accent-focus: var(--pri-2);
+  --color-success: var(--ok);
+  --color-error: var(--bad);
+  --color-warning: var(--warn);
 
-  /* GRAMMAR - Gender colors */
-  --color-masculine: #4A90E2;
-  --color-feminine: #E94B5A;
-  --color-neuter: #2ECC71;
-  /* das = green */
-  --color-plural: #F26A1B;
+  --color-masculine: var(--der);
+  --color-feminine: var(--die);
+  --color-neuter: var(--das);
+  --color-plural: var(--pri);
 
-  /* Semantic colors */
-  --color-success: #2ECC71;
-  --color-error: #E94B5A;
-  --color-warning: #F26A1B;
-
-  /* Spacing */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
 
-  /* Radius */
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 28px;
-  --radius-pill: 100px;
+  --radius-sm: var(--r-xs);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-pill: 999px;
 
-  /* Effects */
   --blur-sm: blur(16px);
   --blur-md: blur(24px);
-  --blur-lg: blur(40px);
 
-  /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-
-  /* GRADIENTS */
-  --bg-gradient-mesh:
-    radial-gradient(circle at 15% 15%, rgba(242, 106, 27, 0.06) 0%, transparent 45%),
-    radial-gradient(circle at 85% 15%, rgba(46, 204, 113, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, rgba(242, 106, 27, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 15% 85%, rgba(46, 204, 113, 0.03) 0%, transparent 40%);
-
-  --primary-gradient: linear-gradient(135deg, #F26A1B 0%, #E55A0A 100%);
-  --card-gradient: linear-gradient(160deg, rgba(25, 25, 30, 0.7) 0%, rgba(15, 15, 18, 0.6) 100%);
-  --glass-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
 }
 
-/* ==========================================
-   BASE STYLES
-   ========================================== */
+/* Hide scrollbars */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
   -webkit-tap-highlight-color: transparent;
-  /* Hide scrollbars */
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE/Edge */
 }
 
 *::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Opera */
 }
 
-html {
-  font-size: 16px;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  background: var(--bg-primary);
-  background-image: var(--bg-gradient-mesh);
-  background-attachment: fixed;
-  color: var(--text-primary);
-  line-height: 1.5;
-  min-height: 100vh;
-  min-height: 100dvh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
-
-/* ==========================================
-   LAYOUT
-   ========================================== */
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding-top: var(--safe-top);
-  padding-bottom: 100px;
-}
-
+/* Legacy screen class */
 .screen {
   flex: 1;
   padding: var(--space-md);
-  max-width: 500px;
+  max-width: 520px;
   margin: 0 auto;
   width: 100%;
 }
 
-.screen-header {
-  text-align: left;
-  margin-bottom: var(--space-lg);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.screen-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  color: var(--text-primary);
-}
-
-.screen-subtitle {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  margin-top: var(--space-xs);
-}
-
-/* ==========================================
-   BACK HEADER & NAVIGATION
-   ========================================== */
-.back-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-  padding-top: var(--space-sm);
-}
-
-.back-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.back-btn:active {
-  transform: scale(0.95);
-}
-
-.back-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-/* ==========================================
-   BOTTOM NAVIGATION - Floating Glass Bar
-   ========================================== */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  pointer-events: none;
-  z-index: 1000;
-  padding: 0 var(--space-md);
-  padding-bottom: calc(20px + var(--safe-bottom));
-  display: flex;
-  justify-content: center;
-}
-
-.bottom-nav-inner {
-  pointer-events: auto;
-
-  /* Liquid Glass Effect */
-  background: linear-gradient(135deg,
-      rgba(30, 30, 30, 0.9) 0%,
-      rgba(20, 20, 20, 0.95) 100%);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
-
-  /* Multi-layer glass shadows */
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 -8px 32px rgba(255, 107, 53, 0.08),
-    0 8px 32px rgba(0, 0, 0, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.1),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.3);
-
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  padding: 8px 16px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  max-width: 500px;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: 48px;
-  height: 48px;
-  color: var(--text-muted);
-  transition: all 0.3s ease;
-  border-radius: 50%;
-}
-
-.nav-icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.nav-item.active {
-  color: var(--color-accent);
-}
-
-.nav-item.active .nav-icon-wrapper {
-  background: rgba(212, 165, 116, 0.15);
-  color: var(--color-accent);
-}
-
-.nav-item:not(.active):hover {
-  color: var(--text-secondary);
-}
-
-/* ==========================================
-   CARDS
-   ========================================== */
-.card {
-  background: linear-gradient(145deg, rgba(35, 45, 35, 0.7) 0%, rgba(15, 20, 18, 0.8) 100%);
-  backdrop-filter: var(--blur-sm);
-  -webkit-backdrop-filter: var(--blur-sm);
-  border: 1px solid rgba(46, 204, 113, 0.15);
-  border-radius: var(--radius-md);
-  padding: var(--space-lg);
-  margin-bottom: var(--space-md);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Add a subtle glow/shine effect */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(46, 204, 113, 0.3), transparent);
-  opacity: 0.5;
-}
-
-.card-clickable {
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-clickable:active {
-  transform: scale(0.98);
-}
-
-.card-clickable:hover {
-  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.4);
-}
-
-/* ==========================================
-   FLASHCARD
-   ========================================== */
-.flashcard-container {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 140px);
-  justify-content: space-between;
-}
-
-.flashcard {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-elevated);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 32px;
-  padding: var(--space-xl);
-  text-align: center;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  margin-bottom: var(--space-lg);
-}
-
-.flashcard-front {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.flashcard-back-word {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: var(--space-sm);
-}
-
-.flashcard-back-article {
-  font-size: 1.25rem;
-  font-weight: 500;
-  margin-bottom: var(--space-xs);
-}
-
-.flashcard-hint {
-  margin-top: var(--space-lg);
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-pill);
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}
-
-/* ==========================================
-   BUTTONS
-   ========================================== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 24px;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.btn-primary {
-  background: var(--color-accent);
-  color: var(--text-inverse);
-}
-
-.btn-primary:hover {
-  background: var(--color-accent-bright);
-}
-
-.btn-primary:active {
-  transform: scale(0.98);
-}
-
-.btn-ghost {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.btn-ghost:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* ==========================================
-   PILLS / CHIPS
-   ========================================== */
-.pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  font-size: 0.875rem;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.pill.active {
-  background: rgba(212, 165, 116, 0.2);
-  color: var(--color-accent);
-  border-color: rgba(212, 165, 116, 0.3);
-}
-
-.pill:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* ==========================================
-   LIST ITEMS
-   ========================================== */
-.list-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-sm);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: background 0.2s ease;
-}
-
-.list-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* ==========================================
-   PROGRESS BAR
-   ========================================== */
-.progress-bar {
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-accent-dark), var(--color-accent));
-  border-radius: 3px;
-  transition: width 0.3s ease;
-}
-
-/* ==========================================
-   ANIMATIONS
-   ========================================== */
+/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -504,19 +99,13 @@ body {
   animation: pulse 2s ease-in-out infinite;
 }
 
-/* ==========================================
-   UTILITIES
-   ========================================== */
+/* Utilities for legacy */
 .text-accent {
-  color: var(--color-accent);
+  color: var(--pri);
 }
 
 .text-muted {
-  color: var(--text-muted);
-}
-
-.text-center {
-  text-align: center;
+  color: var(--text-2);
 }
 
 .mt-sm {
@@ -527,18 +116,10 @@ body {
   margin-top: var(--space-md);
 }
 
-.mt-lg {
-  margin-top: var(--space-lg);
-}
-
 .mb-sm {
   margin-bottom: var(--space-sm);
 }
 
 .mb-md {
   margin-bottom: var(--space-md);
-}
-
-.mb-lg {
-  margin-bottom: var(--space-lg);
 }
