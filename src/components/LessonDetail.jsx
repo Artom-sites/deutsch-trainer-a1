@@ -252,11 +252,11 @@ const LessonDetail = () => {
                 onClick={() => startLessonWords(activeLessonId)}
                 style={{
                     width: '100%',
-                    padding: '16px',
-                    marginBottom: 'var(--space-md)',
-                    background: '#1A1A22',
-                    border: '1px solid rgba(255, 255, 255, 0.04)',
-                    borderRadius: 16,
+                    padding: 14,
+                    marginBottom: 12,
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 18,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -264,30 +264,32 @@ const LessonDetail = () => {
                 }}
             >
                 <div style={{
-                    width: 44,
-                    height: 44,
+                    width: 48,
+                    height: 48,
                     borderRadius: 14,
-                    background: '#F26A1B',
+                    background: 'linear-gradient(180deg, rgba(255,107,53,0.20), rgba(255,107,53,0.07))',
+                    border: '1px solid rgba(255,107,53,0.19)',
+                    boxShadow: '0 12px 34px rgba(255,107,53,0.13)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <Play size={22} color="#0B0B0F" fill="#0B0B0F" />
+                    <Play size={22} color="#fff" fill="#fff" />
                 </div>
                 <div style={{ textAlign: 'left', flex: 1 }}>
                     <div style={{
                         fontSize: '0.95rem',
                         fontWeight: 600,
-                        color: '#E5E7EB',
-                        marginBottom: 2
+                        color: 'var(--text-0)',
+                        marginBottom: 4
                     }}>
                         Вчити слова
                     </div>
-                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
                         {lessonWords.length} слів • {progress.learned} вивчено
                     </div>
                 </div>
-                <ChevronRight size={20} color="#7A7D8A" />
+                <ChevronRight size={20} color="var(--text-2)" />
             </button>
 
             {/* ==========================================
@@ -298,11 +300,11 @@ const LessonDetail = () => {
                     onClick={() => useStore.getState().startReading(activeLessonId)}
                     style={{
                         width: '100%',
-                        padding: '16px',
-                        marginBottom: 'var(--space-md)',
-                        background: '#1A1A22',
-                        border: '1px solid rgba(255, 255, 255, 0.04)',
-                        borderRadius: 16,
+                        padding: 14,
+                        marginBottom: 12,
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 18,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -310,30 +312,32 @@ const LessonDetail = () => {
                     }}
                 >
                     <div style={{
-                        width: 44,
-                        height: 44,
+                        width: 48,
+                        height: 48,
                         borderRadius: 14,
-                        background: '#3B82F6',
+                        background: 'linear-gradient(180deg, rgba(59,130,246,0.20), rgba(59,130,246,0.07))',
+                        border: '1px solid rgba(59,130,246,0.19)',
+                        boxShadow: '0 12px 34px rgba(59,130,246,0.13)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <BookText size={22} color="#0B0B0F" />
+                        <BookText size={22} color="#fff" />
                     </div>
                     <div style={{ textAlign: 'left', flex: 1 }}>
                         <div style={{
                             fontSize: '0.95rem',
                             fontWeight: 600,
-                            color: '#E5E7EB',
-                            marginBottom: 2
+                            color: 'var(--text-0)',
+                            marginBottom: 4
                         }}>
                             Lesen
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
                             Читання з інтерактивним перекладом
                         </div>
                     </div>
-                    <ChevronRight size={20} color="#7A7D8A" />
+                    <ChevronRight size={20} color="var(--text-2)" />
                 </button>
             )}
 
@@ -344,11 +348,11 @@ const LessonDetail = () => {
                 onClick={() => useStore.getState().startNounMaster(activeLessonId)}
                 style={{
                     width: '100%',
-                    padding: '16px',
-                    marginBottom: 'var(--space-md)',
-                    background: '#1A1A22',
-                    border: '1px solid rgba(255, 255, 255, 0.04)',
-                    borderRadius: 16,
+                    padding: 14,
+                    marginBottom: 12,
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 18,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -356,30 +360,32 @@ const LessonDetail = () => {
                 }}
             >
                 <div style={{
-                    width: 44,
-                    height: 44,
+                    width: 48,
+                    height: 48,
                     borderRadius: 14,
-                    background: '#8B5CF6',
+                    background: 'linear-gradient(180deg, rgba(139,92,246,0.20), rgba(139,92,246,0.07))',
+                    border: '1px solid rgba(139,92,246,0.19)',
+                    boxShadow: '0 12px 34px rgba(139,92,246,0.13)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                 }}>
-                    <PenTool size={22} color="#0B0B0F" />
+                    <PenTool size={22} color="#fff" />
                 </div>
                 <div style={{ textAlign: 'left', flex: 1 }}>
                     <div style={{
                         fontSize: '0.95rem',
                         fontWeight: 600,
-                        color: '#E5E7EB',
-                        marginBottom: 2
+                        color: 'var(--text-0)',
+                        marginBottom: 4
                     }}>
                         Noun Master
                     </div>
-                    <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
                         Артикль • Слово • Множина
                     </div>
                 </div>
-                <ChevronRight size={20} color="#7A7D8A" />
+                <ChevronRight size={20} color="var(--text-2)" />
             </button>
 
             {/* ==========================================
@@ -390,11 +396,11 @@ const LessonDetail = () => {
                     onClick={() => startLessonTest && startLessonTest(activeLessonId)}
                     style={{
                         width: '100%',
-                        padding: '16px',
-                        marginBottom: 'var(--space-lg)',
-                        background: '#1A1A22',
-                        border: '1px solid rgba(255, 255, 255, 0.04)',
-                        borderRadius: 16,
+                        padding: 14,
+                        marginBottom: 24,
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 18,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
@@ -402,30 +408,32 @@ const LessonDetail = () => {
                     }}
                 >
                     <div style={{
-                        width: 44,
-                        height: 44,
+                        width: 48,
+                        height: 48,
                         borderRadius: 14,
-                        background: '#2ECC71',
+                        background: 'linear-gradient(180deg, rgba(34,197,94,0.20), rgba(34,197,94,0.07))',
+                        border: '1px solid rgba(34,197,94,0.19)',
+                        boxShadow: '0 12px 34px rgba(34,197,94,0.13)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <ClipboardCheck size={22} color="#0B0B0F" />
+                        <ClipboardCheck size={22} color="#fff" />
                     </div>
                     <div style={{ textAlign: 'left', flex: 1 }}>
                         <div style={{
                             fontSize: '0.95rem',
                             fontWeight: 600,
-                            color: '#E5E7EB',
-                            marginBottom: 2
+                            color: 'var(--text-0)',
+                            marginBottom: 4
                         }}>
                             Пройти тест
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#7A7D8A' }}>
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
                             {lessonTest.questions.length} питань
                         </div>
                     </div>
-                    <ChevronRight size={20} color="#7A7D8A" />
+                    <ChevronRight size={20} color="var(--text-2)" />
                 </button>
             )}
         </div>
