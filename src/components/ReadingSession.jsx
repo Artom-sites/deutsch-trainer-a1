@@ -1,10 +1,11 @@
 // src/components/ReadingSession.jsx
-// Lesen - Interactive reading with word translation on tap + comprehension test
+// Lesen - Simple reading with translation at top
 import React, { useState } from 'react';
 import useStore from '../store/useStore';
 import { getReadingForLesson } from '../data/lessonReadings';
-import InteractiveText from './InteractiveText';
-import { ArrowLeft, BookOpen, CheckCircle2, XCircle, ChevronRight } from 'lucide-react';
+import { words } from '../data/words';
+import { ArrowLeft, Volume2, CheckCircle2, XCircle, ChevronRight } from 'lucide-react';
+import { speakSentence } from '../utils/speech';
 
 const ReadingSession = () => {
     const goBack = useStore(state => state.goBack);
@@ -12,7 +13,8 @@ const ReadingSession = () => {
 
     const reading = getReadingForLesson(activeLessonId);
 
-    const [mode, setMode] = useState('reading'); // 'reading' | 'quiz' | 'results'
+    const [mode, setMode] = useState('reading');
+    const [selectedWord, setSelectedWord] = useState(null);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -21,7 +23,7 @@ const ReadingSession = () => {
     if (!reading) {
         return (
             <div style={{
-                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 80,
                 display: 'flex', flexDirection: 'column', alignItems: 'center',
                 justifyContent: 'center', background: '#0B0B0F', padding: 20
             }}>
@@ -35,6 +37,21 @@ const ReadingSession = () => {
             </div>
         );
     }
+
+    const handleWordClick = (rawWord) => {
+        const cleanWord = rawWord.replace(/[.,!?;:()\"„"»«]/g, '').toLowerCase();
+        if (!cleanWord) return;
+
+        // Search in dictionary
+        const found = words.find(w => w.word.toLowerCase() === cleanWord);
+
+        if (found) {
+            setSelectedWord({ word: found.word, translation: found.translation, article: found.article });
+            speakSentence(found.word);
+        } else {
+            setSelectedWord({ word: rawWord.replace(/[.,!?;:()\"„"»«]/g, ''), translation: null });
+        }
+    };
 
     const handleStartQuiz = () => {
         setMode('quiz');
@@ -51,9 +68,8 @@ const ReadingSession = () => {
 
     const handleConfirm = () => {
         if (selectedOption === null) return;
-
         const isCorrect = selectedOption === reading.questions[currentQuestion].correct;
-        setAnswers([...answers, { questionIndex: currentQuestion, selected: selectedOption, correct: isCorrect }]);
+        setAnswers([...answers, { correct: isCorrect }]);
         setShowFeedback(true);
     };
 
@@ -70,54 +86,107 @@ const ReadingSession = () => {
     const correctCount = answers.filter(a => a.correct).length;
     const percentage = Math.round((correctCount / reading.questions.length) * 100);
 
+    // Render text with clickable words
+    const renderText = () => {
+        return reading.text.split('\n').map((paragraph, pIdx) => (
+            <p key={pIdx} style={{ marginBottom: 16, lineHeight: 1.7 }}>
+                {paragraph.split(' ').map((word, wIdx) => (
+                    <span
+                        key={wIdx}
+                        onClick={() => handleWordClick(word)}
+                        style={{
+                            cursor: 'pointer',
+                            marginRight: 4,
+                            borderBottom: '1px dashed rgba(255,255,255,0.2)',
+                            transition: 'color 0.15s'
+                        }}
+                        onMouseEnter={(e) => e.target.style.color = '#F26A1B'}
+                        onMouseLeave={(e) => e.target.style.color = 'inherit'}
+                    >
+                        {word}
+                    </span>
+                ))}
+            </p>
+        ));
+    };
+
     // Reading Mode
     if (mode === 'reading') {
         return (
             <div style={{
-                minHeight: '100vh', background: '#0B0B0F', paddingBottom: 100
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 80,
+                display: 'flex', flexDirection: 'column', background: '#0B0B0F',
+                overflow: 'hidden'
             }}>
                 {/* Header */}
                 <div style={{
-                    position: 'sticky', top: 0, zIndex: 10,
-                    background: 'rgba(11, 11, 15, 0.9)', backdropFilter: 'blur(10px)',
-                    padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12,
-                    borderBottom: '1px solid rgba(255,255,255,0.06)'
+                    padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 12,
+                    borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0
                 }}>
-                    <button onClick={goBack} style={{ background: 'transparent', border: 'none', color: '#E5E7EB', padding: 8 }}>
+                    <button onClick={goBack} style={{ background: 'transparent', border: 'none', color: '#E5E7EB', padding: 6 }}>
                         <ArrowLeft size={22} />
                     </button>
                     <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.75rem', color: '#7A7D8A' }}>LESEN</div>
-                        <div style={{ fontWeight: 600, color: '#E5E7EB' }}>{reading.title}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#7A7D8A', textTransform: 'uppercase' }}>LESEN</div>
+                        <div style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.95rem' }}>{reading.title}</div>
                     </div>
-                    <BookOpen size={20} color="#F26A1B" />
                 </div>
 
-                {/* Text Content */}
-                <div style={{ padding: '20px 16px' }}>
-                    <div style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(255,255,255,0.06)',
-                        borderRadius: 16, padding: 20
-                    }}>
-                        <InteractiveText text={reading.text} />
-                    </div>
+                {/* Translation Bar - shows selected word translation */}
+                <div style={{
+                    padding: '10px 16px',
+                    background: selectedWord ? 'rgba(242, 106, 27, 0.1)' : 'rgba(255,255,255,0.03)',
+                    borderBottom: '1px solid rgba(255,255,255,0.06)',
+                    minHeight: 50,
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    flexShrink: 0
+                }}>
+                    {selectedWord ? (
+                        <>
+                            <button
+                                onClick={() => speakSentence(selectedWord.word)}
+                                style={{
+                                    width: 36, height: 36, borderRadius: '50%',
+                                    background: '#F26A1B', border: 'none',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                }}
+                            >
+                                <Volume2 size={18} color="#0B0B0F" />
+                            </button>
+                            <div>
+                                <div style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '1.1rem' }}>
+                                    {selectedWord.article && <span style={{ color: '#F26A1B', marginRight: 6 }}>{selectedWord.article}</span>}
+                                    {selectedWord.word}
+                                </div>
+                                <div style={{ color: selectedWord.translation ? '#B0B3C0' : '#7A7D8A', fontSize: '0.9rem' }}>
+                                    {selectedWord.translation || 'не в словнику'}
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>
+                            👆 Натисни на слово щоб побачити переклад
+                        </span>
+                    )}
+                </div>
 
-                    {/* Hint */}
-                    <p style={{
-                        textAlign: 'center', color: '#7A7D8A', fontSize: '0.85rem',
-                        marginTop: 16, marginBottom: 24
-                    }}>
-                        💡 Натисни на слово щоб побачити переклад
-                    </p>
+                {/* Text Content - scrollable */}
+                <div style={{
+                    flex: 1, padding: '16px',
+                    overflowY: 'auto',
+                    color: '#E5E7EB', fontSize: '1.05rem'
+                }}>
+                    {renderText()}
+                </div>
 
-                    {/* Start Quiz Button */}
+                {/* Quiz Button */}
+                <div style={{ padding: '12px 16px', flexShrink: 0 }}>
                     <button
                         onClick={handleStartQuiz}
                         style={{
                             width: '100%', background: '#F26A1B', color: 'white',
-                            border: 'none', borderRadius: 14, padding: '16px',
-                            fontSize: '1rem', fontWeight: 600, cursor: 'pointer',
+                            border: 'none', borderRadius: 12, padding: '14px',
+                            fontSize: '1rem', fontWeight: 600,
                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
                         }}
                     >
@@ -134,42 +203,37 @@ const ReadingSession = () => {
 
         return (
             <div style={{
-                position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                position: 'fixed', top: 0, left: 0, right: 0, bottom: 80,
                 display: 'flex', flexDirection: 'column', background: '#0B0B0F'
             }}>
                 {/* Header */}
                 <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <button onClick={goBack} style={{ background: 'transparent', border: 'none', color: '#E5E7EB', padding: 8 }}>
+                    <button onClick={() => setMode('reading')} style={{ background: 'transparent', border: 'none', color: '#E5E7EB', padding: 6 }}>
                         <ArrowLeft size={22} />
                     </button>
                     <span style={{ color: '#7A7D8A', fontWeight: 600 }}>
                         {currentQuestion + 1} / {reading.questions.length}
                     </span>
-                    <div style={{ width: 38 }} />
+                    <div style={{ width: 34 }} />
                 </div>
 
-                {/* Progress Bar */}
-                <div style={{ padding: '0 16px', marginBottom: 20 }}>
+                {/* Progress */}
+                <div style={{ padding: '0 16px 16px' }}>
                     <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }}>
                         <div style={{
                             height: '100%', borderRadius: 2, background: '#F26A1B',
-                            width: `${((currentQuestion + 1) / reading.questions.length) * 100}%`,
-                            transition: 'width 0.3s'
+                            width: `${((currentQuestion + 1) / reading.questions.length) * 100}%`
                         }} />
                     </div>
                 </div>
 
                 {/* Question */}
                 <div style={{ flex: 1, padding: '0 16px', display: 'flex', flexDirection: 'column' }}>
-                    <h2 style={{
-                        fontSize: '1.2rem', fontWeight: 600, color: '#E5E7EB',
-                        marginBottom: 24, lineHeight: 1.4
-                    }}>
+                    <h2 style={{ fontSize: '1.15rem', fontWeight: 600, color: '#E5E7EB', marginBottom: 20, lineHeight: 1.4 }}>
                         {question.question}
                     </h2>
 
-                    {/* Options */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                         {question.options.map((option, idx) => {
                             const isSelected = selectedOption === idx;
                             const isCorrect = idx === question.correct;
@@ -182,7 +246,7 @@ const ReadingSession = () => {
                                     onClick={() => handleAnswer(idx)}
                                     disabled={showFeedback}
                                     style={{
-                                        padding: '14px 16px',
+                                        padding: '12px 14px',
                                         background: showCorrectStyle ? 'rgba(46, 204, 113, 0.15)'
                                             : showWrongStyle ? 'rgba(239, 68, 68, 0.15)'
                                                 : isSelected ? 'rgba(242, 106, 27, 0.15)'
@@ -191,16 +255,15 @@ const ReadingSession = () => {
                                             : showWrongStyle ? '2px solid #EF4444'
                                                 : isSelected ? '2px solid #F26A1B'
                                                     : '2px solid rgba(255,255,255,0.08)',
-                                        borderRadius: 12,
+                                        borderRadius: 10,
                                         color: '#E5E7EB',
-                                        fontSize: '1rem',
+                                        fontSize: '0.95rem',
                                         textAlign: 'left',
-                                        cursor: showFeedback ? 'default' : 'pointer',
-                                        display: 'flex', alignItems: 'center', gap: 10
+                                        display: 'flex', alignItems: 'center', gap: 8
                                     }}
                                 >
-                                    {showCorrectStyle && <CheckCircle2 size={20} color="#2ECC71" />}
-                                    {showWrongStyle && <XCircle size={20} color="#EF4444" />}
+                                    {showCorrectStyle && <CheckCircle2 size={18} color="#2ECC71" />}
+                                    {showWrongStyle && <XCircle size={18} color="#EF4444" />}
                                     {option}
                                 </button>
                             );
@@ -208,32 +271,23 @@ const ReadingSession = () => {
                     </div>
                 </div>
 
-                {/* Bottom Button */}
-                <div style={{ padding: '16px' }}>
+                {/* Button */}
+                <div style={{ padding: '12px 16px' }}>
                     {!showFeedback ? (
-                        <button
-                            onClick={handleConfirm}
-                            disabled={selectedOption === null}
-                            style={{
-                                width: '100%',
-                                background: selectedOption !== null ? '#F26A1B' : 'rgba(255,255,255,0.08)',
-                                color: selectedOption !== null ? 'white' : '#7A7D8A',
-                                border: 'none', borderRadius: 14, padding: '16px',
-                                fontSize: '1rem', fontWeight: 600
-                            }}
-                        >
+                        <button onClick={handleConfirm} disabled={selectedOption === null} style={{
+                            width: '100%',
+                            background: selectedOption !== null ? '#F26A1B' : 'rgba(255,255,255,0.08)',
+                            color: selectedOption !== null ? 'white' : '#7A7D8A',
+                            border: 'none', borderRadius: 12, padding: '14px', fontWeight: 600
+                        }}>
                             Перевірити
                         </button>
                     ) : (
-                        <button
-                            onClick={handleNext}
-                            style={{
-                                width: '100%', background: '#F26A1B', color: 'white',
-                                border: 'none', borderRadius: 14, padding: '16px',
-                                fontSize: '1rem', fontWeight: 600
-                            }}
-                        >
-                            {currentQuestion + 1 >= reading.questions.length ? 'Завершити' : 'Далі →'}
+                        <button onClick={handleNext} style={{
+                            width: '100%', background: '#F26A1B', color: 'white',
+                            border: 'none', borderRadius: 12, padding: '14px', fontWeight: 600
+                        }}>
+                            {currentQuestion + 1 >= reading.questions.length ? 'Результат' : 'Далі →'}
                         </button>
                     )}
                 </div>
@@ -241,49 +295,40 @@ const ReadingSession = () => {
         );
     }
 
-    // Results Mode
+    // Results
     return (
         <div style={{
-            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 80,
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', background: '#0B0B0F', padding: 20
         }}>
             <div style={{
-                width: 100, height: 100, borderRadius: '50%',
+                width: 90, height: 90, borderRadius: '50%',
                 background: percentage >= 80 ? 'rgba(46, 204, 113, 0.15)' : percentage >= 50 ? 'rgba(242, 106, 27, 0.15)' : 'rgba(239, 68, 68, 0.15)',
                 border: `3px solid ${percentage >= 80 ? '#2ECC71' : percentage >= 50 ? '#F26A1B' : '#EF4444'}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: 24
+                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20
             }}>
-                <span style={{ fontSize: '2rem', fontWeight: 700, color: '#E5E7EB' }}>{percentage}%</span>
+                <span style={{ fontSize: '1.8rem', fontWeight: 700, color: '#E5E7EB' }}>{percentage}%</span>
             </div>
 
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB', marginBottom: 8 }}>
-                {percentage >= 80 ? 'Чудово!' : percentage >= 50 ? 'Непогано!' : 'Спробуй ще раз'}
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#E5E7EB', marginBottom: 6 }}>
+                {percentage >= 80 ? 'Чудово!' : percentage >= 50 ? 'Непогано!' : 'Спробуй ще'}
             </h2>
-            <p style={{ color: '#7A7D8A', marginBottom: 32 }}>
-                {correctCount} з {reading.questions.length} правильних відповідей
+            <p style={{ color: '#7A7D8A', marginBottom: 28 }}>
+                {correctCount} з {reading.questions.length} правильно
             </p>
 
-            <div style={{ display: 'flex', gap: 12 }}>
-                <button
-                    onClick={() => setMode('reading')}
-                    style={{
-                        background: 'rgba(255,255,255,0.08)', color: '#E5E7EB',
-                        border: 'none', borderRadius: 12, padding: '12px 24px',
-                        fontWeight: 600
-                    }}
-                >
-                    Читати знову
+            <div style={{ display: 'flex', gap: 10 }}>
+                <button onClick={() => setMode('reading')} style={{
+                    background: 'rgba(255,255,255,0.08)', color: '#E5E7EB',
+                    border: 'none', borderRadius: 10, padding: '10px 20px', fontWeight: 600
+                }}>
+                    Ще раз
                 </button>
-                <button
-                    onClick={goBack}
-                    style={{
-                        background: '#F26A1B', color: 'white',
-                        border: 'none', borderRadius: 12, padding: '12px 24px',
-                        fontWeight: 600
-                    }}
-                >
+                <button onClick={goBack} style={{
+                    background: '#F26A1B', color: 'white',
+                    border: 'none', borderRadius: 10, padding: '10px 20px', fontWeight: 600
+                }}>
                     Готово
                 </button>
             </div>
