@@ -1,5 +1,5 @@
 // src/components/DictionaryTab.jsx
-// "Словник" tab - Filter by themes OR lessons
+// Dictionary - Violang-style Design
 import React, { useState } from 'react';
 import useStore from '../store/useStore';
 import { vocabularyThemes, themedWords, getWordsByTheme, getTotalThemedWordCount } from '../data/themedWords';
@@ -14,30 +14,21 @@ const DictionaryTab = () => {
     const setNounMasterWords = useStore(state => state.setNounMasterWords);
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [filterMode, setFilterMode] = useState('themes'); // 'themes' | 'lessons'
+    const [filterMode, setFilterMode] = useState('themes');
     const [selectedTheme, setSelectedTheme] = useState(null);
     const [selectedLesson, setSelectedLesson] = useState(null);
     const [visibleCount, setVisibleCount] = useState(50);
 
-    // Get all themed words flattened
     const getAllThemedWords = () => Object.values(themedWords).flat();
 
-    // Get filtered words based on mode
     const getFilteredWords = () => {
         let wordsToFilter;
-
         if (filterMode === 'themes') {
-            wordsToFilter = selectedTheme
-                ? getWordsByTheme(selectedTheme)
-                : getAllThemedWords();
+            wordsToFilter = selectedTheme ? getWordsByTheme(selectedTheme) : getAllThemedWords();
         } else {
-            wordsToFilter = selectedLesson
-                ? words.filter(w => w.lesson === selectedLesson)
-                : words;
+            wordsToFilter = selectedLesson ? words.filter(w => w.lesson === selectedLesson) : words;
         }
-
         if (searchQuery === '') return wordsToFilter;
-
         return wordsToFilter.filter(w =>
             w.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
             w.translation.toLowerCase().includes(searchQuery.toLowerCase())
@@ -46,17 +37,16 @@ const DictionaryTab = () => {
 
     const filteredWords = getFilteredWords();
 
-    // Get gender color
+    // Get gender color using new tokens
     const getGenderColor = (article) => {
         switch (article) {
-            case 'der': return '#4A90E2';
-            case 'die': return '#E94B5A';
-            case 'das': return '#2ECC71';
-            default: return '#E5E7EB';
+            case 'der': return 'var(--der)';
+            case 'die': return 'var(--die)';
+            case 'das': return 'var(--das)';
+            default: return 'var(--text-0)';
         }
     };
 
-    // Start flashcards
     const startFlashcards = () => {
         const formattedWords = filteredWords.map(w => ({
             id: w.id,
@@ -69,7 +59,6 @@ const DictionaryTab = () => {
         setCurrentView('flashcards');
     };
 
-    // Start NounMaster
     const startNounMaster = () => {
         const nouns = filteredWords.filter(w => w.article);
         if (nouns.length === 0) {
@@ -89,31 +78,23 @@ const DictionaryTab = () => {
     const totalThemedWords = getTotalThemedWordCount();
 
     return (
-        <div className="screen">
-            <div className="screen-header">
-                <div>
-                    <h1 className="screen-title">Wörterbuch</h1>
-                    <p className="screen-subtitle">
-                        {filterMode === 'themes' ? `${totalThemedWords} слів за темами` : `${words.length} слів з лекцій`}
-                    </p>
-                </div>
+        <div className="app">
+            {/* Header */}
+            <div style={{ marginBottom: 20 }}>
+                <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-0)', margin: '0 0 4px' }}>
+                    Wörterbuch
+                </h1>
+                <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
+                    {filterMode === 'themes' ? `${totalThemedWords} слів за темами` : `${words.length} слів з лекцій`}
+                </p>
             </div>
 
-            {/* Search Bar */}
-            <div style={{
-                position: 'relative',
-                marginBottom: 'var(--space-md)'
-            }}>
-                <Search
-                    size={20}
-                    style={{
-                        position: 'absolute',
-                        left: 16,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: 'var(--text-secondary)'
-                    }}
-                />
+            {/* Search */}
+            <div style={{ position: 'relative', marginBottom: 16 }}>
+                <Search size={18} style={{
+                    position: 'absolute', left: 14, top: '50%',
+                    transform: 'translateY(-50%)', color: 'var(--text-2)'
+                }} />
                 <input
                     type="text"
                     placeholder="Пошук слова..."
@@ -121,33 +102,32 @@ const DictionaryTab = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
                         width: '100%',
-                        padding: '14px 16px 14px 48px',
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: 16,
-                        color: 'white',
-                        fontSize: '1rem'
+                        padding: '12px 14px 12px 44px',
+                        background: 'var(--bg-2)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 14,
+                        color: 'var(--text-0)',
+                        fontSize: '0.95rem',
+                        outline: 'none'
                     }}
                 />
             </div>
 
-            {/* Mode Toggle: Themes vs Lessons */}
-            <div style={{
-                display: 'flex',
-                gap: 8,
-                marginBottom: 'var(--space-md)'
-            }}>
+            {/* Mode Toggle */}
+            <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
                 <button
                     onClick={() => { setFilterMode('themes'); setSelectedLesson(null); }}
                     style={{
                         flex: 1,
-                        padding: '10px 16px',
+                        padding: '10px 14px',
                         borderRadius: 12,
                         border: 'none',
-                        background: filterMode === 'themes' ? 'var(--color-accent)' : 'rgba(255,255,255,0.08)',
-                        color: filterMode === 'themes' ? 'black' : 'white',
+                        background: filterMode === 'themes'
+                            ? 'linear-gradient(135deg, var(--pri), #ff5a1f)'
+                            : 'var(--surface)',
+                        color: filterMode === 'themes' ? '#0B0B0F' : 'var(--text-1)',
                         fontWeight: 600,
-                        fontSize: '0.9rem',
+                        fontSize: '0.85rem',
                         cursor: 'pointer'
                     }}
                 >
@@ -157,13 +137,15 @@ const DictionaryTab = () => {
                     onClick={() => { setFilterMode('lessons'); setSelectedTheme(null); }}
                     style={{
                         flex: 1,
-                        padding: '10px 16px',
+                        padding: '10px 14px',
                         borderRadius: 12,
                         border: 'none',
-                        background: filterMode === 'lessons' ? 'var(--color-accent)' : 'rgba(255,255,255,0.08)',
-                        color: filterMode === 'lessons' ? 'black' : 'white',
+                        background: filterMode === 'lessons'
+                            ? 'linear-gradient(135deg, var(--pri), #ff5a1f)'
+                            : 'var(--surface)',
+                        color: filterMode === 'lessons' ? '#0B0B0F' : 'var(--text-1)',
                         fontWeight: 600,
-                        fontSize: '0.9rem',
+                        fontSize: '0.85rem',
                         cursor: 'pointer'
                     }}
                 >
@@ -173,27 +155,19 @@ const DictionaryTab = () => {
 
             {/* Filter Pills */}
             <div style={{
-                display: 'flex',
-                gap: 8,
-                overflowX: 'auto',
-                paddingBottom: 'var(--space-sm)',
-                marginBottom: 'var(--space-md)',
-                scrollbarWidth: 'none'
+                display: 'flex', gap: 6, overflowX: 'auto',
+                paddingBottom: 8, marginBottom: 16, scrollbarWidth: 'none'
             }}>
                 {filterMode === 'themes' ? (
                     <>
                         <button
                             onClick={() => setSelectedTheme(null)}
                             style={{
-                                padding: '8px 16px',
-                                borderRadius: 20,
-                                border: 'none',
-                                background: selectedTheme === null ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                                color: selectedTheme === null ? 'black' : 'white',
-                                fontWeight: 600,
-                                fontSize: '0.85rem',
-                                whiteSpace: 'nowrap',
-                                cursor: 'pointer'
+                                padding: '8px 14px', borderRadius: 999,
+                                border: selectedTheme === null ? 'none' : '1px solid var(--stroke)',
+                                background: selectedTheme === null ? 'var(--pri)' : 'var(--surface)',
+                                color: selectedTheme === null ? '#0B0B0F' : 'var(--text-1)',
+                                fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
                             }}
                         >
                             Всі
@@ -203,15 +177,11 @@ const DictionaryTab = () => {
                                 key={theme.id}
                                 onClick={() => setSelectedTheme(theme.id)}
                                 style={{
-                                    padding: '8px 16px',
-                                    borderRadius: 20,
-                                    border: 'none',
-                                    background: selectedTheme === theme.id ? theme.color : 'rgba(255,255,255,0.1)',
-                                    color: 'white',
-                                    fontWeight: 600,
-                                    fontSize: '0.85rem',
-                                    whiteSpace: 'nowrap',
-                                    cursor: 'pointer'
+                                    padding: '8px 14px', borderRadius: 999,
+                                    border: selectedTheme === theme.id ? 'none' : '1px solid var(--stroke)',
+                                    background: selectedTheme === theme.id ? theme.color : 'var(--surface)',
+                                    color: selectedTheme === theme.id ? '#0B0B0F' : 'var(--text-1)',
+                                    fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
                                 }}
                             >
                                 {theme.name}
@@ -223,15 +193,11 @@ const DictionaryTab = () => {
                         <button
                             onClick={() => setSelectedLesson(null)}
                             style={{
-                                padding: '8px 16px',
-                                borderRadius: 20,
-                                border: 'none',
-                                background: selectedLesson === null ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                                color: selectedLesson === null ? 'black' : 'white',
-                                fontWeight: 600,
-                                fontSize: '0.85rem',
-                                whiteSpace: 'nowrap',
-                                cursor: 'pointer'
+                                padding: '8px 14px', borderRadius: 999,
+                                border: selectedLesson === null ? 'none' : '1px solid var(--stroke)',
+                                background: selectedLesson === null ? 'var(--pri)' : 'var(--surface)',
+                                color: selectedLesson === null ? '#0B0B0F' : 'var(--text-1)',
+                                fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
                             }}
                         >
                             Всі
@@ -241,15 +207,11 @@ const DictionaryTab = () => {
                                 key={l.id}
                                 onClick={() => setSelectedLesson(l.id)}
                                 style={{
-                                    padding: '8px 16px',
-                                    borderRadius: 20,
-                                    border: 'none',
-                                    background: selectedLesson === l.id ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                                    color: selectedLesson === l.id ? 'black' : 'white',
-                                    fontWeight: 600,
-                                    fontSize: '0.85rem',
-                                    whiteSpace: 'nowrap',
-                                    cursor: 'pointer'
+                                    padding: '8px 14px', borderRadius: 999,
+                                    border: selectedLesson === l.id ? 'none' : '1px solid var(--stroke)',
+                                    background: selectedLesson === l.id ? 'var(--pri)' : 'var(--surface)',
+                                    color: selectedLesson === l.id ? '#0B0B0F' : 'var(--text-1)',
+                                    fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
                                 }}
                             >
                                 L{l.id}
@@ -260,116 +222,83 @@ const DictionaryTab = () => {
             </div>
 
             {/* Action Buttons */}
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 12,
-                marginBottom: 'var(--space-md)'
-            }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                 <button
                     onClick={startFlashcards}
                     style={{
-                        padding: '14px 16px',
-                        background: 'rgba(255, 255, 255, 0.08)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: 16,
-                        color: 'white',
+                        padding: '12px 14px',
+                        background: 'var(--surface)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 14,
+                        color: 'var(--text-0)',
                         fontWeight: 600,
-                        fontSize: '0.9rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 8,
+                        fontSize: '0.85rem',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                         cursor: 'pointer'
                     }}
                 >
-                    <Eye size={18} />
+                    <Eye size={16} />
                     Переглянути
                 </button>
                 <button
                     onClick={startNounMaster}
                     style={{
-                        padding: '14px 16px',
-                        background: 'rgba(242, 106, 27, 0.15)',
-                        border: '1px solid rgba(242, 106, 27, 0.3)',
-                        borderRadius: 16,
-                        color: '#F26A1B',
+                        padding: '12px 14px',
+                        background: 'var(--pri-soft)',
+                        border: '1px solid rgba(255,107,53,.3)',
+                        borderRadius: 14,
+                        color: 'var(--pri)',
                         fontWeight: 600,
-                        fontSize: '0.9rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 8,
+                        fontSize: '0.85rem',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                         cursor: 'pointer'
                     }}
                 >
-                    <Dumbbell size={18} />
+                    <Dumbbell size={16} />
                     Вивчати
                 </button>
             </div>
 
             {/* Words Count */}
-            <div style={{
-                fontSize: '0.85rem',
-                color: 'var(--text-secondary)',
-                marginBottom: 'var(--space-sm)'
-            }}>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 10 }}>
                 {filteredWords.length} слів
             </div>
 
             {/* Words List */}
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 8
-            }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {filteredWords.slice(0, visibleCount).map(word => (
                     <div
                         key={word.id}
                         style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            padding: '12px 16px',
-                            background: 'rgba(255, 255, 255, 0.03)',
-                            border: '1px solid rgba(255, 255, 255, 0.06)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            padding: '10px 14px',
+                            background: 'linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))',
+                            border: '1px solid var(--stroke)',
                             borderRadius: 12
                         }}
                     >
                         <div>
-                            <div style={{
-                                color: getGenderColor(word.article),
-                                fontWeight: 600,
-                                fontSize: '1rem'
-                            }}>
+                            <div style={{ color: getGenderColor(word.article), fontWeight: 600, fontSize: '0.95rem' }}>
                                 {word.article && <span style={{ opacity: 0.7, marginRight: 4 }}>{word.article}</span>}
                                 {word.word.replace(/^(der|die|das)\s+/, '')}
                                 {word.plural && <span style={{ opacity: 0.5, marginLeft: 4 }}>, {word.plural}</span>}
                             </div>
-                            <div style={{
-                                color: 'var(--text-secondary)',
-                                fontSize: '0.85rem',
-                                marginTop: 2
-                            }}>
+                            <div style={{ color: 'var(--text-2)', fontSize: '0.8rem', marginTop: 2 }}>
                                 {word.translation}
                             </div>
                         </div>
-
                         <button
                             onClick={() => speakWord(word.word.replace(/^(der|die|das)\s+/, ''), word.article)}
                             style={{
-                                background: 'rgba(255, 255, 255, 0.05)',
-                                border: 'none',
+                                background: 'var(--surface)',
+                                border: '1px solid var(--stroke)',
                                 borderRadius: '50%',
-                                width: 36,
-                                height: 36,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                width: 34, height: 34,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 cursor: 'pointer'
                             }}
                         >
-                            <Volume2 size={18} color="var(--text-secondary)" />
+                            <Volume2 size={16} color="var(--text-2)" />
                         </button>
                     </div>
                 ))}
@@ -378,16 +307,10 @@ const DictionaryTab = () => {
                     <button
                         onClick={() => setVisibleCount(prev => prev + 50)}
                         style={{
-                            width: '100%',
-                            textAlign: 'center',
-                            padding: 'var(--space-md)',
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                            borderRadius: 12,
-                            color: 'var(--color-accent)',
-                            fontSize: '0.9rem',
-                            fontWeight: 600,
-                            cursor: 'pointer'
+                            width: '100%', textAlign: 'center', padding: 14,
+                            background: 'var(--surface)', border: '1px solid var(--stroke)',
+                            borderRadius: 12, color: 'var(--pri)',
+                            fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer'
                         }}
                     >
                         + Ще {Math.min(50, filteredWords.length - visibleCount)} слів

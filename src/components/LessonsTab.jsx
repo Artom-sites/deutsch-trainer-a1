@@ -1,9 +1,9 @@
 // src/components/LessonsTab.jsx
-// Вкладка "Уроки" - Clean Professional Card Design
+// Lessons List - Violang-style Design
 import React from 'react';
 import useStore from '../store/useStore';
 import { lessons } from '../data/lexicon';
-import { Check, ChevronRight, BookOpen } from 'lucide-react';
+import { Check, ChevronRight, BookOpen, Clock } from 'lucide-react';
 
 const LessonsTab = () => {
     const openLesson = useStore(state => state.openLesson);
@@ -12,22 +12,27 @@ const LessonsTab = () => {
     const completedCount = lessons.filter(l => getLessonProgress(l.id).percent === 100).length;
 
     return (
-        <div className="screen" style={{ paddingBottom: 100 }}>
+        <div className="app">
             {/* Header */}
-            <div className="screen-header" style={{ marginBottom: 24 }}>
-                <div>
-                    <h1 className="screen-title">Lektionen</h1>
-                    <p className="screen-subtitle">
-                        Рівень A1 • {completedCount} з {lessons.length} завершено
-                    </p>
-                </div>
+            <div style={{ marginBottom: 24 }}>
+                <h1 style={{
+                    fontSize: '1.6rem', fontWeight: 700,
+                    color: 'var(--text-0)', margin: '0 0 4px'
+                }}>
+                    Lektionen
+                </h1>
+                <p style={{
+                    fontSize: '0.9rem', color: 'var(--text-2)', margin: 0
+                }}>
+                    Рівень A1 • {completedCount} з {lessons.length} завершено
+                </p>
             </div>
 
             {/* Progress Overview */}
             <div style={{
-                background: 'rgba(255, 255, 255, 0.03)',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                borderRadius: 16,
+                background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                border: '1px solid var(--stroke)',
+                borderRadius: 20,
                 padding: 16,
                 marginBottom: 24
             }}>
@@ -35,25 +40,22 @@ const LessonsTab = () => {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: 12
+                    marginBottom: 10
                 }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                    <span style={{ color: 'var(--text-2)', fontSize: '0.85rem' }}>
                         Загальний прогрес
                     </span>
-                    <span style={{ color: 'var(--color-accent)', fontWeight: 600 }}>
+                    <span style={{ color: 'var(--pri)', fontWeight: 600, fontSize: '0.9rem' }}>
                         {Math.round((completedCount / lessons.length) * 100)}%
                     </span>
                 </div>
                 <div style={{
-                    height: 6,
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    borderRadius: 3,
-                    overflow: 'hidden'
+                    height: 6, background: 'var(--surface)', borderRadius: 3
                 }}>
                     <div style={{
                         height: '100%',
                         width: `${(completedCount / lessons.length) * 100}%`,
-                        background: 'var(--color-accent)',
+                        background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
                         borderRadius: 3,
                         transition: 'width 0.3s ease'
                     }} />
@@ -61,8 +63,8 @@ const LessonsTab = () => {
             </div>
 
             {/* Lessons List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {lessons.map((lesson, index) => {
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {lessons.map((lesson) => {
                     const progress = getLessonProgress(lesson.id);
                     const isComplete = progress.percent === 100;
                     const isInProgress = progress.percent > 0 && progress.percent < 100;
@@ -72,44 +74,44 @@ const LessonsTab = () => {
                             key={lesson.id}
                             onClick={() => openLesson(lesson.id)}
                             style={{
-                                background: 'rgba(255, 255, 255, 0.03)',
-                                border: '1px solid rgba(255, 255, 255, 0.06)',
-                                borderRadius: 16,
-                                padding: 16,
+                                background: 'linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+                                border: '1px solid var(--stroke)',
+                                borderRadius: 18,
+                                padding: 14,
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: 16,
+                                gap: 14,
                                 cursor: 'pointer',
-                                transition: 'all 0.2s ease'
+                                transition: 'all 0.15s ease'
                             }}
                         >
-                            {/* Lesson Number */}
+                            {/* Lesson Number / Status */}
                             <div style={{
-                                width: 48,
-                                height: 48,
-                                borderRadius: 12,
+                                width: 46,
+                                height: 46,
+                                borderRadius: 14,
                                 background: isComplete
-                                    ? 'rgba(46, 204, 113, 0.15)'
+                                    ? 'var(--ok-soft)'
                                     : isInProgress
-                                        ? 'rgba(242, 106, 27, 0.15)'
-                                        : 'rgba(255, 255, 255, 0.05)',
+                                        ? 'var(--pri-soft)'
+                                        : 'var(--surface)',
                                 border: isComplete
-                                    ? '2px solid rgba(46, 204, 113, 0.3)'
+                                    ? '2px solid rgba(47,230,166,.3)'
                                     : isInProgress
-                                        ? '2px solid rgba(242, 106, 27, 0.3)'
-                                        : '2px solid rgba(255, 255, 255, 0.08)',
+                                        ? '2px solid rgba(255,107,53,.3)'
+                                        : '2px solid var(--stroke)',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 flexShrink: 0
                             }}>
                                 {isComplete ? (
-                                    <Check size={22} color="#2ECC71" strokeWidth={2.5} />
+                                    <Check size={22} color="var(--ok)" strokeWidth={2.5} />
                                 ) : (
                                     <span style={{
                                         fontSize: '1.1rem',
                                         fontWeight: 700,
-                                        color: isInProgress ? 'var(--color-accent)' : 'var(--text-secondary)'
+                                        color: isInProgress ? 'var(--pri)' : 'var(--text-2)'
                                     }}>
                                         {lesson.id}
                                     </span>
@@ -119,16 +121,26 @@ const LessonsTab = () => {
                             {/* Lesson Info */}
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={{
-                                    fontWeight: 600,
-                                    fontSize: '1rem',
-                                    color: 'var(--text-primary)',
-                                    marginBottom: 4
+                                    display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4
                                 }}>
-                                    Lektion {lesson.id}
+                                    <span style={{
+                                        fontWeight: 600,
+                                        fontSize: '0.95rem',
+                                        color: 'var(--text-0)'
+                                    }}>
+                                        Lektion {lesson.id}
+                                    </span>
+                                    <span style={{
+                                        fontSize: '0.7rem',
+                                        color: 'var(--text-2)',
+                                        display: 'flex', alignItems: 'center', gap: 3
+                                    }}>
+                                        <Clock size={10} /> ~6 хв
+                                    </span>
                                 </div>
                                 <div style={{
-                                    fontSize: '0.85rem',
-                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.8rem',
+                                    color: 'var(--text-2)',
                                     whiteSpace: 'nowrap',
                                     overflow: 'hidden',
                                     textOverflow: 'ellipsis'
@@ -136,42 +148,40 @@ const LessonsTab = () => {
                                     {lesson.title}
                                 </div>
 
-                                {/* Progress bar for in-progress lessons */}
+                                {/* Progress bar */}
                                 {isInProgress && (
                                     <div style={{
                                         marginTop: 8,
                                         height: 4,
-                                        background: 'rgba(255, 255, 255, 0.08)',
-                                        borderRadius: 2,
-                                        overflow: 'hidden'
+                                        background: 'var(--surface)',
+                                        borderRadius: 2
                                     }}>
                                         <div style={{
                                             height: '100%',
                                             width: `${progress.percent}%`,
-                                            background: 'var(--color-accent)',
+                                            background: 'var(--pri)',
                                             borderRadius: 2
                                         }} />
                                     </div>
                                 )}
                             </div>
 
-                            {/* Progress or Arrow */}
+                            {/* Progress % or Arrow */}
                             <div style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: 8,
-                                color: 'var(--text-secondary)'
+                                gap: 6
                             }}>
                                 {isInProgress && (
                                     <span style={{
                                         fontSize: '0.8rem',
-                                        color: 'var(--color-accent)',
+                                        color: 'var(--pri)',
                                         fontWeight: 600
                                     }}>
                                         {progress.percent}%
                                     </span>
                                 )}
-                                <ChevronRight size={20} />
+                                <ChevronRight size={18} color="var(--text-2)" />
                             </div>
                         </div>
                     );
