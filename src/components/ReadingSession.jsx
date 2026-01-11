@@ -42,7 +42,6 @@ const ReadingSession = () => {
         const cleanWord = rawWord.replace(/[.,!?;:()\"„"»«]/g, '').toLowerCase();
         if (!cleanWord) return;
 
-        // Search in dictionary
         const found = words.find(w => w.word.toLowerCase() === cleanWord);
 
         if (found) {
@@ -86,30 +85,6 @@ const ReadingSession = () => {
     const correctCount = answers.filter(a => a.correct).length;
     const percentage = Math.round((correctCount / reading.questions.length) * 100);
 
-    // Render text with clickable words
-    const renderText = () => {
-        return reading.text.split('\n').map((paragraph, pIdx) => (
-            <p key={pIdx} style={{ marginBottom: 16, lineHeight: 1.7 }}>
-                {paragraph.split(' ').map((word, wIdx) => (
-                    <span
-                        key={wIdx}
-                        onClick={() => handleWordClick(word)}
-                        style={{
-                            cursor: 'pointer',
-                            marginRight: 4,
-                            borderBottom: '1px dashed rgba(255,255,255,0.2)',
-                            transition: 'color 0.15s'
-                        }}
-                        onMouseEnter={(e) => e.target.style.color = '#F26A1B'}
-                        onMouseLeave={(e) => e.target.style.color = 'inherit'}
-                    >
-                        {word}
-                    </span>
-                ))}
-            </p>
-        ));
-    };
-
     // Reading Mode
     if (mode === 'reading') {
         return (
@@ -132,14 +107,12 @@ const ReadingSession = () => {
                     </div>
                 </div>
 
-                {/* Translation Bar - shows selected word translation */}
+                {/* Translation Bar */}
                 <div style={{
                     padding: '10px 16px',
                     background: selectedWord ? 'rgba(242, 106, 27, 0.1)' : 'rgba(255,255,255,0.03)',
                     borderBottom: '1px solid rgba(255,255,255,0.06)',
-                    minHeight: 50,
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    flexShrink: 0
+                    minHeight: 50, display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0
                 }}>
                     {selectedWord ? (
                         <>
@@ -170,13 +143,28 @@ const ReadingSession = () => {
                     )}
                 </div>
 
-                {/* Text Content - scrollable */}
+                {/* Text Content */}
                 <div style={{
                     flex: 1, padding: '16px',
-                    overflowY: 'auto',
+                    overflowY: 'auto', overflowX: 'hidden',
                     color: '#E5E7EB', fontSize: '1.05rem'
                 }}>
-                    {renderText()}
+                    {reading.text.split('\n').map((paragraph, pIdx) => (
+                        <p key={pIdx} style={{ marginBottom: 16, lineHeight: 1.8 }}>
+                            {paragraph.split(' ').map((word, wIdx) => (
+                                <span
+                                    key={wIdx}
+                                    onClick={() => handleWordClick(word)}
+                                    style={{
+                                        cursor: 'pointer',
+                                        borderBottom: '1px dashed rgba(255,255,255,0.2)'
+                                    }}
+                                >
+                                    {word}{' '}
+                                </span>
+                            ))}
+                        </p>
+                    ))}
                 </div>
 
                 {/* Quiz Button */}
@@ -206,7 +194,6 @@ const ReadingSession = () => {
                 position: 'fixed', top: 0, left: 0, right: 0, bottom: 80,
                 display: 'flex', flexDirection: 'column', background: '#0B0B0F'
             }}>
-                {/* Header */}
                 <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <button onClick={() => setMode('reading')} style={{ background: 'transparent', border: 'none', color: '#E5E7EB', padding: 6 }}>
                         <ArrowLeft size={22} />
@@ -217,7 +204,6 @@ const ReadingSession = () => {
                     <div style={{ width: 34 }} />
                 </div>
 
-                {/* Progress */}
                 <div style={{ padding: '0 16px 16px' }}>
                     <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }}>
                         <div style={{
@@ -227,7 +213,6 @@ const ReadingSession = () => {
                     </div>
                 </div>
 
-                {/* Question */}
                 <div style={{ flex: 1, padding: '0 16px', display: 'flex', flexDirection: 'column' }}>
                     <h2 style={{ fontSize: '1.15rem', fontWeight: 600, color: '#E5E7EB', marginBottom: 20, lineHeight: 1.4 }}>
                         {question.question}
@@ -271,7 +256,6 @@ const ReadingSession = () => {
                     </div>
                 </div>
 
-                {/* Button */}
                 <div style={{ padding: '12px 16px' }}>
                     {!showFeedback ? (
                         <button onClick={handleConfirm} disabled={selectedOption === null} style={{
