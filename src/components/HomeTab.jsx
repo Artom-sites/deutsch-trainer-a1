@@ -23,8 +23,11 @@ const HomeTab = () => {
 
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
-    // Current lesson
-    const currentLesson = lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[lessons.length - 1];
+    // Last visited lesson (or fall back to first incomplete)
+    const lastVisitedLessonId = useStore(state => state.lastVisitedLessonId);
+    const currentLesson = lastVisitedLessonId
+        ? (lessons.find(l => l.id === lastVisitedLessonId) || lessons[0])
+        : (lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[0]);
     const lessonProgress = getLessonProgress(currentLesson.id);
 
     return (

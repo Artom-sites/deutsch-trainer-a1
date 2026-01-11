@@ -20,6 +20,7 @@ const useStore = create(
             currentView: 'main', // 'main' | 'lesson-detail' | 'flashcards' | 'exercises' | 'grammar-detail'
 
             activeLessonId: null,
+            lastVisitedLessonId: null, // Persisted: last lesson user worked on
             activeGrammarTopicId: null,
             flashcardWords: [],
             currentCardIndex: 0,
@@ -53,7 +54,8 @@ const useStore = create(
             // ==========================================
             openLesson: (lessonId) => set({
                 currentView: 'lesson-detail',
-                activeLessonId: lessonId
+                activeLessonId: lessonId,
+                lastVisitedLessonId: lessonId // Remember last visited
             }),
 
             goBack: () => {
