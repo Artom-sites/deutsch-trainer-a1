@@ -34,8 +34,8 @@ const FlashcardSession = () => {
         <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)' }}>
             {/* Header */}
             <div className="back-header">
-                <button className="back-btn" onClick={goBack}>
-                    <ArrowLeft size={20} />
+                <button className="v-backBtn" onClick={goBack}>
+                    <ArrowLeft size={20} color="#fff" />
                 </button>
                 <div style={{ flex: 1 }}>
                     <div className="progress-bar">
