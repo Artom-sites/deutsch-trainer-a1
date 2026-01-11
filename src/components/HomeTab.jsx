@@ -11,6 +11,8 @@ const HomeTab = () => {
     const getLearnedCount = useStore(state => state.getLearnedCount);
     const getLessonProgress = useStore(state => state.getLessonProgress);
     const openLesson = useStore(state => state.openLesson);
+    const getOverallProgress = useStore(state => state.getOverallProgress);
+    const getWeakWords = useStore(state => state.getWeakWords);
 
     // Auth
     const user = useAuthStore(state => state.user);
@@ -376,6 +378,96 @@ const HomeTab = () => {
                 </div>
                 <ChevronRight size={20} color="var(--text-2)" />
             </div>
+
+            {/* =====================
+                PROGRESS RING
+            ===================== */}
+            {(() => {
+                const progress = getOverallProgress();
+                const radius = 40;
+                const stroke = 6;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (progress.percent / 100) * circumference;
+
+                return (
+                    <div style={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 20, padding: 16, marginBottom: 24,
+                        display: 'flex', alignItems: 'center', gap: 16
+                    }}>
+                        <svg width={100} height={100} style={{ flexShrink: 0 }}>
+                            <circle
+                                cx={50} cy={50} r={radius}
+                                fill="none"
+                                stroke="rgba(255,255,255,0.08)"
+                                strokeWidth={stroke}
+                            />
+                            <circle
+                                cx={50} cy={50} r={radius}
+                                fill="none"
+                                stroke="#2ECC71"
+                                strokeWidth={stroke}
+                                strokeLinecap="round"
+                                strokeDasharray={circumference}
+                                strokeDashoffset={offset}
+                                transform="rotate(-90 50 50)"
+                                style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+                            />
+                            <text x={50} y={50} textAnchor="middle" dy="0.3em"
+                                style={{ fontSize: '1.2rem', fontWeight: 700, fill: '#fff' }}>
+                                {progress.percent}%
+                            </text>
+                        </svg>
+                        <div>
+                            <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', marginBottom: 4 }}>
+                                Загальний прогрес
+                            </div>
+                            <div style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>
+                                {progress.learned} з {progress.total} слів
+                            </div>
+                        </div>
+                    </div>
+                );
+            })()}
+
+            {/* =====================
+                WEAK WORDS
+            ===================== */}
+            {(() => {
+                const weakWords = getWeakWords(4);
+                if (weakWords.length === 0) return null;
+
+                return (
+                    <>
+                        <div style={{
+                            display: 'flex', justifyContent: 'space-between',
+                            alignItems: 'center', marginBottom: 12
+                        }}>
+                            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
+                                🔄 Потрібно повторити
+                            </h3>
+                            <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>
+                                {weakWords.length} слів
+                            </span>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
+                            {weakWords.map(word => (
+                                <div key={word.id} style={{
+                                    background: 'rgba(233, 75, 90, 0.1)',
+                                    border: '1px solid rgba(233, 75, 90, 0.25)',
+                                    borderRadius: 12,
+                                    padding: '8px 12px',
+                                    fontSize: '0.85rem'
+                                }}>
+                                    <span style={{ color: 'var(--text-0)', fontWeight: 500 }}>{word.word}</span>
+                                    <span style={{ color: 'var(--text-2)', marginLeft: 6 }}>{word.translation}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </>
+                );
+            })()}
         </div>
     );
 };

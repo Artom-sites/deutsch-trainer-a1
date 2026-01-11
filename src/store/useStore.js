@@ -302,6 +302,54 @@ const useStore = create(
                     learned,
                     percent: lessonWords.length > 0 ? Math.round((learned / lessonWords.length) * 100) : 0
                 };
+            },
+
+            // Overall progress across all lessons (for progress ring)
+            getOverallProgress: () => {
+                const state = get();
+                let totalLearned = 0;
+                let totalWords = 0;
+                lessons.forEach(lesson => {
+                    const lessonWords = getWordsForLesson(lesson.id);
+                    totalWords += lessonWords.length;
+                    totalLearned += lessonWords.filter(w => {
+                        const prog = state.userProgress[w.id];
+                        return prog && prog.masteryStage === 4;
+                    }).length;
+                });
+                return {
+                    learned: totalLearned,
+                    total: totalWords,
+                    percent: totalWords > 0 ? Math.round((totalLearned / totalWords) * 100) : 0
+                };
+            },
+
+            // Get words that need review (low mastery or due)
+            getWeakWords: (limit = 5) => {
+                const state = get();
+                const allWords = getAllWords();
+                const weakList = [];
+
+                allWords.forEach(word => {
+                    const prog = state.userProgress[word.id];
+                    if (prog) {
+                        // Words with low mastery (0-2) or overdue
+                        const isWeak = prog.masteryStage <= 2;
+                        const isOverdue = prog.dueDate && new Date(prog.dueDate) < new Date();
+                        if (isWeak || isOverdue) {
+                            weakList.push({ ...word, masteryStage: prog.masteryStage, isOverdue });
+                        }
+                    }
+                });
+
+                // Sort by mastery stage (lowest first), then by overdue
+                weakList.sort((a, b) => {
+                    if (a.isOverdue && !b.isOverdue) return -1;
+                    if (!a.isOverdue && b.isOverdue) return 1;
+                    return a.masteryStage - b.masteryStage;
+                });
+
+                return weakList.slice(0, limit);
             }
         }),
         {
