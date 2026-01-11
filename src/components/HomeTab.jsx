@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { words, lessons } from '../data/lexicon';
-import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download, Play, Trophy, ShoppingBag } from 'lucide-react';
+import { BookOpen, BookText, Languages, GraduationCap, MessageCircle, Flame, Target, LogOut, ChevronRight, Download, Play, Trophy } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
@@ -37,7 +37,6 @@ const HomeTab = () => {
     const user = useAuthStore(state => state.user);
     const dailyGoal = useAuthStore(state => state.dailyGoal);
     const dailyProgress = useAuthStore(state => state.dailyProgress);
-    const coins = useAuthStore(state => state.coins);
     const streak = useAuthStore(state => state.streak);
     const logout = useAuthStore(state => state.logout);
 
@@ -49,10 +48,10 @@ const HomeTab = () => {
 
     // Features Grid
     const features = [
-        { id: 'dictionary', icon: BookText, title: 'Словник', color: '#3B82F6' },
-        { id: 'verbs', icon: Languages, title: 'Дієслова', color: '#8B5CF6' },
-        { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: '#10B981' },
-        { id: 'shop', icon: ShoppingBag, title: 'Магазин', color: '#F59E0B' } // Added Shop
+        { id: 'lessons', icon: BookOpen, title: 'Уроки', color: '#3B82F6' },
+        { id: 'dictionary', icon: BookText, title: 'Словник', color: '#8B5CF6' },
+        { id: 'verbs', icon: Languages, title: 'Дієслова', color: '#10B981' },
+        { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: '#F59E0B' }
     ];
 
     return (
@@ -85,24 +84,6 @@ const HomeTab = () => {
                 </div>
 
                 <div style={{ display: 'flex', gap: 8 }}>
-                    {/* Coin Badge */}
-                    <div
-                        onClick={() => setTab('shop')}
-                        style={{
-                            background: '#1A1A22',
-                            border: '1px solid rgba(255,255,255,0.05)',
-                            borderRadius: 12,
-                            padding: '6px 12px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            cursor: 'pointer'
-                        }}
-                    >
-                        <span style={{ fontSize: '1.1rem' }}>🪙</span>
-                        <span style={{ fontWeight: 700, color: '#E5E7EB' }}>{coins}</span>
-                    </div>
-
                     {/* Streak Badge */}
                     <div style={{
                         background: streak > 0 ? 'rgba(242, 106, 27, 0.1)' : '#1A1A22',
@@ -114,7 +95,9 @@ const HomeTab = () => {
                         gap: 6
                     }}>
                         <Flame size={18} color={streak > 0 ? '#F26A1B' : '#7A7D8A'} fill={streak > 0 ? '#F26A1B' : 'none'} />
-                        <span style={{ fontWeight: 700, color: streak > 0 ? '#F26A1B' : '#7A7D8A' }}>{streak}</span>
+                        <span style={{ fontWeight: 700, color: streak > 0 ? '#F26A1B' : '#7A7D8A' }}>
+                            {streak} {streak === 1 ? 'день' : streak > 1 && streak < 5 ? 'дні' : 'днів'}
+                        </span>
                     </div>
                 </div>
             </div>
