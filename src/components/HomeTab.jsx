@@ -218,48 +218,58 @@ const HomeTab = () => {
                 <div
                     onClick={() => setTab('dictionary')}
                     style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                        border: '1px solid var(--stroke)',
-                        borderRadius: 18, padding: 16,
-                        cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(47,230,166,0.25)',
+                        borderRadius: 18, padding: 14,
+                        cursor: 'pointer',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        gap: 10, textAlign: 'center',
+                        boxShadow: '0 0 25px rgba(47,230,166,0.08)',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease'
                     }}
                 >
                     <div style={{
-                        width: 44, height: 44, borderRadius: 14,
-                        background: 'rgba(47,230,166,.15)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        width: 50, height: 50, borderRadius: 16,
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '2px solid rgba(47,230,166,0.4)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: 'inset 0 0 15px rgba(47,230,166,0.1), 0 0 20px rgba(47,230,166,0.15)'
                     }}>
-                        <Sparkles size={22} color="var(--ok)" />
+                        <Sparkles size={24} color="var(--ok)" />
                     </div>
                     <div>
-                        <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.95rem' }}>Картки</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>Швидкий старт</div>
+                        <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>Картки</div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--text-2)' }}>Швидкий старт</div>
                     </div>
-                    <ChevronRight size={18} color="var(--text-2)" style={{ marginLeft: 'auto' }} />
                 </div>
 
                 {/* Noun Master */}
                 <div
                     onClick={() => setTab('lessons')}
                     style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                        border: '1px solid var(--stroke)',
-                        borderRadius: 18, padding: 16,
-                        cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '1px solid rgba(87,166,255,0.25)',
+                        borderRadius: 18, padding: 14,
+                        cursor: 'pointer',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center',
+                        gap: 10, textAlign: 'center',
+                        boxShadow: '0 0 25px rgba(87,166,255,0.08)',
+                        transition: 'transform 0.15s ease, box-shadow 0.15s ease'
                     }}
                 >
                     <div style={{
-                        width: 44, height: 44, borderRadius: 14,
-                        background: 'rgba(87,166,255,.15)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        width: 50, height: 50, borderRadius: 16,
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '2px solid rgba(87,166,255,0.4)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        boxShadow: 'inset 0 0 15px rgba(87,166,255,0.1), 0 0 20px rgba(87,166,255,0.15)'
                     }}>
-                        <PenTool size={22} color="var(--der)" />
+                        <PenTool size={24} color="var(--der)" />
                     </div>
                     <div>
-                        <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.95rem' }}>Noun M...</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>Швидкий старт</div>
+                        <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>Noun Master</div>
+                        <div style={{ fontSize: '0.7rem', color: 'var(--text-2)' }}>Швидкий старт</div>
                     </div>
-                    <ChevronRight size={18} color="var(--text-2)" style={{ marginLeft: 'auto' }} />
                 </div>
             </div>
 

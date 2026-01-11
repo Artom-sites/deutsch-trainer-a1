@@ -15,9 +15,9 @@ const BottomNav = () => {
     }
 
     const tabs = [
-        { id: 'home', icon: Home, label: 'Головна' },
         { id: 'lessons', icon: BookOpen, label: 'Уроки' },
         { id: 'dictionary', icon: Library, label: 'Словник' },
+        { id: 'home', icon: Home, label: 'Головна' },
         { id: 'verbs', icon: Sparkles, label: 'Трен' },
         { id: 'chat', icon: MessageCircle, label: 'Чат' },
     ];
