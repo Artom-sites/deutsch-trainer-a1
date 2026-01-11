@@ -4,10 +4,18 @@ import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { lessons, exercises } from '../data/lexicon';
+import { audioLessons } from '../data/audioLessons';
+import AudioSession from './AudioSession';
 import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, AlertCircle } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
+    const setView = useStore(state => state.setView); // Is this used?
+
+    // New state for Audio Player
+    const [activeAudioLesson, setActiveAudioLesson] = useState(null);
+
+    const activeLessonId = useStore(state => state.activeLessonId);
     const getLearnedCount = useStore(state => state.getLearnedCount);
     const getLessonProgress = useStore(state => state.getLessonProgress);
     const openLesson = useStore(state => state.openLesson);
@@ -43,6 +51,10 @@ const HomeTab = () => {
         ? (lessons.find(l => l.id === lastVisitedLessonId) || lessons[0])
         : (lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[0]);
     const lessonProgress = getLessonProgress(currentLesson.id);
+
+    if (activeAudioLesson) {
+        return <AudioSession lesson={activeAudioLesson} onBack={() => setActiveAudioLesson(null)} />;
+    }
 
     return (
         <div className="app">
@@ -521,6 +533,52 @@ const HomeTab = () => {
                     </div>
                 );
             })()}
+
+            {/* =====================
+                AUDIO LESSONS
+            ===================== */}
+            <div style={{ marginBottom: 24 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
+                        🎧 Міні-подкасти
+                    </h3>
+                </div>
+                <div style={{
+                    display: 'flex', gap: 12, overflowX: 'auto',
+                    paddingRight: 16, paddingBottom: 8, scrollbarWidth: 'none'
+                }}>
+                    {audioLessons.map(lesson => (
+                        <div
+                            key={lesson.id}
+                            onClick={() => setActiveAudioLesson(lesson)}
+                            style={{
+                                minWidth: 140, width: 140,
+                                background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+                                border: '1px solid var(--stroke)',
+                                borderRadius: 16, padding: 12,
+                                display: 'flex', flexDirection: 'column', gap: 8,
+                                cursor: 'pointer'
+                            }}
+                        >
+                            <div style={{
+                                width: 32, height: 32, borderRadius: 10,
+                                background: lesson.color,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                            }}>
+                                <Play size={14} fill="white" color="white" />
+                            </div>
+                            <div>
+                                <div style={{ fontSize: '0.85rem', fontWeight: 600, lineHeight: 1.2, marginBottom: 4 }}>
+                                    {lesson.title}
+                                </div>
+                                <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                                    <Clock size={10} /> {lesson.duration}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             {/* =====================
                 PROGRESS RING
