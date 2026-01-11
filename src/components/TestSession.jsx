@@ -1,6 +1,6 @@
 // src/components/TestSession.jsx
 // Повноцінна сесія тестування для перевірки знань після лекції
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import useStore from '../store/useStore';
 import { getTestForLesson } from '../data/lessonTests';
 import { ArrowLeft, Check, X, ChevronRight, RefreshCw, Trophy, Target } from 'lucide-react';
@@ -22,6 +22,16 @@ const TestSession = () => {
 
     const currentQuestion = questions[currentIndex];
     const progress = ((currentIndex + 1) / questions.length) * 100;
+
+    // Shuffle match options once per question
+    const shuffledMatchOptions = useMemo(() => {
+        if (currentQuestion?.type === 'match' && currentQuestion.pairs) {
+            return [...currentQuestion.pairs]
+                .map(p => p.right)
+                .sort(() => Math.random() - 0.5);
+        }
+        return [];
+    }, [currentQuestion?.id]);
 
     // Handle multiple choice answer
     const handleChoiceAnswer = (optionIndex) => {
@@ -472,8 +482,8 @@ const TestSession = () => {
                                             }}
                                         >
                                             <option value="">Оберіть відповідь...</option>
-                                            {currentQuestion.pairs.map((p, i) => (
-                                                <option key={i} value={p.right}>{p.right}</option>
+                                            {shuffledMatchOptions.map((answer, i) => (
+                                                <option key={i} value={answer}>{answer}</option>
                                             ))}
                                         </select>
                                         {/* Chevron */}
