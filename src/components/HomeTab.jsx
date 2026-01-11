@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
-import { lessons } from '../data/lexicon';
-import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool } from 'lucide-react';
+import { lessons, exercises } from '../data/lexicon';
+import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, AlertCircle } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
@@ -13,6 +13,20 @@ const HomeTab = () => {
     const openLesson = useStore(state => state.openLesson);
     const getOverallProgress = useStore(state => state.getOverallProgress);
     const getWeakWords = useStore(state => state.getWeakWords);
+    const getMistakes = useStore(state => state.getMistakes);
+    // Helper to start specific exercises
+    const startExerciseSession = useStore(state => (exercisesList) => {
+        useStore.setState({
+            currentView: 'exercises',
+            activeExercises: exercisesList
+        });
+    });
+
+    // Import exercises data locally to avoid store overhead if possible, 
+    // or use a helper. Since exercises are exported from lexicon, we can import them.
+    // But we need to make sure we have access to the full list.
+    // Let's assume we can get them via a store selector or direct import.
+    // For now, I'll use a direct import at top of file, so let's add it.
 
     // Auth
     const user = useAuthStore(state => state.user);
@@ -438,6 +452,75 @@ const HomeTab = () => {
                 </div>
                 <ChevronRight size={20} color="var(--text-2)" />
             </div>
+
+            {/* =====================
+                MISTAKES OF THE DAY
+            ===================== */}
+            {(() => {
+                const rawMistakes = getMistakes();
+                const mistakeExercises = rawMistakes
+                    .map(m => exercises[m.id]) // Get full exercise object
+                    .filter(Boolean)
+                    .slice(0, 3);
+
+                if (mistakeExercises.length === 0) return null;
+
+                const handleReviewMistakes = () => {
+                    const fullList = rawMistakes.map(m => exercises[m.id]).filter(Boolean);
+                    // Shuffle a bit or take top 20
+                    startExerciseSession(fullList.slice(0, 20));
+                };
+
+                return (
+                    <div style={{ marginBottom: 24 }}>
+                        <div style={{
+                            display: 'flex', justifyContent: 'space-between',
+                            alignItems: 'center', marginBottom: 12
+                        }}>
+                            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
+                                ⚠️ Робота над помилками
+                            </h3>
+                            <span
+                                onClick={handleReviewMistakes}
+                                style={{ fontSize: '0.8rem', color: 'var(--pri)', cursor: 'pointer', fontWeight: 600 }}
+                            >
+                                Повторити ({rawMistakes.length})
+                            </span>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            {mistakeExercises.map(ex => (
+                                <div key={ex.id} onClick={handleReviewMistakes} style={{
+                                    background: 'rgba(233, 75, 90, 0.05)',
+                                    border: '1px solid rgba(233, 75, 90, 0.15)',
+                                    borderRadius: 14,
+                                    padding: '12px 14px',
+                                    display: 'flex', alignItems: 'center', gap: 12,
+                                    cursor: 'pointer'
+                                }}>
+                                    <div style={{
+                                        width: 36, height: 36, borderRadius: 10,
+                                        background: 'rgba(233, 75, 90, 0.15)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        flexShrink: 0
+                                    }}>
+                                        <AlertCircle size={18} color="#E94B5A" />
+                                    </div>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-0)', marginBottom: 2 }}>
+                                            {ex.question?.replace(/___/g, '...').substring(0, 40) + (ex.question?.length > 40 ? '...' : '')}
+                                        </div>
+                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>
+                                            Тема: {ex.topic}
+                                        </div>
+                                    </div>
+                                    <ChevronRight size={18} color="var(--text-2)" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            })()}
 
             {/* =====================
                 PROGRESS RING

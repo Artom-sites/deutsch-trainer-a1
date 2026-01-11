@@ -28,9 +28,14 @@ const ExerciseSession = () => {
 
     const currentExercise = activeExercises[currentIndex];
 
+    const addMistake = useStore(state => state.addMistake);
+
     const handleExerciseComplete = (isCorrect) => {
         if (isCorrect) {
             setCorrectCount(prev => prev + 1);
+        } else {
+            // Record mistake
+            addMistake(currentExercise.id);
         }
 
         // Wait a bit before next question
