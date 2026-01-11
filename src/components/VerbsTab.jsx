@@ -9,10 +9,10 @@ const VerbCard = ({ verb }) => {
     const [expanded, setExpanded] = useState(false);
 
     const typeConfig = {
-        regular: { color: 'var(--ok)', label: 'Regular', emoji: '✓' },
-        irregular: { color: 'var(--error)', label: 'Irregular', emoji: '⚡' },
-        modal: { color: 'var(--orange)', label: 'Modal', emoji: '🔧' },
-        trennbar: { color: 'var(--blue)', label: 'Trennbar', emoji: '✂️' }
+        regular: { color: '#2ECC71', label: 'Regular', emoji: '✓' },
+        irregular: { color: '#FFD700', label: 'Irregular', emoji: '⚡' },
+        modal: { color: '#F26A1B', label: 'Modal', emoji: '🔧' },
+        trennbar: { color: '#57A6FF', label: 'Trennbar', emoji: '✂️' }
     };
 
     const typeInfo = typeConfig[verb.type] || typeConfig.regular;
