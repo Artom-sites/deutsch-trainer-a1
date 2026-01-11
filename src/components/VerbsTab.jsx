@@ -10,7 +10,7 @@ const VerbCard = ({ verb }) => {
 
     const typeConfig = {
         regular: { color: '#2ECC71', label: 'Regular', emoji: '✓' },
-        irregular: { color: '#FFD700', label: 'Irregular', emoji: '⚡' },
+        irregular: { color: '#E94B5A', label: 'Irregular', emoji: '⚡' },
         modal: { color: '#F26A1B', label: 'Modal', emoji: '🔧' },
         trennbar: { color: '#57A6FF', label: 'Trennbar', emoji: '✂️' }
     };
