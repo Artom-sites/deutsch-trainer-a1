@@ -124,15 +124,17 @@ Primary orange: #FF6B35
 /* icon bubble */
 .v-iconBubble {
     position: relative;
-    width: 42px;
-    height: 42px;
+    /* Static size to prevent movement */
+    width: 44px;
+    height: 44px;
     border-radius: 16px;
     display: grid;
     place-items: center;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
-    transition: width .22s ease, height .22s ease, border-radius .22s ease, background .22s ease, border-color .22s ease;
+    /* No width/height transition to stop movement */
+    transition: width 0s, height 0s, border-radius .22s ease, background .22s ease, border-color .22s ease;
     overflow: visible;
 }
 
@@ -175,23 +177,15 @@ Primary orange: #FF6B35
 }
 
 .v-tab[data-active="true"] .v-iconBubble {
-    width: 50px;
-    height: 50px;
-    border-radius: 18px;
+    /* Same size as inactive to prevent jump */
+    width: 44px;
+    height: 44px;
+    border-radius: 16px;
 
-    /* Complex GlowTile background */
-    background:
-        radial-gradient(120% 120% at 30% 18%, rgba(255, 255, 255, 0.10) 0%, transparent 55%),
-        radial-gradient(140% 140% at 30% 15%, rgba(255, 107, 53, 0.15) 0%, rgba(255, 107, 53, 0.07) 42%, rgba(0, 0, 0, 0.22) 100%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-
-    border: 1px solid rgba(255, 107, 53, 0.18);
-
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.06),
-        0 18px 60px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        inset 0 -22px 44px rgba(0, 0, 0, 0.26);
+    /* Simple gradient style matching lesson cards */
+    background: linear-gradient(180deg, rgba(255, 107, 53, 0.20), rgba(255, 107, 53, 0.07));
+    border: 1px solid rgba(255, 107, 53, 0.19);
+    box-shadow: 0 12px 34px rgba(255, 107, 53, 0.13);
 
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -199,7 +193,9 @@ Primary orange: #FF6B35
 
 .v-tab[data-active="true"] .v-iconBubble::before,
 .v-tab[data-active="true"] .v-iconBubble::after {
-    opacity: 1;
+    /* Hide complex glow elements */
+    opacity: 0;
+    display: none;
 }
 
 /* optional label (can be hidden on mobile) */
