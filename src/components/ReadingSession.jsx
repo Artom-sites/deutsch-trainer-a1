@@ -42,7 +42,11 @@ const ReadingSession = () => {
         const cleanWord = rawWord.replace(/[.,!?;:()\"„"»«]/g, '').toLowerCase();
         if (!cleanWord) return;
 
-        const found = words.find(w => w.word.toLowerCase() === cleanWord);
+        // Try exact match, then without hyphens, then partial match
+        let found = words.find(w => w.word.toLowerCase() === cleanWord);
+        if (!found) found = words.find(w => w.word.toLowerCase().replace(/-/g, '') === cleanWord);
+        if (!found) found = words.find(w => w.word.toLowerCase().startsWith(cleanWord) && cleanWord.length >= 3);
+        if (!found) found = words.find(w => cleanWord.startsWith(w.word.toLowerCase().replace(/-/g, '')) && w.word.length >= 3);
 
         if (found) {
             setSelectedWord({ word: found.word, translation: found.translation, article: found.article });
