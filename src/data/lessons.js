@@ -210,6 +210,6 @@ export const lessonContent = {
         ]
     }
     // More lesson content will be added dynamically
-];
+};
 
 export default lessons;
