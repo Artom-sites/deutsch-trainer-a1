@@ -275,7 +275,7 @@ const TestSession = () => {
     }
 
     return (
-        <div className="screen" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div className="screen" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowX: 'hidden' }}>
             {/* Header */}
             <div style={{
                 display: 'flex',
@@ -329,7 +329,7 @@ const TestSession = () => {
             </div>
 
             {/* Question content */}
-            <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 100 }}>
+            <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingBottom: 100 }}>
                 {/* Question text */}
                 <div style={{
                     fontSize: '1.2rem',
@@ -446,28 +446,32 @@ const TestSession = () => {
                             return (
                                 <div key={idx} style={{
                                     display: 'flex',
-                                    gap: 12,
+                                    gap: 8,
                                     marginBottom: 12,
-                                    alignItems: 'center'
+                                    alignItems: 'stretch',
+                                    flexWrap: 'nowrap'
                                 }}>
                                     <div style={{
-                                        flex: 1,
-                                        padding: '12px 16px',
+                                        minWidth: 0,
+                                        flex: '0 0 auto',
+                                        maxWidth: '40%',
+                                        padding: '10px 12px',
                                         background: 'rgba(242, 106, 27, 0.1)',
                                         border: '1px solid rgba(242, 106, 27, 0.2)',
                                         borderRadius: 10,
-                                        fontSize: '0.9rem'
+                                        fontSize: '0.85rem',
+                                        wordBreak: 'break-word'
                                     }}>
                                         {pair.left}
                                     </div>
-                                    <ChevronRight size={16} color="var(--text-muted)" />
                                     <select
                                         value={matchSelections[idx] || userAnswer || ''}
                                         onChange={(e) => handleMatchSelect(idx, e.target.value)}
                                         disabled={isAnswered}
                                         style={{
                                             flex: 1,
-                                            padding: '12px 16px',
+                                            minWidth: 0,
+                                            padding: '10px 12px',
                                             background: isAnswered
                                                 ? (isThisCorrect ? 'rgba(46, 204, 113, 0.1)' : 'rgba(233, 75, 90, 0.1)')
                                                 : 'rgba(255, 255, 255, 0.08)',
@@ -478,7 +482,9 @@ const TestSession = () => {
                                             color: isAnswered
                                                 ? (isThisCorrect ? '#2ECC71' : '#E94B5A')
                                                 : 'var(--text-primary)',
-                                            fontSize: '0.9rem'
+                                            fontSize: '0.85rem',
+                                            WebkitAppearance: 'none',
+                                            appearance: 'none'
                                         }}
                                     >
                                         <option value="">Оберіть...</option>

@@ -31,36 +31,38 @@ const FlashcardSession = () => {
     };
 
     return (
-        <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)' }}>
-            {/* Header */}
-            {/* Header */}
-            <div style={{ padding: 'var(--space-md) var(--space-md) 0' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-                    <button className="v-backBtn" onClick={goBack}>
-                        <ArrowLeft size={20} color="#fff" />
-                    </button>
+        <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)', overflow: 'hidden' }}>
+            {/* Header Row */}
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '0 0 16px 0'
+            }}>
+                <button className="v-backBtn" onClick={goBack}>
+                    <ArrowLeft size={20} color="#fff" />
+                </button>
 
-                    <div style={{
-                        fontSize: '0.9rem',
-                        fontWeight: 600,
-                        color: 'var(--text-1)',
-                        background: 'var(--surface)',
-                        padding: '6px 12px',
-                        borderRadius: 12,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 8,
-                        border: '1px solid var(--stroke)'
-                    }}>
-                        <Eye size={16} color="var(--text-2)" />
-                        <span>{currentIndex + 1} <span style={{ color: 'var(--text-2)' }}>/ {flashcardWords.length}</span></span>
-                    </div>
+                <div style={{
+                    fontSize: '0.9rem',
+                    fontWeight: 600,
+                    color: 'var(--text-1)',
+                    background: 'var(--surface)',
+                    padding: '6px 12px',
+                    borderRadius: 12,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    border: '1px solid var(--stroke)'
+                }}>
+                    <Eye size={16} color="var(--text-2)" />
+                    <span>{currentIndex + 1} <span style={{ color: 'var(--text-2)' }}>/ {flashcardWords.length}</span></span>
                 </div>
+            </div>
 
-                {/* Progress Bar */}
-                <div className="progress-bar" style={{ marginBottom: 0 }}>
-                    <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
-                </div>
+            {/* Progress Bar */}
+            <div className="progress-bar" style={{ marginBottom: 16 }}>
+                <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
             </div>
 
             {/* Content */}
