@@ -1,243 +1,235 @@
 /*
-  VIOLANG — UI KIT (Glow Icons + Glass Bottom Bar)
-  Goal: the SAME look as the screenshots: dark glass, soft blur, orange glow, inner highlight.
+Violang — Glow UI Kit (Copy/Paste)
+Goal: exactly this look — dark glass + soft blur + orange glow around active icons + floating bottom tab bar.
+Primary orange: #FF6B35
 */
 
 :root {
-    /* ===== Brand ===== */
-    --pri: #ff6b35;
-    --pri2: #ff8a4f;
-    --ok: #2fe6a6;
-    --blue: #57a6ff;
+    /* Core */
+    --bg: #0B0D10;
+    --surface: rgba(16, 18, 22, 0.62);
+    --surface-2: rgba(22, 24, 30, 0.62);
+    --stroke: rgba(255, 255, 255, 0.07);
+    --stroke-2: rgba(255, 255, 255, 0.10);
+    --text: rgba(255, 255, 255, 0.92);
+    --muted: rgba(255, 255, 255, 0.62);
 
-    /* ===== Neutrals ===== */
-    --bg0: #07080b;
-    --bg1: #0b0d12;
-    --card: #0f1420;
-    --glass: rgba(14, 18, 26, .56);
-    --stroke: rgba(255, 255, 255, .10);
-    --stroke2: rgba(255, 255, 255, .14);
-    --txt: rgba(255, 255, 255, .92);
-    --muted: rgba(255, 255, 255, .60);
+    /* Accent */
+    --orange: #FF6B35;
+    --orange-2: #FF874F;
+    --orange-ink: rgba(255, 107, 53, 0.16);
+    --orange-glow: rgba(255, 107, 53, 0.32);
+    --orange-glow-strong: rgba(255, 107, 53, 0.52);
 
-    /* ===== Effects ===== */
+    /* Shadows */
+    --shadow-lg: 0 22px 70px rgba(0, 0, 0, 0.62);
+    --shadow-md: 0 14px 34px rgba(0, 0, 0, 0.55);
+
+    /* Blur */
     --blur: 18px;
-    --r: 22px;
+
+    /* Radius */
+    --r-xl: 28px;
+    --r-lg: 22px;
+    --r-md: 18px;
 }
 
-/* =============================
-   1) GLOW ICON BUBBLE
-   ============================= */
+/* ---------- Base helpers ---------- */
+.v-page {
+    min-height: 100dvh;
+    background: radial-gradient(1200px 900px at 15% -10%, rgba(255, 107, 53, 0.10), transparent 55%),
+        radial-gradient(900px 700px at 85% 10%, rgba(255, 107, 53, 0.06), transparent 55%),
+        var(--bg);
+    color: var(--text);
+}
 
-.v-iconBubble {
-    --g: var(--pri);
-    width: 54px;
-    height: 54px;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    position: relative;
-    isolation: isolate;
-
-    background:
-        radial-gradient(60% 60% at 28% 22%, rgba(255, 255, 255, .16), transparent 62%),
-        linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .02)),
-        rgba(255, 255, 255, .04);
-
-    border: 1px solid rgba(255, 255, 255, .12);
+.v-glass {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), var(--surface);
+    border: 1px solid var(--stroke);
     backdrop-filter: blur(var(--blur));
     -webkit-backdrop-filter: blur(var(--blur));
-
-    box-shadow:
-        0 18px 55px rgba(0, 0, 0, .62),
-        inset 0 1px 0 rgba(255, 255, 255, .14);
+    box-shadow: var(--shadow-md);
 }
 
-/* Outer soft halo */
-.v-iconBubble::before {
-    content: "";
-    position: absolute;
-    inset: -16px;
-    border-radius: inherit;
-    z-index: -2;
-    background: radial-gradient(circle, color-mix(in srgb, var(--g) 28%, transparent) 0%, transparent 65%);
-    filter: blur(14px);
-    opacity: .95;
-}
-
-/* Thin glowing ring */
-.v-iconBubble::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    z-index: -1;
-
-    background: conic-gradient(from 230deg,
-            transparent 0 20%,
-            color-mix(in srgb, var(--g) 38%, transparent) 20% 40%,
-            rgba(255, 255, 255, .12) 40% 46%,
-            transparent 46% 100%);
-
-    mask: radial-gradient(circle, transparent 62%, #000 63%);
-    -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%);
-    opacity: .90;
-}
-
-/* Color variants */
-.v-iconBubble.pri {
-    --g: var(--pri);
-}
-
-.v-iconBubble.ok {
-    --g: var(--ok);
-}
-
-.v-iconBubble.blue {
-    --g: var(--blue);
-}
-
-/* Active bump */
-.v-iconBubble.isActive {
-    background:
-        radial-gradient(60% 60% at 28% 22%, rgba(255, 255, 255, .20), transparent 62%),
-        linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02)),
-        rgba(255, 255, 255, .05);
-    border-color: rgba(255, 255, 255, .16);
-    box-shadow:
-        0 22px 70px rgba(0, 0, 0, .66),
-        0 18px 70px color-mix(in srgb, var(--g) 14%, transparent),
-        inset 0 1px 0 rgba(255, 255, 255, .16);
-}
-
-/* =============================
-   2) GLASS BOTTOM BAR
-   ============================= */
-
-.v-tabbar {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 14px;
-    z-index: 50;
-
-    width: min(560px, calc(100% - 22px));
-    padding: 10px;
-    border-radius: 999px;
-    isolation: isolate;
-
-    background: rgba(10, 12, 18, .62);
-    border: 1px solid rgba(255, 255, 255, .10);
-
-    backdrop-filter: blur(var(--blur));
-    -webkit-backdrop-filter: blur(var(--blur));
-
-    box-shadow:
-        0 30px 90px rgba(0, 0, 0, .76),
-        0 12px 28px rgba(0, 0, 0, .42);
-}
-
-/* Inner top highlight */
-.v-tabbar::before {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: inherit;
-    pointer-events: none;
-
-    background: linear-gradient(180deg,
-            rgba(255, 255, 255, .12),
-            rgba(255, 255, 255, .05) 45%,
-            rgba(255, 255, 255, .02));
-    opacity: .55;
-}
-
-/* Ambient glow around the whole bar */
-.v-tabbar::after {
-    content: "";
-    position: absolute;
-    inset: -22px;
-    border-radius: inherit;
-    pointer-events: none;
-    z-index: -1;
-
-    background:
-        radial-gradient(70% 120% at 18% 50%, rgba(255, 107, 53, .18), transparent 60%),
-        radial-gradient(70% 120% at 82% 50%, rgba(47, 230, 166, .10), transparent 60%);
-
-    filter: blur(20px);
-    opacity: .85;
-}
-
-.v-tabbar__row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-/* =============================
-   3) TAB ITEM
-   ============================= */
-
-.v-tab {
-    flex: 1;
-    height: 48px;
-    border-radius: 999px;
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-    color: rgba(255, 255, 255, .58);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.v-tab__label {
-    font-size: 11px;
-    opacity: .9;
-    font-weight: 500;
-}
-
-.v-tab.isActive {
-    color: rgba(255, 255, 255, .92);
-}
-
-/* Active capsule background */
-.v-tab.isActive::before {
+/* Optional: subtle inner highlight */
+.v-glass::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: rgba(255, 255, 255, .05);
-    border: 1px solid rgba(255, 255, 255, .12);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+    pointer-events: none;
+    background: radial-gradient(800px 220px at 50% 0%, rgba(255, 255, 255, 0.10), transparent 55%);
+    opacity: 0.55;
 }
 
-/* Local glow under active tab */
-.v-tab.isActive::after {
+/* ---------- Bottom Tab Bar ---------- */
+.v-tabbar {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 18px;
+    width: min(430px, calc(100% - 24px));
+    height: 74px;
+    border-radius: var(--r-xl);
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 999;
+
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)), rgba(10, 12, 16, 0.62);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 22px 80px rgba(0, 0, 0, 0.65);
+
+    /* IMPORTANT for glow */
+    overflow: visible;
+}
+
+/* outer orange aura (very subtle) */
+.v-tabbar::before {
+    content: "";
+    position: absolute;
+    inset: -22px -22px -26px -22px;
+    border-radius: calc(var(--r-xl) + 26px);
+    background: radial-gradient(420px 120px at 50% 120%, rgba(255, 107, 53, 0.16), transparent 60%);
+    filter: blur(18px);
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.v-tab {
+    position: relative;
+    flex: 1;
+    height: 54px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.v-tab:active {
+    transform: scale(0.98);
+}
+
+/* icon bubble */
+.v-iconBubble {
+    position: relative;
+    width: 42px;
+    height: 42px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+    transition: width .22s ease, height .22s ease, border-radius .22s ease, background .22s ease, border-color .22s ease;
+    overflow: visible;
+}
+
+/* the glow ring behind the icon bubble */
+.v-iconBubble::before {
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: 26px;
+    background: radial-gradient(closest-side, var(--orange-glow-strong), transparent 62%);
+    filter: blur(14px);
+    opacity: 0;
+    transition: opacity .22s ease;
+    pointer-events: none;
+}
+
+/* small crisp highlight line */
+.v-iconBubble::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(120px 70px at 30% 10%, rgba(255, 255, 255, 0.18), transparent 55%);
+    opacity: 0.55;
+}
+
+/* active tab state */
+.v-tab[data-active="true"] {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.v-tab[data-active="true"] .v-iconBubble {
+    width: 50px;
+    height: 50px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255, 107, 53, 0.30), rgba(255, 107, 53, 0.10));
+    border-color: rgba(255, 107, 53, 0.42);
+    box-shadow:
+        0 18px 42px rgba(0, 0, 0, 0.58),
+        0 0 0 1px rgba(255, 107, 53, 0.10) inset;
+}
+
+.v-tab[data-active="true"] .v-iconBubble::before {
+    opacity: 1;
+}
+
+/* optional label (can be hidden on mobile) */
+.v-tabLabel {
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    color: inherit;
+    opacity: 0.85;
+    transform: translateY(1px);
+    display: none;
+}
+
+@media (min-width: 420px) {
+    .v-tabLabel {
+        display: inline;
+    }
+}
+
+/* ---------- Top icon chips (same glow style) ---------- */
+.v-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--muted);
+}
+
+.v-chip--active {
+    color: var(--text);
+    border-color: rgba(255, 107, 53, 0.28);
+}
+
+.v-chip--active::before {
     content: "";
     position: absolute;
     inset: -14px;
-    border-radius: inherit;
-    z-index: -1;
-
-    background: radial-gradient(circle, rgba(255, 107, 53, .20) 0%, transparent 70%);
-    filter: blur(16px);
-    opacity: .95;
+    border-radius: 26px;
+    background: radial-gradient(closest-side, rgba(255, 107, 53, 0.20), transparent 70%);
+    filter: blur(14px);
+    pointer-events: none;
 }
 
-/* Active tab glow variants */
-.v-tab.isActive.ok::after {
-    background: radial-gradient(circle, rgba(47, 230, 166, .18) 0%, transparent 70%);
-}
-
-.v-tab.isActive.blue::after {
-    background: radial-gradient(circle, rgba(87, 166, 255, .16) 0%, transparent 70%);
+/* ---------- Minimal icon styling ---------- */
+.v-icon {
+    width: 22px;
+    height: 22px;
+    display: block;
+    opacity: 0.95;
 }

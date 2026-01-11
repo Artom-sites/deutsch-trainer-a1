@@ -15,32 +15,33 @@ const BottomNav = () => {
     }
 
     const tabs = [
+        { id: 'home', icon: Home, label: 'Головна' },
         { id: 'lessons', icon: BookOpen, label: 'Уроки' },
         { id: 'dictionary', icon: Library, label: 'Словник' },
-        { id: 'home', icon: Home, label: 'Головна' },
         { id: 'verbs', icon: Sparkles, label: 'Трен' },
         { id: 'chat', icon: MessageCircle, label: 'Чат' },
     ];
 
     return (
-        <nav className="v-tabbar">
-            <div className="v-tabbar__row">
-                {tabs.map(tab => {
-                    const Icon = tab.icon;
-                    const isActive = currentTab === tab.id;
+        <nav className="v-tabbar" role="navigation" aria-label="Bottom navigation">
+            {tabs.map(tab => {
+                const Icon = tab.icon;
+                const isActive = currentTab === tab.id;
 
-                    return (
-                        <button
-                            key={tab.id}
-                            onClick={() => setTab(tab.id)}
-                            className={`v-tab ${isActive ? 'isActive' : ''}`}
-                        >
-                            <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                            <span className="v-tab__label">{tab.label}</span>
-                        </button>
-                    );
-                })}
-            </div>
+                return (
+                    <button
+                        key={tab.id}
+                        className="v-tab"
+                        data-active={isActive}
+                        onClick={() => setTab(tab.id)}
+                    >
+                        <span className="v-iconBubble">
+                            <Icon size={22} strokeWidth={isActive ? 2.5 : 2} className="v-icon" />
+                        </span>
+                        <span className="v-tabLabel">{tab.label}</span>
+                    </button>
+                );
+            })}
         </nav>
     );
 };
