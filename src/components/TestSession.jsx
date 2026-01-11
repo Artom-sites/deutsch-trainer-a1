@@ -420,55 +420,82 @@ const TestSession = () => {
 
                 {/* Match pairs */}
                 {currentQuestion.type === 'match' && (
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                         {currentQuestion.pairs.map((pair, idx) => {
                             const userAnswer = answers[currentQuestion.id]?.[idx];
                             const isThisCorrect = userAnswer === pair.right;
+                            const selectedValue = matchSelections[idx] || userAnswer || '';
 
                             return (
                                 <div key={idx} style={{
                                     display: 'grid',
                                     gridTemplateColumns: '1fr 1fr',
-                                    gap: 10,
-                                    marginBottom: 10
+                                    gap: 12,
+                                    alignItems: 'center'
                                 }}>
+                                    {/* Left - Question */}
                                     <div style={{
-                                        padding: '12px 14px',
+                                        padding: '14px 16px',
                                         background: 'var(--surface)',
                                         border: '1px solid var(--stroke)',
-                                        borderRadius: 12,
-                                        fontSize: '0.9rem',
+                                        borderRadius: 14,
+                                        fontSize: '0.95rem',
+                                        fontWeight: 500,
                                         color: 'var(--text-0)',
+                                        minHeight: 48,
                                         display: 'flex',
                                         alignItems: 'center'
                                     }}>
                                         {pair.left}
                                     </div>
-                                    <select
-                                        value={matchSelections[idx] || userAnswer || ''}
-                                        onChange={(e) => handleMatchSelect(idx, e.target.value)}
-                                        disabled={isAnswered}
-                                        style={{
-                                            padding: '12px 14px',
-                                            background: isAnswered
-                                                ? (isThisCorrect ? 'rgba(46, 204, 113, 0.15)' : 'rgba(233, 75, 90, 0.15)')
-                                                : 'var(--surface)',
-                                            border: isAnswered
-                                                ? (isThisCorrect ? '1px solid var(--ok)' : '1px solid var(--bad)')
-                                                : '1px solid var(--stroke)',
-                                            borderRadius: 12,
+
+                                    {/* Right - Dropdown wrapper */}
+                                    <div style={{ position: 'relative' }}>
+                                        <select
+                                            value={selectedValue}
+                                            onChange={(e) => handleMatchSelect(idx, e.target.value)}
+                                            disabled={isAnswered}
+                                            style={{
+                                                width: '100%',
+                                                padding: '14px 40px 14px 16px',
+                                                background: isAnswered
+                                                    ? (isThisCorrect ? 'rgba(46, 204, 113, 0.12)' : 'rgba(233, 75, 90, 0.12)')
+                                                    : selectedValue ? 'var(--surface)' : 'rgba(255,255,255,0.04)',
+                                                border: isAnswered
+                                                    ? (isThisCorrect ? '2px solid var(--ok)' : '2px solid var(--bad)')
+                                                    : selectedValue ? '1px solid var(--pri)' : '1px solid var(--stroke)',
+                                                borderRadius: 14,
+                                                color: isAnswered
+                                                    ? (isThisCorrect ? 'var(--ok)' : 'var(--bad)')
+                                                    : selectedValue ? 'var(--text-0)' : 'var(--text-2)',
+                                                fontSize: '0.95rem',
+                                                fontWeight: selectedValue ? 500 : 400,
+                                                cursor: isAnswered ? 'default' : 'pointer',
+                                                appearance: 'none',
+                                                WebkitAppearance: 'none',
+                                                outline: 'none',
+                                                minHeight: 48
+                                            }}
+                                        >
+                                            <option value="">Оберіть...</option>
+                                            {currentQuestion.pairs.map((p, i) => (
+                                                <option key={i} value={p.right}>{p.right}</option>
+                                            ))}
+                                        </select>
+                                        {/* Custom chevron */}
+                                        <div style={{
+                                            position: 'absolute',
+                                            right: 14,
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            pointerEvents: 'none',
                                             color: isAnswered
                                                 ? (isThisCorrect ? 'var(--ok)' : 'var(--bad)')
-                                                : 'var(--text-0)',
-                                            fontSize: '0.9rem',
-                                            cursor: isAnswered ? 'default' : 'pointer'
-                                        }}
-                                    >
-                                        <option value="">Оберіть...</option>
-                                        {currentQuestion.pairs.map((p, i) => (
-                                            <option key={i} value={p.right}>{p.right}</option>
-                                        ))}
-                                    </select>
+                                                : 'var(--text-2)'
+                                        }}>
+                                            <ChevronRight size={18} style={{ transform: 'rotate(90deg)' }} />
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         })}
