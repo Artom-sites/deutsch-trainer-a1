@@ -1,31 +1,16 @@
 // src/components/HomeTab.jsx
-// Dashboard - Premium Design with Design System
+// Dashboard - Violang-inspired Premium Design
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { lessons } from '../data/lexicon';
-import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Download } from 'lucide-react';
+import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
     const getLearnedCount = useStore(state => state.getLearnedCount);
     const getLessonProgress = useStore(state => state.getLessonProgress);
     const openLesson = useStore(state => state.openLesson);
-
-    // PWA Install
-    const [installPrompt, setInstallPrompt] = useState(null);
-    useEffect(() => {
-        const handler = (e) => { e.preventDefault(); setInstallPrompt(e); };
-        window.addEventListener('beforeinstallprompt', handler);
-        return () => window.removeEventListener('beforeinstallprompt', handler);
-    }, []);
-
-    const handleInstall = async () => {
-        if (!installPrompt) return;
-        installPrompt.prompt();
-        const { outcome } = await installPrompt.userChoice;
-        if (outcome === 'accepted') setInstallPrompt(null);
-    };
 
     // Auth
     const user = useAuthStore(state => state.user);
@@ -39,132 +24,330 @@ const HomeTab = () => {
     const currentLesson = lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[lessons.length - 1];
     const lessonProgress = getLessonProgress(currentLesson.id);
 
-    // Quick actions
-    const features = [
-        { id: 'lessons', icon: BookOpen, title: 'Уроки', color: 'var(--der)' },
-        { id: 'dictionary', icon: BookText, title: 'Словник', color: 'var(--die)' },
-        { id: 'verbs', icon: Languages, title: 'Дієслова', color: 'var(--das)' },
-        { id: 'chat', icon: MessageCircle, title: 'AI Чат', color: 'var(--warn)' }
-    ];
-
     return (
         <div className="app">
-            {/* Header */}
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 28 }}>
-                <div>
-                    <p className="muted small" style={{ marginBottom: 2 }}>Привіт,</p>
-                    <h1 style={{ fontSize: '1.6rem', fontWeight: 700, margin: 0, color: 'var(--text-0)' }}>{userName} 👋</h1>
+            {/* =====================
+                HEADER
+            ===================== */}
+            <header style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 20
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div style={{
+                        width: 48, height: 48, borderRadius: 16,
+                        background: 'var(--pri-soft)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '1.4rem'
+                    }}>
+                        👋
+                    </div>
+                    <div>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: 0 }}>Вітаємо,</p>
+                        <h1 style={{ fontSize: '1.3rem', fontWeight: 700, margin: 0, color: 'var(--text-0)' }}>{userName}</h1>
+                    </div>
                 </div>
 
                 {/* Streak Badge */}
-                <div className={`badge ${streak > 0 ? 'badge--pri' : ''}`}>
-                    <Flame size={16} />
-                    <span>{streak} {streak === 1 ? 'день' : streak > 1 && streak < 5 ? 'дні' : 'днів'}</span>
+                <div style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '8px 14px', borderRadius: 999,
+                    background: streak > 0 ? 'var(--pri-soft)' : 'var(--surface)',
+                    border: `1px solid ${streak > 0 ? 'rgba(255,107,53,.3)' : 'var(--stroke)'}`,
+                    color: streak > 0 ? 'var(--pri)' : 'var(--text-2)',
+                    fontWeight: 600, fontSize: '0.9rem'
+                }}>
+                    <Flame size={16} fill={streak > 0 ? 'var(--pri)' : 'none'} />
+                    {streak} {streak === 1 ? 'день' : 'днів'}
                 </div>
             </header>
 
-            {/* PWA Install */}
-            {installPrompt && (
-                <div
-                    onClick={handleInstall}
-                    className="card card-pad card-interactive"
-                    style={{ marginBottom: 20, background: 'linear-gradient(135deg, var(--pri), #ff5a1f)' }}
-                >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div>
-                            <div style={{ fontWeight: 700, fontSize: '1rem', color: '#fff' }}>Встановити додаток</div>
-                            <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.85)' }}>Вивчайте офлайн ⚡️</div>
-                        </div>
-                        <Download size={24} color="#fff" />
-                    </div>
-                </div>
-            )}
-
-            {/* Hero Card - Continue Learning */}
-            <p className="label mb-2">ПРОДОВЖИТИ</p>
+            {/* =====================
+                HERO LESSON CARD
+            ===================== */}
             <div
                 onClick={() => openLesson(currentLesson.id)}
-                className="card card-pad card-interactive"
-                style={{ marginBottom: 28 }}
+                style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 24,
+                    padding: 20,
+                    marginBottom: 24,
+                    cursor: 'pointer',
+                    boxShadow: 'var(--sh-1)'
+                }}
             >
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
-                    <div>
-                        <span className="badge badge--pri" style={{ marginBottom: 10 }}>
-                            Урок {currentLesson.id}
-                        </span>
-                        <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-0)', margin: 0, lineHeight: 1.3 }}>
-                            {currentLesson.title}
-                        </h2>
-                        <p className="muted small" style={{ marginTop: 4 }}>{currentLesson.description}</p>
+                <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
+                    {/* Play Icon */}
+                    <div style={{
+                        width: 52, height: 52, borderRadius: 16,
+                        background: 'var(--surface-2)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0
+                    }}>
+                        <Play size={24} color="var(--text-0)" fill="var(--text-0)" style={{ marginLeft: 2 }} />
                     </div>
 
-                    <div className="icon-box icon-box--pri" style={{ borderRadius: '50%', width: 52, height: 52 }}>
-                        <Play size={24} color="#0B0B0F" fill="#0B0B0F" style={{ marginLeft: 3 }} />
+                    <div style={{ flex: 1 }}>
+                        {/* Meta */}
+                        <div style={{
+                            display: 'flex', alignItems: 'center', gap: 8,
+                            marginBottom: 6, flexWrap: 'wrap'
+                        }}>
+                            <span style={{
+                                background: 'var(--surface)',
+                                padding: '4px 10px', borderRadius: 8,
+                                fontSize: '0.75rem', color: 'var(--text-1)', fontWeight: 500
+                            }}>
+                                Урок {currentLesson.id}
+                            </span>
+                            <span style={{
+                                display: 'flex', alignItems: 'center', gap: 4,
+                                fontSize: '0.75rem', color: 'var(--text-2)'
+                            }}>
+                                <Clock size={12} /> ~6 хв
+                            </span>
+                        </div>
+
+                        {/* Title */}
+                        <h2 style={{
+                            fontSize: '1.15rem', fontWeight: 700,
+                            color: 'var(--text-0)', margin: 0, lineHeight: 1.3,
+                            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                        }}>
+                            {currentLesson.title}
+                        </h2>
+
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: 4, marginBottom: 0 }}>
+                            {currentLesson.description}
+                        </p>
                     </div>
                 </div>
 
                 {/* Progress */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                    <span className="muted small">Прогрес</span>
-                    <span style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>{lessonProgress.percent}%</span>
-                </div>
-                <div className="progress">
-                    <div className="progress-fill" style={{ width: `${lessonProgress.percent}%` }} />
-                </div>
-            </div>
-
-            {/* Stats Row */}
-            <div className="grid-2 mb-4">
-                <div className="card card-pad card-sm">
-                    <p className="muted small mb-1">Сьогодні</p>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--text-0)' }}>
-                        {dailyProgress}<span className="muted" style={{ fontSize: '1rem' }}>/{dailyGoal}</span>
+                <div style={{ marginBottom: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Прогрес</span>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-0)' }}>{lessonProgress.percent}%</span>
                     </div>
-                    <p className="muted small">слів</p>
-                </div>
-                <div className="card card-pad card-sm">
-                    <p className="muted small mb-1">Всього вивчено</p>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--ok)' }}>
-                        {getLearnedCount()}
+                    <div style={{ height: 6, background: 'var(--surface)', borderRadius: 3 }}>
+                        <div style={{
+                            height: '100%', borderRadius: 3,
+                            background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
+                            width: `${lessonProgress.percent}%`
+                        }} />
                     </div>
-                    <p className="muted small">слів</p>
                 </div>
-            </div>
 
-            {/* Quick Actions */}
-            <p className="label mb-2">ШВИДКИЙ ДОСТУП</p>
-            <div className="grid-4">
-                {features.map(f => (
-                    <button
-                        key={f.id}
-                        onClick={() => setTab(f.id)}
-                        className="card card-interactive"
-                        style={{
-                            padding: '14px 8px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: 8,
-                            border: 'none'
-                        }}
-                    >
-                        <div
-                            className="icon-box"
-                            style={{
-                                background: `${f.color}20`,
-                                color: f.color,
-                                width: 40,
-                                height: 40,
-                                borderRadius: 12
-                            }}
-                        >
-                            <f.icon size={20} />
-                        </div>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--text-1)' }}>
-                            {f.title}
-                        </span>
+                {/* Continue Button */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <button style={{
+                        background: 'var(--pri)',
+                        color: '#0B0B0F',
+                        border: 'none', borderRadius: 999,
+                        padding: '10px 20px',
+                        fontWeight: 600, fontSize: '0.9rem',
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        boxShadow: '0 8px 24px rgba(255,107,53,.25)'
+                    }}>
+                        Продовжити <ChevronRight size={18} />
                     </button>
-                ))}
+                </div>
+            </div>
+
+            {/* =====================
+                ТВІЙ ДЕНЬ (Stats)
+            ===================== */}
+            <div style={{
+                display: 'flex', justifyContent: 'space-between',
+                alignItems: 'center', marginBottom: 12
+            }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
+                    Твій день
+                </h3>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
+                    Мета без стриків
+                </span>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 28 }}>
+                {/* Words */}
+                <div style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 20, padding: 16
+                }}>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Слова</p>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 8 }}>
+                        {dailyProgress}<span style={{ color: 'var(--text-2)', fontSize: '1.2rem' }}>/{dailyGoal}</span>
+                    </div>
+                    <div style={{ height: 4, background: 'var(--surface)', borderRadius: 2 }}>
+                        <div style={{
+                            height: '100%', borderRadius: 2,
+                            background: 'var(--pri)',
+                            width: `${Math.min((dailyProgress / dailyGoal) * 100, 100)}%`
+                        }} />
+                    </div>
+                </div>
+
+                {/* Learned total */}
+                <div style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 20, padding: 16
+                }}>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Граматика</p>
+                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 8 }}>
+                        {getLearnedCount()}<span style={{ color: 'var(--text-2)', fontSize: '1.2rem' }}>/100</span>
+                    </div>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-2)', margin: 0 }}>Слів вивчено</p>
+                </div>
+            </div>
+
+            {/* =====================
+                ШВИДКИЙ ДОСТУП
+            ===================== */}
+            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: '0 0 12px' }}>
+                Швидкий доступ
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
+                {/* Картки */}
+                <div
+                    onClick={() => setTab('dictionary')}
+                    style={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 18, padding: 16,
+                        cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12
+                    }}
+                >
+                    <div style={{
+                        width: 44, height: 44, borderRadius: 14,
+                        background: 'rgba(47,230,166,.15)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                        <Sparkles size={22} color="var(--ok)" />
+                    </div>
+                    <div>
+                        <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.95rem' }}>Картки</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>Швидкий старт</div>
+                    </div>
+                    <ChevronRight size={18} color="var(--text-2)" style={{ marginLeft: 'auto' }} />
+                </div>
+
+                {/* Noun Master */}
+                <div
+                    onClick={() => setTab('lessons')}
+                    style={{
+                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 18, padding: 16,
+                        cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12
+                    }}
+                >
+                    <div style={{
+                        width: 44, height: 44, borderRadius: 14,
+                        background: 'rgba(87,166,255,.15)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                        <PenTool size={22} color="var(--der)" />
+                    </div>
+                    <div>
+                        <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.95rem' }}>Noun M...</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>Швидкий старт</div>
+                    </div>
+                    <ChevronRight size={18} color="var(--text-2)" style={{ marginLeft: 'auto' }} />
+                </div>
+            </div>
+
+            {/* =====================
+                РЕКОМЕНДОВАНО
+            ===================== */}
+            <div style={{
+                display: 'flex', justifyContent: 'space-between',
+                alignItems: 'center', marginBottom: 12
+            }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
+                    Рекомендовано
+                </h3>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-2)', cursor: 'pointer' }}>
+                    Дивитись все
+                </span>
+            </div>
+
+            {/* Daily lesson */}
+            <div
+                onClick={() => setTab('verbs')}
+                style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 20, padding: 16, marginBottom: 12,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14
+                }}
+            >
+                <div style={{
+                    width: 48, height: 48, borderRadius: 14,
+                    background: 'rgba(87,166,255,.15)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <Languages size={24} color="var(--der)" />
+                </div>
+                <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
+                        Мікро-урок дня
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 8 }}>
+                        Дієслова + кон'югація
+                    </div>
+                    <span style={{
+                        display: 'inline-block',
+                        background: 'var(--surface)',
+                        padding: '4px 10px', borderRadius: 8,
+                        fontSize: '0.75rem', color: 'var(--text-1)'
+                    }}>
+                        Тема: Präsens
+                    </span>
+                </div>
+                <ChevronRight size={20} color="var(--text-2)" />
+            </div>
+
+            {/* Chat */}
+            <div
+                onClick={() => setTab('chat')}
+                style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 20, padding: 16, marginBottom: 24,
+                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14
+                }}
+            >
+                <div style={{
+                    width: 48, height: 48, borderRadius: 14,
+                    background: 'rgba(87,166,255,.15)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <MessageCircle size={24} color="var(--der)" />
+                </div>
+                <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
+                        Розмовна ситуація
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 8 }}>
+                        Короткий діалог з підказками
+                    </div>
+                    <span style={{
+                        display: 'inline-block',
+                        background: 'var(--surface)',
+                        padding: '4px 10px', borderRadius: 8,
+                        fontSize: '0.75rem', color: 'var(--text-1)'
+                    }}>
+                        Тема: Im Café
+                    </span>
+                </div>
+                <ChevronRight size={20} color="var(--text-2)" />
             </div>
         </div>
     );
