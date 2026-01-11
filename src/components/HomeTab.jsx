@@ -82,14 +82,14 @@ const HomeTab = () => {
                 <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
                     {/* Play Icon */}
                     <div style={{
-                        width: 52, height: 52, borderRadius: 16,
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '2px solid rgba(255,107,53,0.4)',
+                        width: 52, height: 52, borderRadius: 14,
+                        background: 'linear-gradient(180deg, rgba(255,107,53,0.22), rgba(255,107,53,0.08))',
+                        border: '1px solid rgba(255,107,53,0.2)',
+                        boxShadow: '0 12px 30px rgba(255,107,53,0.12)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        flexShrink: 0,
-                        boxShadow: 'inset 0 0 15px rgba(255,107,53,0.15), 0 0 20px rgba(255,107,53,0.1)'
+                        flexShrink: 0
                     }}>
-                        <Play size={24} color="var(--pri)" fill="var(--pri)" style={{ marginLeft: 2 }} />
+                        <Play size={24} color="#fff" fill="#fff" style={{ marginLeft: 2 }} />
                     </div>
 
                     <div style={{ flex: 1 }}>
@@ -239,13 +239,13 @@ const HomeTab = () => {
                     }}
                 >
                     <div style={{
-                        width: 50, height: 50, borderRadius: 16,
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '2px solid rgba(47,230,166,0.4)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        boxShadow: 'inset 0 0 15px rgba(47,230,166,0.1), 0 0 20px rgba(47,230,166,0.15)'
+                        width: 50, height: 50, borderRadius: 14,
+                        background: 'linear-gradient(180deg, rgba(46,204,113,0.22), rgba(46,204,113,0.08))',
+                        border: '1px solid rgba(46,204,113,0.2)',
+                        boxShadow: '0 12px 30px rgba(46,204,113,0.12)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
-                        <Sparkles size={24} color="var(--ok)" />
+                        <Sparkles size={24} color="#fff" />
                     </div>
                     <div>
                         <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>Картки</div>
@@ -268,13 +268,13 @@ const HomeTab = () => {
                     }}
                 >
                     <div style={{
-                        width: 50, height: 50, borderRadius: 16,
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '2px solid rgba(87,166,255,0.4)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        boxShadow: 'inset 0 0 15px rgba(87,166,255,0.1), 0 0 20px rgba(87,166,255,0.15)'
+                        width: 50, height: 50, borderRadius: 14,
+                        background: 'linear-gradient(180deg, rgba(87,166,255,0.22), rgba(87,166,255,0.08))',
+                        border: '1px solid rgba(87,166,255,0.2)',
+                        boxShadow: '0 12px 30px rgba(87,166,255,0.12)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
-                        <PenTool size={24} color="var(--der)" />
+                        <PenTool size={24} color="#fff" />
                     </div>
                     <div>
                         <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>Noun Master</div>
@@ -313,12 +313,12 @@ const HomeTab = () => {
             >
                 <div style={{
                     width: 48, height: 48, borderRadius: 14,
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '2px solid rgba(87,166,255,0.4)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: 'inset 0 0 12px rgba(87,166,255,0.12), 0 0 18px rgba(87,166,255,0.1)'
+                    background: 'linear-gradient(180deg, rgba(87,166,255,0.22), rgba(87,166,255,0.08))',
+                    border: '1px solid rgba(87,166,255,0.2)',
+                    boxShadow: '0 12px 30px rgba(87,166,255,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
                 }}>
-                    <Languages size={22} color="var(--der)" />
+                    <Languages size={22} color="#fff" />
                 </div>
                 <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
@@ -351,12 +351,12 @@ const HomeTab = () => {
             >
                 <div style={{
                     width: 48, height: 48, borderRadius: 14,
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '2px solid rgba(46,204,113,0.4)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    boxShadow: 'inset 0 0 12px rgba(46,204,113,0.12), 0 0 18px rgba(46,204,113,0.1)'
+                    background: 'linear-gradient(180deg, rgba(46,204,113,0.22), rgba(46,204,113,0.08))',
+                    border: '1px solid rgba(46,204,113,0.2)',
+                    boxShadow: '0 12px 30px rgba(46,204,113,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
                 }}>
-                    <MessageCircle size={22} color="var(--ok)" />
+                    <MessageCircle size={22} color="#fff" />
                 </div>
                 <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
