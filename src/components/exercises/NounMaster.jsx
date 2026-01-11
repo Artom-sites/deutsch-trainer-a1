@@ -126,21 +126,21 @@ const NounMaster = () => {
             </div>
 
             {/* Translation */}
-            <div style={{ textAlign: 'center', paddingBottom: 12 }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#E5E7EB', margin: 0 }}>
+            <div style={{ textAlign: 'center', paddingBottom: 24 }}>
+                <h2 style={{ fontSize: '1.6rem', fontWeight: 700, color: '#E5E7EB', margin: 0 }}>
                     {currentWord.translation}
                 </h2>
                 <button onClick={handleSpeak} style={{
-                    marginTop: 6, background: 'rgba(255,255,255,0.08)', border: 'none',
-                    borderRadius: 12, padding: '4px 10px', color: '#E5E7EB',
-                    display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.75rem'
+                    marginTop: 8, background: 'rgba(255,255,255,0.08)', border: 'none',
+                    borderRadius: 12, padding: '6px 12px', color: '#E5E7EB',
+                    display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.8rem'
                 }}>
-                    <Volume2 size={12} /> Слухати
+                    <Volume2 size={14} /> Слухати
                 </button>
             </div>
 
             {/* Main Area */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 16px', gap: 10 }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', padding: '0 16px', gap: 12 }}>
 
                 {/* Articles + Word Input */}
                 <div style={{ display: 'flex', gap: 8, alignItems: 'stretch' }}>
