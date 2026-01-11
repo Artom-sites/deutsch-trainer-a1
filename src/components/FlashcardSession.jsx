@@ -33,26 +33,33 @@ const FlashcardSession = () => {
     return (
         <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)' }}>
             {/* Header */}
-            <div className="back-header">
-                <button className="v-backBtn" onClick={goBack}>
-                    <ArrowLeft size={20} color="#fff" />
-                </button>
-                <div style={{ flex: 1 }}>
-                    <div className="progress-bar">
-                        <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
+            {/* Header */}
+            <div style={{ padding: 'var(--space-md) var(--space-md) 0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                    <button className="v-backBtn" onClick={goBack}>
+                        <ArrowLeft size={20} color="#fff" />
+                    </button>
+
+                    <div style={{
+                        fontSize: '0.9rem',
+                        fontWeight: 600,
+                        color: 'var(--text-1)',
+                        background: 'var(--surface)',
+                        padding: '6px 12px',
+                        borderRadius: 12,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        border: '1px solid var(--stroke)'
+                    }}>
+                        <Eye size={16} color="var(--text-2)" />
+                        <span>{currentIndex + 1} <span style={{ color: 'var(--text-2)' }}>/ {flashcardWords.length}</span></span>
                     </div>
                 </div>
-                <div style={{
-                    fontSize: '0.85rem',
-                    color: 'var(--text-secondary)',
-                    marginLeft: 'var(--space-md)',
-                    whiteSpace: 'nowrap',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6
-                }}>
-                    <Eye size={16} color="#7A7D8A" />
-                    <span>{currentIndex + 1}/{flashcardWords.length}</span>
+
+                {/* Progress Bar */}
+                <div className="progress-bar" style={{ marginBottom: 0 }}>
+                    <div className="progress-bar-fill" style={{ width: `${progress}%` }} />
                 </div>
             </div>
 

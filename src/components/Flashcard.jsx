@@ -2,24 +2,23 @@
 // Preview-only Flashcard - Swipe navigation on mobile, buttons on desktop
 import React, { useState, useEffect } from 'react';
 import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { speakWord } from '../utils/speech';
 
 const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
+    const controls = useAnimation();
 
-    // Swipe state
-    const [touchStart, setTouchStart] = useState(null);
-    const [touchEnd, setTouchEnd] = useState(null);
-    const [isSwiping, setIsSwiping] = useState(false);
-    const [swipeOffset, setSwipeOffset] = useState(0);
-
-    const minSwipeDistance = 50;
+    // Motion values for drag
+    const x = useMotionValue(0);
+    const rotate = useTransform(x, [-200, 200], [-25, 25]);
+    const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0]);
 
     // Reset when word changes
     useEffect(() => {
         setIsFlipped(false);
-        setSwipeOffset(0);
+        x.set(0);
     }, [word.id]);
 
     // Get color style based on article
@@ -42,58 +41,31 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
             .finally(() => setIsSpeaking(false));
     };
 
-    // Handle card flip (infinite toggle)
+    // Handle card flip
     const handleFlip = () => {
-        if (!isSwiping) {
-            setIsFlipped(!isFlipped);
-        }
+        setIsFlipped(!isFlipped);
     };
 
-    // Touch handlers for swipe
-    const onTouchStart = (e) => {
-        setTouchEnd(null);
-        setTouchStart(e.targetTouches[0].clientX);
-        setIsSwiping(false);
-    };
+    const handleDragEnd = async (event, info) => {
+        const offset = info.offset.x;
+        const velocity = info.velocity.x;
 
-    const onTouchMove = (e) => {
-        const currentTouch = e.targetTouches[0].clientX;
-        setTouchEnd(currentTouch);
-
-        if (touchStart) {
-            const offset = currentTouch - touchStart;
-            // Limit offset for visual feedback
-            setSwipeOffset(Math.max(-100, Math.min(100, offset)));
-            if (Math.abs(offset) > 10) {
-                setIsSwiping(true);
-            }
-        }
-    };
-
-    const onTouchEnd = () => {
-        setSwipeOffset(0);
-
-        if (!touchStart || !touchEnd) {
-            setIsSwiping(false);
-            return;
-        }
-
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > minSwipeDistance;
-        const isRightSwipe = distance < -minSwipeDistance;
-
-        if (isLeftSwipe) {
+        if (offset < -100 || velocity < -500) {
+            // Swipe Left (Next)
+            await controls.start({ x: -500, opacity: 0, transition: { duration: 0.2 } });
             onNext();
-        } else if (isRightSwipe && canGoPrev) {
+            controls.set({ x: 0, opacity: 1 });
+        } else if ((offset > 100 || velocity > 500) && canGoPrev) {
+            // Swipe Right (Prev)
+            await controls.start({ x: 500, opacity: 0, transition: { duration: 0.2 } });
             onPrev();
+            controls.set({ x: 0, opacity: 1 });
+        } else {
+            // Return to center
+            controls.start({ x: 0, opacity: 1, transition: { type: "spring", stiffness: 300, damping: 20 } });
         }
-
-        setIsSwiping(false);
-        setTouchStart(null);
-        setTouchEnd(null);
     };
 
-    // Check if plural is valid
     const hasValidPlural = word.plural &&
         word.plural.trim() !== '' &&
         !word.plural.toLowerCase().includes('sg') &&
@@ -105,173 +77,197 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
             flexDirection: 'column',
             height: 'calc(100vh - 180px)',
             padding: 'var(--space-md)',
-            gap: 'var(--space-md)'
+            gap: 'var(--space-md)',
+            perspective: 1000,
+            overflow: 'hidden' // Contain swipe
         }}>
-            {/* The Card - Click to flip, swipe to navigate */}
-            <div
-                onClick={handleFlip}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-                style={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'linear-gradient(135deg, rgba(40, 40, 40, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: 32,
-                    padding: 'var(--space-lg)',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
-                    transition: isSwiping ? 'none' : 'transform 0.2s, box-shadow 0.2s',
-                    transform: `translateX(${swipeOffset}px)`,
-                    userSelect: 'none',
-                    overflow: 'hidden'
-                }}
-            >
-                {!isFlipped ? (
-                    // FRONT: Ukrainian translation
-                    <div className="fade-in" style={{ width: '100%', padding: 'var(--space-md)' }}>
-                        <div style={{
-                            fontSize: 'clamp(1.5rem, 6vw, 2.5rem)',
-                            fontWeight: 700,
-                            color: 'var(--text-primary)',
-                            marginBottom: 'var(--space-md)',
-                            wordBreak: 'break-word',
-                            lineHeight: 1.3
-                        }}>
-                            {word.translation}
-                        </div>
-                    </div>
-                ) : (
-                    // BACK: German word with article, color, plural
-                    <div className="fade-in" style={{
+            {/* Draggable Card Area */}
+            <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                <motion.div
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.7}
+                    onDragEnd={handleDragEnd}
+                    animate={controls}
+                    style={{
+                        x,
+                        rotate,
+                        opacity,
                         width: '100%',
-                        padding: 'var(--space-md)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        {/* Article */}
-                        {word.article && (
+                        height: '100%',
+                        position: 'absolute',
+                        cursor: 'grab',
+                        zIndex: 1
+                    }}
+                    whileTap={{ cursor: 'grabbing' }}
+                >
+                    <motion.div
+                        onClick={handleFlip}
+                        initial={{ rotateY: 0 }}
+                        animate={{ rotateY: isFlipped ? 180 : 0 }}
+                        transition={{ duration: 0.4, type: "spring", stiffness: 260, damping: 20 }}
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            position: 'relative',
+                            transformStyle: 'preserve-3d'
+                        }}
+                    >
+                        {/* FRONT */}
+                        <div style={{
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            backfaceVisibility: 'hidden',
+                            borderRadius: 32,
+                            background: 'linear-gradient(145deg, rgba(35,35,40,0.95), rgba(20,20,25,0.95))',
+                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: 24
+                        }}>
+                            <div style={{
+                                fontSize: 'clamp(1.5rem, 6vw, 2.5rem)',
+                                fontWeight: 700,
+                                color: 'var(--text-0)',
+                                textAlign: 'center',
+                                lineHeight: 1.3
+                            }}>
+                                {word.translation}
+                            </div>
+                            <div style={{
+                                marginTop: 24,
+                                fontSize: '0.9rem',
+                                color: 'var(--text-2)',
+                                opacity: 0.6
+                            }}>
+                                Торкнись для перевороту
+                            </div>
+                        </div>
+
+                        {/* BACK */}
+                        <div style={{
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            backfaceVisibility: 'hidden',
+                            transform: 'rotateY(180deg)',
+                            borderRadius: 32,
+                            background: 'linear-gradient(145deg, rgba(30,30,35,0.95), rgba(15,15,20,0.95))',
+                            border: '1px solid rgba(255, 255, 255, 0.08)',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: 24
+                        }}>
+                            {word.article && (
+                                <div style={{
+                                    color: genderColor,
+                                    fontSize: '1.4rem',
+                                    fontWeight: 500,
+                                    marginBottom: 8,
+                                    opacity: 0.9
+                                }}>
+                                    {word.article}
+                                </div>
+                            )}
+
                             <div style={{
                                 color: genderColor,
-                                fontSize: '1.2rem',
-                                fontWeight: 500,
-                                marginBottom: 4,
-                                opacity: 0.8
+                                fontSize: 'clamp(2rem, 8vw, 3.2rem)',
+                                fontWeight: 800,
+                                textAlign: 'center',
+                                lineHeight: 1.1,
+                                marginBottom: 8,
+                                textShadow: `0 0 30px ${genderColor}40`
                             }}>
-                                {word.article}
+                                {word.word}
                             </div>
-                        )}
 
-                        {/* Word - Colored by gender + inline plural */}
-                        <div style={{
-                            color: genderColor,
-                            fontSize: 'clamp(1.8rem, 7vw, 3rem)',
-                            fontWeight: 800,
-                            wordBreak: 'break-word',
-                            lineHeight: 1.2,
-                            marginBottom: 'var(--space-sm)'
-                        }}>
-                            {word.word}
                             {hasValidPlural && (
-                                <span style={{
-                                    fontWeight: 500,
-                                    opacity: 0.6,
-                                    fontSize: '0.6em'
-                                }}>, {word.plural}</span>
+                                <div style={{
+                                    fontSize: '1.2rem',
+                                    color: 'var(--text-2)',
+                                    fontWeight: 500
+                                }}>
+                                    Pl. {word.plural}
+                                </div>
                             )}
-                        </div>
 
-                        {/* Audio button */}
-                        <button
-                            onClick={handleSpeak}
-                            style={{
-                                marginTop: 'var(--space-lg)',
-                                background: isSpeaking ? 'var(--color-accent)' : 'rgba(255, 255, 255, 0.1)',
-                                border: '1px solid rgba(255, 255, 255, 0.2)',
-                                borderRadius: '50%',
-                                width: 56,
-                                height: 56,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s'
-                            }}
-                        >
-                            <Volume2
-                                size={28}
-                                color={isSpeaking ? 'black' : 'var(--text-primary)'}
-                            />
-                        </button>
-                    </div>
-                )}
+                            <button
+                                onClick={handleSpeak}
+                                style={{
+                                    marginTop: 40,
+                                    background: isSpeaking ? genderColor : 'rgba(255, 255, 255, 0.05)',
+                                    border: `1px solid ${isSpeaking ? genderColor : 'rgba(255, 255, 255, 0.1)'}`,
+                                    borderRadius: '50%',
+                                    width: 64,
+                                    height: 64,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    boxShadow: isSpeaking ? `0 0 30px ${genderColor}60` : 'none'
+                                }}
+                            >
+                                <Volume2
+                                    size={30}
+                                    color={isSpeaking ? '#000' : 'var(--text-1)'}
+                                />
+                            </button>
+                        </div>
+                    </motion.div>
+                </motion.div>
             </div>
 
-            {/* Navigation Buttons - Hidden on mobile, visible on desktop */}
+            {/* Navigation Buttons - Only visual hint on mobile mainly */}
             <div className="flashcard-nav-desktop" style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr',
                 gap: 12
             }}>
-                {/* Previous */}
                 <button
                     onClick={onPrev}
                     disabled={!canGoPrev}
                     style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 8,
-                        padding: '16px',
-                        background: canGoPrev ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0.03)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: 16,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                        padding: '16px', borderRadius: 16,
+                        background: canGoPrev ? 'rgba(255,255,255,0.05)' : 'transparent',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: canGoPrev ? 'var(--text-0)' : 'var(--text-disabled)',
                         cursor: canGoPrev ? 'pointer' : 'default',
-                        transition: 'all 0.2s',
-                        opacity: canGoPrev ? 1 : 0.4
+                        opacity: canGoPrev ? 1 : 0.5
                     }}
                 >
-                    <ChevronLeft size={20} color="#E5E7EB" />
-                    <span style={{ color: '#E5E7EB', fontWeight: 600, fontSize: '1rem' }}>Назад</span>
+                    <ChevronLeft size={20} />
+                    Назад
                 </button>
 
-                {/* Next */}
                 <button
                     onClick={onNext}
                     style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 8,
-                        padding: '16px',
-                        background: 'rgba(242, 106, 27, 0.15)',
-                        border: '1px solid rgba(242, 106, 27, 0.3)',
-                        borderRadius: 16,
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                        padding: '16px', borderRadius: 16,
+                        background: 'rgba(255,107,53,0.15)',
+                        border: '1px solid rgba(255,107,53,0.3)',
+                        color: 'var(--orange)',
+                        cursor: 'pointer'
                     }}
                 >
-                    <span style={{ color: '#F26A1B', fontWeight: 600, fontSize: '1rem' }}>Далі</span>
-                    <ChevronRight size={20} color="#F26A1B" />
+                    Далі
+                    <ChevronRight size={20} />
                 </button>
             </div>
 
-            {/* CSS to hide buttons on mobile */}
             <style>{`
                 @media (max-width: 768px) {
                     .flashcard-nav-desktop {
-                        display: none !important;
-                    }
-                }
-                @media (min-width: 769px) {
-                    .swipe-hint {
                         display: none !important;
                     }
                 }
