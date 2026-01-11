@@ -129,20 +129,36 @@ const VerbCard = ({ verb }) => {
                             gridTemplateColumns: 'repeat(2, 1fr)',
                             gap: 6
                         }}>
-                            {['ich', 'du', 'er/sie/es', 'wir', 'ihr', 'sie/Sie'].map((pronoun) => (
-                                <div key={pronoun} style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '8px 12px',
-                                    background: '#0B0B0F',
-                                    borderRadius: 8,
-                                    border: '1px solid #1A1A22'
-                                }}>
-                                    <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>{pronoun}</span>
-                                    <span style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.85rem' }}>
-                                        {verb.praesens[pronoun]}
-                                    </span>
-                                </div>
+                            {/* Singular - left column, Plural - right column */}
+                            {[['ich', 'wir'], ['du', 'ihr'], ['er/sie/es', 'sie/Sie']].map(([singular, plural]) => (
+                                <React.Fragment key={singular}>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        padding: '8px 12px',
+                                        background: '#0B0B0F',
+                                        borderRadius: 8,
+                                        border: '1px solid #1A1A22'
+                                    }}>
+                                        <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>{singular}</span>
+                                        <span style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.85rem' }}>
+                                            {verb.praesens[singular]}
+                                        </span>
+                                    </div>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        padding: '8px 12px',
+                                        background: '#0B0B0F',
+                                        borderRadius: 8,
+                                        border: '1px solid #1A1A22'
+                                    }}>
+                                        <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>{plural}</span>
+                                        <span style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.85rem' }}>
+                                            {verb.praesens[plural]}
+                                        </span>
+                                    </div>
+                                </React.Fragment>
                             ))}
                         </div>
                     </div>
@@ -190,20 +206,36 @@ const VerbCard = ({ verb }) => {
                                 gridTemplateColumns: 'repeat(2, 1fr)',
                                 gap: 6
                             }}>
-                                {['ich', 'du', 'er/sie/es', 'wir', 'ihr', 'sie/Sie'].map((pronoun) => (
-                                    <div key={pronoun} style={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        padding: '8px 12px',
-                                        background: '#0B0B0F',
-                                        borderRadius: 8,
-                                        border: '1px solid #1A1A22'
-                                    }}>
-                                        <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>{pronoun}</span>
-                                        <span style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.85rem' }}>
-                                            {verb.praeteritum[pronoun]}
-                                        </span>
-                                    </div>
+                                {/* Singular - left column, Plural - right column */}
+                                {[['ich', 'wir'], ['du', 'ihr'], ['er/sie/es', 'sie/Sie']].map(([singular, plural]) => (
+                                    <React.Fragment key={singular}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            padding: '8px 12px',
+                                            background: '#0B0B0F',
+                                            borderRadius: 8,
+                                            border: '1px solid #1A1A22'
+                                        }}>
+                                            <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>{singular}</span>
+                                            <span style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.85rem' }}>
+                                                {verb.praeteritum[singular]}
+                                            </span>
+                                        </div>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            padding: '8px 12px',
+                                            background: '#0B0B0F',
+                                            borderRadius: 8,
+                                            border: '1px solid #1A1A22'
+                                        }}>
+                                            <span style={{ color: '#7A7D8A', fontSize: '0.85rem' }}>{plural}</span>
+                                            <span style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.85rem' }}>
+                                                {verb.praeteritum[plural]}
+                                            </span>
+                                        </div>
+                                    </React.Fragment>
                                 ))}
                             </div>
                         </div>
