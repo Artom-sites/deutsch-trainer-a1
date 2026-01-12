@@ -1,7 +1,7 @@
 // src/firebase.js
 // Firebase configuration
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -18,7 +18,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Auth
+// Imports handled at top of file
 export const auth = getAuth(app);
+
+// Force local persistence for better mobile support
+setPersistence(auth, browserLocalPersistence).catch(console.error);
+
 export const googleProvider = new GoogleAuthProvider();
 
 // Firestore
