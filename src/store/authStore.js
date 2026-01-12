@@ -50,6 +50,13 @@ const useAuthStore = create(
                             isLoading: false,
                             error: null
                         });
+
+                        // Sync userProgress to main store if exists
+                        if (userData.userProgress) {
+                            const { default: useStore } = await import('./useStore');
+                            useStore.setState({ userProgress: userData.userProgress });
+                        }
+
                         // Update streak
                         get().updateStreak();
                     } else {

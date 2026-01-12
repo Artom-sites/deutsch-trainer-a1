@@ -232,7 +232,8 @@ const useStore = create(
             // ==========================================
             // SRS ACTIONS
             // ==========================================
-            submitReview: (wordId, quality) => set((state) => {
+            submitReview: (wordId, quality) => {
+                const state = get();
                 const stats = state.userProgress[wordId] || { masteryStage: 0 };
                 const currentStage = stats.masteryStage || 0;
 
@@ -263,13 +264,16 @@ const useStore = create(
                     useAuthStore.getState().addCoins(10); // Award 10 coins for mastery
                 }
 
-                return {
-                    userProgress: {
-                        ...state.userProgress,
-                        [wordId]: finalStats
-                    }
+                const newProgress = {
+                    ...state.userProgress,
+                    [wordId]: finalStats
                 };
-            }),
+
+                set({ userProgress: newProgress });
+
+                // Sync to Firestore
+                useAuthStore.getState().saveUserData({ userProgress: newProgress });
+            },
 
             // ==========================================
             // COMPUTED GETTERS
