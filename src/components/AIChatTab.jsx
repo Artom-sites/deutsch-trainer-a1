@@ -363,19 +363,6 @@ const AIChatTab = () => {
     const [showInstallBanner, setShowInstallBanner] = useState(false);
     const [deferredPrompt, setDeferredPrompt] = useState(null);
 
-    const activeChatScenarioId = useStore(state => state.activeChatScenarioId);
-    const clearChatScenario = useStore(state => state.clearChatScenario);
-
-    useEffect(() => {
-        if (activeChatScenarioId) {
-            const sc = chatScenarios.find(s => s.id === activeChatScenarioId);
-            if (sc) {
-                setActiveScenario(sc);
-            }
-            clearChatScenario();
-        }
-    }, [activeChatScenarioId, clearChatScenario]);
-
     // PWA Install prompt
     useEffect(() => {
         const handler = (e) => {

@@ -3,40 +3,16 @@
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
-import { lessons, exercises } from '../data/lexicon';
-import { audioLessons } from '../data/audioLessons';
-import { chatScenarios } from '../data/chatScenarios';
-import AudioSession from './AudioSession';
-import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, AlertCircle } from 'lucide-react';
+import { lessons } from '../data/lexicon';
+import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool } from 'lucide-react';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
-    const setView = useStore(state => state.setView); // Is this used?
-
-    // New state for Audio Player
-    const [activeAudioLesson, setActiveAudioLesson] = useState(null);
-
-    const activeLessonId = useStore(state => state.activeLessonId);
     const getLearnedCount = useStore(state => state.getLearnedCount);
     const getLessonProgress = useStore(state => state.getLessonProgress);
     const openLesson = useStore(state => state.openLesson);
     const getOverallProgress = useStore(state => state.getOverallProgress);
     const getWeakWords = useStore(state => state.getWeakWords);
-    const getMistakes = useStore(state => state.getMistakes);
-    const startChatScenario = useStore(state => state.startChatScenario);
-    // Helper to start specific exercises
-    const startExerciseSession = useStore(state => (exercisesList) => {
-        useStore.setState({
-            currentView: 'exercises',
-            activeExercises: exercisesList
-        });
-    });
-
-    // Import exercises data locally to avoid store overhead if possible, 
-    // or use a helper. Since exercises are exported from lexicon, we can import them.
-    // But we need to make sure we have access to the full list.
-    // Let's assume we can get them via a store selector or direct import.
-    // For now, I'll use a direct import at top of file, so let's add it.
 
     // Auth
     const user = useAuthStore(state => state.user);
@@ -48,21 +24,11 @@ const HomeTab = () => {
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
     // Last visited lesson (or fall back to first incomplete)
-    // Last visited lesson (or fall back to first incomplete)
     const lastVisitedLessonId = useStore(state => state.lastVisitedLessonId);
-
-    // Safety: ensure lessons exist
-    const safeLessons = lessons && lessons.length > 0 ? lessons : [];
-
     const currentLesson = lastVisitedLessonId
-        ? (safeLessons.find(l => l.id === lastVisitedLessonId) || safeLessons[0])
-        : (safeLessons.find(l => getLessonProgress(l.id).percent < 100) || safeLessons[0]);
-
-    const lessonProgress = currentLesson ? getLessonProgress(currentLesson.id) : { percent: 0, total: 0, learned: 0 };
-
-    if (activeAudioLesson) {
-        return <AudioSession lesson={activeAudioLesson} onBack={() => setActiveAudioLesson(null)} />;
-    }
+        ? (lessons.find(l => l.id === lastVisitedLessonId) || lessons[0])
+        : (lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[0]);
+    const lessonProgress = getLessonProgress(currentLesson.id);
 
     return (
         <div className="app">
@@ -107,108 +73,97 @@ const HomeTab = () => {
             {/* =====================
                 HERO LESSON CARD
             ===================== */}
-            {currentLesson ? (
-                <div
-                    onClick={() => openLesson(currentLesson.id)}
-                    style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
-                        border: '1px solid var(--stroke)',
-                        borderRadius: 24,
-                        padding: 20,
-                        marginBottom: 24,
-                        cursor: 'pointer',
-                        boxShadow: 'var(--sh-1)'
-                    }}
-                >
-                    <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
-                        {/* Play Icon */}
+            <div
+                onClick={() => openLesson(currentLesson.id)}
+                style={{
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
+                    border: '1px solid var(--stroke)',
+                    borderRadius: 24,
+                    padding: 20,
+                    marginBottom: 24,
+                    cursor: 'pointer',
+                    boxShadow: 'var(--sh-1)'
+                }}
+            >
+                <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
+                    {/* Play Icon */}
+                    <div style={{
+                        width: 52, height: 52, borderRadius: 14,
+                        background: 'linear-gradient(180deg, rgba(255,107,53,0.22), rgba(255,107,53,0.08))',
+                        border: '1px solid rgba(255,107,53,0.2)',
+                        boxShadow: '0 12px 30px rgba(255,107,53,0.12)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0
+                    }}>
+                        <Play size={24} color="#fff" fill="#fff" style={{ marginLeft: 2 }} />
+                    </div>
+
+                    <div style={{ flex: 1 }}>
+                        {/* Meta */}
                         <div style={{
-                            width: 52, height: 52, borderRadius: 14,
-                            background: 'linear-gradient(180deg, rgba(255,107,53,0.22), rgba(255,107,53,0.08))',
-                            border: '1px solid rgba(255,107,53,0.2)',
-                            boxShadow: '0 12px 30px rgba(255,107,53,0.12)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            flexShrink: 0
+                            display: 'flex', alignItems: 'center', gap: 8,
+                            marginBottom: 6, flexWrap: 'wrap'
                         }}>
-                            <Play size={24} color="#fff" fill="#fff" style={{ marginLeft: 2 }} />
-                        </div>
-
-                        <div style={{ flex: 1 }}>
-                            {/* Meta */}
-                            <div style={{
-                                display: 'flex', alignItems: 'center', gap: 8,
-                                marginBottom: 6, flexWrap: 'wrap'
+                            <span style={{
+                                background: 'var(--surface)',
+                                padding: '4px 10px', borderRadius: 8,
+                                fontSize: '0.75rem', color: 'var(--text-1)', fontWeight: 500
                             }}>
-                                <span style={{
-                                    background: 'var(--surface)',
-                                    padding: '4px 10px', borderRadius: 8,
-                                    fontSize: '0.75rem', color: 'var(--text-1)', fontWeight: 500
-                                }}>
-                                    Урок {currentLesson.id}
-                                </span>
-                                <span style={{
-                                    display: 'flex', alignItems: 'center', gap: 4,
-                                    fontSize: '0.75rem', color: 'var(--text-2)'
-                                }}>
-                                    <Clock size={12} /> ~6 хв
-                                </span>
-                            </div>
-
-                            {/* Title */}
-                            <h2 style={{
-                                fontSize: '1.15rem', fontWeight: 700,
-                                color: 'var(--text-0)', margin: 0, lineHeight: 1.3,
-                                display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                                Урок {currentLesson.id}
+                            </span>
+                            <span style={{
+                                display: 'flex', alignItems: 'center', gap: 4,
+                                fontSize: '0.75rem', color: 'var(--text-2)'
                             }}>
-                                {currentLesson.title}
-                            </h2>
-
-                            <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: 4, marginBottom: 0 }}>
-                                {currentLesson.description}
-                            </p>
+                                <Clock size={12} /> ~6 хв
+                            </span>
                         </div>
-                    </div>
 
-                    {/* Progress */}
-                    <div style={{ marginBottom: 14 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Прогрес</span>
-                            <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-0)' }}>{lessonProgress.percent}%</span>
-                        </div>
-                        <div style={{ height: 6, background: 'var(--surface)', borderRadius: 3 }}>
-                            <div style={{
-                                height: '100%', borderRadius: 3,
-                                background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
-                                width: `${lessonProgress.percent}%`
-                            }} />
-                        </div>
-                    </div>
-
-                    {/* Continue Button */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <button style={{
-                            background: 'var(--pri)',
-                            color: '#0B0B0F',
-                            border: 'none', borderRadius: 999,
-                            padding: '10px 20px',
-                            fontWeight: 600, fontSize: '0.9rem',
-                            display: 'flex', alignItems: 'center', gap: 6,
-                            boxShadow: '0 8px 24px rgba(255,107,53,.25)'
+                        {/* Title */}
+                        <h2 style={{
+                            fontSize: '1.15rem', fontWeight: 700,
+                            color: 'var(--text-0)', margin: 0, lineHeight: 1.3,
+                            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                         }}>
-                            Продовжити <ChevronRight size={18} />
-                        </button>
+                            {currentLesson.title}
+                        </h2>
+
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginTop: 4, marginBottom: 0 }}>
+                            {currentLesson.description}
+                        </p>
                     </div>
                 </div>
-            ) : (
-                <div style={{
-                    padding: 24, textAlign: 'center', marginBottom: 24,
-                    background: 'var(--surface)', borderRadius: 24, border: '1px solid var(--stroke)'
-                }}>
-                    <div style={{ fontSize: '2rem', marginBottom: 12 }}>🎉</div>
-                    <h3 style={{ color: 'var(--text-0)', marginBottom: 8 }}>Вітаємо!</h3>
-                    <p style={{ color: 'var(--text-2)', fontSize: '0.9rem' }}>Ви пройшли всі доступні уроки.</p>
+
+                {/* Progress */}
+                <div style={{ marginBottom: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Прогрес</span>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-0)' }}>{lessonProgress.percent}%</span>
+                    </div>
+                    <div style={{ height: 6, background: 'var(--surface)', borderRadius: 3 }}>
+                        <div style={{
+                            height: '100%', borderRadius: 3,
+                            background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
+                            width: `${lessonProgress.percent}%`
+                        }} />
+                    </div>
                 </div>
-            )}
+
+                {/* Continue Button */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <button style={{
+                        background: 'var(--pri)',
+                        color: '#0B0B0F',
+                        border: 'none', borderRadius: 999,
+                        padding: '10px 20px',
+                        fontWeight: 600, fontSize: '0.9rem',
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        boxShadow: '0 8px 24px rgba(255,107,53,.25)'
+                    }}>
+                        Продовжити <ChevronRight size={18} />
+                    </button>
+                </div>
+            </div>
 
             {/* =====================
                 ТВІЙ ДЕНЬ (Stats)
@@ -333,7 +288,7 @@ const HomeTab = () => {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
                 {/* Картки */}
                 <div
-                    onClick={() => currentLesson && useStore.getState().startLessonWords(currentLesson.id)}
+                    onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(47,230,166,0.25)',
@@ -362,7 +317,7 @@ const HomeTab = () => {
 
                 {/* Noun Master */}
                 <div
-                    onClick={() => currentLesson && useStore.getState().startNounMaster(currentLesson.id)}
+                    onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
                     style={{
                         background: 'rgba(255,255,255,0.03)',
                         border: '1px solid rgba(87,166,255,0.25)',
@@ -482,168 +437,6 @@ const HomeTab = () => {
                     </span>
                 </div>
                 <ChevronRight size={20} color="var(--text-2)" />
-            </div>
-
-            {/* =====================
-                MISTAKES OF THE DAY
-            ===================== */}
-            {(() => {
-                const rawMistakes = getMistakes();
-                const mistakeExercises = rawMistakes
-                    .map(m => exercises[m.id]) // Get full exercise object
-                    .filter(Boolean)
-                    .slice(0, 3);
-
-                if (mistakeExercises.length === 0) return null;
-
-                const handleReviewMistakes = () => {
-                    const fullList = rawMistakes.map(m => exercises[m.id]).filter(Boolean);
-                    // Shuffle a bit or take top 20
-                    startExerciseSession(fullList.slice(0, 20));
-                };
-
-                return (
-                    <div style={{ marginBottom: 24 }}>
-                        <div style={{
-                            display: 'flex', justifyContent: 'space-between',
-                            alignItems: 'center', marginBottom: 12
-                        }}>
-                            <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
-                                ⚠️ Робота над помилками
-                            </h3>
-                            <span
-                                onClick={handleReviewMistakes}
-                                style={{ fontSize: '0.8rem', color: 'var(--pri)', cursor: 'pointer', fontWeight: 600 }}
-                            >
-                                Повторити ({rawMistakes.length})
-                            </span>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            {mistakeExercises.map(ex => (
-                                <div key={ex.id} onClick={handleReviewMistakes} style={{
-                                    background: 'rgba(233, 75, 90, 0.05)',
-                                    border: '1px solid rgba(233, 75, 90, 0.15)',
-                                    borderRadius: 14,
-                                    padding: '12px 14px',
-                                    display: 'flex', alignItems: 'center', gap: 12,
-                                    cursor: 'pointer'
-                                }}>
-                                    <div style={{
-                                        width: 36, height: 36, borderRadius: 10,
-                                        background: 'rgba(233, 75, 90, 0.15)',
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        flexShrink: 0
-                                    }}>
-                                        <AlertCircle size={18} color="#E94B5A" />
-                                    </div>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-0)', marginBottom: 2 }}>
-                                            {ex.question?.replace(/___/g, '...').substring(0, 40) + (ex.question?.length > 40 ? '...' : '')}
-                                        </div>
-                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>
-                                            Тема: {ex.topic}
-                                        </div>
-                                    </div>
-                                    <ChevronRight size={18} color="var(--text-2)" />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-            })()}
-
-            {/* =====================
-                AUDIO LESSONS
-            ===================== */}
-            <div style={{ marginBottom: 24 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
-                        🎧 Міні-подкасти
-                    </h3>
-                </div>
-                <div style={{
-                    display: 'flex', gap: 12, overflowX: 'auto',
-                    paddingRight: 16, paddingBottom: 8, scrollbarWidth: 'none'
-                }}>
-                    {audioLessons.map(lesson => (
-                        <div
-                            key={lesson.id}
-                            onClick={() => setActiveAudioLesson(lesson)}
-                            style={{
-                                minWidth: 140, width: 140,
-                                background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
-                                border: '1px solid var(--stroke)',
-                                borderRadius: 16, padding: 12,
-                                display: 'flex', flexDirection: 'column', gap: 8,
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <div style={{
-                                width: 32, height: 32, borderRadius: 10,
-                                background: lesson.color,
-                                display: 'flex', alignItems: 'center', justifyContent: 'center'
-                            }}>
-                                <Play size={14} fill="white" color="white" />
-                            </div>
-                            <div>
-                                <div style={{ fontSize: '0.85rem', fontWeight: 600, lineHeight: 1.2, marginBottom: 4 }}>
-                                    {lesson.title}
-                                </div>
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', display: 'flex', alignItems: 'center', gap: 4 }}>
-                                    <Clock size={10} /> {lesson.duration}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* =====================
-                DIALOGUES
-            ===================== */}
-            <div style={{ marginBottom: 24 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
-                        💬 Інтерактивні діалоги
-                    </h3>
-                </div>
-                <div style={{
-                    display: 'flex', gap: 12, overflowX: 'auto',
-                    paddingRight: 16, paddingBottom: 8, scrollbarWidth: 'none'
-                }}>
-                    {chatScenarios.map(scenario => (
-                        <div
-                            key={scenario.id}
-                            onClick={() => startChatScenario(scenario.id)}
-                            style={{
-                                minWidth: 140, width: 140,
-                                background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
-                                border: '1px solid var(--stroke)',
-                                borderRadius: 16, padding: 12,
-                                display: 'flex', flexDirection: 'column', gap: 8,
-                                cursor: 'pointer'
-                            }}
-                        >
-                            <div style={{
-                                width: 32, height: 32, borderRadius: 10,
-                                background: 'rgba(242, 106, 27, 0.2)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontSize: '1.2rem'
-                            }}>
-                                {scenario.icon}
-                            </div>
-                            <div>
-                                <div style={{ fontSize: '0.85rem', fontWeight: 600, lineHeight: 1.2, marginBottom: 4 }}>
-                                    {scenario.title.split('(')[0]}
-                                </div>
-                                <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                    {scenario.description}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
             </div>
 
             {/* =====================

@@ -12,7 +12,6 @@ const useStore = create(
             // USER PROGRESS DATA
             // ==========================================
             userProgress: {}, // wordId -> { interval, repetitions, easeFactor, dueDate }
-            mistakes: [], // Array of { id: exerciseId, timestamp, count }
 
             // ==========================================
             // NAVIGATION STATE
@@ -58,13 +57,6 @@ const useStore = create(
                 activeLessonId: lessonId,
                 lastVisitedLessonId: lessonId // Remember last visited
             }),
-
-            startChatScenario: (scenarioId) => set({
-                currentTab: 'chat',
-                activeChatScenarioId: scenarioId
-            }),
-
-            clearChatScenario: () => set({ activeChatScenarioId: null }),
 
             goBack: () => {
                 const state = get();
@@ -279,38 +271,9 @@ const useStore = create(
                 };
             }),
 
-            addMistake: (exerciseId) => set((state) => {
-                const existing = state.mistakes.find(m => m.id === exerciseId);
-                let newMistakes;
-                if (existing) {
-                    newMistakes = state.mistakes.map(m =>
-                        m.id === exerciseId
-                            ? { ...m, count: m.count + 1, timestamp: Date.now() }
-                            : m
-                    );
-                } else {
-                    newMistakes = [...state.mistakes, { id: exerciseId, count: 1, timestamp: Date.now() }];
-                }
-                return { mistakes: newMistakes };
-            }),
-
-            removeMistake: (exerciseId) => set((state) => ({
-                mistakes: state.mistakes.filter(m => m.id !== exerciseId)
-            })),
-
             // ==========================================
             // COMPUTED GETTERS
             // ==========================================
-            getMistakes: () => {
-                const state = get();
-                // Map exercise IDs to full exercise objects
-                // We need to import exercises here or pass them in? 
-                // Alternatively, component does the mapping. 
-                // Let's do it in component to avoid circular dependencies if possible, 
-                // OR import exercises inside the function if needed (but 'exercises' is in lexicon).
-                // Simplified: return raw mistakes, let component map.
-                return state.mistakes.sort((a, b) => b.timestamp - a.timestamp);
-            },
             getDueCount: () => {
                 const state = get();
                 const now = new Date().toISOString();
