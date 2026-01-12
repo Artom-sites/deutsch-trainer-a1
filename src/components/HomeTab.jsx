@@ -6,6 +6,7 @@ import useAuthStore from '../store/authStore';
 import { lessons } from '../data/lexicon';
 import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, Bell } from 'lucide-react';
 import SRSCalendar from './SRSCalendar';
+import SettingsModal from './SettingsModal';
 import { requestNotificationPermission, checkPermission, sendNotification } from '../utils/notifications';
 
 const HomeTab = () => {
@@ -25,8 +26,9 @@ const HomeTab = () => {
 
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
-    // Notification State
+    // Notification & Settings State
     const [notifEnabled, setNotifEnabled] = useState(false);
+    const [showSettings, setShowSettings] = useState(false);
 
     useEffect(() => {
         setNotifEnabled(checkPermission());
@@ -49,6 +51,8 @@ const HomeTab = () => {
 
     return (
         <div className="app">
+            {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
+
             {/* =====================
                 HEADER
             ===================== */}
@@ -56,48 +60,69 @@ const HomeTab = () => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                marginBottom: 20
+                marginBottom: 24
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                {/* Left: Avatar (Click for Settings) */}
+                <div
+                    onClick={() => setShowSettings(true)}
+                    style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
+                >
                     <div style={{
-                        width: 48, height: 48, borderRadius: 16,
+                        width: 44, height: 44, borderRadius: '50%',
                         background: 'var(--pri-soft)',
+                        border: '2px solid rgba(255,107,53,0.3)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '1.4rem'
+                        fontSize: '1.2rem', color: 'var(--pri)', fontWeight: 700
                     }}>
-                        👋
-                    </div>
-                    <div>
-                        <h1 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>Привіт, {userName}! 👋</h1>
-                        <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>Час продуктивності</p>
+                        {user ? (
+                            (user.displayName?.[0] || 'U').toUpperCase()
+                        ) : (
+                            '👤'
+                        )}
                     </div>
                 </div>
-                {!notifEnabled && (
-                    <button
-                        onClick={handleEnableNotifs}
-                        style={{
-                            background: 'rgba(255,255,255,0.1)', border: 'none',
-                            borderRadius: '50%', width: 40, height: 40,
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            cursor: 'pointer', color: '#F26A1B'
-                        }}>
-                        <Bell size={20} />
-                    </button>
-                )}
 
-                {/* Streak Badge */}
-                <div style={{
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    padding: '8px 14px', borderRadius: 999,
-                    background: streak > 0 ? 'var(--pri-soft)' : 'var(--surface)',
-                    border: `1px solid ${streak > 0 ? 'rgba(255,107,53,.3)' : 'var(--stroke)'}`,
-                    color: streak > 0 ? 'var(--pri)' : 'var(--text-2)',
-                    fontWeight: 600, fontSize: '0.9rem'
-                }}>
-                    <Flame size={16} fill={streak > 0 ? 'var(--pri)' : 'none'} />
-                    {streak} {streak === 1 ? 'день' : 'днів'}
+                {/* Center (Optional, or removed for cleaner look) */}
+                {/* <h1 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>Привіт, {userName}!</h1> */}
+
+                {/* Right: Actions */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    {!notifEnabled && (
+                        <button
+                            onClick={handleEnableNotifs}
+                            style={{
+                                background: 'rgba(255,255,255,0.06)', border: 'none',
+                                borderRadius: '50%', width: 40, height: 40,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                cursor: 'pointer', color: '#F26A1B'
+                            }}>
+                            <Bell size={20} />
+                        </button>
+                    )}
+
+                    {/* Streak Badge */}
+                    <div style={{
+                        display: 'flex', alignItems: 'center', gap: 6,
+                        padding: '6px 12px', borderRadius: 999,
+                        background: streak > 0 ? 'var(--pri-soft)' : 'var(--surface)',
+                        border: `1px solid ${streak > 0 ? 'rgba(255,107,53,.3)' : 'var(--stroke)'}`,
+                        color: streak > 0 ? 'var(--pri)' : 'var(--text-2)',
+                        fontWeight: 600, fontSize: '0.9rem'
+                    }}>
+                        <Flame size={16} fill={streak > 0 ? 'var(--pri)' : 'none'} />
+                        {streak}
+                    </div>
                 </div>
             </header>
+
+            <div style={{ marginBottom: 24 }}>
+                <h1 style={{ fontSize: '1.8rem', fontWeight: 800, margin: '0 0 4px', letterSpacing: '-0.02em' }}>
+                    Привіт, {userName}! 👋
+                </h1>
+                <p style={{ fontSize: '0.95rem', color: 'var(--text-2)', margin: 0 }}>
+                    Готовий до нових досягнень?
+                </p>
+            </div>
 
             {/* =====================
                 HERO LESSON CARD
