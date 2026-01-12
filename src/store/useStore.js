@@ -276,9 +276,15 @@ const useStore = create(
                 // Merge SRS stats with Mastery Stage
                 const finalStats = { ...newStats, masteryStage: nextStage };
 
-                // AWARD LOGIC: Only when hitting Stage 4 for the first time
-                if (currentStage < 4 && nextStage === 4) {
+
+                // TRACKING PROGRESS:
+                // Increment daily goal on any successful review
+                if (quality >= 3) {
                     useAuthStore.getState().incrementDailyProgress();
+                }
+
+                // AWARD LOGIC: Bonus coins when hitting Stage 4 (Mastery)
+                if (currentStage < 4 && nextStage === 4) {
                     useAuthStore.getState().addCoins(10); // Award 10 coins for mastery
                 }
 
