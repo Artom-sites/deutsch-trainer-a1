@@ -1,7 +1,7 @@
 // src/components/exercises/MatchPairs.jsx
 // Вправа: З'єднай пари (слово - переклад)
 import React, { useState, useEffect } from 'react';
-import { speakWord } from '../../utils/speech';
+import { speakWord, triggerHaptic } from '../../utils/speech';
 
 const MatchPairsExercise = ({ exercise, onComplete }) => {
     // exercise.pairs = [ { de: 'Tisch', ua: 'Стіл' }, ... ]
@@ -34,6 +34,7 @@ const MatchPairsExercise = ({ exercise, onComplete }) => {
                 // Speak the German word
                 const pair = exercise.pairs[selectedLeft];
                 speakWord(pair.de);
+                triggerHaptic('success');
 
                 setMatchedPairs(prev => [...prev, selectedLeft]);
                 setSelectedLeft(null);
@@ -45,6 +46,7 @@ const MatchPairsExercise = ({ exercise, onComplete }) => {
                 }
             } else {
                 // No match
+                triggerHaptic('error');
                 setTimeout(() => {
                     setSelectedLeft(null);
                     setSelectedRight(null);

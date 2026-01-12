@@ -1,7 +1,7 @@
 // src/components/exercises/WordOrder.jsx
 // Вправа: Склади речення (порядок слів)
 import React, { useState, useEffect } from 'react';
-import { speakSentence } from '../../utils/speech';
+import { speakSentence, triggerHaptic } from '../../utils/speech';
 import { RotateCcw, Check, MoveRight } from 'lucide-react';
 
 const WordOrderExercise = ({ exercise, onComplete }) => {
@@ -48,10 +48,12 @@ const WordOrderExercise = ({ exercise, onComplete }) => {
         // Remove punctuation for easier matching if needed, but usually exact match is better for grammar
         if (currentSentence === exercise.sentence) {
             setStatus('success');
+            triggerHaptic('success');
             speakSentence(exercise.sentence);
             setTimeout(() => onComplete(true), 1500);
         } else {
             setStatus('error');
+            triggerHaptic('error');
             setTimeout(() => setStatus('idle'), 1500);
         }
     };
@@ -83,8 +85,8 @@ const WordOrderExercise = ({ exercise, onComplete }) => {
             <div style={{
                 minHeight: 60,
                 borderBottom: `2px solid ${status === 'success' ? 'var(--color-success)' :
-                        status === 'error' ? 'var(--color-error)' :
-                            'var(--color-accent)'
+                    status === 'error' ? 'var(--color-error)' :
+                        'var(--color-accent)'
                     }`,
                 padding: 'var(--space-sm)',
                 marginBottom: 'var(--space-lg)',

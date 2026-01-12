@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import useStore from '../store/useStore';
 import { getReadingForLesson } from '../data/lessonReadings';
 import { words } from '../data/words';
-import { ArrowLeft, Volume2, CheckCircle2, XCircle, ChevronRight } from 'lucide-react';
-import { speakSentence } from '../utils/speech';
+import { ArrowLeft, Volume2, CheckCircle2, XCircle, ChevronRight, Settings2 } from 'lucide-react';
+import { speakSentence, getSpeechSpeed, setSpeechSpeed, triggerHaptic } from '../utils/speech';
 
 const ReadingSession = () => {
     const goBack = useStore(state => state.goBack);
@@ -19,6 +19,16 @@ const ReadingSession = () => {
     const [answers, setAnswers] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
     const [showFeedback, setShowFeedback] = useState(false);
+
+    // Audio Speed State
+    const [speed, setSpeedState] = useState(getSpeechSpeed());
+
+    const toggleSpeed = () => {
+        const newSpeed = speed === 1 ? 0.75 : 1;
+        setSpeechSpeed(newSpeed);
+        setSpeedState(newSpeed);
+        triggerHaptic('medium');
+    };
 
     if (!reading) {
         return (
@@ -121,6 +131,14 @@ const ReadingSession = () => {
                         <div style={{ fontSize: '0.7rem', color: '#7A7D8A', textTransform: 'uppercase' }}>LESEN</div>
                         <div style={{ fontWeight: 600, color: '#E5E7EB', fontSize: '0.95rem' }}>{reading.title}</div>
                     </div>
+                    <button onClick={toggleSpeed} style={{
+                        background: 'rgba(255,255,255,0.1)', border: 'none',
+                        borderRadius: 8, padding: '6px 10px', color: '#E5E7EB',
+                        fontSize: '0.85rem', fontWeight: 600, minWidth: 40,
+                        cursor: 'pointer'
+                    }}>
+                        {speed}x
+                    </button>
                 </div>
 
                 {/* Translation Bar */}
@@ -210,15 +228,27 @@ const ReadingSession = () => {
                 position: 'fixed', top: 0, left: 0, right: 0, bottom: 80,
                 display: 'flex', flexDirection: 'column', background: '#0B0B0F'
             }}>
-                <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <button onClick={() => setMode('reading')} style={{ background: 'transparent', border: 'none', color: '#E5E7EB', padding: 6 }}>
-                        <ArrowLeft size={22} />
+                {/* Header */}
+                <header className="fade-in" style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '12px 16px', marginBottom: 24
+                }}>
+                    <button onClick={() => setMode('reading')} style={{
+                        background: 'rgba(255,255,255,0.1)', border: 'none',
+                        borderRadius: 12, padding: 10, color: 'white', cursor: 'pointer'
+                    }}>
+                        <ArrowLeft size={24} />
                     </button>
-                    <span style={{ color: '#7A7D8A', fontWeight: 600 }}>
-                        {currentQuestion + 1} / {reading.questions.length}
-                    </span>
-                    <div style={{ width: 34 }} />
-                </div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#E5E7EB' }}>{reading.title}</div>
+
+                    <button onClick={toggleSpeed} style={{
+                        background: 'rgba(255,255,255,0.1)', border: 'none',
+                        borderRadius: 12, padding: '8px 12px', color: 'white', cursor: 'pointer',
+                        fontSize: '0.9rem', fontWeight: 600, minWidth: 50
+                    }}>
+                        {speed}x
+                    </button>
+                </header>
 
                 <div style={{ padding: '0 16px 16px' }}>
                     <div style={{ height: 4, background: 'rgba(255,255,255,0.1)', borderRadius: 2 }}>

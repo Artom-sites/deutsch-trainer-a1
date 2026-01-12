@@ -3,6 +3,21 @@
  * Uses Web Speech API (built into all modern browsers)
  */
 
+// Speech speed setting (stored globally)
+let speechSpeed = 1; // 0.75 = slow, 1 = normal, 1.25 = fast
+
+export const getSpeechSpeed = () => speechSpeed;
+export const setSpeechSpeed = (speed) => {
+    speechSpeed = speed;
+    localStorage.setItem('speechSpeed', speed.toString());
+};
+
+// Load saved speed on init
+if (typeof localStorage !== 'undefined') {
+    const saved = localStorage.getItem('speechSpeed');
+    if (saved) speechSpeed = parseFloat(saved);
+}
+
 // Check if TTS is supported
 export const isTTSSupported = () => {
     return 'speechSynthesis' in window;
@@ -11,7 +26,6 @@ export const isTTSSupported = () => {
 // Get German voice (prefer native German voice)
 const getGermanVoice = () => {
     const voices = window.speechSynthesis.getVoices();
-    // Prefer German voices
     const germanVoice = voices.find(v => v.lang.startsWith('de')) ||
         voices.find(v => v.lang === 'de-DE') ||
         voices[0];
@@ -26,28 +40,25 @@ export const speak = (text, options = {}) => {
     }
 
     return new Promise((resolve, reject) => {
-        // Cancel any ongoing speech
         window.speechSynthesis.cancel();
 
         const utterance = new SpeechSynthesisUtterance(text);
 
-        // Settings
+        // Settings - use global speechSpeed multiplied by options rate
+        const baseRate = options.rate || 0.85;
         utterance.lang = options.lang || 'de-DE';
-        utterance.rate = options.rate || 0.85; // Slightly slower for learners
+        utterance.rate = baseRate * speechSpeed;
         utterance.pitch = options.pitch || 1;
         utterance.volume = options.volume || 1;
 
-        // Try to use German voice
         const voice = getGermanVoice();
         if (voice) {
             utterance.voice = voice;
         }
 
-        // Events
         utterance.onend = () => resolve();
         utterance.onerror = (event) => reject(event.error);
 
-        // Speak
         try {
             window.speechSynthesis.speak(utterance);
         } catch (e) {
@@ -57,7 +68,7 @@ export const speak = (text, options = {}) => {
     });
 };
 
-// Speak a word with article (e.g., "der Tisch")
+// Speak a word with article
 export const speakWord = (word, article = null) => {
     const textToSpeak = article ? `${article} ${word}` : word;
     return speak(textToSpeak);
@@ -89,4 +100,35 @@ export const initVoices = () => {
     });
 };
 
-export default { speak, speakWord, speakSentence, stopSpeaking, isTTSSupported, initVoices };
+// ==========================================
+// HAPTIC FEEDBACK
+// ==========================================
+export const triggerHaptic = (type = 'light') => {
+    if (!('vibrate' in navigator)) return;
+
+    switch (type) {
+        case 'light':
+            navigator.vibrate(10);
+            break;
+        case 'medium':
+            navigator.vibrate(25);
+            break;
+        case 'heavy':
+            navigator.vibrate(50);
+            break;
+        case 'success':
+            navigator.vibrate([10, 50, 10]);
+            break;
+        case 'error':
+            navigator.vibrate([50, 30, 50]);
+            break;
+        default:
+            navigator.vibrate(10);
+    }
+};
+
+export default {
+    speak, speakWord, speakSentence, stopSpeaking,
+    isTTSSupported, initVoices,
+    getSpeechSpeed, setSpeechSpeed, triggerHaptic
+};

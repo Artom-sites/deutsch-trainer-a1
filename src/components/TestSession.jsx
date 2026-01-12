@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import useStore from '../store/useStore';
 import { getTestForLesson } from '../data/lessonTests';
 import { ArrowLeft, Check, X, ChevronRight, RefreshCw, Trophy, Target } from 'lucide-react';
+import { triggerHaptic } from '../utils/speech';
 
 const TestSession = () => {
     const activeLessonId = useStore(state => state.activeLessonId);
@@ -35,6 +36,7 @@ const TestSession = () => {
 
     // Handle multiple choice answer
     const handleChoiceAnswer = (optionIndex) => {
+        triggerHaptic('light');
         setAnswers(prev => ({
             ...prev,
             [currentQuestion.id]: optionIndex
@@ -72,8 +74,16 @@ const TestSession = () => {
     // Go to next question
     const handleNext = () => {
         if (currentIndex < questions.length - 1) {
+            triggerHaptic('light');
             setCurrentIndex(currentIndex + 1);
         } else {
+            // Calculate final score for haptic feedback
+            const finalResults = calculateResults();
+            if (finalResults.percent >= 60) {
+                triggerHaptic('success');
+            } else {
+                triggerHaptic('error');
+            }
             setShowResults(true);
         }
     };

@@ -5,7 +5,7 @@ import useStore from '../../store/useStore';
 import useAuthStore from '../../store/authStore';
 import { ArrowLeft, SkipForward, Check, Trophy, Volume2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { speakWord } from '../../utils/speech';
+import { speakWord, triggerHaptic } from '../../utils/speech';
 
 const NounMaster = () => {
     const goBack = useStore(state => state.goBack);
@@ -48,10 +48,14 @@ const NounMaster = () => {
         const wordCorrect = wordInput.trim().toLowerCase() === currentWord.word.toLowerCase();
         const pluralCorrect = selectedPlural === currentWord.plural;
         setFeedback({ article: articleCorrect, word: wordCorrect, plural: pluralCorrect });
+
         if (articleCorrect && wordCorrect && pluralCorrect) {
             confetti({ particleCount: 60, spread: 50, origin: { y: 0.7 } });
+            triggerHaptic('success');
             submitReview(currentWord.id, 5);
             addCoins(10);
+        } else {
+            triggerHaptic('error');
         }
         setShowResult(true);
     };
