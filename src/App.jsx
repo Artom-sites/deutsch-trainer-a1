@@ -140,39 +140,15 @@ function App() {
           alignItems: 'center',
           justifyContent: 'center'
         }}>
-          {/* Orbital Ring 1 */}
+          <div className="loader"></div>
+          {/* Inner Country Code (Optional) */}
           <div style={{
             position: 'absolute',
-            width: 120,
-            height: 120,
-            border: '2px solid transparent',
-            borderTopColor: '#F26A1B',
-            borderRadius: '50%',
-            animation: 'spin 1.5s linear infinite'
-          }} />
-          {/* Orbital Ring 2 */}
-          <div style={{
-            position: 'absolute',
-            width: 100,
-            height: 100,
-            border: '2px solid transparent',
-            borderBottomColor: '#2ECC71',
-            borderRadius: '50%',
-            animation: 'spin 2s linear infinite reverse'
-          }} />
-          {/* Inner Glow */}
-          <div style={{
-            width: 70,
-            height: 70,
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #F26A1B, #E55A0A)',
-            boxShadow: '0 0 40px rgba(242, 106, 27, 0.4)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            animation: 'breathe 2s ease-in-out infinite'
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            fontSize: '0.8rem', fontWeight: 700
           }}>
-            <span style={{ fontSize: '2rem' }}>🇩🇪</span>
+            DE
           </div>
         </div>
 
