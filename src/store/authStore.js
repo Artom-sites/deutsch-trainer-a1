@@ -26,7 +26,8 @@ const useAuthStore = create(
             lastActiveDate: null,
             dailyGoal: 10,
             dailyProgress: 0,
-            weeklyActivity: [0, 0, 0, 0, 0, 0, 0], // Mon-Sun
+            weeklyActivity: [0, 0, 0, 0, 0, 0, 0], // Mon-Sun (minutes)
+            sessionStartTime: null, // Track when session started
 
             // Economy
             coins: 100, // Initial bonus
@@ -245,6 +246,27 @@ const useAuthStore = create(
                 await updateStreak();
 
                 await saveUserData({ dailyProgress: newProgress });
+            },
+
+            // Session time tracking
+            startSession: () => {
+                set({ sessionStartTime: Date.now() });
+            },
+
+            endSession: async () => {
+                const { sessionStartTime, weeklyActivity, saveUserData } = get();
+                if (!sessionStartTime) return;
+
+                const minutesSpent = Math.round((Date.now() - sessionStartTime) / 60000);
+                if (minutesSpent < 1) return; // Ignore very short sessions
+
+                const dayOfWeek = new Date().getDay();
+                const weekIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Mon=0, Sun=6
+                const updatedActivity = [...(weeklyActivity || [0, 0, 0, 0, 0, 0, 0])];
+                updatedActivity[weekIndex] = (updatedActivity[weekIndex] || 0) + minutesSpent;
+
+                set({ weeklyActivity: updatedActivity, sessionStartTime: null });
+                await saveUserData({ weeklyActivity: updatedActivity });
             },
 
             // Reset daily progress (call at midnight or on new day)

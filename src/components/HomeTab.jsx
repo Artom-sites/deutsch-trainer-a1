@@ -238,7 +238,7 @@ const HomeTab = () => {
                         Активність за тиждень
                     </span>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>
-                        {(weeklyActivity || []).reduce((a, b) => a + b, 0)} дій
+                        {(weeklyActivity || []).reduce((a, b) => a + b, 0)} хв
                     </span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: 60 }}>

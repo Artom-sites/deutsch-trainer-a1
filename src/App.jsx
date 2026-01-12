@@ -32,11 +32,43 @@ function App() {
   const user = useAuthStore(state => state.user);
   const isLoading = useAuthStore(state => state.isLoading);
   const initAuth = useAuthStore(state => state.initAuth);
+  const startSession = useAuthStore(state => state.startSession);
+  const endSession = useAuthStore(state => state.endSession);
 
   // Initialize auth listener on mount
   useEffect(() => {
     initAuth();
   }, [initAuth]);
+
+  // Session time tracking
+  useEffect(() => {
+    if (!user) return;
+
+    // Start session when app loads
+    startSession();
+
+    // End session when leaving
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        endSession();
+      } else {
+        startSession();
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      endSession();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      endSession();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [user, startSession, endSession]);
 
   // Handle browser back button / swipe back
   useEffect(() => {
