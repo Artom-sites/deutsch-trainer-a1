@@ -32,6 +32,7 @@ const useAuthStore = create(
             // Economy
             coins: 100, // Initial bonus
             inventory: [], // IDs of purchased items
+            collections: [], // User custom word collections
 
             // Initialize auth listener
             initAuth: () => {
@@ -76,6 +77,7 @@ const useAuthStore = create(
                         return {
                             coins: 100,
                             inventory: [],
+                            collections: [],
                             ...data
                         };
                     }
@@ -276,6 +278,62 @@ const useAuthStore = create(
                 await saveUserData({ weeklyActivity: updatedActivity });
             },
 
+            // Collections Actions
+            createCollection: async (name, icon) => {
+                const { collections, saveUserData } = get();
+                const newCollection = {
+                    id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                    name,
+                    icon,
+                    wordIds: [],
+                    customWords: [],
+                    createdAt: Date.now()
+                };
+                const updated = [...collections, newCollection];
+                set({ collections: updated });
+                await saveUserData({ collections: updated });
+            },
+
+            deleteCollection: async (id) => {
+                const { collections, saveUserData } = get();
+                const updated = collections.filter(c => c.id !== id);
+                set({ collections: updated });
+                await saveUserData({ collections: updated });
+            },
+
+            addToCollection: async (collectionId, wordIdOrObj, isCustom = false) => {
+                const { collections, saveUserData } = get();
+                const updated = collections.map(c => {
+                    if (c.id !== collectionId) return c;
+
+                    if (isCustom) {
+                        return { ...c, customWords: [...c.customWords, { ...wordIdOrObj, id: Date.now().toString() }] };
+                    } else {
+                        if (c.wordIds.includes(wordIdOrObj)) return c;
+                        return { ...c, wordIds: [...c.wordIds, wordIdOrObj] };
+                    }
+                });
+
+                set({ collections: updated });
+                await saveUserData({ collections: updated });
+            },
+
+            removeFromCollection: async (collectionId, itemId, isCustom = false) => {
+                const { collections, saveUserData } = get();
+                const updated = collections.map(c => {
+                    if (c.id !== collectionId) return c;
+
+                    if (isCustom) {
+                        return { ...c, customWords: c.customWords.filter(w => w.id !== itemId) };
+                    } else {
+                        return { ...c, wordIds: c.wordIds.filter(id => id !== itemId) };
+                    }
+                });
+
+                set({ collections: updated });
+                await saveUserData({ collections: updated });
+            },
+
             // Reset daily progress (call at midnight or on new day)
             resetDailyProgress: () => {
                 set({ dailyProgress: 0 });
@@ -287,6 +345,7 @@ const useAuthStore = create(
                 streak: state.streak,
                 coins: state.coins,
                 inventory: state.inventory,
+                collections: state.collections,
                 lastActiveDate: state.lastActiveDate,
                 dailyProgress: state.dailyProgress,
                 weeklyActivity: state.weeklyActivity
