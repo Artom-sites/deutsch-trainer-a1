@@ -107,30 +107,46 @@ const useStore = create(
             // ==========================================
             // FLASHCARD ACTIONS
             // ==========================================
+            // START FLASHCARDS with Shuffle
             startLessonWords: (lessonId) => {
                 const lessonWords = getWordsForLesson(lessonId);
                 const userProgress = get().userProgress;
 
-                // Sort: unlearned first, then by due date
-                const sortedWords = [...lessonWords].sort((a, b) => {
+                // Sort: unlearned first
+                // Then Shuffle each group to avoid predictable order
+                const unlearned = [];
+                const learned = [];
+
+                lessonWords.forEach(w => {
+                    if (userProgress[w.id]) learned.push(w);
+                    else unlearned.push(w);
+                });
+
+                // Simple Fisher-Yates shuffle
+                const shuffle = (array) => {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                };
+
+                shuffle(unlearned);
+
+                // For learned words, sort by due date first, but if equal/similar, randomness helps?
+                // Actually SRS should be strict on due date. 
+                // But for "Review", strict order is fine. 
+                // The user complaint "Words in lessons always same order" likely refers to new lessons (unlearned).
+
+                learned.sort((a, b) => {
                     const progressA = userProgress[a.id];
                     const progressB = userProgress[b.id];
-
-                    // Unlearned words first
-                    if (!progressA && progressB) return -1;
-                    if (progressA && !progressB) return 1;
-
-                    // If both learned, sort by due date (earliest first)
-                    if (progressA && progressB) {
-                        return new Date(progressA.dueDate) - new Date(progressB.dueDate);
-                    }
-
-                    return 0;
+                    return new Date(progressA.dueDate) - new Date(progressB.dueDate);
                 });
 
                 set({
                     currentView: 'flashcards',
-                    flashcardWords: sortedWords,
+                    flashcardWords: [...unlearned, ...learned],
                     currentCardIndex: 0,
                     activeLessonId: lessonId
                 });
@@ -140,31 +156,33 @@ const useStore = create(
                 const allWords = getAllWords();
                 const userProgress = get().userProgress;
 
-                // Sort: unlearned first, then by due date
-                const sortedWords = [...allWords].sort((a, b) => {
+                const unlearned = [];
+                const learned = [];
+
+                allWords.forEach(w => {
+                    if (userProgress[w.id]) learned.push(w);
+                    else unlearned.push(w);
+                });
+
+                const shuffle = (array) => {
+                    for (let i = array.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [array[i], array[j]] = [array[j], array[i]];
+                    }
+                    return array;
+                };
+
+                shuffle(unlearned);
+
+                learned.sort((a, b) => {
                     const progressA = userProgress[a.id];
                     const progressB = userProgress[b.id];
-
-                    // Unlearned words first
-                    if (!progressA && progressB) return -1;
-                    if (progressA && !progressB) return 1;
-
-                    // If both learned, sort by due date (earliest first)
-                    if (progressA && progressB) {
-                        return new Date(progressA.dueDate) - new Date(progressB.dueDate);
-                    }
-
-                    return 0;
+                    return new Date(progressA.dueDate) - new Date(progressB.dueDate);
                 });
 
                 set({
                     currentView: 'flashcards',
-                    flashcardWords: sortedWords,
-                    currentCardIndex: 0
-                });
-                set({
-                    currentView: 'flashcards',
-                    flashcardWords: sortedWords,
+                    flashcardWords: [...unlearned, ...learned],
                     currentCardIndex: 0
                 });
             },

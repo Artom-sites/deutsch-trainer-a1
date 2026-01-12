@@ -1264,22 +1264,22 @@ export const lessonTests = {
             {
                 id: "l13-1",
                 type: "fill-blank",
-                question: "Das ___ (T-Shirt).",
-                correct: "T-Shirt",
+                question: "___ T-Shirt isst ... (Artikel?)",
+                correct: "Das",
                 explanation: "das T-Shirt"
             },
             {
                 id: "l13-2",
                 type: "fill-blank",
-                question: "Das ___ (Hemd).",
-                correct: "Hemd",
+                question: "___ Hemd ist weiß.",
+                correct: "Das",
                 explanation: "das Hemd"
             },
             {
                 id: "l13-3",
                 type: "fill-blank",
-                question: "Die ___ (Hose).",
-                correct: "Hose",
+                question: "___ Hose ist blau.",
+                correct: "Die",
                 explanation: "die Hose"
             },
             // 2. Koffer packen

@@ -1506,7 +1506,7 @@ export const words = [
     { id: "dabei", word: "dabei", article: null, plural: null, translation: "при цьому", lesson: 13 },
     { id: "damenmode", word: "Damenmode", article: "die", plural: "-n", translation: "жіноча мода", lesson: 13 },
     { id: "damenschuh", word: "Damenschuh", article: "der", plural: "-e", translation: "жіноче взуття", lesson: 13 },
-    { id: "demonstrativpronomen", word: "Demonstrativpronomen", article: "das", plural: "-", translation: "вказівний займенник", lesson: 13 },
+
     { id: "dies", word: "dies-", article: null, plural: null, translation: "цей", lesson: 13 },
     { id: "dorf", word: "Dorf", article: "das", plural: "̈-er", translation: "село", lesson: 13 },
     { id: "duenn", word: "dünn", article: null, plural: null, translation: "тонкий", lesson: 13 },
@@ -1540,7 +1540,7 @@ export const words = [
     { id: "kompliment", word: "Kompliment", article: "das", plural: "-e", translation: "комплімент", lesson: 13 },
     { id: "kosmetik-sg", word: "Kosmetik (Sg.)", article: "die", plural: null, translation: "косметика", lesson: 13 },
     { id: "landschaft", word: "Landschaft", article: "die", plural: "-en", translation: "ландшафт", lesson: 13 },
-    { id: "maennermode", word: "Männermode", article: "die", plural: "-n", translation: "чоловіча мода", lesson: 13 },
+
     { id: "mantel", word: "Mantel", article: "der", plural: "̈-e", translation: "пальто", lesson: 13 },
     { id: "meer", word: "Meer", article: "das", plural: "-e", translation: "море", lesson: 13 },
     { id: "mindmap", word: "Mindmap", article: "die", plural: "-s", translation: "міндмап, асоціативна карта", lesson: 13 },
