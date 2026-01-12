@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { lessons } from '../data/lexicon';
-import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool } from 'lucide-react';
+import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, Bell } from 'lucide-react';
+import SRSCalendar from './SRSCalendar';
+import { requestNotificationPermission, checkPermission, sendNotification } from '../utils/notifications';
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
@@ -22,6 +24,21 @@ const HomeTab = () => {
     const weeklyActivity = useAuthStore(state => state.weeklyActivity);
 
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
+
+    // Notification State
+    const [notifEnabled, setNotifEnabled] = useState(false);
+
+    useEffect(() => {
+        setNotifEnabled(checkPermission());
+    }, []);
+
+    const handleEnableNotifs = async () => {
+        const granted = await requestNotificationPermission();
+        if (granted) {
+            setNotifEnabled(true);
+            sendNotification('Чудово! 🎉', 'Я нагадаю тобі про слова завтра!');
+        }
+    };
 
     // Last visited lesson (or fall back to first incomplete)
     const lastVisitedLessonId = useStore(state => state.lastVisitedLessonId);
@@ -51,10 +68,22 @@ const HomeTab = () => {
                         👋
                     </div>
                     <div>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: 0 }}>Вітаємо,</p>
-                        <h1 style={{ fontSize: '1.3rem', fontWeight: 700, margin: 0, color: 'var(--text-0)' }}>{userName}</h1>
+                        <h1 style={{ fontSize: '1.2rem', fontWeight: 700, margin: 0 }}>Привіт, {userName}! 👋</h1>
+                        <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>Час продуктивності</p>
                     </div>
                 </div>
+                {!notifEnabled && (
+                    <button
+                        onClick={handleEnableNotifs}
+                        style={{
+                            background: 'rgba(255,255,255,0.1)', border: 'none',
+                            borderRadius: '50%', width: 40, height: 40,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', color: '#F26A1B'
+                        }}>
+                        <Bell size={20} />
+                    </button>
+                )}
 
                 {/* Streak Badge */}
                 <div style={{
@@ -221,6 +250,11 @@ const HomeTab = () => {
                     <p style={{ fontSize: '0.75rem', color: 'var(--text-2)', margin: 0 }}>Слів вивчено</p>
                 </div>
             </div>
+
+            {/* =====================
+                SRS CALENDAR
+            ===================== */}
+            <SRSCalendar />
 
             {/* =====================
                 WEEKLY ACTIVITY CHART
