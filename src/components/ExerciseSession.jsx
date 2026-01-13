@@ -96,27 +96,76 @@ const ExerciseSession = () => {
     const ExerciseComponent = exerciseRegistry[currentExercise.type] || exerciseRegistry['multiple-choice'];
 
     return (
-        <div className="screen">
-            {/* Header */}
-            <div className="back-header">
-                <button className="back-btn" onClick={goBack}>
-                    <ArrowLeft size={20} />
-                </button>
-                <div style={{ flex: 1 }}>
-                    <div className="progress-bar">
-                        <div
-                            className="progress-bar-fill"
-                            style={{ width: `${((currentIndex + 1) / activeExercises.length) * 100}%` }}
-                        />
+        <div className="screen" style={{ paddingTop: 0 }}>
+            {/* Redesigned Header */}
+            <div style={{
+                position: 'sticky',
+                top: 0,
+                zIndex: 10,
+                background: 'var(--bg-primary)',
+                paddingTop: 'var(--space-md)',
+                paddingBottom: 'var(--space-md)',
+                marginBottom: 'var(--space-md)'
+            }}>
+                {/* Top row: Back + Title + Counter */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    marginBottom: 12
+                }}>
+                    <button
+                        onClick={goBack}
+                        style={{
+                            width: 40,
+                            height: 40,
+                            borderRadius: 12,
+                            background: 'rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            color: 'var(--text-primary)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            flexShrink: 0
+                        }}
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+
+                    <div style={{ flex: 1, fontWeight: 600, fontSize: '1rem', color: 'var(--text-primary)' }}>
+                        Інтерактивні вправи
+                    </div>
+
+                    <div style={{
+                        padding: '6px 14px',
+                        borderRadius: 20,
+                        background: 'rgba(139, 92, 246, 0.15)',
+                        color: '#a78bfa',
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        whiteSpace: 'nowrap'
+                    }}>
+                        {currentIndex + 1} / {activeExercises.length}
                     </div>
                 </div>
+
+                {/* Progress bar */}
                 <div style={{
-                    fontSize: '0.85rem',
-                    color: 'var(--text-secondary)',
-                    marginLeft: 'var(--space-md)',
-                    whiteSpace: 'nowrap'
+                    height: 6,
+                    background: 'rgba(255,255,255,0.08)',
+                    borderRadius: 3,
+                    overflow: 'hidden'
                 }}>
-                    {currentIndex + 1} / {activeExercises.length}
+                    <div
+                        style={{
+                            height: '100%',
+                            width: `${((currentIndex + 1) / activeExercises.length) * 100}%`,
+                            background: 'linear-gradient(90deg, #8b5cf6, #a78bfa)',
+                            borderRadius: 3,
+                            transition: 'width 0.3s ease'
+                        }}
+                    />
                 </div>
             </div>
 
