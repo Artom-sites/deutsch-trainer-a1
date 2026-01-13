@@ -97,21 +97,21 @@ const ExerciseSession = () => {
 
     return (
         <div className="screen">
-            {/* Minimal Header */}
+            {/* Clean Header */}
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 16,
-                marginBottom: 24,
+                gap: 12,
+                marginBottom: 20,
                 paddingTop: 8
             }}>
                 {/* Back Button */}
                 <button
                     onClick={goBack}
                     style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 14,
+                        width: 40,
+                        height: 40,
+                        borderRadius: 12,
                         background: 'transparent',
                         border: 'none',
                         color: 'var(--text-primary)',
@@ -121,45 +121,38 @@ const ExerciseSession = () => {
                         cursor: 'pointer'
                     }}
                 >
-                    <ArrowLeft size={24} />
+                    <ArrowLeft size={22} />
                 </button>
 
-                {/* Progress Indicator - Centered */}
-                <div style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 6
-                }}>
-                    {activeExercises.map((_, i) => (
-                        <div
-                            key={i}
-                            style={{
-                                width: i === currentIndex ? 24 : 8,
-                                height: 8,
-                                borderRadius: 4,
-                                background: i <= currentIndex
-                                    ? 'var(--pri)'
-                                    : 'rgba(255,255,255,0.15)',
-                                transition: 'all 0.3s ease'
-                            }}
-                        />
-                    ))}
-                </div>
-
-                {/* Counter */}
-                <div style={{
-                    width: 44,
-                    height: 44,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.85rem',
-                    fontWeight: 600,
-                    color: 'var(--text-2)'
-                }}>
-                    {currentIndex + 1}/{activeExercises.length}
+                {/* Progress Bar + Counter */}
+                <div style={{ flex: 1 }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: 6
+                    }}>
+                        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-0)' }}>
+                            Питання {currentIndex + 1} з {activeExercises.length}
+                        </span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>
+                            {Math.round(((currentIndex + 1) / activeExercises.length) * 100)}%
+                        </span>
+                    </div>
+                    <div style={{
+                        height: 4,
+                        background: 'rgba(255,255,255,0.1)',
+                        borderRadius: 2,
+                        overflow: 'hidden'
+                    }}>
+                        <div style={{
+                            height: '100%',
+                            width: `${((currentIndex + 1) / activeExercises.length) * 100}%`,
+                            background: 'var(--pri)',
+                            borderRadius: 2,
+                            transition: 'width 0.3s ease'
+                        }} />
+                    </div>
                 </div>
             </div>
 

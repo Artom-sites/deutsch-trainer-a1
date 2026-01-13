@@ -281,61 +281,7 @@ const HomeTab = () => {
             ===================== */}
             <SRSCalendar />
 
-            {/* =====================
-                WEEKLY ACTIVITY CHART
-            ===================== */}
-            <div style={{
-                background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                border: '1px solid var(--stroke)',
-                borderRadius: 20, padding: 16, marginBottom: 24
-            }}>
-                <div style={{
-                    display: 'flex', justifyContent: 'space-between',
-                    alignItems: 'center', marginBottom: 16
-                }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-0)' }}>
-                        Активність за тиждень
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-2)' }}>
-                        {(weeklyActivity || []).reduce((a, b) => a + b, 0)} хв
-                    </span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: 60 }}>
-                    {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'].map((day, i) => {
-                        const value = (weeklyActivity || [])[i] || 0;
-                        const maxVal = Math.max(...(weeklyActivity || [1]), 1);
-                        const heightPercent = (value / maxVal) * 100;
-                        const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
-                        const isToday = i === todayIndex;
-
-                        return (
-                            <div key={day} style={{
-                                display: 'flex', flexDirection: 'column',
-                                alignItems: 'center', flex: 1, gap: 4
-                            }}>
-                                <div style={{
-                                    width: '70%',
-                                    height: Math.max(heightPercent * 0.5, 4),
-                                    borderRadius: 4,
-                                    background: isToday
-                                        ? 'linear-gradient(180deg, #F26A1B, #E55A0D)'
-                                        : value > 0
-                                            ? 'linear-gradient(180deg, rgba(87,166,255,0.8), rgba(87,166,255,0.4))'
-                                            : 'rgba(255,255,255,0.08)',
-                                    transition: 'height 0.3s ease'
-                                }} />
-                                <span style={{
-                                    fontSize: '0.65rem',
-                                    color: isToday ? 'var(--text-0)' : 'var(--text-2)',
-                                    fontWeight: isToday ? 600 : 400
-                                }}>
-                                    {day}
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+            {/* SRSCalendar now includes weekly activity */}
 
             {/* =====================
                 ШВИДКИЙ ДОСТУП

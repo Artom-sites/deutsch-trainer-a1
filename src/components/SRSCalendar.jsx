@@ -1,52 +1,40 @@
 import React from 'react';
 import useStore from '../store/useStore';
+import useAuthStore from '../store/authStore';
 import { getAllWords } from '../data/lexicon';
-import { Clock, Calendar } from 'lucide-react';
+import { TrendingUp, Calendar, Clock } from 'lucide-react';
 
 const SRSCalendar = () => {
     const userProgress = useStore(state => state.userProgress);
+    const weeklyActivity = useAuthStore(state => state.weeklyActivity) || [0, 0, 0, 0, 0, 0, 0];
     const allWords = getAllWords();
 
-    // Group words by due date
-    const stats = {
-        today: 0,
-        tomorrow: 0,
-        week: 0,
-        later: 0
-    };
-
+    // Count words due today (for review)
+    let dueToday = 0;
     const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(0, 0, 0, 0);
-
-    const nextWeek = new Date(now);
-    nextWeek.setDate(nextWeek.getDate() + 7);
 
     allWords.forEach(word => {
         const prog = userProgress[word.id];
-        if (!prog || !prog.dueDate) return;
-
-        const dueDate = new Date(prog.dueDate);
-
-        if (dueDate <= now) {
-            stats.today++;
-        } else if (dueDate < tomorrow) {
-            stats.today++; // Still technically today/overdue
-        } else if (dueDate < new Date(tomorrow.getTime() + 86400000)) {
-            stats.tomorrow++;
-        } else if (dueDate < nextWeek) {
-            stats.week++;
-        } else {
-            stats.later++;
+        if (prog?.dueDate) {
+            const dueDate = new Date(prog.dueDate);
+            if (dueDate <= now) {
+                dueToday++;
+            }
         }
     });
 
-    const totalScheduled = stats.today + stats.tomorrow + stats.week + stats.later;
+    // Calculate this week's total activity (minutes)
+    const totalMinutes = weeklyActivity.reduce((a, b) => a + b, 0);
 
-    if (totalScheduled === 0) return null;
+    // Get day names for past 7 days (starting from today going back)
+    const dayNames = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    const today = new Date().getDay();
 
-    const maxVal = Math.max(stats.today, stats.tomorrow, stats.week) || 1;
+    // weeklyActivity is [Mon, Tue, Wed, Thu, Fri, Sat, Sun] = index 0-6
+    // We want to show it in order with today highlighted
+    const todayIndex = today === 0 ? 6 : today - 1; // Convert to 0=Mon format
+
+    const maxVal = Math.max(...weeklyActivity, 1);
 
     return (
         <div style={{
@@ -56,58 +44,96 @@ const SRSCalendar = () => {
             padding: 16,
             marginBottom: 24
         }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-                <Calendar size={18} color="var(--text-1)" />
-                <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-0)' }}>
-                    Графік повторень
+            {/* Header with Due Today */}
+            <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 16
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <TrendingUp size={18} color="var(--pri)" />
+                    <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-0)' }}>
+                        Твій тиждень
+                    </span>
+                </div>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
+                    {totalMinutes} хв загалом
                 </span>
             </div>
 
-            <div style={{ display: 'flex', gap: 12, height: 100, alignItems: 'flex-end' }}>
-                <Bar label="Сьогодні" count={stats.today} max={maxVal} color="#F26A1B" />
-                <Bar label="Завтра" count={stats.tomorrow} max={maxVal} color="#2ECC71" />
-                <Bar label="Тиждень" count={stats.week} max={maxVal} color="#3498DB" />
-            </div>
-
+            {/* Activity Bars - Past 7 days */}
             <div style={{
-                marginTop: 12, paddingTop: 12,
-                borderTop: '1px solid rgba(255,255,255,0.06)',
-                display: 'flex', justifyContent: 'space-between',
-                fontSize: '0.8rem', color: 'var(--text-2)'
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                height: 60,
+                gap: 6,
+                marginBottom: 12
             }}>
-                <span>Всього на черзі:</span>
-                <span style={{ color: 'var(--text-0)', fontWeight: 600 }}>{totalScheduled} слів</span>
-            </div>
-        </div>
-    );
-};
+                {['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'].map((day, i) => {
+                    const value = weeklyActivity[i] || 0;
+                    const heightPercent = (value / maxVal) * 100;
+                    const isToday = i === todayIndex;
+                    const isPast = i < todayIndex;
 
-const Bar = ({ label, count, max, color }) => {
-    const height = Math.max(15, (count / max) * 100);
+                    return (
+                        <div key={day} style={{
+                            flex: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: 4
+                        }}>
+                            <div style={{
+                                width: '100%',
+                                height: Math.max(heightPercent * 0.5, 4),
+                                borderRadius: 4,
+                                background: isToday
+                                    ? 'linear-gradient(180deg, #F26A1B, #E55A0D)'
+                                    : value > 0
+                                        ? 'linear-gradient(180deg, rgba(87,166,255,0.8), rgba(87,166,255,0.4))'
+                                        : isPast
+                                            ? 'rgba(255,255,255,0.05)'
+                                            : 'rgba(255,255,255,0.03)',
+                                transition: 'height 0.3s ease'
+                            }} />
+                            <span style={{
+                                fontSize: '0.65rem',
+                                color: isToday ? 'var(--text-0)' : 'var(--text-2)',
+                                fontWeight: isToday ? 600 : 400
+                            }}>
+                                {day}
+                            </span>
+                        </div>
+                    );
+                })}
+            </div>
 
-    return (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 600, color: count > 0 ? color : 'var(--text-2)' }}>
-                {count}
-            </div>
-            <div style={{
-                width: '100%',
-                height: `${height}%`,
-                background: count > 0 ? `${color}40` : 'rgba(255,255,255,0.05)',
-                border: count > 0 ? `1px solid ${color}` : '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 8,
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                overflow: 'hidden'
-            }}>
-                {count > 0 && <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0,
-                    height: '100%', background: `linear-gradient(to top, ${color}20, transparent)`
-                }} />}
-            </div>
-            <div style={{ fontSize: '0.7rem', color: 'var(--text-2)' }}>
-                {label}
-            </div>
+            {/* Due Today Section */}
+            {dueToday > 0 && (
+                <div style={{
+                    paddingTop: 12,
+                    borderTop: '1px solid rgba(255,255,255,0.06)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Clock size={14} color="var(--pri)" />
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
+                            Потрібно повторити:
+                        </span>
+                    </div>
+                    <span style={{
+                        fontSize: '0.85rem',
+                        fontWeight: 600,
+                        color: 'var(--pri)'
+                    }}>
+                        {dueToday} слів
+                    </span>
+                </div>
+            )}
         </div>
     );
 };
