@@ -69,10 +69,11 @@ const HomeTab = () => {
                 >
                     <div style={{
                         width: 44, height: 44, borderRadius: '50%',
+                        aspectRatio: '1 / 1',
                         background: 'var(--pri-soft)',
                         border: '2px solid rgba(255,107,53,0.3)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '1.2rem', color: 'var(--pri)', fontWeight: 700
+                        fontSize: '1.2rem', color: 'var(--pri)', fontWeight: 700, flexShrink: 0
                     }}>
                         {user ? (
                             (user.displayName?.[0] || 'U').toUpperCase()
@@ -368,81 +369,7 @@ const HomeTab = () => {
                 </span>
             </div>
 
-            {/* Daily lesson */}
-            <div
-                onClick={() => setTab('verbs')}
-                style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                    border: '1px solid var(--stroke)',
-                    borderRadius: 20, padding: 16, marginBottom: 12,
-                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14
-                }}
-            >
-                <div style={{
-                    width: 48, height: 48, borderRadius: 14,
-                    background: 'linear-gradient(180deg, rgba(87,166,255,0.22), rgba(87,166,255,0.08))',
-                    border: '1px solid rgba(87,166,255,0.2)',
-                    boxShadow: '0 12px 30px rgba(87,166,255,0.12)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                    <Languages size={22} color="#fff" />
-                </div>
-                <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
-                        Мікро-урок дня
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 8 }}>
-                        Дієслова + кон'югація
-                    </div>
-                    <span style={{
-                        display: 'inline-block',
-                        background: 'var(--surface)',
-                        padding: '4px 10px', borderRadius: 8,
-                        fontSize: '0.75rem', color: 'var(--text-1)'
-                    }}>
-                        Тема: Präsens
-                    </span>
-                </div>
-                <ChevronRight size={20} color="var(--text-2)" />
-            </div>
-
-            {/* Chat */}
-            <div
-                onClick={() => setTab('chat')}
-                style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                    border: '1px solid var(--stroke)',
-                    borderRadius: 20, padding: 16, marginBottom: 24,
-                    cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 14
-                }}
-            >
-                <div style={{
-                    width: 48, height: 48, borderRadius: 14,
-                    background: 'linear-gradient(180deg, rgba(46,204,113,0.22), rgba(46,204,113,0.08))',
-                    border: '1px solid rgba(46,204,113,0.2)',
-                    boxShadow: '0 12px 30px rgba(46,204,113,0.12)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>
-                    <MessageCircle size={22} color="#fff" />
-                </div>
-                <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '1rem', marginBottom: 4 }}>
-                        Розмовна ситуація
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 8 }}>
-                        Короткий діалог з підказками
-                    </div>
-                    <span style={{
-                        display: 'inline-block',
-                        background: 'var(--surface)',
-                        padding: '4px 10px', borderRadius: 8,
-                        fontSize: '0.75rem', color: 'var(--text-1)'
-                    }}>
-                        Тема: Im Café
-                    </span>
-                </div>
-                <ChevronRight size={20} color="var(--text-2)" />
-            </div>
+            {/* Removed placeholder sections (Мікро-урок, Розмовна ситуація) */}
 
             {/* =====================
                 PROGRESS RING
@@ -500,7 +427,7 @@ const HomeTab = () => {
                 WEAK WORDS
             ===================== */}
             {(() => {
-                const weakWords = getWeakWords(4);
+                const weakWords = getWeakWords(8);
                 if (weakWords.length === 0) return null;
 
                 return (
