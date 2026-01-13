@@ -1773,6 +1773,104 @@ export const exercises = {
         options: ["werde", "wird", "wirst"],
         correct: 0,
         explanation: "ich werde."
+    },
+
+    // ==========================================
+    // Konjunktion dass
+    // ==========================================
+    "dass-1": {
+        id: "dass-1",
+        type: "multiple-choice",
+        topic: "konjunktion-dass",
+        question: "Ich denke, ___ er kommt.",
+        options: ["dass", "das", "denn"],
+        correct: 0,
+        explanation: "dass (з подвійним s) — сполучник!"
+    },
+    "dass-2": {
+        id: "dass-2",
+        type: "multiple-choice",
+        topic: "konjunktion-dass",
+        question: "In einem dass-Satz steht das Verb am ___.",
+        options: ["Ende", "Anfang", "Mitte"],
+        correct: 0,
+        explanation: "dass → Verb am Ende!"
+    },
+    "dass-3": {
+        id: "dass-3",
+        type: "multiple-choice",
+        topic: "konjunktion-dass",
+        question: "Er sagt, dass er müde ___.",
+        options: ["ist", "bin", "sein"],
+        correct: 0,
+        explanation: "dass → Verb (ist) am Ende."
+    },
+    "dass-4": {
+        id: "dass-4",
+        type: "multiple-choice",
+        topic: "konjunktion-dass",
+        question: "Ich hoffe, ___ du kommst.",
+        options: ["dass", "wenn", "weil"],
+        correct: 0,
+        explanation: "hoffen + dass."
+    },
+    "dass-5": {
+        id: "dass-5",
+        type: "multiple-choice",
+        topic: "konjunktion-dass",
+        question: "Sie denkt, dass er Arzt ___.",
+        options: ["wird", "werde", "werden"],
+        correct: 0,
+        explanation: "er wird (Verb am Ende)."
+    },
+
+    // ==========================================
+    // Einladung & Gratulation
+    // ==========================================
+    "einladung-1": {
+        id: "einladung-1",
+        type: "multiple-choice",
+        topic: "einladung-gratulation",
+        question: "Herzlichen ___ zum Geburtstag!",
+        options: ["Glückwunsch", "Dank", "Gruß"],
+        correct: 0,
+        explanation: "Herzlichen Glückwunsch = Вітаю!"
+    },
+    "einladung-2": {
+        id: "einladung-2",
+        type: "multiple-choice",
+        topic: "einladung-gratulation",
+        question: "___ Weihnachten!",
+        options: ["Frohe", "Gute", "Schöne"],
+        correct: 0,
+        explanation: "Frohe Weihnachten = Веселого Різдва!"
+    },
+    "einladung-3": {
+        id: "einladung-3",
+        type: "multiple-choice",
+        topic: "einladung-gratulation",
+        question: "Ich ___ dich herzlich ein.",
+        options: ["lade", "laden", "lädst"],
+        correct: 0,
+        explanation: "ich lade ein."
+    },
+    "einladung-4": {
+        id: "einladung-4",
+        type: "multiple-choice",
+        topic: "einladung-gratulation",
+        question: "Alles ___ zum Geburtstag!",
+        options: ["Gute", "Gut", "Guten"],
+        correct: 0,
+        explanation: "Alles Gute!"
+    },
+    "einladung-5": {
+        id: "einladung-5",
+        type: "multiple-choice",
+        topic: "einladung-gratulation",
+        question: "Vielen ___ für die Einladung!",
+        options: ["Dank", "Danke", "danken"],
+        correct: 0,
+        explanation: "Vielen Dank!"
     }
 };
 
