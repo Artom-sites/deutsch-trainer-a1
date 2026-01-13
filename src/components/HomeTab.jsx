@@ -132,15 +132,15 @@ const HomeTab = () => {
                 onClick={() => openLesson(currentLesson.id)}
                 className="card-interactive"
                 style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05))',
-                    backdropFilter: 'blur(24px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-                    border: '1px solid rgba(255, 255, 255, 0.18)',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06))',
+                    backdropFilter: 'blur(28px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+                    border: '1px solid rgba(255, 255, 255, 0.22)',
                     borderRadius: 24,
                     padding: 20,
                     marginBottom: 24,
                     cursor: 'pointer',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.3), 0 16px 48px rgba(0,0,0,0.4), 0 32px 64px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15)'
                 }}
             >
                 <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
@@ -250,7 +250,7 @@ const HomeTab = () => {
                         border: '1px solid rgba(255, 255, 255, 0.15)',
                         borderRadius: 20, padding: 16,
                         cursor: 'pointer',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
                     }}
                 >
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Слова</p>
@@ -277,7 +277,7 @@ const HomeTab = () => {
                         border: '1px solid rgba(255, 255, 255, 0.15)',
                         borderRadius: 20, padding: 16,
                         cursor: 'pointer',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
                     }}
                 >
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Граматика</p>
@@ -316,7 +316,7 @@ const HomeTab = () => {
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         gap: 10, textAlign: 'center',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), 0 0 30px rgba(47,230,166,0.1), inset 0 1px 0 rgba(255,255,255,0.12)',
                         transition: 'transform 0.15s ease'
                     }}
                 >
@@ -348,7 +348,7 @@ const HomeTab = () => {
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         gap: 10, textAlign: 'center',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), 0 0 30px rgba(87,166,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)',
                         transition: 'transform 0.15s ease'
                     }}
                 >
