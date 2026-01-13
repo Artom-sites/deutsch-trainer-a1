@@ -1,11 +1,9 @@
-// src/components/LessonDetail.jsx
-// Деталі уроку: Wortschatz, Grammatik, Übungen, Test
 import React from 'react';
 import useStore from '../store/useStore';
 import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent, lessons } from '../data/lexicon';
 import { getTestForLesson } from '../data/lessonTests';
 import { getReadingForLesson } from '../data/lessonReadings';
-import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck, BookText } from 'lucide-react';
+import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck, BookText, CheckCircle2, MessageSquare, GraduationCap } from 'lucide-react';
 
 const LessonDetail = () => {
     const activeLessonId = useStore(state => state.activeLessonId);
@@ -30,12 +28,11 @@ const LessonDetail = () => {
     const nextLesson = currentIndex < lessons.length - 1 ? lessons[currentIndex + 1] : null;
 
     const handleLessonChange = (newId) => {
-        // We use the same action intended for opening a lesson
         useStore.getState().openLesson(newId);
     };
 
     return (
-        <div className="screen" style={{ paddingTop: '80px' }}>
+        <div className="screen" style={{ paddingTop: '80px', paddingBottom: '40px' }}>
             {/* Sticky Header */}
             <div style={{
                 position: 'fixed',
@@ -125,129 +122,132 @@ const LessonDetail = () => {
             </div>
 
             {/* ==========================================
-                ГРАМАТИКА (Підтягнуто нагору)
+                TEXTBOOK SECTION (Goals, Communication, Grammar)
             ========================================== */}
-            {grammarTopics.length > 0 && (
-                <div style={{ marginBottom: 'var(--space-lg)' }}>
-                    <div style={{
-                        fontSize: '0.8rem',
-                        fontWeight: 600,
-                        color: 'var(--text-muted)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                        marginBottom: 'var(--space-md)'
-                    }}>
-                        Граматика
-                    </div>
+            {lesson.textbook && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 32 }}>
 
-                    {grammarTopics.map(topic => {
-                        const topicExercises = getExercisesForTopic(topic.id);
-                        const hasContent = getGrammarContent(topic.id) !== null;
-                        if (activeLessonId === 12) {
-                            console.log(`[DEBUG] Topic: ${topic.id}, Content:`, getGrammarContent(topic.id), "HasContent:", hasContent);
-                        }
-
-                        return (
-                            <div
-                                key={topic.id}
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.04)',
-                                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                                    borderRadius: 16,
-                                    padding: 'var(--space-md)',
-                                    marginBottom: 'var(--space-sm)'
-                                }}
-                            >
-                                {/* Topic Header */}
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 'var(--space-md)',
-                                    marginBottom: 'var(--space-sm)'
-                                }}>
-                                    <div style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: 12,
-                                        background: 'rgba(242, 106, 27, 0.15)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: '1.1rem'
-                                    }}>
-                                        {topic.icon}
-                                    </div>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontWeight: 600, fontSize: '0.95rem' }}>
-                                            {topic.name}
-                                        </div>
-                                        {topic.shortDescription && (
-                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                                {topic.shortDescription}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Action Buttons */}
-                                <div style={{ display: 'flex', gap: 8 }}>
-                                    {hasContent && (
-                                        <button
-                                            onClick={() => openGrammarTopic(topic.id)}
-                                            style={{
-                                                flex: 1,
-                                                padding: '10px 12px',
-                                                background: 'rgba(242, 106, 27, 0.15)',
-                                                border: '1px solid rgba(242, 106, 27, 0.25)',
-                                                borderRadius: 10,
-                                                color: '#F26A1B',
-                                                fontSize: '0.85rem',
-                                                fontWeight: 500,
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                gap: 6
-                                            }}
-                                        >
-                                            <Lightbulb size={16} />
-                                            Вивчити
-                                        </button>
-                                    )}
-
-                                    {topicExercises.length > 0 && (
-                                        <button
-                                            onClick={() => startTopicExercises(topic.id)}
-                                            style={{
-                                                flex: 1,
-                                                padding: '10px 12px',
-                                                background: 'rgba(255, 255, 255, 0.08)',
-                                                border: '1px solid rgba(255, 255, 255, 0.12)',
-                                                borderRadius: 10,
-                                                color: 'var(--text-primary)',
-                                                fontSize: '0.85rem',
-                                                fontWeight: 500,
-                                                cursor: 'pointer',
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                gap: 6
-                                            }}
-                                        >
-                                            <PenTool size={16} />
-                                            Тренувати
-                                        </button>
-                                    )}
-                                </div>
+                    {/* 1. GOALS (Lernziele) */}
+                    {lesson.textbook.goals && (
+                        <div>
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: 8,
+                                marginBottom: 12, color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'
+                            }}>
+                                <GraduationCap size={18} />
+                                Lernziele (Що ви вивчите)
                             </div>
-                        );
-                    })}
+                            <div style={{
+                                background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: 16,
+                                padding: 16
+                            }}>
+                                {lesson.textbook.goals.map((goal, idx) => (
+                                    <div key={idx} style={{ display: 'flex', gap: 12, marginBottom: idx === lesson.textbook.goals.length - 1 ? 0 : 12 }}>
+                                        <div style={{ marginTop: 2 }}>
+                                            <CheckCircle2 size={18} color="var(--pri)" />
+                                        </div>
+                                        <div style={{ fontSize: '0.95rem', color: 'var(--text-0)', lineHeight: '1.4' }}>
+                                            {goal}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 2. COMMUNICATION (Kommunikation) */}
+                    {lesson.textbook.communication && (
+                        <div>
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: 8,
+                                marginBottom: 12, color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'
+                            }}>
+                                <MessageSquare size={18} />
+                                Kommunikation (Спілкування)
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {lesson.textbook.communication.map((item, idx) => (
+                                    <div key={idx} style={{
+                                        background: 'rgba(255,255,255,0.03)',
+                                        border: '1px solid rgba(255,255,255,0.08)',
+                                        borderRadius: 16,
+                                        overflow: 'hidden'
+                                    }}>
+                                        <div style={{
+                                            padding: '12px 16px',
+                                            background: 'rgba(255,255,255,0.03)',
+                                            borderBottom: '1px solid rgba(255,255,255,0.05)',
+                                            fontWeight: 600,
+                                            color: 'var(--text-1)',
+                                            fontSize: '0.9rem'
+                                        }}>
+                                            {item.title}
+                                        </div>
+                                        <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                            {item.phrases.map((phrase, pIdx) => (
+                                                <div key={pIdx} style={{
+                                                    paddingLeft: 10, borderLeft: '2px solid var(--pri)',
+                                                    color: 'var(--text-2)', fontStyle: 'italic', fontSize: '0.9rem'
+                                                }}>
+                                                    "{phrase}"
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 3. GRAMMAR TABLE (Grammatik) */}
+                    {lesson.textbook.grammar && (
+                        <div>
+                            <div style={{
+                                display: 'flex', alignItems: 'center', gap: 8,
+                                marginBottom: 12, color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px'
+                            }}>
+                                <BookOpen size={18} />
+                                Grammatik (Граматика)
+                            </div>
+                            {/* Horizontal Scroll for Grammar Cards */}
+                            <div style={{
+                                display: 'flex', overflowX: 'auto', gap: 12, paddingBottom: 8,
+                                scrollbarWidth: 'none', margin: '0 -16px', padding: '0 16px 8px' // Break out of container
+                            }}>
+                                {lesson.textbook.grammar.map((g, idx) => (
+                                    <div key={idx} style={{
+                                        minWidth: 260,
+                                        maxWidth: 280,
+                                        background: 'rgba(255,255,255,0.03)',
+                                        border: '1px solid rgba(255,255,255,0.08)',
+                                        borderRadius: 16,
+                                        padding: 16,
+                                        display: 'flex', flexDirection: 'column'
+                                    }}>
+                                        <div style={{ fontWeight: 600, color: 'var(--pri)', marginBottom: 8, fontSize: '0.9rem' }}>
+                                            {g.title}
+                                        </div>
+                                        <div style={{ fontSize: '0.85rem', color: 'var(--text-2)', whiteSpace: 'pre-line', lineHeight: '1.5' }}>
+                                            {g.content}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 
             {/* ==========================================
-                СЛОВНИК - Головний CTA
+                STANDARD EXERCISES
             ========================================== */}
+            <div style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 16, color: 'var(--text-0)' }}>
+                Практика
+            </div>
+
+            {/* Words */}
             <button
                 onClick={() => startLessonWords(activeLessonId)}
                 style={{
@@ -277,12 +277,7 @@ const LessonDetail = () => {
                     <Play size={22} color="#fff" fill="#fff" />
                 </div>
                 <div style={{ textAlign: 'left', flex: 1 }}>
-                    <div style={{
-                        fontSize: '0.95rem',
-                        fontWeight: 600,
-                        color: 'var(--text-0)',
-                        marginBottom: 4
-                    }}>
+                    <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-0)', marginBottom: 4 }}>
                         Вчити слова
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
@@ -292,9 +287,7 @@ const LessonDetail = () => {
                 <ChevronRight size={20} color="var(--text-2)" />
             </button>
 
-            {/* ==========================================
-                LESEN - Читання з перекладом
-            ========================================== */}
+            {/* Reading  */}
             {getReadingForLesson(activeLessonId) && (
                 <button
                     onClick={() => useStore.getState().startReading(activeLessonId)}
@@ -325,13 +318,8 @@ const LessonDetail = () => {
                         <BookText size={22} color="#fff" />
                     </div>
                     <div style={{ textAlign: 'left', flex: 1 }}>
-                        <div style={{
-                            fontSize: '0.95rem',
-                            fontWeight: 600,
-                            color: 'var(--text-0)',
-                            marginBottom: 4
-                        }}>
-                            Lesen
+                        <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-0)', marginBottom: 4 }}>
+                            Lesen (Читання)
                         </div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
                             Читання з інтерактивним перекладом
@@ -341,9 +329,7 @@ const LessonDetail = () => {
                 </button>
             )}
 
-            {/* ==========================================
-                NOUN MASTER - Нова вправа
-            ========================================== */}
+            {/* Noun Master */}
             <button
                 onClick={() => useStore.getState().startNounMaster(activeLessonId)}
                 style={{
@@ -373,12 +359,7 @@ const LessonDetail = () => {
                     <PenTool size={22} color="#fff" />
                 </div>
                 <div style={{ textAlign: 'left', flex: 1 }}>
-                    <div style={{
-                        fontSize: '0.95rem',
-                        fontWeight: 600,
-                        color: 'var(--text-0)',
-                        marginBottom: 4
-                    }}>
+                    <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-0)', marginBottom: 4 }}>
                         Noun Master
                     </div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
@@ -388,18 +369,55 @@ const LessonDetail = () => {
                 <ChevronRight size={20} color="var(--text-2)" />
             </button>
 
-            {/* ==========================================
-                ТЕСТ - Перевірка знань
-            ========================================== */}
+            {/* Grammar Topics (Interactive) - Only if not fully covered by textbook summary, or as deep dive */}
+            {grammarTopics.length > 0 && (
+                <div style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>
+                        Інтерактивні вправи (Граматика)
+                    </div>
+                    {grammarTopics.map(topic => {
+                        const topicExercises = getExercisesForTopic(topic.id);
+                        const hasContent = getGrammarContent(topic.id) !== null;
+
+                        return (
+                            <div key={topic.id} style={{
+                                padding: 12,
+                                marginBottom: 8,
+                                background: 'rgba(255,255,255,0.03)',
+                                border: '1px solid rgba(255,255,255,0.08)',
+                                borderRadius: 14,
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                    <div style={{ fontSize: '1.2rem', opacity: 0.8 }}>{topic.icon}</div>
+                                    <div style={{ fontSize: '0.9rem', color: 'var(--text-1)' }}>{topic.name}</div>
+                                </div>
+                                <div style={{ display: 'flex', gap: 8 }}>
+                                    {hasContent && (
+                                        <button onClick={() => openGrammarTopic(topic.id)} style={{ padding: '6px 10px', borderRadius: 8, background: 'rgba(242,106,27,0.1)', color: 'var(--pri)', border: 'none', fontSize: '0.8rem', cursor: 'pointer' }}>
+                                            Теорія
+                                        </button>
+                                    )}
+                                    <button onClick={() => startTopicExercises(topic.id)} style={{ padding: '6px 10px', borderRadius: 8, background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none', fontSize: '0.8rem', cursor: 'pointer' }}>
+                                        Вправи
+                                    </button>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            )}
+
+            {/* Test (Sticky Bottom or just end list) */}
             {lessonTest && (
                 <button
                     onClick={() => startLessonTest && startLessonTest(activeLessonId)}
                     style={{
                         width: '100%',
                         padding: 14,
-                        marginBottom: 24,
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid var(--stroke)',
+                        marginTop: 20,
+                        background: 'linear-gradient(180deg, rgba(34,197,94,0.20), rgba(34,197,94,0.07))',
+                        border: '1px solid rgba(34,197,94,0.19)',
                         borderRadius: 18,
                         cursor: 'pointer',
                         display: 'flex',
@@ -411,9 +429,7 @@ const LessonDetail = () => {
                         width: 48,
                         height: 48,
                         borderRadius: 14,
-                        background: 'linear-gradient(180deg, rgba(34,197,94,0.20), rgba(34,197,94,0.07))',
-                        border: '1px solid rgba(34,197,94,0.19)',
-                        boxShadow: '0 12px 34px rgba(34,197,94,0.13)',
+                        background: 'rgba(34,197,94,0.2)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
@@ -421,21 +437,17 @@ const LessonDetail = () => {
                         <ClipboardCheck size={22} color="#fff" />
                     </div>
                     <div style={{ textAlign: 'left', flex: 1 }}>
-                        <div style={{
-                            fontSize: '0.95rem',
-                            fontWeight: 600,
-                            color: 'var(--text-0)',
-                            marginBottom: 4
-                        }}>
-                            Пройти тест
+                        <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-0)', marginBottom: 4 }}>
+                            Фінальний Тест
                         </div>
                         <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
-                            {lessonTest.questions.length} питань
+                            Перевірити знання ({lessonTest.questions.length} питань)
                         </div>
                     </div>
                     <ChevronRight size={20} color="var(--text-2)" />
                 </button>
             )}
+
         </div>
     );
 };

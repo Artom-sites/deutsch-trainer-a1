@@ -157,6 +157,68 @@ export const lessons = [
         topics: ["Kleidung", "Farben", "Größen"],
         grammar: ["Adjektive (prädikativ)", "Demonstrativpronomen (dieser, diese, dieses)"],
         vocabulary: ["clothes", "colors"],
+        textbook: {
+            goals: [
+                "Kleidungsstücke benennen",
+                "Sagen: Das gefällt mir (nicht)",
+                "Über Vorlieben sprechen und etwas bewerten",
+                "Gegenstände auswählen (Welcher Koffer...)",
+                "Mich im Kaufhaus orientieren"
+            ],
+            grammar: [
+                {
+                    title: "Demonstrativpronomen",
+                    content: "Nominativ: der/das/die\nAkkusativ: den/das/die"
+                },
+                {
+                    title: "Frageartikel: welcher?",
+                    content: "Welcher Mantel? (Nom) -> Den finde ich toll.\nWelchen Mantel? (Akk) -> Diesen."
+                },
+                {
+                    title: "Personalpronomen im Dativ",
+                    content: "ich -> mir\ndu -> dir\ner/es -> ihm\nsie -> ihr\nwir -> uns\nihr -> euch\nsie/Sie -> ihnen/Ihnen"
+                },
+                {
+                    title: "Verben mit Dativ",
+                    content: "gefallen, gehören, passen, stehen, schmecken\nBeispiel: Das Hemd steht dir."
+                },
+                {
+                    title: "Komparation",
+                    content: "gut -> besser -> am besten\ngern -> lieber -> am liebsten\nviel -> mehr -> am meisten"
+                },
+                {
+                    title: "Verb: mögen",
+                    content: "ich mag, du magst, er/es/sie mag\nwir mögen, ihr mögt, sie/Sie mögen"
+                }
+            ],
+            communication: [
+                {
+                    title: "Etwas bewerten",
+                    phrases: [
+                        "Die Jacke ist (sehr) schön / super / toll.",
+                        "Die Schuhe sind (total) hässlich / langweilig.",
+                        "Der Pullover gefällt mir (nicht) gut."
+                    ]
+                },
+                {
+                    title: "Vorlieben",
+                    phrases: [
+                        "Mir gefällt das Hemd.",
+                        "Ich finde den Rock gut / besser / am besten.",
+                        "Ich mag / esse gern / lieber / am liebsten..."
+                    ]
+                },
+                {
+                    title: "Kleidung kaufen",
+                    phrases: [
+                        "Ist diese Hose nicht zu klein / zu lang?",
+                        "Haben Sie den Pullover auch in Rot?",
+                        "Was kostet denn das T-Shirt?",
+                        "Wo ist denn die Kasse?"
+                    ]
+                }
+            ]
+        },
         unlocked: true,
         progress: 0
     },
