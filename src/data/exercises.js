@@ -1871,6 +1871,790 @@ export const exercises = {
         options: ["Dank", "Danke", "danken"],
         correct: 0,
         explanation: "Vielen Dank!"
+    },
+
+    // ==========================================
+    // Konjunktion wenn
+    // ==========================================
+    "wenn-1": {
+        id: "wenn-1",
+        type: "multiple-choice",
+        topic: "konjunktion-wenn",
+        question: "___ es regnet, bleibe ich zu Hause.",
+        options: ["Wenn", "Weil", "Denn"],
+        correct: 0,
+        explanation: "Wenn = якщо/коли (умова)"
+    },
+    "wenn-2": {
+        id: "wenn-2",
+        type: "multiple-choice",
+        topic: "konjunktion-wenn",
+        question: "Verb steht bei 'wenn' am ___.",
+        options: ["Ende", "Anfang", "Mitte"],
+        correct: 0,
+        explanation: "wenn → Verb am Ende!"
+    },
+    "wenn-3": {
+        id: "wenn-3",
+        type: "multiple-choice",
+        topic: "konjunktion-wenn",
+        question: "Wenn du Zeit ___, ruf mich an.",
+        options: ["hast", "hat", "haben"],
+        correct: 0,
+        explanation: "du hast (Verb am Ende)"
+    },
+    "wenn-4": {
+        id: "wenn-4",
+        type: "multiple-choice",
+        topic: "konjunktion-wenn",
+        question: "Ich freue mich, ___ du kommst.",
+        options: ["wenn", "denn", "aber"],
+        correct: 0,
+        explanation: "wenn = коли"
+    },
+    "wenn-5": {
+        id: "wenn-5",
+        type: "multiple-choice",
+        topic: "konjunktion-wenn",
+        question: "Wenn ich müde ___, schlafe ich.",
+        options: ["bin", "bist", "ist"],
+        correct: 0,
+        explanation: "ich bin"
+    },
+
+    // ==========================================
+    // Personalpronomen Dativ
+    // ==========================================
+    "dativ-pron-1": {
+        id: "dativ-pron-1",
+        type: "multiple-choice",
+        topic: "personalpronomen-dativ",
+        question: "Ich gebe ___ (du) das Buch.",
+        options: ["dir", "dich", "du"],
+        correct: 0,
+        explanation: "geben + Dativ. du → dir"
+    },
+    "dativ-pron-2": {
+        id: "dativ-pron-2",
+        type: "multiple-choice",
+        topic: "personalpronomen-dativ",
+        question: "Er hilft ___ (ich).",
+        options: ["mir", "mich", "ich"],
+        correct: 0,
+        explanation: "helfen + Dativ. ich → mir"
+    },
+    "dativ-pron-3": {
+        id: "dativ-pron-3",
+        type: "multiple-choice",
+        topic: "personalpronomen-dativ",
+        question: "Wir danken ___ (ihr).",
+        options: ["euch", "ihr", "euer"],
+        correct: 0,
+        explanation: "danken + Dativ. ihr → euch"
+    },
+    "dativ-pron-4": {
+        id: "dativ-pron-4",
+        type: "multiple-choice",
+        topic: "personalpronomen-dativ",
+        question: "Das gefällt ___ (wir).",
+        options: ["uns", "wir", "unser"],
+        correct: 0,
+        explanation: "gefallen + Dativ. wir → uns"
+    },
+    "dativ-pron-5": {
+        id: "dativ-pron-5",
+        type: "multiple-choice",
+        topic: "personalpronomen-dativ",
+        question: "Ich sage ___ (er) die Wahrheit.",
+        options: ["ihm", "ihn", "er"],
+        correct: 0,
+        explanation: "sagen + Dativ. er → ihm"
+    },
+
+    // ==========================================
+    // Gern / Lieber / Am liebsten
+    // ==========================================
+    "gern-1": {
+        id: "gern-1",
+        type: "multiple-choice",
+        topic: "gern-lieber-am-liebsten",
+        question: "Ich lese ___. (I like reading)",
+        options: ["gern", "lieber", "am liebsten"],
+        correct: 0,
+        explanation: "gern = охоче/подобається"
+    },
+    "gern-2": {
+        id: "gern-2",
+        type: "multiple-choice",
+        topic: "gern-lieber-am-liebsten",
+        question: "Ich spiele ___ Fußball als Tennis.",
+        options: ["lieber", "gern", "am liebsten"],
+        correct: 0,
+        explanation: "lieber = порівняння (більше подобається)"
+    },
+    "gern-3": {
+        id: "gern-3",
+        type: "multiple-choice",
+        topic: "gern-lieber-am-liebsten",
+        question: "___ esse ich Pizza. (Most of all)",
+        options: ["Am liebsten", "Lieber", "Gern"],
+        correct: 0,
+        explanation: "am liebsten = найбільше"
+    },
+    "gern-4": {
+        id: "gern-4",
+        type: "multiple-choice",
+        topic: "gern-lieber-am-liebsten",
+        question: "gern → ___ → am liebsten",
+        options: ["lieber", "mehr", "besser"],
+        correct: 0,
+        explanation: "gern → lieber → am liebsten"
+    },
+    "gern-5": {
+        id: "gern-5",
+        type: "multiple-choice",
+        topic: "gern-lieber-am-liebsten",
+        question: "Sie tanzt ___.",
+        options: ["gern", "gerne", "beide richtig"],
+        correct: 2,
+        explanation: "gern і gerne обидва правильні!"
+    },
+
+    // ==========================================
+    // Imperativ
+    // ==========================================
+    "imperativ-1": {
+        id: "imperativ-1",
+        type: "multiple-choice",
+        topic: "imperativ",
+        question: "___ das Buch! (du, lesen)",
+        options: ["Lies", "Lese", "Liest"],
+        correct: 0,
+        explanation: "lesen → Lies! (du)"
+    },
+    "imperativ-2": {
+        id: "imperativ-2",
+        type: "multiple-choice",
+        topic: "imperativ",
+        question: "___ bitte ruhig! (ihr, sein)",
+        options: ["Seid", "Sei", "Sind"],
+        correct: 0,
+        explanation: "sein → Seid! (ihr)"
+    },
+    "imperativ-3": {
+        id: "imperativ-3",
+        type: "multiple-choice",
+        topic: "imperativ",
+        question: "___ Sie bitte hier! (warten)",
+        options: ["Warten", "Warte", "Wartet"],
+        correct: 0,
+        explanation: "Sie-form: Warten Sie!"
+    },
+    "imperativ-4": {
+        id: "imperativ-4",
+        type: "multiple-choice",
+        topic: "imperativ",
+        question: "___ schneller! (du, laufen)",
+        options: ["Lauf", "Läufst", "Laufe"],
+        correct: 0,
+        explanation: "laufen → Lauf!"
+    },
+    "imperativ-5": {
+        id: "imperativ-5",
+        type: "multiple-choice",
+        topic: "imperativ",
+        question: "___ das Fenster! (du, öffnen)",
+        options: ["Öffne", "Öffnest", "Öffnet"],
+        correct: 0,
+        explanation: "öffnen → Öffne!"
+    },
+
+    // ==========================================
+    // Körperteile
+    // ==========================================
+    "koerper-1": {
+        id: "koerper-1",
+        type: "multiple-choice",
+        topic: "koerperteile",
+        question: "der Kopf = ?",
+        options: ["голова", "рука", "нога"],
+        correct: 0,
+        explanation: "der Kopf = голова"
+    },
+    "koerper-2": {
+        id: "koerper-2",
+        type: "multiple-choice",
+        topic: "koerperteile",
+        question: "die Hand = ?",
+        options: ["рука (кисть)", "нога", "палець"],
+        correct: 0,
+        explanation: "die Hand = рука (кисть)"
+    },
+    "koerper-3": {
+        id: "koerper-3",
+        type: "multiple-choice",
+        topic: "koerperteile",
+        question: "das Auge = ?",
+        options: ["око", "вухо", "ніс"],
+        correct: 0,
+        explanation: "das Auge = око"
+    },
+    "koerper-4": {
+        id: "koerper-4",
+        type: "multiple-choice",
+        topic: "koerperteile",
+        question: "der Bauch = ?",
+        options: ["живіт", "спина", "груди"],
+        correct: 0,
+        explanation: "der Bauch = живіт"
+    },
+    "koerper-5": {
+        id: "koerper-5",
+        type: "multiple-choice",
+        topic: "koerperteile",
+        question: "Mein ___ tut weh. (My head hurts)",
+        options: ["Kopf", "Bein", "Arm"],
+        correct: 0,
+        explanation: "der Kopf = голова"
+    },
+
+    // ==========================================
+    // Modalverb müssen/dürfen
+    // ==========================================
+    "muss-durf-1": {
+        id: "muss-durf-1",
+        type: "multiple-choice",
+        topic: "modalverben-muessen-duerfen",
+        question: "Ich ___ zum Arzt gehen. (must)",
+        options: ["muss", "darf", "kann"],
+        correct: 0,
+        explanation: "müssen = мусити"
+    },
+    "muss-durf-2": {
+        id: "muss-durf-2",
+        type: "multiple-choice",
+        topic: "modalverben-muessen-duerfen",
+        question: "Du ___ hier nicht rauchen.",
+        options: ["darfst", "musst", "kannst"],
+        correct: 0,
+        explanation: "dürfen = мати дозвіл (nicht = заборонено)"
+    },
+    "muss-durf-3": {
+        id: "muss-durf-3",
+        type: "multiple-choice",
+        topic: "modalverben-muessen-duerfen",
+        question: "Wir ___ früh aufstehen.",
+        options: ["müssen", "dürfen", "sollen"],
+        correct: 0,
+        explanation: "müssen = мусимо"
+    },
+    "muss-durf-4": {
+        id: "muss-durf-4",
+        type: "multiple-choice",
+        topic: "modalverben-muessen-duerfen",
+        question: "___ ich hier parken?",
+        options: ["Darf", "Muss", "Will"],
+        correct: 0,
+        explanation: "dürfen = чи можна (дозвіл)?"
+    },
+    "muss-durf-5": {
+        id: "muss-durf-5",
+        type: "multiple-choice",
+        topic: "modalverben-muessen-duerfen",
+        question: "Er ___ nicht allein gehen.",
+        options: ["darf", "muss", "will"],
+        correct: 0,
+        explanation: "er darf nicht = йому не можна"
+    },
+
+    // ==========================================
+    // Modalverb sollen
+    // ==========================================
+    "sollen-1": {
+        id: "sollen-1",
+        type: "multiple-choice",
+        topic: "modalverb-sollen",
+        question: "Du ___ mehr Wasser trinken. (should)",
+        options: ["sollst", "sollte", "soll"],
+        correct: 0,
+        explanation: "du sollst = ти повинен"
+    },
+    "sollen-2": {
+        id: "sollen-2",
+        type: "multiple-choice",
+        topic: "modalverb-sollen",
+        question: "Was ___ ich tun?",
+        options: ["soll", "sollst", "sollt"],
+        correct: 0,
+        explanation: "ich soll"
+    },
+    "sollen-3": {
+        id: "sollen-3",
+        type: "multiple-choice",
+        topic: "modalverb-sollen",
+        question: "Wir ___ pünktlich sein.",
+        options: ["sollen", "sollt", "sollst"],
+        correct: 0,
+        explanation: "wir sollen"
+    },
+    "sollen-4": {
+        id: "sollen-4",
+        type: "multiple-choice",
+        topic: "modalverb-sollen",
+        question: "Der Arzt sagt, ich ___ Sport machen.",
+        options: ["soll", "muss", "darf"],
+        correct: 0,
+        explanation: "sollen = рекомендація"
+    },
+    "sollen-5": {
+        id: "sollen-5",
+        type: "multiple-choice",
+        topic: "modalverb-sollen",
+        question: "___ ich das Fenster öffnen?",
+        options: ["Soll", "Muss", "Darf"],
+        correct: 0,
+        explanation: "Soll ich...? = Чи мені...?"
+    },
+
+    // ==========================================
+    // Ordnungszahlen (general)
+    // ==========================================
+    "ordnung-1": {
+        id: "ordnung-1",
+        type: "multiple-choice",
+        topic: "ordnungszahlen",
+        question: "1. = der ___",
+        options: ["erste", "eins", "einste"],
+        correct: 0,
+        explanation: "1. = erste"
+    },
+    "ordnung-2": {
+        id: "ordnung-2",
+        type: "multiple-choice",
+        topic: "ordnungszahlen",
+        question: "3. = der ___",
+        options: ["dritte", "drei", "dreite"],
+        correct: 0,
+        explanation: "3. = dritte"
+    },
+    "ordnung-3": {
+        id: "ordnung-3",
+        type: "multiple-choice",
+        topic: "ordnungszahlen",
+        question: "7. = der ___",
+        options: ["siebte", "sieben", "siebente"],
+        correct: 0,
+        explanation: "7. = siebte"
+    },
+    "ordnung-4": {
+        id: "ordnung-4",
+        type: "multiple-choice",
+        topic: "ordnungszahlen",
+        question: "20. = der ___",
+        options: ["zwanzigste", "zwanzig", "zwanzigete"],
+        correct: 0,
+        explanation: "ab 20: -ste"
+    },
+    "ordnung-5": {
+        id: "ordnung-5",
+        type: "multiple-choice",
+        topic: "ordnungszahlen",
+        question: "1-19: -___ / 20+: -___",
+        options: ["te / ste", "ste / te", "e / ste"],
+        correct: 0,
+        explanation: "1-19: -te, 20+: -ste"
+    },
+
+    // ==========================================
+    // Perfekt (regelmäßig)
+    // ==========================================
+    "perfekt-reg-1": {
+        id: "perfekt-reg-1",
+        type: "multiple-choice",
+        topic: "perfekt-regelmaessig",
+        question: "machen → ge___t",
+        options: ["mach", "macht", "machen"],
+        correct: 0,
+        explanation: "machen → gemacht"
+    },
+    "perfekt-reg-2": {
+        id: "perfekt-reg-2",
+        type: "multiple-choice",
+        topic: "perfekt-regelmaessig",
+        question: "Ich ___ gestern gearbeitet.",
+        options: ["habe", "bin", "hat"],
+        correct: 0,
+        explanation: "arbeiten → haben + gearbeitet"
+    },
+    "perfekt-reg-3": {
+        id: "perfekt-reg-3",
+        type: "multiple-choice",
+        topic: "perfekt-regelmaessig",
+        question: "spielen → ge___",
+        options: ["spielt", "spielen", "spiel"],
+        correct: 0,
+        explanation: "spielen → gespielt"
+    },
+    "perfekt-reg-4": {
+        id: "perfekt-reg-4",
+        type: "multiple-choice",
+        topic: "perfekt-regelmaessig",
+        question: "Er hat gut ___.",
+        options: ["gekocht", "kochen", "kocht"],
+        correct: 0,
+        explanation: "kochen → gekocht"
+    },
+    "perfekt-reg-5": {
+        id: "perfekt-reg-5",
+        type: "multiple-choice",
+        topic: "perfekt-regelmaessig",
+        question: "Wir ___ das Auto gewaschen.",
+        options: ["haben", "sind", "hat"],
+        correct: 0,
+        explanation: "waschen → haben gewaschen"
+    },
+
+    // ==========================================
+    // Perfekt (unregelmäßig)
+    // ==========================================
+    "perfekt-unreg-1": {
+        id: "perfekt-unreg-1",
+        type: "multiple-choice",
+        topic: "perfekt-unregelmaessig",
+        question: "gehen → ge___",
+        options: ["gangen", "geht", "gehn"],
+        correct: 0,
+        explanation: "gehen → gegangen"
+    },
+    "perfekt-unreg-2": {
+        id: "perfekt-unreg-2",
+        type: "multiple-choice",
+        topic: "perfekt-unregelmaessig",
+        question: "Ich ___ nach Hause gegangen.",
+        options: ["bin", "habe", "hat"],
+        correct: 0,
+        explanation: "gehen → sein + gegangen"
+    },
+    "perfekt-unreg-3": {
+        id: "perfekt-unreg-3",
+        type: "multiple-choice",
+        topic: "perfekt-unregelmaessig",
+        question: "essen → ge___",
+        options: ["gessen", "esst", "essen"],
+        correct: 0,
+        explanation: "essen → gegessen"
+    },
+    "perfekt-unreg-4": {
+        id: "perfekt-unreg-4",
+        type: "multiple-choice",
+        topic: "perfekt-unregelmaessig",
+        question: "schreiben → ge___",
+        options: ["schrieben", "schreibt", "schreib"],
+        correct: 0,
+        explanation: "schreiben → geschrieben"
+    },
+    "perfekt-unreg-5": {
+        id: "perfekt-unreg-5",
+        type: "multiple-choice",
+        topic: "perfekt-unregelmaessig",
+        question: "Er ___ viel getrunken.",
+        options: ["hat", "ist", "hatte"],
+        correct: 0,
+        explanation: "trinken → haben + getrunken"
+    },
+
+    // ==========================================
+    // Personalpronomen (general)
+    // ==========================================
+    "pronomen-1": {
+        id: "pronomen-1",
+        type: "multiple-choice",
+        topic: "personalpronomen",
+        question: "ich, du, ___, sie, es",
+        options: ["er", "wir", "ihr"],
+        correct: 0,
+        explanation: "ich, du, er, sie, es"
+    },
+    "pronomen-2": {
+        id: "pronomen-2",
+        type: "multiple-choice",
+        topic: "personalpronomen",
+        question: "___ sind Studenten. (ми)",
+        options: ["Wir", "Ihr", "Sie"],
+        correct: 0,
+        explanation: "Wir = ми"
+    },
+    "pronomen-3": {
+        id: "pronomen-3",
+        type: "multiple-choice",
+        topic: "personalpronomen",
+        question: "___ kommst aus Berlin. (ти)",
+        options: ["Du", "Sie", "Er"],
+        correct: 0,
+        explanation: "Du = ти"
+    },
+    "pronomen-4": {
+        id: "pronomen-4",
+        type: "multiple-choice",
+        topic: "personalpronomen",
+        question: "___ sind nett. (вони)",
+        options: ["Sie", "Wir", "Ihr"],
+        correct: 0,
+        explanation: "Sie (малі) = вони"
+    },
+    "pronomen-5": {
+        id: "pronomen-5",
+        type: "multiple-choice",
+        topic: "personalpronomen",
+        question: "___ seid müde. (ви, informal)",
+        options: ["Ihr", "Sie", "Wir"],
+        correct: 0,
+        explanation: "Ihr = ви (informal)"
+    },
+
+    // ==========================================
+    // Possessivartikel
+    // ==========================================
+    "possessiv-1": {
+        id: "possessiv-1",
+        type: "multiple-choice",
+        topic: "possessivartikel",
+        question: "Das ist ___ Buch. (ich)",
+        options: ["mein", "dein", "sein"],
+        correct: 0,
+        explanation: "ich → mein"
+    },
+    "possessiv-2": {
+        id: "possessiv-2",
+        type: "multiple-choice",
+        topic: "possessivartikel",
+        question: "Wo ist ___ Tasche? (du)",
+        options: ["deine", "meine", "seine"],
+        correct: 0,
+        explanation: "du → dein/deine"
+    },
+    "possessiv-3": {
+        id: "possessiv-3",
+        type: "multiple-choice",
+        topic: "possessivartikel",
+        question: "Er liebt ___ Frau. (він)",
+        options: ["seine", "ihre", "unsere"],
+        correct: 0,
+        explanation: "er → sein/seine"
+    },
+    "possessiv-4": {
+        id: "possessiv-4",
+        type: "multiple-choice",
+        topic: "possessivartikel",
+        question: "Das ist ___ Auto. (wir)",
+        options: ["unser", "euer", "ihr"],
+        correct: 0,
+        explanation: "wir → unser"
+    },
+    "possessiv-5": {
+        id: "possessiv-5",
+        type: "multiple-choice",
+        topic: "possessivartikel",
+        question: "Wo sind ___ Schlüssel? (ihr)",
+        options: ["eure", "unsere", "ihre"],
+        correct: 0,
+        explanation: "ihr → euer/eure"
+    },
+
+    // ==========================================
+    // Lokale Präpositionen Dativ
+    // ==========================================
+    "lok-dativ-1": {
+        id: "lok-dativ-1",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen-dativ",
+        question: "Ich komme aus ___ Ukraine.",
+        options: ["der", "die", "dem"],
+        correct: 0,
+        explanation: "aus + Dativ: die → der"
+    },
+    "lok-dativ-2": {
+        id: "lok-dativ-2",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen-dativ",
+        question: "Ich wohne bei ___ Freund.",
+        options: ["meinem", "mein", "meinen"],
+        correct: 0,
+        explanation: "bei + Dativ: mein → meinem"
+    },
+    "lok-dativ-3": {
+        id: "lok-dativ-3",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen-dativ",
+        question: "Nach ___ Arbeit gehe ich nach Hause.",
+        options: ["der", "die", "dem"],
+        correct: 0,
+        explanation: "nach + Dativ"
+    },
+    "lok-dativ-4": {
+        id: "lok-dativ-4",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen-dativ",
+        question: "Er geht zu ___ Schule.",
+        options: ["der", "die", "dem"],
+        correct: 0,
+        explanation: "zu + Dativ: die → der"
+    },
+    "lok-dativ-5": {
+        id: "lok-dativ-5",
+        type: "multiple-choice",
+        topic: "lokale-praepositionen-dativ",
+        question: "Das Buch ist von ___ Lehrer.",
+        options: ["dem", "der", "den"],
+        correct: 0,
+        explanation: "von + Dativ: der → dem"
+    },
+
+    // ==========================================
+    // Uhrzeit
+    // ==========================================
+    "uhrzeit-1": {
+        id: "uhrzeit-1",
+        type: "multiple-choice",
+        topic: "uhrzeit",
+        question: "8:00 = Es ist ___ Uhr.",
+        options: ["acht", "achte", "achten"],
+        correct: 0,
+        explanation: "acht Uhr"
+    },
+    "uhrzeit-2": {
+        id: "uhrzeit-2",
+        type: "multiple-choice",
+        topic: "uhrzeit",
+        question: "8:30 = halb ___",
+        options: ["neun", "acht", "zehn"],
+        correct: 0,
+        explanation: "halb neun = 8:30"
+    },
+    "uhrzeit-3": {
+        id: "uhrzeit-3",
+        type: "multiple-choice",
+        topic: "uhrzeit",
+        question: "8:15 = ___ nach acht",
+        options: ["Viertel", "Halb", "Zehn"],
+        correct: 0,
+        explanation: "Viertel nach = :15"
+    },
+    "uhrzeit-4": {
+        id: "uhrzeit-4",
+        type: "multiple-choice",
+        topic: "uhrzeit",
+        question: "8:45 = ___ vor neun",
+        options: ["Viertel", "Halb", "Zehn"],
+        correct: 0,
+        explanation: "Viertel vor = :45"
+    },
+    "uhrzeit-5": {
+        id: "uhrzeit-5",
+        type: "multiple-choice",
+        topic: "uhrzeit",
+        question: "14:00 = ___ Uhr (formal)",
+        options: ["vierzehn", "zwei", "vier"],
+        correct: 0,
+        explanation: "14:00 = vierzehn Uhr (formal)"
+    },
+
+    // ==========================================
+    // Datum
+    // ==========================================
+    "datum-1": {
+        id: "datum-1",
+        type: "multiple-choice",
+        topic: "datum",
+        question: "Am ___ Mai. (1.)",
+        options: ["ersten", "erste", "eins"],
+        correct: 0,
+        explanation: "am + Dativ: erste → ersten"
+    },
+    "datum-2": {
+        id: "datum-2",
+        type: "multiple-choice",
+        topic: "datum",
+        question: "Heute ist der ___ Juli. (3.)",
+        options: ["dritte", "dritten", "drei"],
+        correct: 0,
+        explanation: "Nom: der dritte"
+    },
+    "datum-3": {
+        id: "datum-3",
+        type: "multiple-choice",
+        topic: "datum",
+        question: "Wann hast du Geburtstag? Am ___ August.",
+        options: ["fünfzehnten", "fünfzehn", "fünfzehnte"],
+        correct: 0,
+        explanation: "am + -ten/-sten"
+    },
+    "datum-4": {
+        id: "datum-4",
+        type: "multiple-choice",
+        topic: "datum",
+        question: "Der ___ Dezember ist Heiligabend. (24.)",
+        options: ["vierundzwanzigste", "vierundzwanzig", "vierundzwanzigsten"],
+        correct: 0,
+        explanation: "Nom: der + -ste"
+    },
+    "datum-5": {
+        id: "datum-5",
+        type: "multiple-choice",
+        topic: "datum",
+        question: "Welches Datum ist heute? Der ___.",
+        options: ["zehnte Januar", "zehnten Januar", "zehn Januar"],
+        correct: 0,
+        explanation: "Der + Ordinalzahl"
+    },
+
+    // ==========================================
+    // Zeitangaben
+    // ==========================================
+    "zeit-1": {
+        id: "zeit-1",
+        type: "multiple-choice",
+        topic: "zeitangaben",
+        question: "___ Morgen habe ich frei.",
+        options: ["Am", "Im", "Um"],
+        correct: 0,
+        explanation: "am Morgen"
+    },
+    "zeit-2": {
+        id: "zeit-2",
+        type: "multiple-choice",
+        topic: "zeitangaben",
+        question: "___ 8 Uhr beginnt der Unterricht.",
+        options: ["Um", "Am", "Im"],
+        correct: 0,
+        explanation: "um + Uhrzeit"
+    },
+    "zeit-3": {
+        id: "zeit-3",
+        type: "multiple-choice",
+        topic: "zeitangaben",
+        question: "___ Sommer fahren wir ans Meer.",
+        options: ["Im", "Am", "Um"],
+        correct: 0,
+        explanation: "im + Jahreszeit/Monat"
+    },
+    "zeit-4": {
+        id: "zeit-4",
+        type: "multiple-choice",
+        topic: "zeitangaben",
+        question: "___ Montag habe ich einen Termin.",
+        options: ["Am", "Im", "Um"],
+        correct: 0,
+        explanation: "am + Wochentag"
+    },
+    "zeit-5": {
+        id: "zeit-5",
+        type: "multiple-choice",
+        topic: "zeitangaben",
+        question: "___ Januar schneit es oft.",
+        options: ["Im", "Am", "Um"],
+        correct: 0,
+        explanation: "im + Monat"
     }
 };
 
