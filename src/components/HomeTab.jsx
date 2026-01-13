@@ -131,15 +131,15 @@ const HomeTab = () => {
             <div
                 onClick={() => openLesson(currentLesson.id)}
                 style={{
-                    background: 'rgba(255, 255, 255, 0.06)',
-                    backdropFilter: 'blur(20px)',
-                    WebkitBackdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05))',
+                    backdropFilter: 'blur(24px) saturate(180%)',
+                    WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                    border: '1px solid rgba(255, 255, 255, 0.18)',
                     borderRadius: 24,
                     padding: 20,
                     marginBottom: 24,
                     cursor: 'pointer',
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
                 }}
             >
                 <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
@@ -242,12 +242,13 @@ const HomeTab = () => {
                 <div
                     onClick={() => setTab('dictionary')}
                     style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        backdropFilter: 'blur(16px)',
-                        WebkitBackdropFilter: 'blur(16px)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04))',
+                        backdropFilter: 'blur(20px) saturate(180%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
                         borderRadius: 20, padding: 16,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
                     }}
                 >
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Слова</p>
@@ -267,12 +268,13 @@ const HomeTab = () => {
                 <div
                     onClick={() => setTab('lessons')}
                     style={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        backdropFilter: 'blur(16px)',
-                        WebkitBackdropFilter: 'blur(16px)',
-                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04))',
+                        backdropFilter: 'blur(20px) saturate(180%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
                         borderRadius: 20, padding: 16,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
                     }}
                 >
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Граматика</p>
@@ -302,14 +304,15 @@ const HomeTab = () => {
                 <div
                     onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
                     style={{
-                        background: 'rgba(47, 230, 166, 0.08)',
-                        backdropFilter: 'blur(16px)',
-                        WebkitBackdropFilter: 'blur(16px)',
-                        border: '1px solid rgba(47, 230, 166, 0.25)',
+                        background: 'linear-gradient(135deg, rgba(47, 230, 166, 0.15), rgba(47, 230, 166, 0.05))',
+                        backdropFilter: 'blur(20px) saturate(180%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                        border: '1px solid rgba(47, 230, 166, 0.3)',
                         borderRadius: 18, padding: 14,
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         gap: 10, textAlign: 'center',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
                         transition: 'transform 0.15s ease'
                     }}
                 >
@@ -332,14 +335,15 @@ const HomeTab = () => {
                 <div
                     onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
                     style={{
-                        background: 'rgba(87, 166, 255, 0.08)',
-                        backdropFilter: 'blur(16px)',
-                        WebkitBackdropFilter: 'blur(16px)',
-                        border: '1px solid rgba(87, 166, 255, 0.25)',
+                        background: 'linear-gradient(135deg, rgba(87, 166, 255, 0.15), rgba(87, 166, 255, 0.05))',
+                        backdropFilter: 'blur(20px) saturate(180%)',
+                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                        border: '1px solid rgba(87, 166, 255, 0.3)',
                         borderRadius: 18, padding: 14,
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         gap: 10, textAlign: 'center',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
                         transition: 'transform 0.15s ease'
                     }}
                 >
