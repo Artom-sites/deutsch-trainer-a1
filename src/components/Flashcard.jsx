@@ -184,18 +184,8 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
                                 marginBottom: 8,
                                 textShadow: `0 0 30px ${genderColor}40`
                             }}>
-                                {word.word}
+                                {word.word}{hasValidPlural && <span style={{ fontWeight: 500, opacity: 0.7 }}>, {word.plural}</span>}
                             </div>
-
-                            {hasValidPlural && (
-                                <div style={{
-                                    fontSize: '1.2rem',
-                                    color: 'var(--text-2)',
-                                    fontWeight: 500
-                                }}>
-                                    {word.plural}
-                                </div>
-                            )}
 
                             <button
                                 onClick={handleSpeak}
