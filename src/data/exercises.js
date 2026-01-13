@@ -1582,6 +1582,197 @@ export const exercises = {
         options: ["Tisch", "Blau", "Grün"],
         correct: 0,
         explanation: "Tisch ist ein Nomen (Möbel)."
+    },
+
+    // ==========================================
+    // LEKTION 14: Feste
+    // ==========================================
+    // --- Ordinalzahlen (Datum) ---
+    "ord-1": {
+        id: "ord-1",
+        type: "multiple-choice",
+        topic: "ordnungszahlen-14",
+        question: "1. Mai -> Der ___ Mai.",
+        options: ["erste", "eins", "ersten"],
+        correct: 0,
+        explanation: "1-19: -te. Der erste."
+    },
+    "ord-2": {
+        id: "ord-2",
+        type: "multiple-choice",
+        topic: "ordnungszahlen-14",
+        question: "20. April -> Der ___ April.",
+        options: ["zwanzigste", "zwanzig", "zwanzigsten"],
+        correct: 0,
+        explanation: "Ab 20: -ste. Der zwanzigste."
+    },
+    "ord-3": {
+        id: "ord-3",
+        type: "multiple-choice",
+        topic: "ordnungszahlen-14",
+        question: "Am 3. März -> Am ___ März.",
+        options: ["dritten", "dritte", "drei"],
+        correct: 0,
+        explanation: "Am + Dativ (-n). Am dritten."
+    },
+    "ord-4": {
+        id: "ord-4",
+        type: "multiple-choice",
+        topic: "ordnungszahlen-14",
+        question: "Heute ist der 7. Juli. (___)",
+        options: ["siebte", "sieben", "siebten"],
+        correct: 0,
+        explanation: "Nominativ: der siebte."
+    },
+    "ord-5": {
+        id: "ord-5",
+        type: "match",
+        topic: "ordnungszahlen-14",
+        question: "1. -> ?",
+        options: ["erste", "eins", "einste"],
+        correct: 0,
+        explanation: "1 = erste."
+    },
+
+    // --- Personalpronomen (Akkusativ) ---
+    "akk-pron-1": {
+        id: "akk-pron-1",
+        type: "multiple-choice",
+        topic: "personalpronomen-akkusativ",
+        question: "Ich liebe ___ (du).",
+        options: ["dich", "dir", "du"],
+        correct: 0,
+        explanation: "lieben + Akkusativ. du -> dich."
+    },
+    "akk-pron-2": {
+        id: "akk-pron-2",
+        type: "multiple-choice",
+        topic: "personalpronomen-akkusativ",
+        question: "Er sieht ___ (wir).",
+        options: ["uns", "wir", "euch"],
+        correct: 0,
+        explanation: "sehen + Akkusativ. wir -> uns."
+    },
+    "akk-pron-3": {
+        id: "akk-pron-3",
+        type: "multiple-choice",
+        topic: "personalpronomen-akkusativ",
+        question: "Für ___ (ich)?",
+        options: ["mich", "mir", "ich"],
+        correct: 0,
+        explanation: "für + Akkusativ. ich -> mich."
+    },
+    "akk-pron-4": {
+        id: "akk-pron-4",
+        type: "multiple-choice",
+        topic: "personalpronomen-akkusativ",
+        question: "Ich lade ___ (ihr) ein.",
+        options: ["euch", "ihr", "uns"],
+        correct: 0,
+        explanation: "einladen + Akkusativ. ihr -> euch."
+    },
+    "akk-pron-5": {
+        id: "akk-pron-5",
+        type: "match",
+        topic: "personalpronomen-akkusativ",
+        question: "er (Akkusativ) -> ?",
+        options: ["ihn", "ihm", "er"],
+        correct: 0,
+        explanation: "er -> ihn."
+    },
+
+    // --- Konjunktion denn ---
+    "denn-1": {
+        id: "denn-1",
+        type: "multiple-choice",
+        topic: "konjunktion-denn",
+        question: "Ich komme nicht, ___ ich bin krank.",
+        options: ["denn", "aber", "und"],
+        correct: 0,
+        explanation: "Причина (Grund) -> denn."
+    },
+    "denn-2": {
+        id: "denn-2",
+        type: "word-order",
+        topic: "konjunktion-denn",
+        question: "denn / Hunger / habe / ich",
+        options: ["denn ich habe Hunger", "denn habe ich Hunger"],
+        correct: 0,
+        explanation: "denn + Subject + Verb (Position 0)."
+    },
+    "denn-3": {
+        id: "denn-3",
+        type: "multiple-choice",
+        topic: "konjunktion-denn",
+        question: "Wir lernen, denn wir ___ einen Test.",
+        options: ["haben", "hat", "hast"],
+        correct: 0,
+        explanation: "wir haben."
+    },
+    "denn-4": {
+        id: "denn-4",
+        type: "multiple-choice",
+        topic: "konjunktion-denn",
+        question: "Er isst Pizza, ___ er mag Pizza.",
+        options: ["denn", "oder", "aber"],
+        correct: 0,
+        explanation: "denn (причина)."
+    },
+    "denn-5": {
+        id: "denn-5",
+        type: "multiple-choice",
+        topic: "konjunktion-denn",
+        question: "Position von 'denn'?",
+        options: ["Position 0", "Position 1", "Ende"],
+        correct: 0,
+        explanation: "denn ist Position 0."
+    },
+
+    // --- Werden ---
+    "werden-1": {
+        id: "werden-1",
+        type: "multiple-choice",
+        topic: "werden-konjugation",
+        question: "Du ___ Arzt.",
+        options: ["wirst", "werdest", "wird"],
+        correct: 0,
+        explanation: "du wirst."
+    },
+    "werden-2": {
+        id: "werden-2",
+        type: "multiple-choice",
+        topic: "werden-konjugation",
+        question: "Er ___ 30 Jahre alt.",
+        options: ["wird", "werdet", "wirst"],
+        correct: 0,
+        explanation: "er wird."
+    },
+    "werden-3": {
+        id: "werden-3",
+        type: "multiple-choice",
+        topic: "werden-konjugation",
+        question: "Wir ___ alt.",
+        options: ["werden", "wird", "werdet"],
+        correct: 0,
+        explanation: "wir werden."
+    },
+    "werden-4": {
+        id: "werden-4",
+        type: "multiple-choice",
+        topic: "werden-konjugation",
+        question: "Ihr ___ müde.",
+        options: ["werdet", "werden", "wirst"],
+        correct: 0,
+        explanation: "ihr werdet."
+    },
+    "werden-5": {
+        id: "werden-5",
+        type: "multiple-choice",
+        topic: "werden-konjugation",
+        question: "Ich ___ Kochen.",
+        options: ["werde", "wird", "wirst"],
+        correct: 0,
+        explanation: "ich werde."
     }
 };
 

@@ -225,12 +225,77 @@ export const lessons = [
     {
         id: 14,
         number: "Lektion 14",
-        title: "Feste",
-        description: "Свята, традиції, запрошення",
+        title: "Lieblingsfeste",
+        description: "Свята, запрошення, привітання",
         level: "A1",
-        topics: ["Feste", "Einladung", "Geschenke"],
-        grammar: ["Dativ (Wiederholung)", "Konjunktion dass"],
-        vocabulary: ["celebrations", "traditions"],
+        topics: ["Feste", "Einladung", "Glückwünsche"],
+        grammar: ["Ordinalzahlen", "Personalpronomen (Akkusativ)", "Konjunktion denn", "Verb werden"],
+        vocabulary: ["festivals", "congratulations"],
+        textbook: {
+            goals: [
+                "Das (Geburts-)Datum nennen: Ich habe am 4. Mai Geburtstag",
+                "Über Personen und Dinge sprechen: Ich habe dich sehr lieb, Opa",
+                "Um Hilfe bitten: Kannst Du ihn bitte reparieren?",
+                "Eine Einladung zu- oder absagen und einen Grund nennen",
+                "Einladungen lesen und schreiben (Mein Lieblingsfest)"
+            ],
+            grammar: [
+                {
+                    title: "1. Ordinalzahlen: Datum",
+                    content: "1.-19. -> -te (der erste, der zweite)\nab 20. -> -ste (der zwanzigste)\nAm 13. März (am dreizehnten)"
+                },
+                {
+                    title: "2. Personalpronomen im Akkusativ",
+                    content: "Nominativ -> Akkusativ\nich -> mich\ndu -> dich\ner/es/sie -> ihn/es/sie\nwir -> uns\nihr -> euch\nsie/Sie -> sie/Sie"
+                },
+                {
+                    title: "3. Konjunktion: denn",
+                    content: "Hauptsatz 1, denn Hauptsatz 2.\nPosition 0!\nIch liebe Hunde, denn ich habe einen Hund."
+                },
+                {
+                    title: "4. Verb: Konjugation 'werden'",
+                    content: "ich werde\ndu wirst\ner/es/sie wird\nwir werden\nihr werdet\nsie/Sie werden"
+                }
+            ],
+            communication: [
+                {
+                    title: "Über Jahrestage sprechen",
+                    phrases: [
+                        "Wann hast du Geburtstag?",
+                        "Am 13. März. / Ich habe am 4. Januar Geburtstag.",
+                        "Ich bin am 19. Januar geboren."
+                    ]
+                },
+                {
+                    title: "Glückwünsche",
+                    phrases: [
+                        "Alles Liebe/Gute (zum Geburtstag)!",
+                        "Herzlichen Glückwunsch!",
+                        "Ich wünsche dir viel Glück und Freude.",
+                        "Frohe Ostern! / Frohe Weihnachten!",
+                        "(Ein) Gutes neues Jahr!"
+                    ]
+                },
+                {
+                    title: "Einladen",
+                    phrases: [
+                        "Ich lade Dich/Sie ein.",
+                        "Ich möchte meinen Geburtstag feiern.",
+                        "Wir möchten gern zusammen mit Euch/Ihnen feiern.",
+                        "Kommt Ihr? / Können Sie kommen?"
+                    ]
+                },
+                {
+                    title: "Zu- und Absagen",
+                    phrases: [
+                        "Vielen Dank für die Einladung.",
+                        "Ich komme gern!",
+                        "Leider kann ich nicht kommen.",
+                        "Tut mir leid, aber ich habe keine Zeit."
+                    ]
+                }
+            ]
+        },
         unlocked: true,
         progress: 0
     }

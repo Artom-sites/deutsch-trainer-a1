@@ -322,6 +322,38 @@ export const grammarTopics = [
         description: "Herzlichen Glückwunsch!",
         lesson: 14,
         shortDescription: "Привітання"
+    },
+    {
+        id: "ordnungszahlen-14",
+        name: "Ordinalzahlen (Datum)",
+        icon: "📅",
+        description: "am ersten Mai",
+        lesson: 14,
+        shortDescription: "Дата"
+    },
+    {
+        id: "personalpronomen-akkusativ",
+        name: "Pronomen im Akkusativ",
+        icon: "🫵",
+        description: "für mich, für dich",
+        lesson: 14,
+        shortDescription: "Akkusativ займенники"
+    },
+    {
+        id: "konjunktion-denn",
+        name: "Konjunktion 'denn'",
+        icon: "🔗",
+        description: "..., denn ich habe Zeit",
+        lesson: 14,
+        shortDescription: "denn"
+    },
+    {
+        id: "werden-konjugation",
+        name: "Verb 'werden'",
+        icon: "🌱",
+        description: "Ich werde alt.",
+        lesson: 14,
+        shortDescription: "werden"
     }
 ];
 
@@ -1763,6 +1795,135 @@ Ich weiß, **dass** du heute **kommst**.`
 • Herzlichen Glückwunsch! (Вітаю!)
 • Alles Gute zum Geburtstag! (З Днем народження!)
 • Frohe Weihnachten! (Веселого Різдва!)`
+            }
+        ]
+    },
+
+    // ==========================================
+    // LEKTION 14: Feste
+    // ==========================================
+
+    "ordnungszahlen-14": {
+        title: "Ordinalzahlen (Порядкові числівники)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**Дати та порядок:**
+1.  **1-19** → число + **-te**
+    *   der erste (1.)
+    *   der zweite (2.)
+    *   der dritte (3.)
+    *   der vierte (4.)
+    *   der neunzehnte (19.)
+
+2.  **від 20** → число + **-ste**
+    *   der zwanzigste (20.)
+    *   der einundzwanzigste (21.)
+    *   der dreißigste (30.)
+
+⚠️ **Datumsangaben:**
+*   "Am" (an dem) + Dativ (-n):
+    *   Am erste**n** Mai
+    *   Am zwanzigste**n** Juli`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Heute ist der erste Mai.", translation: "Сьогодні перше травня." },
+                    { german: "Ich habe am dritten April Geburtstag.", translation: "У мене день народження третього квітня." }
+                ]
+            }
+        ]
+    },
+
+    "personalpronomen-akkusativ": {
+        title: "Personalpronomen im Akkusativ",
+        sections: [
+            {
+                title: "Таблиця",
+                type: "rule",
+                content: `**Зміна особових займенників:**
+
+| Nominativ | Akkusativ |
+|:---|:---|
+| **ich** (я) | **mich** (мене) |
+| **du** (ти) | **dich** (тебе) |
+| **er** (він) | **ihn** (його) |
+| **sie** (вона) | **sie** (її) |
+| **es** (воно) | **es** (його) |
+| **wir** (ми) | **uns** (нас) |
+| **ihr** (ви) | **euch** (вас) |
+| **sie** (вони) | **sie** (їх) |
+| **Sie** (Ви) | **Sie** (Вас) |`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich liebe dich.", translation: "Я тебе люблю." },
+                    { german: "Er sieht uns.", translation: "Він нас бачить." },
+                    { german: "Wir laden euch ein.", translation: "Ми вас запрошуємо." },
+                    { german: "Rufst du mich an?", translation: "Ти мені подзвониш? (досл. мене)" }
+                ]
+            }
+        ]
+    },
+
+    "konjunktion-denn": {
+        title: "Konjunktion 'denn' (тому що)",
+        sections: [
+            {
+                title: "Правило",
+                type: "rule",
+                content: `**denn** = тому що / бо
+✅ **denn** займає **Позицію 0**.
+Це означає, що порядок слів після нього **не змінюється** (Sujekt + Verb ...)!
+
+**Структура:**
+Hauptsatz, **denn** Hauptsatz.
+(Кома перед denn обов'язкова!)`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich bleibe zu Hause, denn ich bin krank.", translation: "Я залишаюсь вдома, бо я хворий." },
+                    { german: "Wir kaufen Brot, denn wir haben Hunger.", translation: "Ми купуємо хліб, бо ми голодні." },
+                    { german: "Er kommt nicht, denn er hat keine Zeit.", translation: "Він не прийде, бо він не має часу." }
+                ]
+            }
+        ]
+    },
+
+    "werden-konjugation": {
+        title: "Verb 'werden' (ставати)",
+        sections: [
+            {
+                title: "Konjugation",
+                type: "rule",
+                content: `**werden** - ставати (або для майбутнього часу)
+
+| Person | werden |
+|:---|:---|
+| ich | **werde** |
+| du | **wirst** |
+| er/sie/es | **wird** |
+| wir | **werden** |
+| ihr | **werdet** |
+| sie/Sie | **werden** |
+
+⚠️ Зверни увагу на **du wirst** та **er wird**!`
+            },
+            {
+                title: "Приклади",
+                type: "examples",
+                items: [
+                    { german: "Ich werde 30 Jahre alt.", translation: "Мені виповнюється 30 років." },
+                    { german: "Du wirst Arzt.", translation: "Ти станеш лікарем." },
+                    { german: "Das Wetter wird gut.", translation: "Погода стає гарною." }
+                ]
             }
         ]
     }
