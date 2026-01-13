@@ -96,76 +96,70 @@ const ExerciseSession = () => {
     const ExerciseComponent = exerciseRegistry[currentExercise.type] || exerciseRegistry['multiple-choice'];
 
     return (
-        <div className="screen" style={{ paddingTop: 0 }}>
-            {/* Redesigned Header */}
+        <div className="screen">
+            {/* Minimal Header */}
             <div style={{
-                position: 'sticky',
-                top: 0,
-                zIndex: 10,
-                background: 'var(--bg-primary)',
-                paddingTop: 'var(--space-md)',
-                paddingBottom: 'var(--space-md)',
-                marginBottom: 'var(--space-md)'
+                display: 'flex',
+                alignItems: 'center',
+                gap: 16,
+                marginBottom: 24,
+                paddingTop: 8
             }}>
-                {/* Top row: Back + Title + Counter */}
+                {/* Back Button */}
+                <button
+                    onClick={goBack}
+                    style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 14,
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--text-primary)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer'
+                    }}
+                >
+                    <ArrowLeft size={24} />
+                </button>
+
+                {/* Progress Indicator - Centered */}
                 <div style={{
+                    flex: 1,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 12,
-                    marginBottom: 12
+                    justifyContent: 'center',
+                    gap: 6
                 }}>
-                    <button
-                        onClick={goBack}
-                        style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 12,
-                            background: 'rgba(255,255,255,0.08)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            color: 'var(--text-primary)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            flexShrink: 0
-                        }}
-                    >
-                        <ArrowLeft size={20} />
-                    </button>
-
-                    <div style={{ flex: 1, fontWeight: 600, fontSize: '1rem', color: 'var(--text-primary)' }}>
-                        Інтерактивні вправи
-                    </div>
-
-                    <div style={{
-                        padding: '6px 14px',
-                        borderRadius: 20,
-                        background: 'rgba(139, 92, 246, 0.15)',
-                        color: '#a78bfa',
-                        fontSize: '0.85rem',
-                        fontWeight: 600,
-                        whiteSpace: 'nowrap'
-                    }}>
-                        {currentIndex + 1} / {activeExercises.length}
-                    </div>
+                    {activeExercises.map((_, i) => (
+                        <div
+                            key={i}
+                            style={{
+                                width: i === currentIndex ? 24 : 8,
+                                height: 8,
+                                borderRadius: 4,
+                                background: i <= currentIndex
+                                    ? 'var(--pri)'
+                                    : 'rgba(255,255,255,0.15)',
+                                transition: 'all 0.3s ease'
+                            }}
+                        />
+                    ))}
                 </div>
 
-                {/* Progress bar */}
+                {/* Counter */}
                 <div style={{
-                    height: 6,
-                    background: 'rgba(255,255,255,0.08)',
-                    borderRadius: 3,
-                    overflow: 'hidden'
+                    width: 44,
+                    height: 44,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    color: 'var(--text-2)'
                 }}>
-                    <div
-                        style={{
-                            height: '100%',
-                            width: `${((currentIndex + 1) / activeExercises.length) * 100}%`,
-                            background: 'linear-gradient(90deg, #8b5cf6, #a78bfa)',
-                            borderRadius: 3,
-                            transition: 'width 0.3s ease'
-                        }}
-                    />
+                    {currentIndex + 1}/{activeExercises.length}
                 </div>
             </div>
 
