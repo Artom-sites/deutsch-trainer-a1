@@ -260,6 +260,7 @@ function App() {
 
   return (
     <div className="app">
+      <div className="aurora-bg" />
       {renderContent()}
       <BottomNav />
     </div>

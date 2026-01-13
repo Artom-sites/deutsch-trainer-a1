@@ -130,6 +130,7 @@ const HomeTab = () => {
             ===================== */}
             <div
                 onClick={() => openLesson(currentLesson.id)}
+                className="card-interactive"
                 style={{
                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05))',
                     backdropFilter: 'blur(24px) saturate(180%)',
@@ -241,6 +242,7 @@ const HomeTab = () => {
                 {/* Words */}
                 <div
                     onClick={() => setTab('dictionary')}
+                    className="card-interactive"
                     style={{
                         background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04))',
                         backdropFilter: 'blur(20px) saturate(180%)',
@@ -267,6 +269,7 @@ const HomeTab = () => {
                 {/* Learned total */}
                 <div
                     onClick={() => setTab('lessons')}
+                    className="card-interactive"
                     style={{
                         background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04))',
                         backdropFilter: 'blur(20px) saturate(180%)',
@@ -303,6 +306,7 @@ const HomeTab = () => {
                 {/* Картки */}
                 <div
                     onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
+                    className="card-interactive"
                     style={{
                         background: 'linear-gradient(135deg, rgba(47, 230, 166, 0.15), rgba(47, 230, 166, 0.05))',
                         backdropFilter: 'blur(20px) saturate(180%)',
@@ -334,6 +338,7 @@ const HomeTab = () => {
                 {/* Noun Master */}
                 <div
                     onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
+                    className="card-interactive"
                     style={{
                         background: 'linear-gradient(135deg, rgba(87, 166, 255, 0.15), rgba(87, 166, 255, 0.05))',
                         backdropFilter: 'blur(20px) saturate(180%)',
