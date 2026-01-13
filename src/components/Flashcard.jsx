@@ -193,7 +193,7 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
                                     color: 'var(--text-2)',
                                     fontWeight: 500
                                 }}>
-                                    Pl. {word.plural}
+                                    {word.plural}
                                 </div>
                             )}
 
