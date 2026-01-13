@@ -23,17 +23,20 @@ const DictionaryTab = () => {
     const getAllThemedWords = () => Object.values(themedWords).flat();
 
     const getFilteredWords = () => {
-        let wordsToFilter;
-        if (filterMode === 'themes') {
-            wordsToFilter = selectedTheme ? getWordsByTheme(selectedTheme) : getAllThemedWords();
-        } else {
-            wordsToFilter = selectedLesson ? words.filter(w => w.lesson === selectedLesson) : words;
+        // If searching, search EVERYTHING (except custom collections)
+        if (searchQuery.trim().length > 0) {
+            return words.filter(w =>
+                w.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                w.translation.toLowerCase().includes(searchQuery.toLowerCase())
+            );
         }
-        if (searchQuery === '') return wordsToFilter;
-        return wordsToFilter.filter(w =>
-            w.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            w.translation.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+
+        // If NOT searching, respect the filter mode
+        if (filterMode === 'themes') {
+            return selectedTheme ? getWordsByTheme(selectedTheme) : getAllThemedWords();
+        } else {
+            return selectedLesson ? words.filter(w => w.lesson === selectedLesson) : words;
+        }
     };
 
     const filteredWords = getFilteredWords();
@@ -277,13 +280,36 @@ const DictionaryTab = () => {
                                     borderRadius: 12
                                 }}
                             >
-                                <div>
-                                    <div style={{ color: getGenderColor(word.article), fontWeight: 600, fontSize: '0.95rem' }}>
-                                        {word.article && <span style={{ opacity: 0.7, marginRight: 4 }}>{word.article}</span>}
+                                <div style={{ overflow: 'hidden', marginRight: 10, flex: 1 }}>
+                                    <div style={{
+                                        color: 'var(--text-0)',
+                                        fontWeight: 600,
+                                        fontSize: '0.95rem',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
+                                        {/* Format: Article Word, Plural */}
+                                        <span style={{ color: getGenderColor(word.article) }}>
+                                            {word.article ? word.article + ' ' : ''}
+                                        </span>
                                         {word.word.replace(/^(der|die|das)\s+/, '')}
-                                        {word.plural && <span style={{ opacity: 0.5, marginLeft: 4 }}>, {word.plural}</span>}
+
+                                        {/* Plural suffix only, no 'pl.' label */}
+                                        {word.plural && word.plural !== '-' && (
+                                            <span style={{ opacity: 0.6, fontWeight: 400 }}>
+                                                , {word.plural}
+                                            </span>
+                                        )}
                                     </div>
-                                    <div style={{ color: 'var(--text-2)', fontSize: '0.8rem', marginTop: 2 }}>
+                                    <div style={{
+                                        color: 'var(--text-2)',
+                                        fontSize: '0.8rem',
+                                        marginTop: 2,
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}>
                                         {word.translation}
                                     </div>
                                 </div>
@@ -295,7 +321,8 @@ const DictionaryTab = () => {
                                         borderRadius: '50%',
                                         width: 34, height: 34,
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        cursor: 'pointer'
+                                        cursor: 'pointer',
+                                        flexShrink: 0
                                     }}
                                 >
                                     <Volume2 size={16} color="var(--text-2)" />
