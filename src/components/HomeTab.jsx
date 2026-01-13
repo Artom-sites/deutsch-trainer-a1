@@ -131,13 +131,15 @@ const HomeTab = () => {
             <div
                 onClick={() => openLesson(currentLesson.id)}
                 style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03))',
-                    border: '1px solid var(--stroke)',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: 24,
                     padding: 20,
                     marginBottom: 24,
                     cursor: 'pointer',
-                    boxShadow: 'var(--sh-1)'
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
                 }}
             >
                 <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
@@ -240,8 +242,10 @@ const HomeTab = () => {
                 <div
                     onClick={() => setTab('dictionary')}
                     style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                        border: '1px solid var(--stroke)',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
                         borderRadius: 20, padding: 16,
                         cursor: 'pointer'
                     }}
@@ -263,8 +267,10 @@ const HomeTab = () => {
                 <div
                     onClick={() => setTab('lessons')}
                     style={{
-                        background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                        border: '1px solid var(--stroke)',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
                         borderRadius: 20, padding: 16,
                         cursor: 'pointer'
                     }}
@@ -296,14 +302,15 @@ const HomeTab = () => {
                 <div
                     onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
                     style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(47,230,166,0.25)',
+                        background: 'rgba(47, 230, 166, 0.08)',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(47, 230, 166, 0.25)',
                         borderRadius: 18, padding: 14,
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         gap: 10, textAlign: 'center',
-                        boxShadow: '0 0 25px rgba(47,230,166,0.08)',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                        transition: 'transform 0.15s ease'
                     }}
                 >
                     <div style={{
@@ -325,14 +332,15 @@ const HomeTab = () => {
                 <div
                     onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
                     style={{
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(87,166,255,0.25)',
+                        background: 'rgba(87, 166, 255, 0.08)',
+                        backdropFilter: 'blur(16px)',
+                        WebkitBackdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(87, 166, 255, 0.25)',
                         borderRadius: 18, padding: 14,
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
                         gap: 10, textAlign: 'center',
-                        boxShadow: '0 0 25px rgba(87,166,255,0.08)',
-                        transition: 'transform 0.15s ease, box-shadow 0.15s ease'
+                        transition: 'transform 0.15s ease'
                     }}
                 >
                     <div style={{
