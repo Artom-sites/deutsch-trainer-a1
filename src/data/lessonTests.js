@@ -1254,109 +1254,123 @@ export const lessonTests = {
     },
 
     // ==========================================
-    // TEST ZU LEKTION 13 - Kleidung, Wetter
+    // TEST ZU LEKTION 13 - Kleidung, Einkaufen
     // ==========================================
     13: {
         title: "Test zu Lektion 13",
-        description: "Одяг, погода, відпустка, Komparation (gern-lieber)",
+        description: "Одяг, покупки, порівняння (gern/gut/viel), займенники в Dativ",
         questions: [
-            // 1. Kleidung
+            // 1. Kleidung - Artikel (der, die, das)
             {
                 id: "l13-1",
-                type: "fill-blank",
-                question: "___ T-Shirt isst ... (Artikel?)",
-                correct: "Das",
-                explanation: "das T-Shirt"
-            },
-            {
-                id: "l13-2",
-                type: "fill-blank",
-                question: "___ Hemd ist weiß.",
-                correct: "Das",
+                type: "multiple-choice",
+                question: "Sieh mal, ___ Hemd! – Das ist super!",
+                options: ["der", "die", "das"],
+                correct: 2,
                 explanation: "das Hemd"
             },
             {
-                id: "l13-3",
-                type: "fill-blank",
-                question: "___ Hose ist blau.",
-                correct: "Die",
-                explanation: "die Hose"
+                id: "l13-2",
+                type: "multiple-choice",
+                question: "Wie findest du ___ Mantel? – Den finde ich zu teuer!",
+                options: ["der", "die", "den"],
+                correct: 2,
+                explanation: "Akkusativ: der Mantel → den Mantel"
             },
-            // 2. Koffer packen
+            {
+                id: "l13-3",
+                type: "multiple-choice",
+                question: "Und ___ Bluse? – Die ist günstig!",
+                options: ["der", "die", "das"],
+                correct: 1,
+                explanation: "die Bluse"
+            },
             {
                 id: "l13-4",
-                type: "fill-blank",
-                question: "Ich fahre in den Ferien ans Meer und nehme mit: einen ___. (Koffer)",
-                correct: "Koffer",
-                explanation: "den Koffer"
+                type: "multiple-choice",
+                question: "Was sagst du zu ___ Gürtel? – Den finde ich sehr schön!",
+                options: ["dem", "der", "den"],
+                correct: 0,
+                explanation: "zu + Dativ: der Gürtel → dem Gürtel"
             },
             {
                 id: "l13-5",
-                type: "fill-blank",
-                question: "Einen ___ (Regenschirm) für das schlechte Wetter.",
-                correct: "Regenschirm",
-                explanation: "den Regenschirm"
+                type: "multiple-choice",
+                question: "Ach, sieh mal! Der Rock ist aber toll! – Ja, ___ gefällt mir auch sehr gut.",
+                options: ["der", "die", "er"],
+                correct: 2,
+                explanation: "der Rock → er"
             },
-            // 3. Welcher/Dies-
+            // 2. Personalpronomen im Dativ (mir/dir/Ihnen)
             {
                 id: "l13-6",
                 type: "multiple-choice",
-                question: "___ mal, die Hose! - Die ist langweilig.",
-                options: ["Sieh", "Seh", "Guck"],
-                correct: 0,
-                explanation: "Sieh mal!"
+                question: "Sag mal, Tanja, wie gefällt ___ das Kleid?",
+                options: ["mir", "Ihnen", "dir"],
+                correct: 2,
+                explanation: "du → dir (informell)"
             },
             {
                 id: "l13-7",
-                type: "fill-blank",
-                question: "Wie findest du ___ Mantel? (der)",
-                correct: "den",
-                explanation: "den Mantel (Akk)"
+                type: "multiple-choice",
+                question: "Wie findest du den Rock? – Er gefällt ___ gut.",
+                options: ["mir", "mich", "ich"],
+                correct: 0,
+                explanation: "gefallen + Dativ: ich → mir"
             },
             {
                 id: "l13-8",
-                type: "fill-blank",
-                question: "Und ___ Bluse? (die)",
-                correct: "die",
-                explanation: "die Bluse"
+                type: "multiple-choice",
+                question: "Was sagst du zu der Hose? – Die steht ___ wirklich sehr gut! Nimm sie doch!",
+                options: ["ihm", "ihr", "dir"],
+                correct: 2,
+                explanation: "du → dir"
             },
-            // 4. Personalpronomen im Dativ
             {
                 id: "l13-9",
                 type: "multiple-choice",
-                question: "Gefällt ___ der Rock? (du - formell/informell?)",
-                options: ["mir", "ihnen", "dir"],
+                question: "Schmeckt ___ der Salat? – Ja, der ist sehr gut.",
+                options: ["mir", "euch", "uns"],
                 correct: 1,
-                explanation: "Gefällt Ihnen... (Sie -> Ihnen)"
+                explanation: "ihr → euch"
             },
+            // 3. Komparation: gern, gut, viel
             {
                 id: "l13-10",
-                type: "fill-blank",
-                question: "Ja, aber er ist zu groß. Er gefällt ___/___/___ nicht. (ich - mir?)",
-                correct: "mir",
-                explanation: "Er gefällt mir nicht."
+                type: "multiple-choice",
+                question: "Kannst du gut Auto fahren? – Ja, aber ich fahre noch ___ Fahrrad.",
+                options: ["gut", "besser", "am besten"],
+                correct: 1,
+                explanation: "gut → besser → am besten"
             },
             {
                 id: "l13-11",
-                type: "fill-blank",
-                question: "Schmeckt ___ der Salat? (ihr - Plural)",
-                correct: "euch",
-                explanation: "Schmeckt euch..."
+                type: "multiple-choice",
+                question: "Möchtest du gern mal nach Wien fahren? – Ja, aber noch ___ möchte ich nach Zürich fahren.",
+                options: ["gern", "lieber", "am liebsten"],
+                correct: 1,
+                explanation: "gern → lieber → am liebsten"
             },
-            // 5. Komparation
             {
                 id: "l13-12",
-                type: "fill-blank",
-                question: "Kannst du gut Auto fahren? - Ja, aber ich fahre noch ___ Fahrrad. (gut)",
-                correct: "besser",
-                explanation: "gut -> besser"
+                type: "multiple-choice",
+                question: "Kannst du gut Samba tanzen? – Ja, aber ich tanze noch ___ Salsa.",
+                options: ["gut", "besser", "am besten"],
+                correct: 1,
+                explanation: "gut → besser"
             },
+            // 4. Im Geschäft - Dialoge
             {
                 id: "l13-13",
-                type: "fill-blank",
-                question: "Möchtest du gern mal nach Wien fahren? - Ja, aber noch ___ möchte ich nach Zürich. (gern)",
-                correct: "lieber",
-                explanation: "gern -> lieber"
+                type: "match",
+                question: "Was passt? З'єднайте діалоги в магазині",
+                pairs: [
+                    { left: "Sagen Sie mal, wo gibt es hier Schuhe?", right: "Die finden Sie im Obergeschoss." },
+                    { left: "Entschuldigen Sie, haben Sie den Pullover auch in Rot?", right: "Nein, leider nicht. Den haben wir nur in Blau." },
+                    { left: "Sagen Sie mal, was kostet denn der Mantel?", right: "Der kostet nur 79 €. Das ist der Letzte." },
+                    { left: "Entschuldigen Sie, wo ist denn hier die Kasse, bitte?", right: "Die ist gleich da vorne, neben der Treppe." },
+                    { left: "Sagen Sie mal, gibt es die Jacke auch in Größe 40?", right: "Die Abteilung finden Sie im ersten Stock." }
+                ]
             }
         ]
     },
