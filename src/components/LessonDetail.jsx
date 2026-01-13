@@ -369,42 +369,143 @@ const LessonDetail = () => {
                 <ChevronRight size={20} color="var(--text-2)" />
             </button>
 
-            {/* Grammar Topics (Interactive) - Only if not fully covered by textbook summary, or as deep dive */}
+            {/* ==========================================
+                ГРАМАТИКА (Інтерактивні вправи)
+            ========================================== */}
             {grammarTopics.length > 0 && (
-                <div style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase' }}>
-                        Інтерактивні вправи (Граматика)
+                <div style={{ marginBottom: 32 }}>
+                    <div style={{
+                        fontSize: '0.9rem',
+                        fontWeight: 700,
+                        color: 'var(--text-0)',
+                        marginBottom: 16,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8
+                    }}>
+                        <Lightbulb size={20} color="var(--pri)" />
+                        Інтерактивна Граматика
                     </div>
-                    {grammarTopics.map(topic => {
-                        const topicExercises = getExercisesForTopic(topic.id);
-                        const hasContent = getGrammarContent(topic.id) !== null;
 
-                        return (
-                            <div key={topic.id} style={{
-                                padding: 12,
-                                marginBottom: 8,
-                                background: 'rgba(255,255,255,0.03)',
-                                border: '1px solid rgba(255,255,255,0.08)',
-                                borderRadius: 14,
-                                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-                            }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                    <div style={{ fontSize: '1.2rem', opacity: 0.8 }}>{topic.icon}</div>
-                                    <div style={{ fontSize: '0.9rem', color: 'var(--text-1)' }}>{topic.name}</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                        {grammarTopics.map(topic => {
+                            const topicExercises = getExercisesForTopic(topic.id);
+                            const hasContent = getGrammarContent(topic.id) !== null;
+                            const hasExercises = topicExercises.length > 0;
+
+                            return (
+                                <div
+                                    key={topic.id}
+                                    style={{
+                                        background: 'rgba(255, 255, 255, 0.03)',
+                                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                                        borderRadius: 20,
+                                        padding: 20,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 16
+                                    }}
+                                >
+                                    {/* Header */}
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                        <div style={{
+                                            width: 48,
+                                            height: 48,
+                                            borderRadius: 14,
+                                            background: 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            fontSize: '1.5rem'
+                                        }}>
+                                            {topic.icon}
+                                        </div>
+                                        <div style={{ flex: 1 }}>
+                                            <div style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-0)', marginBottom: 4 }}>
+                                                {topic.name}
+                                            </div>
+                                            {topic.shortDescription && (
+                                                <div style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>
+                                                    {topic.shortDescription}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div style={{ display: 'flex', gap: 12 }}>
+                                        {hasContent && (
+                                            <button
+                                                onClick={() => openGrammarTopic(topic.id)}
+                                                style={{
+                                                    flex: 1,
+                                                    height: 44,
+                                                    borderRadius: 12,
+                                                    background: 'rgba(242, 106, 27, 0.15)',
+                                                    border: '1px solid rgba(242, 106, 27, 0.3)',
+                                                    color: '#F26A1B',
+                                                    fontSize: '0.9rem',
+                                                    fontWeight: 600,
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    gap: 8
+                                                }}
+                                            >
+                                                <BookOpen size={18} />
+                                                Теорія
+                                            </button>
+                                        )}
+
+                                        {hasExercises ? (
+                                            <button
+                                                onClick={() => startTopicExercises(topic.id)}
+                                                style={{
+                                                    flex: 1,
+                                                    height: 44,
+                                                    borderRadius: 12,
+                                                    background: 'rgba(34, 197, 94, 0.15)',
+                                                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                                                    color: '#4ade80',
+                                                    fontSize: '0.9rem',
+                                                    fontWeight: 600,
+                                                    cursor: 'pointer',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    gap: 8
+                                                }}
+                                            >
+                                                <PenTool size={18} />
+                                                Вправи
+                                            </button>
+                                        ) : (
+                                            <div style={{
+                                                flex: 1,
+                                                height: 44,
+                                                borderRadius: 12,
+                                                background: 'rgba(255,255,255,0.03)',
+                                                border: '1px solid rgba(255,255,255,0.05)',
+                                                color: 'var(--text-muted)',
+                                                fontSize: '0.9rem',
+                                                fontWeight: 500,
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                gap: 8,
+                                                opacity: 0.5
+                                            }}>
+                                                <PenTool size={18} />
+                                                Скоро
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                                <div style={{ display: 'flex', gap: 8 }}>
-                                    {hasContent && (
-                                        <button onClick={() => openGrammarTopic(topic.id)} style={{ padding: '6px 10px', borderRadius: 8, background: 'rgba(242,106,27,0.1)', color: 'var(--pri)', border: 'none', fontSize: '0.8rem', cursor: 'pointer' }}>
-                                            Теорія
-                                        </button>
-                                    )}
-                                    <button onClick={() => startTopicExercises(topic.id)} style={{ padding: '6px 10px', borderRadius: 8, background: 'rgba(255,255,255,0.1)', color: 'white', border: 'none', fontSize: '0.8rem', cursor: 'pointer' }}>
-                                        Вправи
-                                    </button>
-                                </div>
-                            </div>
-                        )
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             )}
 

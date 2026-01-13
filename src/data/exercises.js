@@ -1435,6 +1435,153 @@ export const exercises = {
         options: ["vor", "hinter", "zwischen"],
         correct: 0,
         explanation: "vor = перед. Vor der Tür."
+    },
+
+    // ==========================================
+    // LEKTION 13: Demonstrativpronomen
+    // ==========================================
+    "dem-1": {
+        id: "dem-1",
+        type: "multiple-choice",
+        topic: "demonstrativpronomen",
+        question: "Ich kaufe ___ Mantel. Der gefällt mir.",
+        options: ["dieser", "diesen", "dieses"],
+        correct: 1,
+        explanation: "Mantel ist maskulin (der). Hier Akkusativ (kaufen + wen/was?) -> diesen."
+    },
+    "dem-2": {
+        id: "dem-2",
+        type: "multiple-choice",
+        topic: "demonstrativpronomen",
+        question: "Wie findest du ___ Jacke?",
+        options: ["diese", "dieser", "dieses"],
+        correct: 0,
+        explanation: "Jacke ist feminin (die). Akkusativ -> diese."
+    },
+    "dem-3": {
+        id: "dem-3",
+        type: "multiple-choice",
+        topic: "demonstrativpronomen",
+        question: "___ Hemd ist zu groß.",
+        options: ["Dieser", "Diese", "Dieses"],
+        correct: 2,
+        explanation: "Hemd ist neutral (das). Nominativ -> Dieses."
+    },
+    "dem-4": {
+        id: "dem-4",
+        type: "multiple-choice",
+        topic: "demonstrativpronomen",
+        question: "Gefallen dir ___ Schuhe?",
+        options: ["diese", "dieser", "dieses"],
+        correct: 0,
+        explanation: "Schuhe sind Plural. Nominativ -> diese."
+    },
+    "dem-5": {
+        id: "dem-5",
+        type: "match",
+        topic: "demonstrativpronomen",
+        question: "Welcher Rock? -> ___ Rock.",
+        options: ["Dieser", "Diese", "Dieses"],
+        correct: 0,
+        explanation: "Welcher (m) -> Dieser (m)."
+    },
+
+    // ==========================================
+    // LEKTION 13: Adjektive (prädikativ)
+    // ==========================================
+    "adj-1": {
+        id: "adj-1",
+        type: "multiple-choice",
+        topic: "adjektive-praedikativ",
+        question: "Der Anzug ist ___.",
+        options: ["elegant", "elegante", "eleganter"],
+        correct: 0,
+        explanation: "Prädikativ (nach sein) haben Adjektive keine Endung! -> elegant."
+    },
+    "adj-2": {
+        id: "adj-2",
+        type: "multiple-choice",
+        topic: "adjektive-praedikativ",
+        question: "Die Hose ist zu ___.",
+        options: ["kurz", "kurze", "kurzes"],
+        correct: 0,
+        explanation: "Adjektiv nach 'ist' -> keine Endung -> kurz."
+    },
+    "adj-3": {
+        id: "adj-3",
+        type: "multiple-choice",
+        topic: "adjektive-praedikativ",
+        question: "Findest du die Bluse ___?",
+        options: ["schön", "schöne", "schönen"],
+        correct: 0,
+        explanation: "Nach 'finden' + Objekt ist das Adjektiv prädikativ -> keine Endung -> schön."
+    },
+    "adj-4": {
+        id: "adj-4",
+        type: "multiple-choice",
+        topic: "adjektive-praedikativ",
+        question: "Das T-Shirt kostet 5 Euro. Das ist ___.",
+        options: ["billig", "billige", "billiges"],
+        correct: 0,
+        explanation: "Keine Endung."
+    },
+    "adj-5": {
+        id: "adj-5",
+        type: "multiple-choice",
+        topic: "adjektive-praedikativ",
+        question: "Welche Jacke ist ___? Die Rote.",
+        options: ["besser", "gut", "gute"],
+        correct: 0,
+        explanation: "Komparativ von gut ist besser."
+    },
+
+    // ==========================================
+    // LEKTION 13: Farben
+    // ==========================================
+    "farb-1": {
+        id: "farb-1",
+        type: "multiple-choice",
+        topic: "farben",
+        question: "Wie ist die Tomate?",
+        options: ["Rot", "Blau", "Grün"],
+        correct: 0,
+        explanation: "Tomaten sind rot."
+    },
+    "farb-2": {
+        id: "farb-2",
+        type: "multiple-choice",
+        topic: "farben",
+        question: "Wie ist der Schnee?",
+        options: ["Weiß", "Schwarz", "Gelb"],
+        correct: 0,
+        explanation: "Schnee ist weiß."
+    },
+    "farb-3": {
+        id: "farb-3",
+        type: "multiple-choice",
+        topic: "farben",
+        question: "Wie ist die Sonne?",
+        options: ["Gelb", "Lila", "Grau"],
+        correct: 0,
+        explanation: "Die Sonne ist gelb."
+    },
+    "farb-4": {
+        id: "farb-4",
+        type: "multiple-choice",
+        topic: "farben",
+        question: "Mischung: Rot + Weiß = ?",
+        options: ["Rosa", "Grün", "Schwarz"],
+        correct: 0,
+        explanation: "Rot und Weiß gibt Rosa."
+    },
+    "farb-5": {
+        id: "farb-5",
+        type: "multiple-choice",
+        topic: "farben",
+        question: "Was ist keine Farbe?",
+        options: ["Tisch", "Blau", "Grün"],
+        correct: 0,
+        explanation: "Tisch ist ein Nomen (Möbel)."
     }
 };
 
