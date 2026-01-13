@@ -198,6 +198,17 @@ const useStore = create(
                 });
             },
 
+            // Start Noun Master with custom list (Review)
+            startReviewNounMaster: (words) => {
+                const nounsOnly = words.filter(w => w.article && w.plural);
+                set({
+                    currentView: 'noun-master',
+                    activeLessonId: null, // No specific lesson
+                    flashcardWords: nounsOnly,
+                    currentCardIndex: 0
+                });
+            },
+
             // Start lesson test
             startLessonTest: (lessonId) => {
                 set({

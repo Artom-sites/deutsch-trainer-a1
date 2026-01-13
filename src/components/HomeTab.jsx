@@ -570,14 +570,18 @@ const HomeTab = () => {
                                 {weakWords.length} слів
                             </span>
                         </div>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24 }}>
+                        <div
+                            onClick={() => useStore.getState().startReviewNounMaster(weakWords)}
+                            style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24, cursor: 'pointer' }}
+                        >
                             {weakWords.map(word => (
                                 <div key={word.id} style={{
                                     background: 'rgba(233, 75, 90, 0.1)',
                                     border: '1px solid rgba(233, 75, 90, 0.25)',
                                     borderRadius: 12,
                                     padding: '8px 12px',
-                                    fontSize: '0.85rem'
+                                    fontSize: '0.85rem',
+                                    pointerEvents: 'none' // Prevent individual clicks from bubbling weirdly if needed, though harmless here
                                 }}>
                                     <span style={{ color: 'var(--text-0)', fontWeight: 500 }}>{word.word}</span>
                                     <span style={{ color: 'var(--text-2)', marginLeft: 6 }}>{word.translation}</span>
