@@ -26,7 +26,9 @@ const FlashcardSession = () => {
         ? Math.round((currentIndex / flashcardWords.length) * 100)
         : 0;
 
-    // Autoplay logic
+    // Autoplay logic - separate timing for front (Ukrainian) and back (German)
+    const backStudyTime = 4000; // 4 seconds to study German word after speaking
+
     useEffect(() => {
         if (!isAutoplay || isComplete || !currentWord) {
             if (autoplayTimerRef.current) {
@@ -41,17 +43,17 @@ const FlashcardSession = () => {
                 setAutoplayPhase('back');
             }, autoplaySpeed * 1000);
         } else if (autoplayPhase === 'back') {
-            // Show back briefly, then speak
+            // Show back for a moment, then speak
             autoplayTimerRef.current = setTimeout(() => {
                 setAutoplayPhase('speaking');
                 speakWord(currentWord.word, currentWord.article).then(() => {
-                    // After speaking, wait a bit and go to next
-                    setTimeout(() => {
+                    // After speaking, wait LONGER (4s) to let user study the word + plural
+                    autoplayTimerRef.current = setTimeout(() => {
                         handleNext();
                         setAutoplayPhase('front');
-                    }, 500);
+                    }, backStudyTime);
                 });
-            }, 800); // show back for 0.8s before speaking
+            }, 500); // brief pause before speaking
         }
 
         return () => {

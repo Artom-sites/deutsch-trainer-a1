@@ -80,63 +80,81 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
             }}>
                 {/* Header with tabs */}
                 <div style={{
-                    padding: 16, borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    padding: '16px 16px 12px', borderBottom: '1px solid rgba(255,255,255,0.08)',
                 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                        <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Додати слова</h3>
-                        <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', padding: 4 }}>
-                            <X size={24} />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                        <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 600 }}>Додати слова</h3>
+                        <button
+                            onClick={onClose}
+                            style={{
+                                width: 32, height: 32, borderRadius: 8,
+                                background: 'rgba(255,255,255,0.06)',
+                                border: 'none', color: 'var(--text-2)',
+                                cursor: 'pointer',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center'
+                            }}
+                        >
+                            <X size={18} />
                         </button>
                     </div>
 
-                    {/* Mode tabs */}
-                    <div style={{ display: 'flex', gap: 8 }}>
+                    {/* Mode tabs - pill style */}
+                    <div style={{
+                        display: 'flex', gap: 6,
+                        background: 'rgba(255,255,255,0.04)',
+                        padding: 4, borderRadius: 14
+                    }}>
                         <button
                             onClick={() => { setMode('search'); setSelectedLesson(null); }}
                             style={{
-                                background: mode === 'search' && !selectedLesson ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.05)',
+                                flex: 1,
+                                background: mode === 'search' && !selectedLesson ? 'rgba(139,92,246,0.25)' : 'transparent',
                                 color: mode === 'search' && !selectedLesson ? 'white' : 'var(--text-2)',
-                                border: mode === 'search' && !selectedLesson ? '1px solid rgba(139,92,246,0.5)' : '1px solid transparent',
-                                padding: '8px 14px', borderRadius: 12,
-                                fontWeight: 500, cursor: 'pointer', fontSize: '0.85rem'
+                                border: 'none',
+                                padding: '10px 12px', borderRadius: 10,
+                                fontWeight: 500, cursor: 'pointer', fontSize: '0.85rem',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6
                             }}
                         >
-                            <Search size={14} style={{ marginRight: 6, verticalAlign: -2 }} />
+                            <Search size={14} />
                             Пошук
                         </button>
 
                         {/* Lesson dropdown */}
-                        <div style={{ position: 'relative' }}>
+                        <div style={{ flex: 1, position: 'relative' }}>
                             <button
                                 onClick={() => setShowLessonDropdown(!showLessonDropdown)}
                                 style={{
-                                    background: selectedLesson ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.05)',
+                                    width: '100%',
+                                    background: selectedLesson ? 'rgba(139,92,246,0.25)' : 'transparent',
                                     color: selectedLesson ? 'white' : 'var(--text-2)',
-                                    border: selectedLesson ? '1px solid rgba(139,92,246,0.5)' : '1px solid transparent',
-                                    padding: '8px 14px', borderRadius: 12,
+                                    border: 'none',
+                                    padding: '10px 12px', borderRadius: 10,
                                     fontWeight: 500, cursor: 'pointer', fontSize: '0.85rem',
-                                    display: 'flex', alignItems: 'center', gap: 6
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6
                                 }}
                             >
                                 <BookOpen size={14} />
                                 {selectedLesson ? `Урок ${selectedLesson}` : 'Лекція'}
-                                <ChevronDown size={14} />
+                                <ChevronDown size={12} />
                             </button>
 
                             {showLessonDropdown && (
                                 <div style={{
-                                    position: 'absolute', top: '100%', left: 0,
-                                    marginTop: 4, background: '#252530',
-                                    borderRadius: 12, boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
-                                    zIndex: 10, maxHeight: 250, overflowY: 'auto',
-                                    minWidth: 150, border: '1px solid rgba(255,255,255,0.1)'
+                                    position: 'absolute', top: '100%', left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    marginTop: 6, background: '#252530',
+                                    borderRadius: 14, boxShadow: '0 12px 40px rgba(0,0,0,0.6)',
+                                    zIndex: 10, maxHeight: 280, overflowY: 'auto',
+                                    minWidth: 140, border: '1px solid rgba(255,255,255,0.1)'
                                 }}>
                                     <div
                                         onClick={() => { setSelectedLesson(null); setShowLessonDropdown(false); setMode('search'); }}
                                         style={{
                                             padding: '10px 14px', cursor: 'pointer',
-                                            background: !selectedLesson ? 'rgba(139,92,246,0.2)' : 'transparent',
-                                            borderBottom: '1px solid rgba(255,255,255,0.05)'
+                                            background: !selectedLesson ? 'rgba(139,92,246,0.15)' : 'transparent',
+                                            borderBottom: '1px solid rgba(255,255,255,0.05)',
+                                            fontSize: '0.9rem'
                                         }}
                                     >
                                         Всі слова
@@ -147,7 +165,8 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                                             onClick={() => { setSelectedLesson(l.id); setShowLessonDropdown(false); setMode('search'); }}
                                             style={{
                                                 padding: '10px 14px', cursor: 'pointer',
-                                                background: selectedLesson === l.id ? 'rgba(139,92,246,0.2)' : 'transparent'
+                                                background: selectedLesson === l.id ? 'rgba(139,92,246,0.15)' : 'transparent',
+                                                fontSize: '0.9rem'
                                             }}
                                         >
                                             Урок {l.id}
@@ -160,14 +179,16 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                         <button
                             onClick={() => setMode('custom')}
                             style={{
-                                background: mode === 'custom' ? 'rgba(139,92,246,0.3)' : 'rgba(255,255,255,0.05)',
+                                flex: 1,
+                                background: mode === 'custom' ? 'rgba(139,92,246,0.25)' : 'transparent',
                                 color: mode === 'custom' ? 'white' : 'var(--text-2)',
-                                border: mode === 'custom' ? '1px solid rgba(139,92,246,0.5)' : '1px solid transparent',
-                                padding: '8px 14px', borderRadius: 12,
-                                fontWeight: 500, cursor: 'pointer', fontSize: '0.85rem'
+                                border: 'none',
+                                padding: '10px 12px', borderRadius: 10,
+                                fontWeight: 500, cursor: 'pointer', fontSize: '0.85rem',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6
                             }}
                         >
-                            <Plus size={14} style={{ marginRight: 6, verticalAlign: -2 }} />
+                            <Plus size={14} />
                             Своє
                         </button>
                     </div>

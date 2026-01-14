@@ -43,26 +43,68 @@ const CollectionManager = ({ onStartStudy }) => {
     if (view === 'create') {
         return (
             <div className="fade-in">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
-                    <button onClick={() => setView('list')} className="btn-icon">
-                        <ArrowLeft size={24} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 32 }}>
+                    <button
+                        onClick={() => setView('list')}
+                        style={{
+                            width: 40, height: 40, borderRadius: 12,
+                            background: 'rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(255,255,255,0.12)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: 'white', cursor: 'pointer'
+                        }}
+                    >
+                        <ArrowLeft size={20} />
                     </button>
-                    <h2>Новий набір</h2>
+                    <h2 style={{ margin: 0, fontSize: '1.3rem' }}>Новий набір</h2>
                 </div>
-                <form onSubmit={handleCreate}>
-                    <label style={{ display: 'block', marginBottom: 8, color: 'var(--text-secondary)' }}>Назва папки</label>
-                    <input
-                        className="input-field"
-                        value={newCollectionName}
-                        onChange={e => setNewCollectionName(e.target.value)}
-                        placeholder="Наприклад: Подорож"
-                        autoFocus
-                        style={{ width: '100%', padding: 16, marginBottom: 24 }}
-                    />
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                        Створити
-                    </button>
-                </form>
+
+                <div style={{
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: 20, padding: 24
+                }}>
+                    <form onSubmit={handleCreate}>
+                        <label style={{
+                            display: 'block', marginBottom: 10,
+                            color: 'var(--text-2)', fontSize: '0.9rem', fontWeight: 500
+                        }}>
+                            Назва набору
+                        </label>
+                        <input
+                            value={newCollectionName}
+                            onChange={e => setNewCollectionName(e.target.value)}
+                            placeholder="Наприклад: Подорож, Їжа, Робота..."
+                            autoFocus
+                            style={{
+                                width: '100%', padding: 16, marginBottom: 24,
+                                background: 'rgba(255,255,255,0.06)',
+                                border: '1px solid rgba(255,255,255,0.15)',
+                                borderRadius: 14, color: 'white', fontSize: '1rem',
+                                outline: 'none'
+                            }}
+                        />
+                        <button
+                            type="submit"
+                            disabled={!newCollectionName.trim()}
+                            style={{
+                                width: '100%', padding: 16, borderRadius: 14,
+                                background: newCollectionName.trim()
+                                    ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
+                                    : 'rgba(255,255,255,0.05)',
+                                border: 'none',
+                                color: newCollectionName.trim() ? 'white' : 'var(--text-2)',
+                                fontWeight: 600, fontSize: '1rem',
+                                cursor: newCollectionName.trim() ? 'pointer' : 'default',
+                                boxShadow: newCollectionName.trim() ? '0 0 20px rgba(139,92,246,0.3)' : 'none',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
+                            }}
+                        >
+                            <Plus size={18} />
+                            Створити набір
+                        </button>
+                    </form>
+                </div>
             </div>
         );
     }
