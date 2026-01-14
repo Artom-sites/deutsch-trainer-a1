@@ -144,12 +144,12 @@ const HomeTab = () => {
                 }}
             >
                 <div style={{ display: 'flex', gap: 14, marginBottom: 16 }}>
-                    {/* Play Icon */}
+                    {/* Play Icon - Premium purple glow */}
                     <div style={{
-                        width: 52, height: 52, borderRadius: 14,
-                        background: 'linear-gradient(180deg, rgba(255,107,53,0.22), rgba(255,107,53,0.08))',
-                        border: '1px solid rgba(255,107,53,0.2)',
-                        boxShadow: '0 12px 30px rgba(255,107,53,0.12)',
+                        width: 52, height: 52, borderRadius: 16,
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(99, 102, 241, 0.2))',
+                        border: '1px solid rgba(139, 92, 246, 0.4)',
+                        boxShadow: '0 0 30px rgba(139, 92, 246, 0.3), 0 8px 24px rgba(0,0,0,0.3)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         flexShrink: 0
                     }}>
@@ -207,16 +207,17 @@ const HomeTab = () => {
                     </div>
                 </div>
 
-                {/* Continue Button */}
+                {/* Continue Button - Glowing purple */}
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <button style={{
-                        background: 'var(--pri)',
-                        color: '#0B0B0F',
+                        background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                        color: '#fff',
                         border: 'none', borderRadius: 999,
-                        padding: '10px 20px',
+                        padding: '12px 24px',
                         fontWeight: 600, fontSize: '0.9rem',
                         display: 'flex', alignItems: 'center', gap: 6,
-                        boxShadow: '0 8px 24px rgba(255,107,53,.25)'
+                        boxShadow: '0 0 20px rgba(139,92,246,0.4), 0 0 40px rgba(139,92,246,0.2), 0 4px 16px rgba(0,0,0,0.3)',
+                        cursor: 'pointer'
                     }}>
                         Продовжити <ChevronRight size={18} />
                     </button>
@@ -303,28 +304,27 @@ const HomeTab = () => {
             </h3>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
-                {/* Картки */}
                 <div
                     onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
                     className="card-interactive"
                     style={{
-                        background: 'linear-gradient(135deg, rgba(47, 230, 166, 0.15), rgba(47, 230, 166, 0.05))',
-                        backdropFilter: 'blur(20px) saturate(180%)',
-                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                        border: '1px solid rgba(47, 230, 166, 0.3)',
-                        borderRadius: 18, padding: 14,
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.08))',
+                        backdropFilter: 'blur(24px) saturate(180%)',
+                        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                        border: '1px solid rgba(139, 92, 246, 0.35)',
+                        borderRadius: 20, padding: 16,
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
-                        gap: 10, textAlign: 'center',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), 0 0 30px rgba(47,230,166,0.1), inset 0 1px 0 rgba(255,255,255,0.12)',
-                        transition: 'transform 0.15s ease'
+                        gap: 12, textAlign: 'center',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.3), 0 0 40px rgba(139,92,246,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                     }}
                 >
                     <div style={{
-                        width: 50, height: 50, borderRadius: 14,
-                        background: 'linear-gradient(180deg, rgba(46,204,113,0.22), rgba(46,204,113,0.08))',
-                        border: '1px solid rgba(46,204,113,0.2)',
-                        boxShadow: '0 12px 30px rgba(46,204,113,0.12)',
+                        width: 52, height: 52, borderRadius: '50%',
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(168, 85, 247, 0.2))',
+                        border: '1px solid rgba(139, 92, 246, 0.4)',
+                        boxShadow: '0 0 25px rgba(139,92,246,0.3)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
                         <Sparkles size={24} color="#fff" />
@@ -335,28 +335,28 @@ const HomeTab = () => {
                     </div>
                 </div>
 
-                {/* Noun Master */}
+                {/* Noun Master - Indigo theme */}
                 <div
                     onClick={() => useStore.getState().startNounMaster(currentLesson.id)}
                     className="card-interactive"
                     style={{
-                        background: 'linear-gradient(135deg, rgba(87, 166, 255, 0.15), rgba(87, 166, 255, 0.05))',
-                        backdropFilter: 'blur(20px) saturate(180%)',
-                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                        border: '1px solid rgba(87, 166, 255, 0.3)',
-                        borderRadius: 18, padding: 14,
+                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(79, 70, 229, 0.08))',
+                        backdropFilter: 'blur(24px) saturate(180%)',
+                        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                        border: '1px solid rgba(99, 102, 241, 0.35)',
+                        borderRadius: 20, padding: 16,
                         cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center',
-                        gap: 10, textAlign: 'center',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), 0 0 30px rgba(87,166,255,0.1), inset 0 1px 0 rgba(255,255,255,0.12)',
-                        transition: 'transform 0.15s ease'
+                        gap: 12, textAlign: 'center',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.3), 0 0 40px rgba(99,102,241,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
                     }}
                 >
                     <div style={{
-                        width: 50, height: 50, borderRadius: 14,
-                        background: 'linear-gradient(180deg, rgba(87,166,255,0.22), rgba(87,166,255,0.08))',
-                        border: '1px solid rgba(87,166,255,0.2)',
-                        boxShadow: '0 12px 30px rgba(87,166,255,0.12)',
+                        width: 52, height: 52, borderRadius: '50%',
+                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(79, 70, 229, 0.2))',
+                        border: '1px solid rgba(99, 102, 241, 0.4)',
+                        boxShadow: '0 0 25px rgba(99,102,241,0.3)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center'
                     }}>
                         <PenTool size={24} color="#fff" />

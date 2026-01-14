@@ -13,11 +13,12 @@ body {
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     color: var(--text-0);
     background:
-        radial-gradient(ellipse 100% 80% at 10% 0%, rgba(87, 166, 255, 0.25), transparent 40%),
-        radial-gradient(ellipse 80% 60% at 90% 20%, rgba(139, 92, 246, 0.22), transparent 45%),
-        radial-gradient(ellipse 90% 70% at 20% 100%, rgba(47, 230, 166, 0.18), transparent 40%),
-        radial-gradient(ellipse 70% 50% at 80% 85%, rgba(255, 107, 53, 0.15), transparent 40%),
-        linear-gradient(160deg, #0a0c12 0%, #0d1117 40%, #0a0c10 100%);
+        radial-gradient(ellipse 120% 60% at 50% -10%, rgba(139, 92, 246, 0.4), transparent 50%),
+        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(59, 130, 246, 0.3), transparent 45%),
+        radial-gradient(ellipse 60% 40% at 20% 15%, rgba(168, 85, 247, 0.25), transparent 40%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(99, 102, 241, 0.15), transparent 40%),
+        radial-gradient(ellipse 40% 30% at 10% 90%, rgba(139, 92, 246, 0.12), transparent 40%),
+        linear-gradient(180deg, #05050a 0%, #0a0a12 30%, #050508 100%);
     background-attachment: fixed;
     min-height: 100vh;
     overflow-x: hidden;
@@ -165,12 +166,69 @@ textarea {
     bottom: 0;
     z-index: -1;
     background:
-        radial-gradient(ellipse 100% 80% at 10% 0%, rgba(87, 166, 255, 0.25), transparent 40%),
-        radial-gradient(ellipse 80% 60% at 90% 20%, rgba(139, 92, 246, 0.22), transparent 45%),
-        radial-gradient(ellipse 90% 70% at 20% 100%, rgba(47, 230, 166, 0.18), transparent 40%),
-        radial-gradient(ellipse 70% 50% at 80% 85%, rgba(255, 107, 53, 0.15), transparent 40%);
+        radial-gradient(ellipse 120% 60% at 50% -10%, rgba(139, 92, 246, 0.35), transparent 50%),
+        radial-gradient(ellipse 80% 50% at 80% 10%, rgba(59, 130, 246, 0.25), transparent 45%),
+        radial-gradient(ellipse 60% 40% at 20% 15%, rgba(168, 85, 247, 0.2), transparent 40%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(99, 102, 241, 0.15), transparent 40%);
     background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%;
-    animation: aurora 20s ease-in-out infinite;
+    animation: aurora 25s ease-in-out infinite;
+}
+
+/* Glowing CTA button (like music player reference) */
+.btn-glow {
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    box-shadow:
+        0 0 20px rgba(139, 92, 246, 0.5),
+        0 0 40px rgba(139, 92, 246, 0.3),
+        0 0 60px rgba(139, 92, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-glow:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        0 0 30px rgba(139, 92, 246, 0.6),
+        0 0 60px rgba(139, 92, 246, 0.4),
+        0 0 90px rgba(139, 92, 246, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.btn-glow:active {
+    transform: scale(0.98);
+}
+
+/* Floating bubble icon (like finance app) */
+.bubble-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.15));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 4px 20px rgba(139, 92, 246, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bubble-icon:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow:
+        0 8px 30px rgba(139, 92, 246, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* ==========================================

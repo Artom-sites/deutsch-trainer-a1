@@ -14,6 +14,14 @@ const useStore = create(
             userProgress: {}, // wordId -> { interval, repetitions, easeFactor, dueDate }
 
             // ==========================================
+            // SOUND SETTINGS
+            // ==========================================
+            soundEnabled: true, // true | false
+            soundMode: 'all', // 'all' | 'effects' | 'none'
+            toggleSound: () => set(state => ({ soundEnabled: !state.soundEnabled })),
+            setSoundMode: (mode) => set({ soundMode: mode }),
+
+            // ==========================================
             // NAVIGATION STATE
             // ==========================================
             currentTab: 'home',

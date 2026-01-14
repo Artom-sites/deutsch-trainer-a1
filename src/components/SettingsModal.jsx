@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuthStore from '../store/authStore';
-import { X, LogOut, Bell, Moon, Volume2, User } from 'lucide-react';
+import useStore from '../store/useStore';
+import { X, LogOut, Bell, Volume2, VolumeX, Check } from 'lucide-react';
+import { checkPermission, requestNotificationPermission } from '../utils/notifications';
 
 const SettingsModal = ({ onClose }) => {
     const user = useAuthStore(state => state.user);
     const logout = useAuthStore(state => state.logout);
 
+    // Sound settings from store
+    const soundEnabled = useStore(state => state.soundEnabled);
+    const soundMode = useStore(state => state.soundMode);
+    const toggleSound = useStore(state => state.toggleSound);
+    const setSoundMode = useStore(state => state.setSoundMode);
+
+    // Notification state
+    const [notifEnabled, setNotifEnabled] = useState(false);
+    const [showSoundOptions, setShowSoundOptions] = useState(false);
+
+    useEffect(() => {
+        setNotifEnabled(checkPermission());
+    }, []);
+
+    const handleNotifToggle = async () => {
+        if (!notifEnabled) {
+            const granted = await requestNotificationPermission();
+            setNotifEnabled(granted);
+        }
+    };
+
     const handleLogout = async () => {
         await logout();
         onClose();
-        // Force reload to clear any residual state if needed, though auth listener should handle it
         window.location.reload();
+    };
+
+    const soundModeLabels = {
+        all: 'Всі звуки',
+        effects: 'Тільки ефекти',
+        none: 'Вимкнено'
     };
 
     return (
@@ -68,28 +96,85 @@ const SettingsModal = ({ onClose }) => {
 
                     {/* Settings List */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                        {/* Placeholder Settings */}
-                        <div style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                            padding: 16, background: 'rgba(255,255,255,0.03)', borderRadius: 16
-                        }}>
+                        {/* Notifications */}
+                        <div
+                            onClick={handleNotifToggle}
+                            style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                padding: 16, background: 'rgba(255,255,255,0.03)', borderRadius: 16,
+                                cursor: 'pointer', transition: 'background 0.15s ease'
+                            }}
+                        >
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                                 <Bell size={20} color="var(--text-2)" />
                                 <span>Сповіщення</span>
                             </div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Увімкнено</div>
+                            <div style={{
+                                fontSize: '0.8rem',
+                                color: notifEnabled ? '#2fe6a6' : 'var(--text-2)',
+                                display: 'flex', alignItems: 'center', gap: 6
+                            }}>
+                                {notifEnabled ? <><Check size={14} /> Увімкнено</> : 'Вимкнено'}
+                            </div>
                         </div>
 
-                        <div style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                            padding: 16, background: 'rgba(255,255,255,0.03)', borderRadius: 16
-                        }}>
+                        {/* Sound Settings */}
+                        <div
+                            onClick={() => setShowSoundOptions(!showSoundOptions)}
+                            style={{
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                padding: 16, background: 'rgba(255,255,255,0.03)', borderRadius: 16,
+                                cursor: 'pointer', transition: 'background 0.15s ease'
+                            }}
+                        >
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <Volume2 size={20} color="var(--text-2)" />
+                                {soundEnabled ? <Volume2 size={20} color="var(--text-2)" /> : <VolumeX size={20} color="var(--text-2)" />}
                                 <span>Звук</span>
                             </div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>Всі звуки</div>
+                            <div style={{
+                                fontSize: '0.8rem',
+                                color: soundEnabled ? '#2fe6a6' : 'var(--text-2)'
+                            }}>
+                                {soundModeLabels[soundMode]}
+                            </div>
                         </div>
+
+                        {/* Sound Options Dropdown */}
+                        {showSoundOptions && (
+                            <div style={{
+                                background: 'rgba(255,255,255,0.02)',
+                                borderRadius: 12,
+                                overflow: 'hidden',
+                                marginTop: -8
+                            }}>
+                                {(['all', 'effects', 'none']).map(mode => (
+                                    <div
+                                        key={mode}
+                                        onClick={() => {
+                                            setSoundMode(mode);
+                                            if (mode === 'none') {
+                                                useStore.setState({ soundEnabled: false });
+                                            } else {
+                                                useStore.setState({ soundEnabled: true });
+                                            }
+                                            setShowSoundOptions(false);
+                                        }}
+                                        style={{
+                                            padding: '12px 16px',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                            cursor: 'pointer',
+                                            background: soundMode === mode ? 'rgba(139,92,246,0.15)' : 'transparent',
+                                            borderLeft: soundMode === mode ? '3px solid #8b5cf6' : '3px solid transparent'
+                                        }}
+                                    >
+                                        <span style={{ color: soundMode === mode ? '#fff' : 'var(--text-2)' }}>
+                                            {soundModeLabels[mode]}
+                                        </span>
+                                        {soundMode === mode && <Check size={16} color="#8b5cf6" />}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         {/* Logout Button */}
                         <button
