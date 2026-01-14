@@ -307,8 +307,15 @@ const useAuthStore = create(
                     if (c.id !== collectionId) return c;
 
                     if (isCustom) {
-                        return { ...c, customWords: [...c.customWords, { ...wordIdOrObj, id: Date.now().toString() }] };
+                        // Custom words go to the BEGINNING of the list
+                        return { ...c, customWords: [{ ...wordIdOrObj, id: Date.now().toString() }, ...c.customWords] };
                     } else {
+                        // Support bulk add (array of word IDs)
+                        if (Array.isArray(wordIdOrObj)) {
+                            const newIds = wordIdOrObj.filter(id => !c.wordIds.includes(id));
+                            return { ...c, wordIds: [...c.wordIds, ...newIds] };
+                        }
+                        // Single word add
                         if (c.wordIds.includes(wordIdOrObj)) return c;
                         return { ...c, wordIds: [...c.wordIds, wordIdOrObj] };
                     }

@@ -70,10 +70,10 @@ const CollectionManager = ({ onStartStudy }) => {
         // Re-fetch collection from store to get latest updates
         const currentCollection = collections.find(c => c.id === activeCollection.id) || activeCollection;
 
-        // Resolve words
+        // Resolve words - CUSTOM WORDS FIRST
         const resolvedWords = [
-            ...currentCollection.wordIds.map(id => allWords.find(w => w.id === id)).filter(Boolean),
-            ...currentCollection.customWords
+            ...currentCollection.customWords,
+            ...currentCollection.wordIds.map(id => allWords.find(w => w.id === id)).filter(Boolean)
         ];
 
         return (
@@ -154,6 +154,7 @@ const CollectionManager = ({ onStartStudy }) => {
                     <WordSelector
                         onClose={() => setShowWordSelector(false)}
                         onSelect={handleAddWord}
+                        existingWordIds={currentCollection.wordIds}
                     />
                 )}
             </div>
