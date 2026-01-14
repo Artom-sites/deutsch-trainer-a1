@@ -297,6 +297,62 @@ const HomeTab = () => {
             {/* SRSCalendar now includes weekly activity */}
 
             {/* =====================
+                МІЙ НАБІР (Last Studied Collection)
+            ===================== */}
+            {(() => {
+                const lastId = useAuthStore.getState().lastStudiedCollectionId;
+                const collections = useAuthStore.getState().collections;
+                const lastCollection = lastId && collections.find(c => c.id === lastId);
+                const allWords = require('../data/lexicon').getAllWords();
+
+                if (!lastCollection) return null;
+
+                // Resolve words for this collection
+                const resolvedWords = [
+                    ...lastCollection.customWords,
+                    ...lastCollection.wordIds.map(id => allWords.find(w => w.id === id)).filter(Boolean)
+                ];
+
+                if (resolvedWords.length === 0) return null;
+
+                return (
+                    <div style={{ marginBottom: 24 }}>
+                        <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: '0 0 12px' }}>
+                            Мій набір
+                        </h3>
+                        <div
+                            onClick={() => {
+                                useStore.getState().setFlashcardWords(resolvedWords);
+                            }}
+                            className="card-interactive"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(16, 185, 129, 0.08))',
+                                border: '1px solid rgba(34, 197, 94, 0.3)',
+                                borderRadius: 16, padding: 16, cursor: 'pointer',
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                <div style={{
+                                    width: 44, height: 44, borderRadius: 12,
+                                    background: 'rgba(34, 197, 94, 0.2)',
+                                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                }}>
+                                    <Play size={20} color="#22c55e" fill="#22c55e" style={{ marginLeft: 2 }} />
+                                </div>
+                                <div>
+                                    <div style={{ fontWeight: 600, color: 'var(--text-0)' }}>{lastCollection.name}</div>
+                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>{resolvedWords.length} слів • Картки</div>
+                                </div>
+                            </div>
+                            <ChevronRight size={20} color="var(--text-2)" />
+                        </div>
+                    </div>
+                );
+            })()}
+
+            {/* =====================
                 ШВИДКИЙ ДОСТУП
             ===================== */}
             <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: '0 0 12px' }}>

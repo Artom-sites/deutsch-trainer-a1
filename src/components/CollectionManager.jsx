@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAuthStore from '../store/authStore';
 import { getAllWords } from '../data/lexicon';
-import { Plus, Folder, Trash2, ChevronRight, ArrowLeft, Play, MoreVertical } from 'lucide-react';
+import { Plus, Folder, Trash2, ChevronRight, ArrowLeft, Play, PenTool } from 'lucide-react';
 import WordSelector from './WordSelector';
 import useStore from '../store/useStore';
 
@@ -203,22 +203,62 @@ const CollectionManager = ({ onStartStudy }) => {
 
                 {/* Stats & Actions */}
                 <div style={{
-                    background: 'var(--bg-card)', padding: 16, borderRadius: 16, marginBottom: 24,
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                    background: 'var(--bg-card)', padding: 16, borderRadius: 16, marginBottom: 24
                 }}>
-                    <div>
-                        <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{resolvedWords.length}</div>
-                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>слів</div>
+                    <div style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        marginBottom: 16
+                    }}>
+                        <div>
+                            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{resolvedWords.length}</div>
+                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>слів</div>
+                        </div>
                     </div>
-                    <button
-                        className="btn btn-primary"
-                        disabled={resolvedWords.length === 0}
-                        onClick={() => onStartStudy && onStartStudy(resolvedWords)}
-                        style={{ padding: '8px 16px', fontSize: '0.9rem' }}
-                    >
-                        <Play size={16} style={{ marginRight: 6 }} />
-                        Вчити
-                    </button>
+
+                    {/* Action buttons */}
+                    <div style={{ display: 'flex', gap: 10 }}>
+                        <button
+                            disabled={resolvedWords.length === 0}
+                            onClick={() => {
+                                // Save as last studied collection
+                                useAuthStore.getState().setLastStudiedCollection(currentCollection.id);
+                                onStartStudy && onStartStudy(resolvedWords);
+                            }}
+                            style={{
+                                flex: 1, padding: '12px 16px', borderRadius: 12,
+                                background: resolvedWords.length > 0 ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.05)',
+                                border: resolvedWords.length > 0 ? '1px solid rgba(139,92,246,0.3)' : '1px solid rgba(255,255,255,0.1)',
+                                color: resolvedWords.length > 0 ? '#a78bfa' : 'var(--text-2)',
+                                fontWeight: 500, cursor: resolvedWords.length > 0 ? 'pointer' : 'default',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
+                            }}
+                        >
+                            <Play size={16} />
+                            Картки
+                        </button>
+
+                        <button
+                            disabled={resolvedWords.length === 0}
+                            onClick={() => {
+                                // Save as last studied collection
+                                useAuthStore.getState().setLastStudiedCollection(currentCollection.id);
+                                // Start Noun Master for this collection
+                                useStore.getState().setNounMasterWords(resolvedWords);
+                            }}
+                            style={{
+                                flex: 1, padding: '12px 16px', borderRadius: 12,
+                                background: resolvedWords.length > 0 ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255,255,255,0.05)',
+                                border: 'none',
+                                color: resolvedWords.length > 0 ? 'white' : 'var(--text-2)',
+                                fontWeight: 600, cursor: resolvedWords.length > 0 ? 'pointer' : 'default',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                                boxShadow: resolvedWords.length > 0 ? '0 0 20px rgba(139,92,246,0.25)' : 'none'
+                            }}
+                        >
+                            <PenTool size={16} />
+                            Noun Master
+                        </button>
+                    </div>
                 </div>
 
                 {/* Word List */}

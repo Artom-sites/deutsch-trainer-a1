@@ -33,6 +33,10 @@ const useAuthStore = create(
             coins: 100, // Initial bonus
             inventory: [], // IDs of purchased items
             collections: [], // User custom word collections
+            lastStudiedCollectionId: null, // Last studied collection for quick access
+
+            // Set last studied collection
+            setLastStudiedCollection: (collectionId) => set({ lastStudiedCollectionId: collectionId }),
 
             // Initialize auth listener
             initAuth: () => {

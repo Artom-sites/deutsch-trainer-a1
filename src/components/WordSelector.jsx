@@ -68,12 +68,13 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(0,0,0,0.85)', zIndex: 100,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 16
+            background: 'rgba(0,0,0,0.9)', zIndex: 100,
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            paddingTop: 40, paddingLeft: 16, paddingRight: 16, paddingBottom: 100
         }}>
             <div className="glass-panel" style={{
-                width: '100%', maxWidth: 500, height: '85vh',
+                width: '100%', maxWidth: 500,
+                maxHeight: 'calc(100vh - 160px)', // Leave room for BottomNav
                 display: 'flex', flexDirection: 'column',
                 background: '#1a1a22', borderRadius: 24, overflow: 'hidden',
                 border: '1px solid rgba(255,255,255,0.1)'
@@ -370,9 +371,9 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                             onClick={onClose}
                             style={{
                                 flex: 1, padding: 14,
-                                background: 'rgba(255,255,255,0.05)',
-                                border: '1px solid rgba(255,255,255,0.1)',
-                                borderRadius: 14, color: 'var(--text-2)',
+                                background: 'rgba(233, 75, 90, 0.1)',
+                                border: '1px solid rgba(233, 75, 90, 0.25)',
+                                borderRadius: 14, color: '#E94B5A',
                                 fontWeight: 500, cursor: 'pointer', fontSize: '0.95rem'
                             }}
                         >
