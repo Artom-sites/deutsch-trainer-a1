@@ -5,7 +5,7 @@ import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { speakWord } from '../utils/speech';
 
-const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
+const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const controls = useAnimation();
@@ -20,6 +20,11 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev }) => {
         setIsFlipped(false);
         x.set(0);
     }, [word.id]);
+
+    // Handle autoFlip from parent
+    useEffect(() => {
+        setIsFlipped(autoFlip);
+    }, [autoFlip]);
 
     // Get color style based on article
     const getGenderColor = (article) => {

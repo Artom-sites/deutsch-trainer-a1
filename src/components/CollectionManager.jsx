@@ -15,6 +15,7 @@ const CollectionManager = ({ onStartStudy }) => {
     const [view, setView] = useState('list'); // 'list' | 'detail' | 'create'
     const [activeCollection, setActiveCollection] = useState(null);
     const [showWordSelector, setShowWordSelector] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [newCollectionName, setNewCollectionName] = useState('');
 
     const allWords = getAllWords();
@@ -79,19 +80,84 @@ const CollectionManager = ({ onStartStudy }) => {
         return (
             <div className="fade-in">
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <button onClick={() => setView('list')} className="btn-icon">
-                            <ArrowLeft size={24} />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                        <button
+                            onClick={() => setView('list')}
+                            style={{
+                                width: 40, height: 40, borderRadius: 12,
+                                background: 'rgba(255,255,255,0.08)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                color: 'white', cursor: 'pointer'
+                            }}
+                        >
+                            <ArrowLeft size={20} />
                         </button>
-                        <h2 style={{ margin: 0 }}>{currentCollection.name}</h2>
+                        <h2 style={{ margin: 0, fontSize: '1.2rem' }}>{currentCollection.name}</h2>
                     </div>
                     <button
-                        onClick={() => deleteCollection(currentCollection.id) || setView('list')}
-                        style={{ color: '#E94B5A', background: 'transparent', border: 'none' }}
+                        onClick={() => setShowDeleteConfirm(true)}
+                        style={{
+                            width: 40, height: 40, borderRadius: 12,
+                            background: 'rgba(233, 75, 90, 0.1)',
+                            border: '1px solid rgba(233, 75, 90, 0.2)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: '#E94B5A', cursor: 'pointer'
+                        }}
                     >
-                        <Trash2 size={20} />
+                        <Trash2 size={18} />
                     </button>
                 </div>
+
+                {/* Delete Confirmation Modal */}
+                {showDeleteConfirm && (
+                    <div style={{
+                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                        background: 'rgba(0,0,0,0.8)', zIndex: 200,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        padding: 20
+                    }}>
+                        <div style={{
+                            background: '#1c1c24', borderRadius: 20, padding: 24,
+                            maxWidth: 320, width: '100%', textAlign: 'center',
+                            border: '1px solid rgba(255,255,255,0.1)'
+                        }}>
+                            <Trash2 size={40} color="#E94B5A" style={{ marginBottom: 16 }} />
+                            <h3 style={{ margin: '0 0 8px', fontSize: '1.1rem' }}>Видалити набір?</h3>
+                            <p style={{ color: 'var(--text-2)', margin: '0 0 24px', fontSize: '0.9rem' }}>
+                                «{currentCollection.name}» буде видалено назавжди
+                            </p>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                                <button
+                                    onClick={() => setShowDeleteConfirm(false)}
+                                    style={{
+                                        flex: 1, padding: 14, borderRadius: 12,
+                                        background: 'rgba(255,255,255,0.08)',
+                                        border: '1px solid rgba(255,255,255,0.15)',
+                                        color: 'white', fontWeight: 500, cursor: 'pointer'
+                                    }}
+                                >
+                                    Скасувати
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        deleteCollection(currentCollection.id);
+                                        setShowDeleteConfirm(false);
+                                        setView('list');
+                                    }}
+                                    style={{
+                                        flex: 1, padding: 14, borderRadius: 12,
+                                        background: '#E94B5A',
+                                        border: 'none',
+                                        color: 'white', fontWeight: 600, cursor: 'pointer'
+                                    }}
+                                >
+                                    Видалити
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* Stats & Actions */}
                 <div style={{
