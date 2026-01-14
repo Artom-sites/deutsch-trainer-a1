@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import useStore from '../store/useStore';
 import Flashcard from './Flashcard';
-import { ArrowLeft, CheckCircle, Eye, Play, Pause, Settings } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Eye, Play, Pause, Settings, SkipForward } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 
 const FlashcardSession = () => {
@@ -98,18 +98,39 @@ const FlashcardSession = () => {
                 justifyContent: 'space-between',
                 padding: '0 0 16px 0'
             }}>
-                <button
-                    onClick={goBack}
-                    style={{
-                        width: 40, height: 40, borderRadius: 12,
-                        background: 'rgba(255,255,255,0.08)',
-                        border: '1px solid rgba(255,255,255,0.12)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: 'white', cursor: 'pointer'
-                    }}
-                >
-                    <ArrowLeft size={20} />
-                </button>
+                <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                        onClick={goBack}
+                        style={{
+                            width: 40, height: 40, borderRadius: 12,
+                            background: 'rgba(255,255,255,0.08)',
+                            border: '1px solid rgba(255,255,255,0.12)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: 'white', cursor: 'pointer'
+                        }}
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+
+                    {/* Skip forward button */}
+                    <button
+                        onClick={() => {
+                            setAutoplayPhase('front');
+                            handleNext();
+                        }}
+                        disabled={currentIndex >= flashcardWords.length - 1}
+                        style={{
+                            width: 40, height: 40, borderRadius: 12,
+                            background: currentIndex < flashcardWords.length - 1 ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.05)',
+                            border: currentIndex < flashcardWords.length - 1 ? '1px solid rgba(139,92,246,0.3)' : '1px solid rgba(255,255,255,0.08)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            color: currentIndex < flashcardWords.length - 1 ? '#a78bfa' : 'var(--text-2)',
+                            cursor: currentIndex < flashcardWords.length - 1 ? 'pointer' : 'default'
+                        }}
+                    >
+                        <SkipForward size={18} />
+                    </button>
+                </div>
 
                 <div style={{
                     fontSize: '0.9rem',
@@ -247,13 +268,38 @@ const FlashcardSession = () => {
                     <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
                         Ви переглянули {flashcardWords.length} слів
                     </p>
-                    <p style={{ color: '#F26A1B', fontSize: '0.9rem', marginBottom: 'var(--space-xl)' }}>
-                        Для вивчення пройди "Noun Master" 💪
+                    <p style={{ color: '#a78bfa', fontSize: '0.9rem', marginBottom: 24 }}>
+                        Готовий запам'ятати? 💪
                     </p>
 
-                    <button className="btn btn-primary" onClick={goBack}>
-                        Повернутися
-                    </button>
+                    <div style={{ display: 'flex', gap: 12, flexDirection: 'column', width: '100%', maxWidth: 280 }}>
+                        <button
+                            onClick={() => useStore.getState().setNounMasterWords(flashcardWords)}
+                            style={{
+                                padding: '14px 24px', borderRadius: 14,
+                                background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                                border: 'none', color: 'white',
+                                fontWeight: 600, fontSize: '1rem', cursor: 'pointer',
+                                boxShadow: '0 0 20px rgba(139,92,246,0.3)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
+                            }}
+                        >
+                            🎯 Noun Master
+                        </button>
+
+                        <button
+                            onClick={goBack}
+                            style={{
+                                padding: '14px 24px', borderRadius: 14,
+                                background: 'rgba(255,255,255,0.08)',
+                                border: '1px solid rgba(255,255,255,0.15)',
+                                color: 'var(--text-1)',
+                                fontWeight: 500, fontSize: '0.95rem', cursor: 'pointer'
+                            }}
+                        >
+                            Повернутися
+                        </button>
+                    </div>
                 </div>
             )}
 

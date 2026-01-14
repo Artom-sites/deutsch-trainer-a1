@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
-import { lessons } from '../data/lexicon';
+import { lessons, getAllWords } from '../data/lexicon';
 import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, Bell } from 'lucide-react';
 import SRSCalendar from './SRSCalendar';
 import SettingsModal from './SettingsModal';
@@ -303,7 +303,7 @@ const HomeTab = () => {
                 const lastId = useAuthStore.getState().lastStudiedCollectionId;
                 const collections = useAuthStore.getState().collections;
                 const lastCollection = lastId && collections.find(c => c.id === lastId);
-                const allWords = require('../data/lexicon').getAllWords();
+                const allWords = getAllWords();
 
                 if (!lastCollection) return null;
 
