@@ -403,6 +403,13 @@ const useStore = create(
         }),
         {
             name: 'de-app-storage',
+            // Don't persist navigation state - always start at home
+            partialize: (state) => ({
+                userProgress: state.userProgress,
+                soundEnabled: state.soundEnabled,
+                soundMode: state.soundMode,
+                lastVisitedLessonId: state.lastVisitedLessonId,
+            }),
         }
     )
 );

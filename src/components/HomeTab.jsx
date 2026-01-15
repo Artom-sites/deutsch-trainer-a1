@@ -23,6 +23,8 @@ const HomeTab = () => {
     const dailyProgress = useAuthStore(state => state.dailyProgress);
     const streak = useAuthStore(state => state.streak);
     const weeklyActivity = useAuthStore(state => state.weeklyActivity);
+    const lastStudiedCollectionId = useAuthStore(state => state.lastStudiedCollectionId);
+    const collections = useAuthStore(state => state.collections);
 
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
@@ -300,9 +302,7 @@ const HomeTab = () => {
                 МІЙ НАБІР (Last Studied Collection)
             ===================== */}
             {(() => {
-                const lastId = useAuthStore.getState().lastStudiedCollectionId;
-                const collections = useAuthStore.getState().collections;
-                const lastCollection = lastId && collections.find(c => c.id === lastId);
+                const lastCollection = lastStudiedCollectionId && collections.find(c => c.id === lastStudiedCollectionId);
                 const allWords = getAllWords();
 
                 if (!lastCollection) return null;
