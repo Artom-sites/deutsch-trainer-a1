@@ -1,11 +1,11 @@
 // src/components/Flashcard.jsx
 // Preview-only Flashcard - Swipe navigation on mobile, buttons on desktop
 import React, { useState, useEffect } from 'react';
-import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Volume2, VolumeX, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { speakWord } from '../utils/speech';
 
-const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false }) => {
+const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false, isAutoplay = false, speakEnabled = true, onToggleSpeak }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isSpeaking, setIsSpeaking] = useState(false);
     const controls = useAnimation();
@@ -193,11 +193,18 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false }) => {
                             </div>
 
                             <button
-                                onClick={handleSpeak}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (isAutoplay && onToggleSpeak) {
+                                        onToggleSpeak(!speakEnabled);
+                                    } else {
+                                        handleSpeak(e);
+                                    }
+                                }}
                                 style={{
                                     marginTop: 40,
-                                    background: isSpeaking ? genderColor : 'rgba(255, 255, 255, 0.05)',
-                                    border: `1px solid ${isSpeaking ? genderColor : 'rgba(255, 255, 255, 0.1)'}`,
+                                    background: isSpeaking ? genderColor : (isAutoplay && !speakEnabled ? 'rgba(255, 107, 53, 0.2)' : 'rgba(255, 255, 255, 0.05)'),
+                                    border: `1px solid ${isSpeaking ? genderColor : (isAutoplay && !speakEnabled ? '#F26A1B' : 'rgba(255, 255, 255, 0.1)')}`,
                                     borderRadius: '50%',
                                     width: 64,
                                     height: 64,
@@ -209,10 +216,14 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false }) => {
                                     boxShadow: isSpeaking ? `0 0 30px ${genderColor}60` : 'none'
                                 }}
                             >
-                                <Volume2
-                                    size={30}
-                                    color={isSpeaking ? '#000' : 'var(--text-1)'}
-                                />
+                                {isAutoplay && !speakEnabled ? (
+                                    <VolumeX size={30} color="#F26A1B" />
+                                ) : (
+                                    <Volume2
+                                        size={30}
+                                        color={isSpeaking ? '#000' : 'var(--text-1)'}
+                                    />
+                                )}
                             </button>
                         </div>
                     </motion.div>

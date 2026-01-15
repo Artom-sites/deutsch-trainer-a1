@@ -18,6 +18,7 @@ const FlashcardSession = () => {
     const [autoplaySpeed, setAutoplaySpeed] = useState(3); // seconds to show front
     const [showSpeedMenu, setShowSpeedMenu] = useState(false);
     const [autoplayPhase, setAutoplayPhase] = useState('front'); // 'front' | 'back' | 'speaking'
+    const [speakEnabled, setSpeakEnabled] = useState(true); // Sound toggle
     const autoplayTimerRef = useRef(null);
 
     const currentWord = flashcardWords[currentIndex];
@@ -43,16 +44,25 @@ const FlashcardSession = () => {
                 setAutoplayPhase('back');
             }, autoplaySpeed * 1000);
         } else if (autoplayPhase === 'back') {
-            // Show back for a moment, then speak
+            // Show back, optionally speak
             autoplayTimerRef.current = setTimeout(() => {
-                setAutoplayPhase('speaking');
-                speakWord(currentWord.word, currentWord.article).then(() => {
-                    // After speaking, wait LONGER (4s) to let user study the word + plural
+                if (speakEnabled) {
+                    setAutoplayPhase('speaking');
+                    speakWord(currentWord.word, currentWord.article).then(() => {
+                        // After speaking, wait to study the word
+                        autoplayTimerRef.current = setTimeout(() => {
+                            handleNext();
+                            setAutoplayPhase('front');
+                        }, backStudyTime);
+                    });
+                } else {
+                    // No speech - just wait and advance
+                    setAutoplayPhase('speaking');
                     autoplayTimerRef.current = setTimeout(() => {
                         handleNext();
                         setAutoplayPhase('front');
                     }, backStudyTime);
-                });
+                }
             }, 500); // brief pause before speaking
         }
 
@@ -61,7 +71,7 @@ const FlashcardSession = () => {
                 clearTimeout(autoplayTimerRef.current);
             }
         };
-    }, [isAutoplay, autoplayPhase, currentIndex, currentWord, isComplete, autoplaySpeed]);
+    }, [isAutoplay, autoplayPhase, currentIndex, currentWord, isComplete, autoplaySpeed, speakEnabled]);
 
     // Reset autoplay phase when word changes
     useEffect(() => {
@@ -72,12 +82,14 @@ const FlashcardSession = () => {
 
     const handleNext = () => {
         if (currentIndex < flashcardWords.length) {
+            setAutoplayPhase('front');
             setCurrentIndex(currentIndex + 1);
         }
     };
 
     const handlePrev = () => {
         if (currentIndex > 0) {
+            setAutoplayPhase('front');
             setCurrentIndex(currentIndex - 1);
         }
     };
@@ -237,6 +249,9 @@ const FlashcardSession = () => {
                     onPrev={handlePrev}
                     canGoPrev={currentIndex > 0}
                     autoFlip={isAutoplay && autoplayPhase !== 'front'}
+                    isAutoplay={isAutoplay}
+                    speakEnabled={speakEnabled}
+                    onToggleSpeak={setSpeakEnabled}
                 />
             ) : (
                 // Completion Screen
