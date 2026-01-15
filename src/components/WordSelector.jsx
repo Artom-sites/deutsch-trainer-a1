@@ -82,7 +82,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
             {/* Main Panel - Floating Card above BottomNav */}
             <div className="glass-panel" style={{
                 width: '100%', maxWidth: 500,
-                height: 'auto',
+                height: '100%', // Fill available space between top and bottom padding
                 maxHeight: '100%', // Constrained by padding
                 borderRadius: 24, // All corners rounded
                 background: '#131318',
