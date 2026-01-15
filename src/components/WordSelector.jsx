@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { getAllWords, getWordsForLesson, lessons } from '../data/lexicon';
 import { X, Search, Plus, Check, ChevronDown, BookOpen, Filter } from 'lucide-react';
 
@@ -68,7 +69,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
     const isWordSelected = (wordId) => selectedWords.includes(wordId);
     const isWordAlreadyInCollection = (wordId) => existingWordIds.includes(wordId);
 
-    return (
+    return createPortal(
         <div style={{
             position: 'fixed', inset: 0,
             background: 'rgba(0,0,0,0.85)', zIndex: 1100,
@@ -440,7 +441,8 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                     </div>
                 )}
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 
