@@ -1,122 +1,115 @@
 export const wordsA2 = [
-    // Lektion 1 (A2) - Alltag & Familie
+    // ==========================================
+    // LEKTION 1 (A2) - ANKOMMEN
+    // Foto-Hörgeschichte + Lernwortschatz aus Buch
+    // ==========================================
 
-    // Nouns
-    { id: 'a2-w-1', word: 'der Mensch', translation: 'людина', plur: 'Menschen', article: 'der', plural: 'Menschen', lesson: 'a2-l1' },
-    { id: 'a2-w-2', word: 'die Eltern', translation: 'батьки', plur: 'Eltern', article: 'die', plural: 'Eltern', lesson: 'a2-l1' },
-    { id: 'a2-w-3', word: 'der Freund', translation: 'друг', plur: 'Freunde', article: 'der', plural: 'Freunde', lesson: 'a2-l1' },
-    { id: 'a2-w-4', word: 'das Hotel', translation: 'готель', plur: 'Hotels', article: 'das', plural: 'Hotels', lesson: 'a2-l1' },
-    { id: 'a2-w-5', word: 'die Miete', translation: 'орендна плата', plur: 'Mieten', article: 'die', plural: 'Mieten', lesson: 'a2-l1' },
-    { id: 'a2-w-6', word: 'das Zentrum', translation: 'центр', plur: 'Zentren', article: 'das', plural: 'Zentren', lesson: 'a2-l1' },
-    { id: 'a2-w-7', word: 'der Nachbar', translation: 'сусід', plur: 'Nachbarn', article: 'der', plural: 'Nachbarn', lesson: 'a2-l1' },
-    { id: 'a2-w-8', word: 'das Pech', translation: 'невдача', plur: '-', article: 'das', plural: '-', lesson: 'a2-l1' },
-    { id: 'a2-w-9', word: 'der Mist', translation: 'дурниця / гній', plur: '-', article: 'der', plural: '-', lesson: 'a2-l1' },
-    { id: 'a2-w-10', word: 'das Glück', translation: 'щастя / удача', plur: '-', article: 'das', plural: '-', lesson: 'a2-l1' },
+    // --- Foto-Hörgeschichte (Sektion 1-4) ---
+    { id: 'a2-l1-w1', word: 'glücklich', translation: 'щасливий', lesson: 'a2-l1', type: 'adjective', example: 'Tim ist glücklich.' },
+    { id: 'a2-l1-w2', word: 'ansehen', translation: 'дивитися на', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'angesehen' }, example: 'Tim sieht sich Fotos von Lara an.' },
+    { id: 'a2-l1-w3', word: 'der Nachbar', translation: 'сусід', article: 'der', plural: 'Nachbarn', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w4', word: 'die Nachbarin', translation: 'сусідка', article: 'die', plural: 'Nachbarinnen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w5', word: 'der Einkauf', translation: 'покупка', article: 'der', plural: 'Einkäufe', lesson: 'a2-l1', type: 'noun', example: 'Tim geht es nach dem Einkauf besser.' },
+    { id: 'a2-l1-w6', word: 'klappen', translation: 'вдаватися', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'geklappt' }, example: 'Es hat geklappt!' },
+    { id: 'a2-l1-w7', word: 'das Zentrum', translation: 'центр', article: 'das', plural: 'Zentren', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w8', word: 'das Gefühl', translation: 'почуття', article: 'das', plural: 'Gefühle', lesson: 'a2-l1', type: 'noun', example: 'Tim hat das Gefühl: "Ich bin allein."' },
+    { id: 'a2-l1-w9', word: 'der Anfang', translation: 'початок', article: 'der', plural: 'Anfänge', lesson: 'a2-l1', type: 'noun', example: 'Aller Anfang ist schwer.' },
+    { id: 'a2-l1-w10', word: 'vermissen', translation: 'сумувати за', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'vermisst' }, example: 'Ich vermisse meine Familie sehr.' },
 
-    // Verbs (using type: 'verb' for Dictionary/VerbCard support)
-    {
-        id: 'a2-w-11',
-        word: 'kennenlernen',
-        infinitiv: 'kennenlernen',
-        translation: 'знайомитися',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'lerne kennen', 'du': 'lernst kennen', 'er/sie/es': 'lernt kennen', 'wir': 'lernen kennen', 'ihr': 'lernt kennen', 'sie/Sie': 'lernen kennen' },
-        praeteritum: { 'ich': 'lernte kennen' }, // simplified
-        perfekt: { 'haben': 'kennengelernt' },
-        example: 'Ich habe schon zwei Nachbarn kennengelernt.'
-    },
-    {
-        id: 'a2-w-12',
-        word: 'einkaufen',
-        infinitiv: 'einkaufen',
-        translation: 'робити покупки',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'kaufe ein', 'du': 'kaufst ein', 'er/sie/es': 'kauft ein', 'wir': 'kaufen ein', 'ihr': 'kauft ein', 'sie/Sie': 'kaufen ein' },
-        perfekt: { 'haben': 'eingekauft' },
-        example: 'Du hast eingekauft.'
-    },
-    {
-        id: 'a2-w-13',
-        word: 'anrufen',
-        infinitiv: 'anrufen',
-        translation: 'дзвонити',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'rufe an', 'du': 'rufst an', 'er/sie/es': 'ruft an', 'wir': 'rufen an', 'ihr': 'ruft an', 'sie/Sie': 'rufen an' },
-        perfekt: { 'haben': 'angerufen' },
-        example: 'Ich habe Lara angerufen.'
-    },
-    {
-        id: 'a2-w-14',
-        word: 'telefonieren',
-        infinitiv: 'telefonieren',
-        translation: 'говорити по телефону',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'telefoniere', 'du': 'telefonierst', 'er/sie/es': 'telefoniert', 'wir': 'telefonieren', 'ihr': 'telefoniert', 'sie/Sie': 'telefonieren' },
-        perfekt: { 'haben': 'telefoniert' },
-        example: 'Ich habe lange telefoniert.'
-    },
-    {
-        id: 'a2-w-15',
-        word: 'passieren',
-        infinitiv: 'passieren',
-        translation: 'траплятися',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'es': 'passiert' },
-        perfekt: { 'sein': 'passiert' },
-        example: 'Was ist passiert?'
-    },
-    {
-        id: 'a2-w-16',
-        word: 'erleben',
-        infinitiv: 'erleben',
-        translation: 'переживати (подію)',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'erlebe', 'du': 'erlebst', 'er/sie/es': 'erlebt' },
-        perfekt: { 'haben': 'erlebt' },
-        example: 'Das hast du noch nicht erlebt!'
-    },
-    {
-        id: 'a2-w-17',
-        word: 'bemerken',
-        infinitiv: 'bemerken',
-        translation: 'помічати',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'bemerke', 'du': 'bemerkst', 'er/sie/es': 'bemerkt' },
-        perfekt: { 'haben': 'bemerkt' },
-        example: 'Ich habe es bemerkt.'
-    },
-    {
-        id: 'a2-w-18',
-        word: 'verstehen',
-        infinitiv: 'verstehen',
-        translation: 'розуміти',
-        lesson: 'a2-l1',
-        type: 'verb',
-        praesens: { 'ich': 'verstehe', 'du': 'verstehst', 'er/sie/es': 'versteht' },
-        perfekt: { 'haben': 'verstanden' },
-        example: 'Ich habe es verstanden.'
-    },
+    // --- A1-A3: weil, Arbeitgeber ---
+    { id: 'a2-l1-w11', word: 'weil', translation: 'тому що', lesson: 'a2-l1', type: 'conjunction', example: 'Ich bin traurig, weil ich hier keinen Menschen kenne.' },
+    { id: 'a2-l1-w12', word: 'der Mensch', translation: 'людина', article: 'der', plural: 'Menschen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w13', word: 'der Arbeitgeber', translation: 'роботодавець', article: 'der', plural: 'Arbeitgeber', lesson: 'a2-l1', type: 'noun', example: 'Mein Arbeitgeber zieht um.' },
+    { id: 'a2-l1-w14', word: 'die Arbeitgeberin', translation: 'роботодавиця', article: 'die', plural: 'Arbeitgeberinnen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w15', word: 'umziehen', translation: 'переїжджати', lesson: 'a2-l1', type: 'verb', perfekt: { sein: 'umgezogen' }, example: 'Mein Arbeitgeber zieht um.' },
 
-    // Adjectives / Adverbs
-    { id: 'a2-w-19', word: 'traurig', translation: 'сумний', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-20', word: 'peinlich', translation: 'незручно / соромно', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-21', word: 'weit', translation: 'далеко', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-22', word: 'draußen', translation: 'на вулиці / ззовні', lesson: 'a2-l1', type: 'adverb' },
-    { id: 'a2-w-23', word: 'teuer', translation: 'дорогий', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-24', word: 'allein', translation: 'самотній / один', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-25', word: 'getrennt', translation: 'окремо', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-26', word: 'zusammen', translation: 'разом', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-27', word: 'verheiratet', translation: 'одружений', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-28', word: 'ledig', translation: 'неодружений', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-29', word: 'berufstätig', translation: 'працюючий', lesson: 'a2-l1', type: 'adjective' },
-    { id: 'a2-w-30', word: 'arbeitslos', translation: 'безробітний', lesson: 'a2-l1', type: 'adjective' },
+    // --- B1-B2: kennenlernen, Umzug ---
+    { id: 'a2-l1-w16', word: 'sich kennenlernen', translation: 'знайомитися', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'kennengelernt' }, example: 'Ich habe schon zwei Nachbarn kennengelernt.' },
+    { id: 'a2-l1-w17', word: 'gestern', translation: 'вчора', lesson: 'a2-l1', type: 'adverb', example: 'Ich war gestern Abend nach dem Umzug sehr müde.' },
+    { id: 'a2-l1-w18', word: 'der Umzug', translation: 'переїзд', article: 'der', plural: 'Umzüge', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w19', word: 'die Sachen', translation: 'речі', article: 'die', plural: 'Sachen', lesson: 'a2-l1', type: 'noun', example: 'Ich habe nur noch ein paar Sachen ausgepackt.' },
+    { id: 'a2-l1-w20', word: 'auspacken', translation: 'розпаковувати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'ausgepackt' } },
+    { id: 'a2-l1-w21', word: 'einschlafen', translation: 'засинати', lesson: 'a2-l1', type: 'verb', perfekt: { sein: 'eingeschlafen' }, example: 'Ich bin sofort eingeschlafen.' },
+
+    // --- Wecker, merken, schließlich ---
+    { id: 'a2-l1-w22', word: 'der Wecker', translation: 'будильник', article: 'der', plural: 'Wecker', lesson: 'a2-l1', type: 'noun', example: 'Ich habe den Wecker nicht gehört.' },
+    { id: 'a2-l1-w23', word: 'sich merken', translation: 'запам\'ятовувати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'gemerkt' }, example: 'Ich habe es zwei Stationen später gemerkt.' },
+    { id: 'a2-l1-w24', word: 'schließlich', translation: 'зрештою', lesson: 'a2-l1', type: 'adverb', example: 'Ich bin schließlich pünktlich angekommen.' },
+    { id: 'a2-l1-w25', word: 'sogar', translation: 'навіть', lesson: 'a2-l1', type: 'adverb', example: 'Ich bin sogar noch pünktlich im Hotel angekommen.' },
+    { id: 'a2-l1-w26', word: 'der Arbeitstag', translation: 'робочий день', article: 'der', plural: 'Arbeitstage', lesson: 'a2-l1', type: 'noun' },
+
+    // --- C1-C2: Pannen im Alltag ---
+    { id: 'a2-l1-w27', word: 'klingen', translation: 'звучати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'geklungen' }, example: 'Das klingt aber nicht gut.' },
+    { id: 'a2-l1-w28', word: 'erleben', translation: 'переживати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'erlebt' }, example: 'So was hast du noch nicht erlebt!' },
+    { id: 'a2-l1-w29', word: 'die Panne', translation: 'невдача / поломка', article: 'die', plural: 'Pannen', lesson: 'a2-l1', type: 'noun', example: 'Pannen im Alltag.' },
+    { id: 'a2-l1-w30', word: 'der Alltag', translation: 'будні', article: 'der', plural: '-', lesson: 'a2-l1', type: 'noun', example: 'Erik hat viel Stress im Alltag.' },
+    { id: 'a2-l1-w31', word: 'verpassen', translation: 'пропустити', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'verpasst' }, example: 'Ich habe die S-Bahn verpasst.' },
+    { id: 'a2-l1-w32', word: 'bemerken', translation: 'помітити', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'bemerkt' }, example: 'Ich habe den Schlüssel vergessen und es jetzt erst bemerkt.' },
+    { id: 'a2-l1-w33', word: 'erfahren', translation: 'дізнаватися', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'erfahren' }, example: 'Ich habe gerade erfahren: Heute muss ich lange arbeiten.' },
+    { id: 'a2-l1-w34', word: 'sich vorstellen', translation: 'уявляти собі', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'vorgestellt' }, example: 'Stell Dir vor, Jan hat seine Geldbörse verloren.' },
+    { id: 'a2-l1-w35', word: 'die Geldbörse', translation: 'гаманець', article: 'die', plural: 'Geldbörsen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w36', word: 'verlieren', translation: 'втрачати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'verloren' }, example: 'Ich habe zehn Euro verloren.' },
+    { id: 'a2-l1-w37', word: 'das Pech', translation: 'невдача', article: 'das', plural: '-', lesson: 'a2-l1', type: 'noun', example: 'So ein Pech!' },
+    { id: 'a2-l1-w38', word: 'die Kreditkarte', translation: 'кредитна картка', article: 'die', plural: 'Kreditkarten', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w39', word: 'stoßen', translation: 'штовхати / наштовхуватися', lesson: 'a2-l1', type: 'verb', perfekt: { sein: 'gestoßen' }, example: 'Ich bin mit meinem Chef zusammengestoßen.' },
+    { id: 'a2-l1-w40', word: 'peinlich', translation: 'ніяково', lesson: 'a2-l1', type: 'adjective', example: 'Wie peinlich!' },
+
+    // --- D1: Familie (Onkel, Tante...) ---
+    { id: 'a2-l1-w41', word: 'der Onkel', translation: 'дядько', article: 'der', plural: 'Onkel', lesson: 'a2-l1', type: 'noun', example: 'Stefan ist Annas Onkel.' },
+    { id: 'a2-l1-w42', word: 'die Tante', translation: 'тітка', article: 'die', plural: 'Tanten', lesson: 'a2-l1', type: 'noun', example: 'Daniela ist Annas Tante.' },
+    { id: 'a2-l1-w43', word: 'der Cousin', translation: 'двоюрідний брат', article: 'der', plural: 'Cousins', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w44', word: 'die Cousine', translation: 'двоюрідна сестра', article: 'die', plural: 'Cousinen', lesson: 'a2-l1', type: 'noun', example: 'Maria ist Annas Cousine.' },
+    { id: 'a2-l1-w45', word: 'der Neffe', translation: 'племінник', article: 'der', plural: 'Neffen', lesson: 'a2-l1', type: 'noun', example: 'Luca ist Annas Neffe.' },
+    { id: 'a2-l1-w46', word: 'die Nichte', translation: 'племінниця', article: 'die', plural: 'Nichten', lesson: 'a2-l1', type: 'noun', example: 'Esther ist Annas Nichte.' },
+    { id: 'a2-l1-w47', word: 'sympathisch', translation: 'симпатичний', lesson: 'a2-l1', type: 'adjective', example: 'Anna sieht sehr sympathisch aus.' },
+    { id: 'a2-l1-w48', word: 'das Mitglied', translation: 'член (групи)', article: 'das', plural: 'Mitglieder', lesson: 'a2-l1', type: 'noun', example: 'Welches Familienmitglied ist besonders wichtig für Sie?' },
+
+    // --- E1: Wohngemeinschaft ---
+    { id: 'a2-l1-w49', word: 'die Wohngemeinschaft', translation: 'спільне проживання (WG)', article: 'die', plural: 'Wohngemeinschaften', lesson: 'a2-l1', type: 'noun', example: 'Im dritten Stock wohnt die Wohngemeinschaft.' },
+    { id: 'a2-l1-w50', word: 'wahrscheinlich', translation: 'ймовірно', lesson: 'a2-l1', type: 'adverb', example: 'Das ist wahrscheinlich die WG.' },
+    { id: 'a2-l1-w51', word: 'das Dach', translation: 'дах', article: 'das', plural: 'Dächer', lesson: 'a2-l1', type: 'noun', example: 'In der Dachwohnung wohnt der Single.' },
+    { id: 'a2-l1-w52', word: 'bisher', translation: 'досі', lesson: 'a2-l1', type: 'adverb', example: 'Hristo hat bisher bei seinem Bruder gewohnt.' },
+    { id: 'a2-l1-w53', word: 'verschieden', translation: 'різний', lesson: 'a2-l1', type: 'adjective', example: 'Sie kommen aus verschiedenen Ländern.' },
+
+    // --- E2: Wohnen ---
+    { id: 'a2-l1-w54', word: 'das Viertel', translation: 'район', article: 'das', plural: 'Viertel', lesson: 'a2-l1', type: 'noun', example: 'In unserem Viertel werden jeden Monat neue Häuser fertig.' },
+    { id: 'a2-l1-w55', word: 'der Mieter', translation: 'орендар', article: 'der', plural: 'Mieter', lesson: 'a2-l1', type: 'noun', example: 'Vor einer Woche sind die Mieter eingezogen.' },
+    { id: 'a2-l1-w56', word: 'die Mieterin', translation: 'орендарка', article: 'die', plural: 'Mieterinnen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w57', word: 'einziehen', translation: 'в\'їжджати (в квартиру)', lesson: 'a2-l1', type: 'verb', perfekt: { sein: 'eingezogen' } },
+    { id: 'a2-l1-w58', word: 'das Mal', translation: 'раз', article: 'das', plural: 'Male', lesson: 'a2-l1', type: 'noun', example: 'Ich wohne zum ersten Mal allein.' },
+    { id: 'a2-l1-w59', word: 'komisch', translation: 'дивний', lesson: 'a2-l1', type: 'adjective', example: 'Das ist noch ein bisschen komisch für mich.' },
+    { id: 'a2-l1-w60', word: 'jemand', translation: 'хтось', lesson: 'a2-l1', type: 'pronoun', example: 'Dort ist immer jemand da.' },
+    { id: 'a2-l1-w61', word: 'reichen', translation: 'вистачати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'gereicht' }, example: 'Das reicht uns.' },
+    { id: 'a2-l1-w62', word: 'teilen', translation: 'ділити', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'geteilt' }, example: 'Wir teilen uns die Zeit.' },
+    { id: 'a2-l1-w63', word: 'ausziehen', translation: 'виїжджати (з квартири)', lesson: 'a2-l1', type: 'verb', perfekt: { sein: 'ausgezogen' }, example: 'Alle sind ausgezogen.' },
+    { id: 'a2-l1-w64', word: 'der Platz', translation: 'місце', article: 'der', plural: 'Plätze', lesson: 'a2-l1', type: 'noun', example: 'Wir brauchen nicht mehr soviel Platz.' },
+    { id: 'a2-l1-w65', word: 'jeder', translation: 'кожен', lesson: 'a2-l1', type: 'pronoun', example: 'Jede von uns hat ihr eigenes Zimmer.' },
+    { id: 'a2-l1-w66', word: 'benutzen', translation: 'використовувати', lesson: 'a2-l1', type: 'verb', perfekt: { haben: 'benutzt' }, example: 'Die Küche und das Bad benutzen wir gemeinsam.' },
+    { id: 'a2-l1-w67', word: 'gemeinsam', translation: 'спільно', lesson: 'a2-l1', type: 'adverb' },
+    { id: 'a2-l1-w68', word: 'sonst', translation: 'інакше / ще', lesson: 'a2-l1', type: 'adverb', example: 'Ich möchte aber auch sonst nicht allein wohnen.' },
+    { id: 'a2-l1-w69', word: 'nun', translation: 'тепер', lesson: 'a2-l1', type: 'adverb', example: 'Nun komme ich nach Hause und es ist fast immer jemand da.' },
+    { id: 'a2-l1-w70', word: 'normalerweise', translation: 'зазвичай', lesson: 'a2-l1', type: 'adverb', example: 'Wir treffen uns normalerweise in der Küche.' },
+
+    // --- E3: Schwiegerfamilie ---
+    { id: 'a2-l1-w71', word: 'schwanger', translation: 'вагітна', lesson: 'a2-l1', type: 'adjective', example: 'Frau Wasilewski ist schwanger.' },
+    { id: 'a2-l1-w72', word: 'der Schwiegervater', translation: 'тесть / свекор', article: 'der', plural: 'Schwiegerväter', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w73', word: 'die Schwiegermutter', translation: 'теща / свекруха', article: 'die', plural: 'Schwiegermütter', lesson: 'a2-l1', type: 'noun', example: 'Meine Schwiegermutter lebt in der Türkei.' },
+    { id: 'a2-l1-w74', word: 'der Haushalt', translation: 'домашнє господарство', article: 'der', plural: 'Haushalte', lesson: 'a2-l1', type: 'noun', example: 'Sie hilft ihrer Tochter im Haushalt.' },
+    { id: 'a2-l1-w75', word: 'die Rente', translation: 'пенсія', article: 'die', plural: 'Renten', lesson: 'a2-l1', type: 'noun', example: 'Mein Vater ist seit zwei Jahren in Rente.' },
+
+    // --- Weitere Familienmitglieder ---
+    { id: 'a2-l1-w76', word: 'der Schwager', translation: 'шурин / дівер', article: 'der', plural: 'Schwäger', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w77', word: 'die Schwägerin', translation: 'своячка / золовиця', article: 'die', plural: 'Schwägerinnen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w78', word: 'der Ehemann', translation: 'чоловік (у шлюбі)', article: 'der', plural: 'Ehemänner', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w79', word: 'die Ehefrau', translation: 'дружина', article: 'die', plural: 'Ehefrauen', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w80', word: 'die Großmutter', translation: 'бабуся', article: 'die', plural: 'Großmütter', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w81', word: 'der Großvater', translation: 'дідусь', article: 'der', plural: 'Großväter', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w82', word: 'die Schwester', translation: 'сестра', article: 'die', plural: 'Schwestern', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w83', word: 'der Bruder', translation: 'брат', article: 'der', plural: 'Brüder', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w84', word: 'der Sohn', translation: 'син', article: 'der', plural: 'Söhne', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w85', word: 'die Tochter', translation: 'дочка', article: 'die', plural: 'Töchter', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w86', word: 'der Vater', translation: 'батько', article: 'der', plural: 'Väter', lesson: 'a2-l1', type: 'noun' },
+    { id: 'a2-l1-w87', word: 'die Mutter', translation: 'мати', article: 'die', plural: 'Mütter', lesson: 'a2-l1', type: 'noun' },
 
     // Lektion 2 (A2) - Wohnen & Einrichtung
 
