@@ -2,29 +2,60 @@
 // Lessons List - Violang-style Design
 import React from 'react';
 import useStore from '../store/useStore';
-import { lessons } from '../data/lexicon';
+import { getLessonsForLevel } from '../data/lexicon';
 import { Check, ChevronRight, BookOpen, Clock } from 'lucide-react';
 
 const LessonsTab = () => {
     const openLesson = useStore(state => state.openLesson);
     const getLessonProgress = useStore(state => state.getLessonProgress);
+    const level = useStore(state => state.level); // Get current level
 
-    const completedCount = lessons.filter(l => getLessonProgress(l.id).percent === 100).length;
+    const displayLessons = getLessonsForLevel(level);
+
+    const completedCount = displayLessons.filter(l => getLessonProgress(l.id).percent === 100).length;
 
     return (
         <div className="app">
             {/* Header */}
             <div style={{ marginBottom: 24 }}>
-                <h1 style={{
-                    fontSize: '1.6rem', fontWeight: 700,
-                    color: 'var(--text-0)', margin: '0 0 4px'
-                }}>
-                    Lektionen
-                </h1>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <h1 style={{
+                        fontSize: '1.6rem', fontWeight: 700,
+                        color: 'var(--text-0)', margin: 0
+                    }}>
+                        Lektionen
+                    </h1>
+
+                    {/* Level Switcher */}
+                    <div style={{ display: 'flex', background: 'var(--surface)', borderRadius: 999, padding: 4, border: '1px solid var(--stroke)' }}>
+                        <button
+                            onClick={() => useStore.getState().setLevel('A1')}
+                            style={{
+                                padding: '4px 12px', borderRadius: 999, border: 'none',
+                                background: level === 'A1' ? 'var(--text-0)' : 'transparent',
+                                color: level === 'A1' ? 'var(--bg-1)' : 'var(--text-2)',
+                                fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s'
+                            }}
+                        >
+                            A1
+                        </button>
+                        <button
+                            onClick={() => useStore.getState().setLevel('A2')}
+                            style={{
+                                padding: '4px 12px', borderRadius: 999, border: 'none',
+                                background: level === 'A2' ? 'var(--text-0)' : 'transparent',
+                                color: level === 'A2' ? 'var(--bg-1)' : 'var(--text-2)',
+                                fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s'
+                            }}
+                        >
+                            A2
+                        </button>
+                    </div>
+                </div>
                 <p style={{
                     fontSize: '0.9rem', color: 'var(--text-2)', margin: 0
                 }}>
-                    Рівень A1 • {completedCount} з {lessons.length} завершено
+                    Рівень {level} • {completedCount} з {displayLessons.length} завершено
                 </p>
             </div>
 
@@ -46,7 +77,7 @@ const LessonsTab = () => {
                         Загальний прогрес
                     </span>
                     <span style={{ color: 'var(--pri)', fontWeight: 600, fontSize: '0.9rem' }}>
-                        {Math.round((completedCount / lessons.length) * 100)}%
+                        {displayLessons.length > 0 ? Math.round((completedCount / displayLessons.length) * 100) : 0}%
                     </span>
                 </div>
                 <div style={{
@@ -54,7 +85,7 @@ const LessonsTab = () => {
                 }}>
                     <div style={{
                         height: '100%',
-                        width: `${(completedCount / lessons.length) * 100}%`,
+                        width: `${displayLessons.length > 0 ? (completedCount / displayLessons.length) * 100 : 0}%`,
                         background: 'linear-gradient(90deg, var(--pri), var(--pri-2))',
                         borderRadius: 3,
                         transition: 'width 0.3s ease'
@@ -64,7 +95,7 @@ const LessonsTab = () => {
 
             {/* Lessons List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {lessons.map((lesson) => {
+                {displayLessons.map((lesson) => {
                     const progress = getLessonProgress(lesson.id);
                     const isComplete = progress.percent === 100;
                     const isInProgress = progress.percent > 0 && progress.percent < 100;
@@ -113,7 +144,9 @@ const LessonsTab = () => {
                                         fontWeight: 700,
                                         color: isInProgress ? 'var(--pri)' : 'var(--text-2)'
                                     }}>
-                                        {lesson.id}
+                                        {typeof lesson.number === 'string' && lesson.number.includes('Lektion')
+                                            ? lesson.number.replace('Lektion ', '')
+                                            : lesson.number}
                                     </span>
                                 )}
                             </div>
@@ -128,7 +161,9 @@ const LessonsTab = () => {
                                         fontSize: '0.95rem',
                                         color: 'var(--text-0)'
                                     }}>
-                                        Lektion {lesson.id}
+                                        {typeof lesson.number === 'string' && lesson.number.includes('Lektion')
+                                            ? lesson.number
+                                            : `Lektion ${lesson.number}`}
                                     </span>
                                     <span style={{
                                         fontSize: '0.7rem',

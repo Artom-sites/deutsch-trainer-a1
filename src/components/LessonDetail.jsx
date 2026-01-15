@@ -1,6 +1,6 @@
 import React from 'react';
 import useStore from '../store/useStore';
-import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent, lessons } from '../data/lexicon';
+import { getLessonById, getWordsForLesson, getGrammarForLesson, getExercisesForTopic, getGrammarContent, getAllLessons } from '../data/lexicon';
 import { getTestForLesson } from '../data/lessonTests';
 import { getReadingForLesson } from '../data/lessonReadings';
 import { ArrowLeft, BookOpen, Lightbulb, PenTool, ChevronRight, Play, ClipboardCheck, BookText, CheckCircle2, MessageSquare, GraduationCap } from 'lucide-react';
@@ -22,10 +22,13 @@ const LessonDetail = () => {
 
     if (!lesson) return null;
 
+    // Get all lessons for navigation (A1 + A2)
+    const allLessons = getAllLessons();
+
     // Find current lesson index for navigation
-    const currentIndex = lessons.findIndex(l => l.id === activeLessonId);
-    const prevLesson = currentIndex > 0 ? lessons[currentIndex - 1] : null;
-    const nextLesson = currentIndex < lessons.length - 1 ? lessons[currentIndex + 1] : null;
+    const currentIndex = allLessons.findIndex(l => l.id === activeLessonId);
+    const prevLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
+    const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
     const handleLessonChange = (newId) => {
         useStore.getState().openLesson(newId);

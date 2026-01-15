@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
-import { lessons, getAllWords } from '../data/lexicon';
+import { getAllLessons, getAllWords } from '../data/lexicon';
 import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, Bell } from 'lucide-react';
 import SRSCalendar from './SRSCalendar';
 import SettingsModal from './SettingsModal';
@@ -44,11 +44,14 @@ const HomeTab = () => {
         }
     };
 
+    // Get ALL lessons to ensure we can find A2 lessons
+    const allLessons = getAllLessons();
+
     // Last visited lesson (or fall back to first incomplete)
     const lastVisitedLessonId = useStore(state => state.lastVisitedLessonId);
     const currentLesson = lastVisitedLessonId
-        ? (lessons.find(l => l.id === lastVisitedLessonId) || lessons[0])
-        : (lessons.find(l => getLessonProgress(l.id).percent < 100) || lessons[0]);
+        ? (allLessons.find(l => l.id === lastVisitedLessonId) || allLessons[0])
+        : (allLessons.find(l => getLessonProgress(l.id).percent < 100) || allLessons[0]);
     const lessonProgress = getLessonProgress(currentLesson.id);
 
     return (
@@ -64,25 +67,27 @@ const HomeTab = () => {
                 alignItems: 'center',
                 marginBottom: 24
             }}>
-                {/* Left: Avatar (Click for Settings) */}
-                <div
-                    onClick={() => setShowSettings(true)}
-                    style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
-                >
-                    <div style={{
-                        width: 44, height: 44, borderRadius: '50%',
-                        aspectRatio: '1 / 1',
-                        background: 'var(--pri-soft)',
-                        border: '2px solid rgba(255,107,53,0.3)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '1.2rem', color: 'var(--pri)', fontWeight: 700, flexShrink: 0
-                    }}>
+                {/* Left: Avatar & Level Switcher */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <div
+                        onClick={() => setShowSettings(true)}
+                        style={{
+                            width: 44, height: 44, borderRadius: '50%',
+                            aspectRatio: '1 / 1',
+                            background: 'var(--pri-soft)',
+                            border: '2px solid rgba(255,107,53,0.3)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: '1.2rem', color: 'var(--pri)', fontWeight: 700, flexShrink: 0,
+                            cursor: 'pointer'
+                        }}>
                         {user ? (
                             (user.displayName?.[0] || 'U').toUpperCase()
                         ) : (
                             '👤'
                         )}
                     </div>
+
+
                 </div>
 
                 {/* Center (Optional, or removed for cleaner look) */}

@@ -266,8 +266,152 @@ const GrammarDetail = () => {
                 </h1>
             </div>
 
-            {/* Sections */}
-            {content.sections.map(renderSection)}
+            {/* Sections - Handle both A1 (sections) and A2 (content) structures */}
+            {content.sections
+                ? content.sections.map(renderSection)
+                : content.content?.map((block, index) => {
+                    // A2 structure renderer
+                    switch (block.type) {
+                        case 'rule':
+                            return (
+                                <div key={index} style={{
+                                    background: 'rgba(255, 255, 255, 0.04)',
+                                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                                    borderRadius: 16,
+                                    padding: 16,
+                                    marginBottom: 12
+                                }}>
+                                    <div style={{
+                                        fontSize: '0.75rem',
+                                        color: 'var(--color-accent)',
+                                        fontWeight: 600,
+                                        marginBottom: 8,
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.5px'
+                                    }}>
+                                        Правило
+                                    </div>
+                                    <div style={{ fontSize: '0.95rem', lineHeight: 1.7 }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: block.text?.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--pri)">$1</strong>').replace(/\n/g, '<br/>')
+                                        }} />
+                                </div>
+                            );
+                        case 'table':
+                            return (
+                                <div key={index} style={{
+                                    background: 'rgba(255, 255, 255, 0.04)',
+                                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                                    borderRadius: 16,
+                                    padding: 16,
+                                    marginBottom: 12,
+                                    overflowX: 'auto'
+                                }}>
+                                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                                        <thead>
+                                            <tr>
+                                                {block.headers?.map((h, i) => (
+                                                    <th key={i} style={{
+                                                        padding: '10px 12px',
+                                                        textAlign: 'left',
+                                                        fontWeight: 600,
+                                                        borderBottom: '1px solid rgba(255,255,255,0.1)',
+                                                        background: 'rgba(255,107,53,0.1)'
+                                                    }}>{h}</th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {block.rows?.map((row, ri) => (
+                                                <tr key={ri}>
+                                                    {row.map((cell, ci) => (
+                                                        <td key={ci} style={{
+                                                            padding: '10px 12px',
+                                                            borderBottom: '1px solid rgba(255,255,255,0.06)'
+                                                        }} dangerouslySetInnerHTML={{
+                                                            __html: typeof cell === 'string'
+                                                                ? cell.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                                                : cell
+                                                        }} />
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            );
+                        case 'example':
+                        case 'examples':
+                            return (
+                                <div key={index} style={{
+                                    background: 'rgba(255, 255, 255, 0.04)',
+                                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                                    borderRadius: 16,
+                                    padding: 16,
+                                    marginBottom: 12
+                                }}>
+                                    <div style={{
+                                        fontSize: '0.75rem',
+                                        color: '#4ade80',
+                                        fontWeight: 600,
+                                        marginBottom: 8,
+                                        textTransform: 'uppercase'
+                                    }}>
+                                        Приклади
+                                    </div>
+                                    <div style={{ fontSize: '0.95rem', lineHeight: 1.7 }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: block.text?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')
+                                        }} />
+                                </div>
+                            );
+                        case 'list':
+                            return (
+                                <div key={index} style={{
+                                    background: 'rgba(255, 255, 255, 0.04)',
+                                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                                    borderRadius: 16,
+                                    padding: 16,
+                                    marginBottom: 12
+                                }}>
+                                    <ul style={{ margin: 0, paddingLeft: 20, lineHeight: 1.7 }}>
+                                        {block.items?.map((item, i) => (
+                                            <li key={i} dangerouslySetInnerHTML={{
+                                                __html: item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                            }} />
+                                        ))}
+                                    </ul>
+                                </div>
+                            );
+                        case 'tip':
+                            return (
+                                <div key={index} style={{
+                                    background: 'rgba(251, 191, 36, 0.1)',
+                                    border: '1px solid rgba(251, 191, 36, 0.2)',
+                                    borderRadius: 16,
+                                    padding: 16,
+                                    marginBottom: 12
+                                }}>
+                                    <div style={{
+                                        fontSize: '0.75rem',
+                                        color: '#fbbf24',
+                                        fontWeight: 600,
+                                        marginBottom: 8,
+                                        textTransform: 'uppercase'
+                                    }}>
+                                        💡 Підказка
+                                    </div>
+                                    <div style={{ fontSize: '0.95rem', lineHeight: 1.7 }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: block.text?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')
+                                        }} />
+                                </div>
+                            );
+                        default:
+                            return null;
+                    }
+                })
+            }
 
             {/* Exercises Button */}
             {exercises.length > 0 && (

@@ -22,6 +22,12 @@ const useStore = create(
             setSoundMode: (mode) => set({ soundMode: mode }),
 
             // ==========================================
+            // LEVEL SETTINGS (A1 / A2)
+            // ==========================================
+            level: 'A1', // Default
+            setLevel: (level) => set({ level, activeLessonId: null, currentView: 'main' }),
+
+            // ==========================================
             // NAVIGATION STATE
             // ==========================================
             currentTab: 'home',
@@ -413,6 +419,7 @@ const useStore = create(
                 soundEnabled: state.soundEnabled,
                 soundMode: state.soundMode,
                 lastVisitedLessonId: state.lastVisitedLessonId,
+                level: state.level, // Persist level
             }),
         }
     )

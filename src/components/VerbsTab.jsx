@@ -1,7 +1,7 @@
 // src/components/VerbsTab.jsx
 // Вкладка "Дієслова" - відмінювання дієслів з покращеним дизайном
 import React, { useState } from 'react';
-import { verbs, VERB_TYPES } from '../data/verbs';
+import { getAllVerbs } from '../data/lexicon'; // Updated import
 import { ChevronDown, ChevronUp, Search, Volume2 } from 'lucide-react';
 import { speakSentence } from '../utils/speech';
 
@@ -145,7 +145,7 @@ const VerbCard = ({ verb }) => {
                                     }}>
                                         <span style={{ color: 'var(--text-2)', fontSize: '0.85rem' }}>{singular}</span>
                                         <span style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.85rem' }}>
-                                            {verb.praesens[singular]}
+                                            {verb.praesens && verb.praesens[singular]}
                                         </span>
                                     </div>
                                     <div style={{
@@ -158,7 +158,7 @@ const VerbCard = ({ verb }) => {
                                     }}>
                                         <span style={{ color: 'var(--text-2)', fontSize: '0.85rem' }}>{plural}</span>
                                         <span style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.85rem' }}>
-                                            {verb.praesens[plural]}
+                                            {verb.praesens && verb.praesens[plural]}
                                         </span>
                                     </div>
                                 </React.Fragment>
@@ -252,6 +252,8 @@ const VerbCard = ({ verb }) => {
 const VerbsTab = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeType, setActiveType] = useState(null);
+
+    const verbs = getAllVerbs(); // Use getAllVerbs
 
     const typeFilters = [
         { id: null, label: 'Всі', count: verbs.length },

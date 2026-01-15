@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import useStore from '../store/useStore';
 import { vocabularyThemes, themedWords, getWordsByTheme, getTotalThemedWordCount } from '../data/themedWords';
-import { words } from '../data/lexicon';
-import { lessons } from '../data/lessons';
+import { getAllWords, getAllLessons } from '../data/lexicon'; // Updated import
 import { Search, Volume2, Eye, Dumbbell } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 import CollectionManager from './CollectionManager';
@@ -21,12 +20,16 @@ const DictionaryTab = () => {
     const [selectedLesson, setSelectedLesson] = useState(null);
     const [visibleCount, setVisibleCount] = useState(50);
 
+    // Get ALL words (A1 + A2)
+    const allWords = getAllWords();
+    const allLessons = getAllLessons();
+
     const getAllThemedWords = () => Object.values(themedWords).flat();
 
     const getFilteredWords = () => {
         // If searching, search EVERYTHING (except custom collections)
         if (searchQuery.trim().length > 0) {
-            return words.filter(w =>
+            return allWords.filter(w =>
                 w.word.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 w.translation.toLowerCase().includes(searchQuery.toLowerCase())
             );
@@ -36,10 +39,10 @@ const DictionaryTab = () => {
         if (filterMode === 'themes') {
             return selectedTheme ? getWordsByTheme(selectedTheme) : getAllThemedWords();
         } else if (filterMode === 'lessons') {
-            return selectedLesson ? words.filter(w => w.lesson === selectedLesson) : words;
+            return selectedLesson ? allWords.filter(w => w.lesson === selectedLesson) : allWords;
 
         } else {
-            return words;
+            return allWords;
         }
     };
 
@@ -105,7 +108,7 @@ const DictionaryTab = () => {
                     Wörterbuch
                 </h1>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
-                    {filterMode === 'themes' ? `${totalThemedWords} слів за темами` : `${words.length} слів з лекцій`}
+                    {filterMode === 'themes' ? `${totalThemedWords} слів за темами` : `${allWords.length} слів`}
                 </p>
             </div>
 
@@ -210,7 +213,7 @@ const DictionaryTab = () => {
                                 >
                                     Всі
                                 </button>
-                                {lessons.map(l => (
+                                {allLessons.map(l => (
                                     <button
                                         key={l.id}
                                         onClick={() => setSelectedLesson(l.id)}
@@ -222,7 +225,7 @@ const DictionaryTab = () => {
                                             fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
                                         }}
                                     >
-                                        L{l.id}
+                                        L{typeof l.number === 'string' ? l.number.replace('Lektion ', '') : l.number} ({String(l.id).includes('a2') ? 'A2' : 'A1'})
                                     </button>
                                 ))}
                             </>

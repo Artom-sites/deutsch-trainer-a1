@@ -11,7 +11,8 @@ import {
     numbers,
     time
 } from '../data/grammarRules';
-import { ChevronDown, ChevronUp, ChevronLeft, BookOpen, Users, FileText, Clock, Hash, MessageCircle, Layers, Move } from 'lucide-react';
+import { grammarA2 } from '../data/a2/grammar';
+import { ChevronDown, ChevronUp, ChevronLeft, BookOpen, Users, FileText, Clock, Hash, MessageCircle, Layers, Move, Sparkles, Lightbulb, List } from 'lucide-react';
 
 // Rule Card Preview Component
 const RuleCard = ({ rule, icon: Icon, onClick }) => {
@@ -57,7 +58,7 @@ const RuleCard = ({ rule, icon: Icon, onClick }) => {
                     fontSize: '0.85rem',
                     color: 'var(--text-2)'
                 }}>
-                    {rule.titleUa}
+                    {rule.titleUa || rule.description}
                 </div>
             </div>
             <ChevronDown size={18} color="var(--text-2)" style={{ transform: 'rotate(-90deg)' }} />
@@ -72,7 +73,8 @@ const GrammarTable = ({ headers, rows, highlightColumns = [] }) => {
             overflowX: 'auto',
             borderRadius: 14,
             border: '1px solid var(--stroke)',
-            background: 'rgba(0,0,0,0.2)'
+            background: 'rgba(0,0,0,0.2)',
+            marginBottom: 16
         }}>
             <table style={{
                 width: '100%',
@@ -108,7 +110,12 @@ const GrammarTable = ({ headers, rows, highlightColumns = [] }) => {
                                     color: highlightColumns.includes(cellIndex) ? 'var(--orange)' : 'var(--text-0)',
                                     fontWeight: highlightColumns.includes(cellIndex) ? 600 : 400
                                 }}>
-                                    {cell}
+                                    {/* Handle markdown bold in table cells */}
+                                    <span dangerouslySetInnerHTML={{
+                                        __html: typeof cell === 'string'
+                                            ? cell.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-0)">$1</strong>')
+                                            : cell
+                                    }} />
                                 </td>
                             ))}
                         </tr>
@@ -133,6 +140,114 @@ const SectionTitle = ({ children, color = 'var(--orange)' }) => (
         {children}
     </div>
 );
+
+// Generic Detail View for A2 Content
+const GenericGrammarDetail = ({ data, onBack }) => {
+    return (
+        <div className="screen">
+            <button onClick={onBack} style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: 'none', border: 'none', color: 'var(--text-1)',
+                fontSize: '0.9rem', cursor: 'pointer', marginBottom: 16, padding: 0
+            }}>
+                <ChevronLeft size={20} /> Назад
+            </button>
+
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 4 }}>
+                {data.title}
+            </h1>
+            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.description}</p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {data.content.map((block, index) => {
+                    switch (block.type) {
+                        case 'rule':
+                            return (
+                                <div key={index} style={{
+                                    padding: 16,
+                                    background: 'rgba(255,255,255,0.03)',
+                                    borderLeft: '3px solid var(--orange)',
+                                    borderRadius: 4,
+                                    color: 'var(--text-1)',
+                                    lineHeight: 1.5
+                                }}>
+                                    <div dangerouslySetInnerHTML={{
+                                        __html: block.text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-0)">$1</strong>').replace(/\n/g, '<br/>')
+                                    }} />
+                                </div>
+                            );
+                        case 'table':
+                            return (
+                                <GrammarTable
+                                    key={index}
+                                    headers={block.headers}
+                                    rows={block.rows}
+                                    highlightColumns={[block.headers.length - 1]} // Highlight last column guess
+                                />
+                            );
+                        case 'example':
+                        case 'examples':
+                            return (
+                                <div key={index} style={{
+                                    padding: 14,
+                                    background: 'rgba(242, 106, 27, 0.08)',
+                                    border: '1px solid rgba(242, 106, 27, 0.15)',
+                                    borderRadius: 12,
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, fontSize: '0.85rem', fontWeight: 700, color: 'var(--orange)' }}>
+                                        <Lightbulb size={16} /> Приклад
+                                    </div>
+                                    <div dangerouslySetInnerHTML={{
+                                        __html: (block.text || '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')
+                                    }} style={{ color: 'var(--text-1)', fontSize: '0.95rem' }} />
+                                </div>
+                            );
+                        case 'list':
+                            return (
+                                <div key={index} style={{
+                                    padding: 14,
+                                    background: 'rgba(255,255,255,0.03)',
+                                    borderRadius: 12,
+                                    border: '1px solid var(--stroke)'
+                                }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12, fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-2)' }}>
+                                        <List size={16} /> Список
+                                    </div>
+                                    <ul style={{ margin: 0, paddingLeft: 20, color: 'var(--text-1)', lineHeight: 1.6 }}>
+                                        {block.items.map((item, i) => (
+                                            <li key={i} dangerouslySetInnerHTML={{
+                                                __html: item.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-0)">$1</strong>')
+                                            }} />
+                                        ))}
+                                    </ul>
+                                </div>
+                            );
+                        case 'tip':
+                            return (
+                                <div key={index} style={{
+                                    padding: 14,
+                                    background: 'rgba(34, 197, 94, 0.1)',
+                                    border: '1px solid rgba(34, 197, 94, 0.2)',
+                                    borderRadius: 12,
+                                    color: 'var(--text-1)'
+                                }}>
+                                    <div style={{ fontWeight: 700, color: '#22c55e', marginBottom: 6 }}>💡 Підказка</div>
+                                    <div dangerouslySetInnerHTML={{
+                                        __html: block.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')
+                                    }} />
+                                </div>
+                            );
+                        default:
+                            return null;
+                    }
+                })}
+            </div>
+
+            <div style={{ height: 100 }} />
+        </div>
+    );
+};
+
 
 // Question Badge
 const QuestionBadge = ({ de, ua }) => (
@@ -669,27 +784,31 @@ const RulesTab = () => {
         { data: verbConjugation, icon: BookOpen },
         { data: sentenceStructure, icon: MessageCircle },
         { data: numbers, icon: Hash },
-        { data: time, icon: Clock }
+        { data: time, icon: Clock },
+        // A2 Rules
+        ...grammarA2.map(rule => ({
+            data: rule,
+            icon: Sparkles // Or map dynamically based on rule.id/title if needed
+        }))
     ];
 
+    // Find if selectedRule is an object (A2) or ID (A1)
+    const activeRuleData = rules.find(r => r.data.id === selectedRule)?.data;
+
     // Render detail view
-    if (selectedRule === 'personalpronomen') {
-        return <PersonalPronounsDetail onBack={() => setSelectedRule(null)} />;
-    }
-    if (selectedRule === 'artikel') {
-        return <ArticlesDetail onBack={() => setSelectedRule(null)} />;
-    }
-    if (selectedRule === 'praepositionen') {
-        return <PrepositionsDetail onBack={() => setSelectedRule(null)} />;
-    }
-    if (selectedRule === 'verbkonjugation') {
-        return <VerbConjugationDetail onBack={() => setSelectedRule(null)} />;
-    }
-    if (selectedRule === 'zahlen') {
-        return <NumbersDetail onBack={() => setSelectedRule(null)} />;
-    }
-    if (selectedRule === 'uhrzeit') {
-        return <TimeDetail onBack={() => setSelectedRule(null)} />;
+    if (selectedRule) {
+        // Check for A1 specific IDs that have custom components
+        if (selectedRule === 'personalpronomen') return <PersonalPronounsDetail onBack={() => setSelectedRule(null)} />;
+        if (selectedRule === 'artikel') return <ArticlesDetail onBack={() => setSelectedRule(null)} />;
+        if (selectedRule === 'praepositionen') return <PrepositionsDetail onBack={() => setSelectedRule(null)} />;
+        if (selectedRule === 'verbkonjugation') return <VerbConjugationDetail onBack={() => setSelectedRule(null)} />;
+        if (selectedRule === 'zahlen') return <NumbersDetail onBack={() => setSelectedRule(null)} />;
+        if (selectedRule === 'uhrzeit') return <TimeDetail onBack={() => setSelectedRule(null)} />;
+
+        // Fallback for A2 generic rules
+        if (activeRuleData) {
+            return <GenericGrammarDetail data={activeRuleData} onBack={() => setSelectedRule(null)} />;
+        }
     }
 
     // Main list view
@@ -700,7 +819,7 @@ const RulesTab = () => {
                     Правила 📖
                 </h1>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
-                    Граматичні таблиці та правила A1
+                    Граматика A1 & A2
                 </p>
             </div>
 

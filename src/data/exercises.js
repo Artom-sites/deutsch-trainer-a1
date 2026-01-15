@@ -2655,7 +2655,586 @@ export const exercises = {
         options: ["Im", "Am", "Um"],
         correct: 0,
         explanation: "im + Monat"
-    }
+    },
+
+    // ==========================================
+    // A2 LEKTION 1: KONJUNKTION WEIL - 10 вправ
+    // ==========================================
+    "a2-weil-1": {
+        id: "a2-weil-1",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Ich lerne Deutsch, ___ ich in Deutschland arbeiten möchte.",
+        options: ["denn", "weil", "aber"],
+        correct: 1,
+        explanation: "WEIL = тому що. Дієслово йде в кінець."
+    },
+
+    // WEIL - Word Order Exercises (Побудуй речення)
+    "a2-weil-order-1": {
+        id: "a2-weil-order-1",
+        type: "word-order",
+        topic: "a2-l1-weil",
+        translation: "Я втомлений, бо багато працював.",
+        words: ["Ich", "bin", "müde,", "weil", "ich", "viel", "gearbeitet", "habe."],
+        correctOrder: ["Ich", "bin", "müde,", "weil", "ich", "viel", "gearbeitet", "habe."],
+        explanation: "Weil-Satz: дієслово (habe) стоїть у кінці."
+    },
+    "a2-weil-order-2": {
+        id: "a2-weil-order-2",
+        type: "word-order",
+        topic: "a2-l1-weil",
+        translation: "Він залишається вдома, бо хворий.",
+        words: ["Er", "bleibt", "zu", "Hause,", "weil", "er", "krank", "ist."],
+        correctOrder: ["Er", "bleibt", "zu", "Hause,", "weil", "er", "krank", "ist."],
+        explanation: "В weil-реченні дієслово 'ist' в кінці."
+    },
+    "a2-weil-order-3": {
+        id: "a2-weil-order-3",
+        type: "word-order",
+        topic: "a2-l1-weil",
+        translation: "Вона не приходить, бо не має часу.",
+        words: ["Sie", "kommt", "nicht,", "weil", "sie", "keine", "Zeit", "hat."],
+        correctOrder: ["Sie", "kommt", "nicht,", "weil", "sie", "keine", "Zeit", "hat."],
+        explanation: "Weil + дієслово в кінці: ...keine Zeit hat."
+    },
+    "a2-weil-2": {
+        id: "a2-weil-2",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Er ist müde, weil er gestern spät ins Bett ___.",
+        options: ["gegangen ist", "ist gegangen", "gehen ist"],
+        correct: 0,
+        explanation: "У підрядному реченні з weil дієслово стоїть у кінці: ...spät ins Bett gegangen ist."
+    },
+    "a2-weil-3": {
+        id: "a2-weil-3",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Sie kommt nicht, ___ sie krank ist.",
+        options: ["weil", "denn", "wenn"],
+        correct: 0,
+        explanation: "WEIL вводить причину. Sie kommt nicht, weil sie krank ist."
+    },
+    "a2-weil-4": {
+        id: "a2-weil-4",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Ich bin traurig, weil ich meine Familie nicht ___ kann.",
+        options: ["sehen", "sehe", "gesehen"],
+        correct: 0,
+        explanation: "Після модального дієслова (kann) стоїть інфінітив: ...nicht sehen kann."
+    },
+    "a2-weil-5": {
+        id: "a2-weil-5",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Wir bleiben zu Hause, ___ es regnet.",
+        options: ["denn", "weil", "aber"],
+        correct: 1,
+        explanation: "WEIL → дієслово в кінці: ...weil es regnet."
+    },
+    "a2-weil-6": {
+        id: "a2-weil-6",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Ich kann nicht kommen, weil ich arbeiten ___.",
+        options: ["muss", "müsse", "müssen"],
+        correct: 0,
+        explanation: "Модальне дієслово в кінці в Präsens: ...weil ich arbeiten muss."
+    },
+    "a2-weil-7": {
+        id: "a2-weil-7",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Er hat Hunger, ___ er nichts gegessen hat.",
+        options: ["weil", "dass", "wenn"],
+        correct: 0,
+        explanation: "WEIL пояснює причину: ...weil er nichts gegessen hat."
+    },
+    "a2-weil-8": {
+        id: "a2-weil-8",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Sie ist glücklich, weil sie einen neuen Job ___ hat.",
+        options: ["gefunden", "finden", "findet"],
+        correct: 0,
+        explanation: "Perfekt у підрядному реченні: ...einen neuen Job gefunden hat."
+    },
+    "a2-weil-9": {
+        id: "a2-weil-9",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Das Kind weint, weil es seine Mutter nicht ___.",
+        options: ["findet", "finden", "gefunden"],
+        correct: 0,
+        explanation: "Präsens: ...weil es seine Mutter nicht findet."
+    },
+    "a2-weil-10": {
+        id: "a2-weil-10",
+        type: "multiple-choice",
+        topic: "a2-l1-weil",
+        question: "Ich fahre mit dem Bus, ___ mein Auto kaputt ist.",
+        options: ["weil", "deshalb", "trotzdem"],
+        correct: 0,
+        explanation: "WEIL вводить причину: ...weil mein Auto kaputt ist."
+    },
+
+    // ==========================================
+    // A2 LEKTION 1: PERFEKT TRENNBARE VERBEN - 10 вправ
+    // ==========================================
+    "a2-perfekt-trenn-1": {
+        id: "a2-perfekt-trenn-1",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Ich habe gestern ___. (einkaufen)",
+        options: ["eingekauft", "gekauft ein", "einkaufte"],
+        correct: 0,
+        explanation: "Trennbar: ge- між префіксом і коренем → eingekauft."
+    },
+    "a2-perfekt-trenn-2": {
+        id: "a2-perfekt-trenn-2",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Sie hat ihre Freundin ___. (anrufen)",
+        options: ["angerufen", "gerufen an", "anrufte"],
+        correct: 0,
+        explanation: "Anrufen → angerufen (ge- після префіксу an-)."
+    },
+    "a2-perfekt-trenn-3": {
+        id: "a2-perfekt-trenn-3",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Er ist um 7 Uhr ___. (aufstehen)",
+        options: ["aufgestanden", "gestanden auf", "aufstehen"],
+        correct: 0,
+        explanation: "Aufstehen → aufgestanden (з sein, ge- після auf-)."
+    },
+    "a2-perfekt-trenn-4": {
+        id: "a2-perfekt-trenn-4",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Wir haben einen neuen Nachbarn ___. (kennenlernen)",
+        options: ["kennengelernt", "gelernt kennen", "kennenlernten"],
+        correct: 0,
+        explanation: "Kennenlernen → kennengelernt."
+    },
+    "a2-perfekt-trenn-5": {
+        id: "a2-perfekt-trenn-5",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Der Zug ist pünktlich ___. (abfahren)",
+        options: ["abgefahren", "gefahren ab", "abfuhr"],
+        correct: 0,
+        explanation: "Abfahren → abgefahren (з sein)."
+    },
+    "a2-perfekt-trenn-6": {
+        id: "a2-perfekt-trenn-6",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Ich habe die Tür ___. (aufmachen)",
+        options: ["aufgemacht", "gemacht auf", "aufmachte"],
+        correct: 0,
+        explanation: "Aufmachen → aufgemacht."
+    },
+    "a2-perfekt-trenn-7": {
+        id: "a2-perfekt-trenn-7",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Sie hat das Licht ___. (ausmachen)",
+        options: ["ausgemacht", "gemacht aus", "ausmachte"],
+        correct: 0,
+        explanation: "Ausmachen → ausgemacht."
+    },
+    "a2-perfekt-trenn-8": {
+        id: "a2-perfekt-trenn-8",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Er ist gestern ___. (zurückkommen)",
+        options: ["zurückgekommen", "gekommen zurück", "zurückkamm"],
+        correct: 0,
+        explanation: "Zurückkommen → zurückgekommen (з sein)."
+    },
+    "a2-perfekt-trenn-9": {
+        id: "a2-perfekt-trenn-9",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Hast du gestern ___? (fernsehen)",
+        options: ["ferngesehen", "gesehen fern", "ferngesehst"],
+        correct: 0,
+        explanation: "Fernsehen → ferngesehen."
+    },
+    "a2-perfekt-trenn-10": {
+        id: "a2-perfekt-trenn-10",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-trennbar",
+        question: "Sie hat ihre Jacke ___. (anziehen)",
+        options: ["angezogen", "gezogen an", "anzog"],
+        correct: 0,
+        explanation: "Anziehen → angezogen."
+    },
+
+    // ==========================================
+    // A2 LEKTION 1: PERFEKT VERBEN AUF -IEREN - 6 вправ
+    // ==========================================
+    "a2-perfekt-ieren-1": {
+        id: "a2-perfekt-ieren-1",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-ieren",
+        question: "Ich habe gestern lange ___. (telefonieren)",
+        options: ["telefoniert", "getelefoniert", "telefonierte"],
+        correct: 0,
+        explanation: "Verben auf -ieren: OHNE ge-! → telefoniert."
+    },
+    "a2-perfekt-ieren-2": {
+        id: "a2-perfekt-ieren-2",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-ieren",
+        question: "Was ist ___? (passieren)",
+        options: ["passiert", "gepassiert", "passierte"],
+        correct: 0,
+        explanation: "Passieren → passiert (без ge-, з sein)."
+    },
+    "a2-perfekt-ieren-3": {
+        id: "a2-perfekt-ieren-3",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-ieren",
+        question: "Er hat sein Auto ___. (reparieren)",
+        options: ["repariert", "gerepariert", "reparierte"],
+        correct: 0,
+        explanation: "Reparieren → repariert (без ge-)."
+    },
+    "a2-perfekt-ieren-4": {
+        id: "a2-perfekt-ieren-4",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-ieren",
+        question: "Sie haben die Wohnung ___. (renovieren)",
+        options: ["renoviert", "gerenoviert", "renovierte"],
+        correct: 0,
+        explanation: "Renovieren → renoviert."
+    },
+    "a2-perfekt-ieren-5": {
+        id: "a2-perfekt-ieren-5",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-ieren",
+        question: "Ich habe Deutsch ___. (studieren)",
+        options: ["studiert", "gestudiert", "studierte"],
+        correct: 0,
+        explanation: "Studieren → studiert."
+    },
+    "a2-perfekt-ieren-6": {
+        id: "a2-perfekt-ieren-6",
+        type: "multiple-choice",
+        topic: "a2-l1-perfekt-ieren",
+        question: "Das Konzert hat um 20 Uhr ___. (funktionieren)",
+        options: ["funktioniert", "gefunktioniert", "funktionierte"],
+        correct: 0,
+        explanation: "Funktionieren → funktioniert."
+    },
+
+    // ==========================================
+    // A2 LEKTION 2: WECHSELPRÄPOSITIONEN - 10 вправ
+    // ==========================================
+    "a2-wechsel-1": {
+        id: "a2-wechsel-1",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Das Buch liegt auf ___ Tisch. (Wo?)",
+        options: ["dem", "den", "der"],
+        correct: 0,
+        explanation: "Wo? → Dativ. Der Tisch → dem Tisch."
+    },
+    "a2-wechsel-2": {
+        id: "a2-wechsel-2",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Ich lege das Buch auf ___ Tisch. (Wohin?)",
+        options: ["dem", "den", "der"],
+        correct: 1,
+        explanation: "Wohin? → Akkusativ. Der Tisch → den Tisch."
+    },
+    "a2-wechsel-3": {
+        id: "a2-wechsel-3",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Das Bild hängt an ___ Wand. (Wo?)",
+        options: ["die", "der", "den"],
+        correct: 1,
+        explanation: "Wo? → Dativ. Die Wand → der Wand."
+    },
+    "a2-wechsel-4": {
+        id: "a2-wechsel-4",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Ich hänge das Bild an ___ Wand. (Wohin?)",
+        options: ["die", "der", "den"],
+        correct: 0,
+        explanation: "Wohin? → Akkusativ. Die Wand → die Wand."
+    },
+    "a2-wechsel-5": {
+        id: "a2-wechsel-5",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Die Katze sitzt unter ___ Stuhl. (Wo?)",
+        options: ["dem", "den", "der"],
+        correct: 0,
+        explanation: "Wo? → Dativ. Der Stuhl → dem Stuhl."
+    },
+    "a2-wechsel-6": {
+        id: "a2-wechsel-6",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Die Katze läuft unter ___ Stuhl. (Wohin?)",
+        options: ["dem", "den", "der"],
+        correct: 1,
+        explanation: "Wohin? → Akkusativ. Der Stuhl → den Stuhl."
+    },
+    "a2-wechsel-7": {
+        id: "a2-wechsel-7",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Er steht vor ___ Tür. (Wo?)",
+        options: ["die", "der", "den"],
+        correct: 1,
+        explanation: "Wo? → Dativ. Die Tür → der Tür."
+    },
+    "a2-wechsel-8": {
+        id: "a2-wechsel-8",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Sie stellt die Lampe neben ___ Sofa. (Wohin?)",
+        options: ["dem", "das", "der"],
+        correct: 1,
+        explanation: "Wohin? → Akkusativ. Das Sofa → das Sofa."
+    },
+    "a2-wechsel-9": {
+        id: "a2-wechsel-9",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Die Lampe steht neben ___ Sofa. (Wo?)",
+        options: ["dem", "das", "der"],
+        correct: 0,
+        explanation: "Wo? → Dativ. Das Sofa → dem Sofa."
+    },
+    "a2-wechsel-10": {
+        id: "a2-wechsel-10",
+        type: "multiple-choice",
+        topic: "a2-l2-wechselpraepositionen",
+        question: "Der Schlüssel liegt in ___ Schublade. (Wo?)",
+        options: ["die", "der", "den"],
+        correct: 1,
+        explanation: "Wo? → Dativ. Die Schublade → der Schublade."
+    },
+
+    // ==========================================
+    // A2 LEKTION 3: INDEFINITPRONOMEN - 8 вправ
+    // ==========================================
+    "a2-indef-1": {
+        id: "a2-indef-1",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Haben Sie einen Löffel? – Nein, hier ist ___.",
+        options: ["keiner", "keines", "keine"],
+        correct: 0,
+        explanation: "Der Löffel (m) → keiner (Nominativ)."
+    },
+    "a2-indef-2": {
+        id: "a2-indef-2",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Ich brauche ein Messer. – Hier ist ___.",
+        options: ["eins", "einer", "eine"],
+        correct: 0,
+        explanation: "Das Messer (n) → eins."
+    },
+    "a2-indef-3": {
+        id: "a2-indef-3",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Haben Sie Gabeln? – Ja, hier sind ___.",
+        options: ["welche", "eine", "einer"],
+        correct: 0,
+        explanation: "Die Gabeln (Plural) → welche."
+    },
+    "a2-indef-4": {
+        id: "a2-indef-4",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Ich suche eine Serviette. – Hier ist ___.",
+        options: ["eine", "einer", "eins"],
+        correct: 0,
+        explanation: "Die Serviette (f) → eine."
+    },
+    "a2-indef-5": {
+        id: "a2-indef-5",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Gibt es hier einen Espresso? – Nein, ___ gibt es nicht.",
+        options: ["keinen", "keiner", "kein"],
+        correct: 0,
+        explanation: "Der Espresso (m) в Akkusativ → keinen."
+    },
+    "a2-indef-6": {
+        id: "a2-indef-6",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Haben Sie Teller? – Nein, hier sind ___.",
+        options: ["keine", "keiner", "keins"],
+        correct: 0,
+        explanation: "Die Teller (Plural) → keine."
+    },
+    "a2-indef-7": {
+        id: "a2-indef-7",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Brauchen Sie ein Glas? – Ja, ich brauche ___.",
+        options: ["eins", "einer", "eine"],
+        correct: 0,
+        explanation: "Das Glas (n) в Akkusativ → eins."
+    },
+    "a2-indef-8": {
+        id: "a2-indef-8",
+        type: "multiple-choice",
+        topic: "a2-l3-indefinitpronomen",
+        question: "Möchten Sie einen Kaffee? – Ja, ich möchte ___.",
+        options: ["einen", "einer", "eins"],
+        correct: 0,
+        explanation: "Der Kaffee (m) в Akkusativ → einen."
+    },
+
+    // ==========================================
+    // A2 LEKTION 4: KONJUNKTION WENN - 8 вправ
+    // ==========================================
+    "a2-wenn-1": {
+        id: "a2-wenn-1",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "___ ich Zeit habe, gehe ich spazieren.",
+        options: ["Wenn", "Weil", "Dass"],
+        correct: 0,
+        explanation: "WENN = wenn (умова). Дієслово в кінці."
+    },
+    "a2-wenn-2": {
+        id: "a2-wenn-2",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "Wenn das Wetter schön ___, machen wir ein Picknick.",
+        options: ["ist", "sein", "wäre"],
+        correct: 0,
+        explanation: "Wenn-Satz: дієслово в кінці → ...schön ist."
+    },
+    "a2-wenn-3": {
+        id: "a2-wenn-3",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "Ich rufe dich an, ___ ich zu Hause bin.",
+        options: ["wenn", "weil", "dass"],
+        correct: 0,
+        explanation: "WENN виражає умову або час."
+    },
+    "a2-wenn-4": {
+        id: "a2-wenn-4",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "Wenn du ___, kannst du mitkommen.",
+        options: ["willst", "wollen", "will"],
+        correct: 0,
+        explanation: "Du willst → Wenn du willst (дієслово в кінці)."
+    },
+    "a2-wenn-5": {
+        id: "a2-wenn-5",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "___ es regnet, bleiben wir zu Hause.",
+        options: ["Wenn", "Weil", "Obwohl"],
+        correct: 0,
+        explanation: "WENN вводить умову."
+    },
+    "a2-wenn-6": {
+        id: "a2-wenn-6",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "Wenn ich müde ___, trinke ich Kaffee.",
+        options: ["bin", "sein", "ist"],
+        correct: 0,
+        explanation: "Ich bin → Wenn ich müde bin."
+    },
+    "a2-wenn-7": {
+        id: "a2-wenn-7",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "Ich helfe dir, wenn du mich ___.",
+        options: ["fragst", "fragen", "gefragt"],
+        correct: 0,
+        explanation: "Du fragst → ...wenn du mich fragst."
+    },
+    "a2-wenn-8": {
+        id: "a2-wenn-8",
+        type: "multiple-choice",
+        topic: "a2-l4-wenn",
+        question: "Wenn man krank ___, sollte man zum Arzt gehen.",
+        options: ["ist", "sein", "war"],
+        correct: 0,
+        explanation: "Man ist → Wenn man krank ist."
+    },
+
+    // ==========================================
+    // A2 LEKTION 4: SOLLEN KONJUNKTIV (SOLLTE) - 6 вправ
+    // ==========================================
+    "a2-sollte-1": {
+        id: "a2-sollte-1",
+        type: "multiple-choice",
+        topic: "a2-l4-sollen-konjunktiv",
+        question: "Du ___ mehr Wasser trinken.",
+        options: ["solltest", "sollte", "sollten"],
+        correct: 0,
+        explanation: "Du → solltest."
+    },
+    "a2-sollte-2": {
+        id: "a2-sollte-2",
+        type: "multiple-choice",
+        topic: "a2-l4-sollen-konjunktiv",
+        question: "Er ___ früher ins Bett gehen.",
+        options: ["sollte", "solltest", "sollten"],
+        correct: 0,
+        explanation: "Er/sie/es → sollte."
+    },
+    "a2-sollte-3": {
+        id: "a2-sollte-3",
+        type: "multiple-choice",
+        topic: "a2-l4-sollen-konjunktiv",
+        question: "Wir ___ mehr Sport machen.",
+        options: ["sollten", "sollte", "solltest"],
+        correct: 0,
+        explanation: "Wir → sollten."
+    },
+    "a2-sollte-4": {
+        id: "a2-sollte-4",
+        type: "multiple-choice",
+        topic: "a2-l4-sollen-konjunktiv",
+        question: "Sie (Pl.) ___ pünktlich kommen.",
+        options: ["sollten", "sollte", "solltest"],
+        correct: 0,
+        explanation: "Sie (Plural) → sollten."
+    },
+    "a2-sollte-5": {
+        id: "a2-sollte-5",
+        type: "multiple-choice",
+        topic: "a2-l4-sollen-konjunktiv",
+        question: "Ich ___ weniger Kaffee trinken.",
+        options: ["sollte", "solltest", "sollten"],
+        correct: 0,
+        explanation: "Ich → sollte."
+    },
+    "a2-sollte-6": {
+        id: "a2-sollte-6",
+        type: "multiple-choice",
+        topic: "a2-l4-sollen-konjunktiv",
+        question: "Ihr ___ euch beeilen.",
+        options: ["solltet", "sollte", "sollten"],
+        correct: 0,
+        explanation: "Ihr → solltet."
+    },
 };
 
 // Helper functions
