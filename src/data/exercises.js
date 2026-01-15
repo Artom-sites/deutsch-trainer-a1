@@ -2874,6 +2874,35 @@ export const exercises = {
         explanation: "Anziehen → angezogen."
     },
 
+    // PERFEKT TRENNBAR - Word Order (Побудуй речення)
+    "a2-perfekt-trenn-order-1": {
+        id: "a2-perfekt-trenn-order-1",
+        type: "word-order",
+        topic: "a2-l1-perfekt-trennbar",
+        translation: "Я прибрала свою кімнату.",
+        words: ["Ich", "habe", "mein", "Zimmer", "aufgeräumt."],
+        correctOrder: ["Ich", "habe", "mein", "Zimmer", "aufgeräumt."],
+        explanation: "Perfekt: haben + ... + Partizip II (aufgeräumt) am Ende."
+    },
+    "a2-perfekt-trenn-order-2": {
+        id: "a2-perfekt-trenn-order-2",
+        type: "word-order",
+        topic: "a2-l1-perfekt-trennbar",
+        translation: "Він зателефонував своїй мамі.",
+        words: ["Er", "hat", "seine", "Mutter", "angerufen."],
+        correctOrder: ["Er", "hat", "seine", "Mutter", "angerufen."],
+        explanation: "Anrufen → hat angerufen."
+    },
+    "a2-perfekt-trenn-order-3": {
+        id: "a2-perfekt-trenn-order-3",
+        type: "word-order",
+        topic: "a2-l1-perfekt-trennbar",
+        translation: "Ми вчора зробили покупки.",
+        words: ["Wir", "haben", "gestern", "eingekauft."],
+        correctOrder: ["Wir", "haben", "gestern", "eingekauft."],
+        explanation: "Einkaufen → haben eingekauft."
+    },
+
     // ==========================================
     // A2 LEKTION 1: PERFEKT VERBEN AUF -IEREN - 6 вправ
     // ==========================================
@@ -2930,6 +2959,35 @@ export const exercises = {
         options: ["funktioniert", "gefunktioniert", "funktionierte"],
         correct: 0,
         explanation: "Funktionieren → funktioniert."
+    },
+
+    // PERFEKT -IEREN - Word Order (Побудуй речення)
+    "a2-perfekt-ieren-order-1": {
+        id: "a2-perfekt-ieren-order-1",
+        type: "word-order",
+        topic: "a2-l1-perfekt-ieren",
+        translation: "Ми організували вечірку.",
+        words: ["Wir", "haben", "eine", "Party", "organisiert."],
+        correctOrder: ["Wir", "haben", "eine", "Party", "organisiert."],
+        explanation: "Organisieren → haben organisiert (без ge-)."
+    },
+    "a2-perfekt-ieren-order-2": {
+        id: "a2-perfekt-ieren-order-2",
+        type: "word-order",
+        topic: "a2-l1-perfekt-ieren",
+        translation: "Він відремонтував машину.",
+        words: ["Er", "hat", "das", "Auto", "repariert."],
+        correctOrder: ["Er", "hat", "das", "Auto", "repariert."],
+        explanation: "Reparieren → hat repariert."
+    },
+    "a2-perfekt-ieren-order-3": {
+        id: "a2-perfekt-ieren-order-3",
+        type: "word-order",
+        topic: "a2-l1-perfekt-ieren",
+        translation: "Я багато тренувався.",
+        words: ["Ich", "habe", "viel", "trainiert."],
+        correctOrder: ["Ich", "habe", "viel", "trainiert."],
+        explanation: "Trainieren → habe trainiert."
     },
 
     // ==========================================
@@ -3026,6 +3084,44 @@ export const exercises = {
         explanation: "Wo? → Dativ. Die Schublade → der Schublade."
     },
 
+    // WECHSELPRÄPOSITIONEN - Word Order
+    "a2-wechsel-order-1": {
+        id: "a2-wechsel-order-1",
+        type: "word-order",
+        topic: "a2-l2-wechselpraepositionen",
+        translation: "Я вішаю картину на стіну.",
+        words: ["Ich", "hänge", "das", "Bild", "an", "die", "Wand."],
+        correctOrder: ["Ich", "hänge", "das", "Bild", "an", "die", "Wand."],
+        explanation: "Wohin? → Akkusativ (an die Wand)."
+    },
+    "a2-wechsel-order-2": {
+        id: "a2-wechsel-order-2",
+        type: "word-order",
+        topic: "a2-l2-wechselpraepositionen",
+        translation: "Картина висить на стіні.",
+        words: ["Das", "Bild", "hängt", "an", "der", "Wand."],
+        correctOrder: ["Das", "Bild", "hängt", "an", "der", "Wand."],
+        explanation: "Wo? → Dativ (an der Wand)."
+    },
+    "a2-wechsel-order-3": {
+        id: "a2-wechsel-order-3",
+        type: "word-order",
+        topic: "a2-l2-wechselpraepositionen",
+        translation: "Він кладе книгу на стіл.",
+        words: ["Er", "legt", "das", "Buch", "auf", "den", "Tisch."],
+        correctOrder: ["Er", "legt", "das", "Buch", "auf", "den", "Tisch."],
+        explanation: "Wohin? → Akkusativ (auf den Tisch)."
+    },
+    "a2-wechsel-order-4": {
+        id: "a2-wechsel-order-4",
+        type: "word-order",
+        topic: "a2-l2-wechselpraepositionen",
+        translation: "Книга лежить на столі.",
+        words: ["Das", "Buch", "liegt", "auf", "dem", "Tisch."],
+        correctOrder: ["Das", "Buch", "liegt", "auf", "dem", "Tisch."],
+        explanation: "Wo? → Dativ (auf dem Tisch)."
+    },
+
     // ==========================================
     // A2 LEKTION 3: INDEFINITPRONOMEN - 8 вправ
     // ==========================================
@@ -3100,6 +3196,26 @@ export const exercises = {
         options: ["einen", "einer", "eins"],
         correct: 0,
         explanation: "Der Kaffee (m) в Akkusativ → einen."
+    },
+
+    // INDEFINITPRONOMEN - Word Order
+    "a2-indef-order-1": {
+        id: "a2-indef-order-1",
+        type: "word-order",
+        topic: "a2-l3-indefinitpronomen",
+        translation: "Тут є стіл? - Так, тут є один.",
+        words: ["Gibt", "es", "hier", "einen", "Tisch?", "-", "Ja,", "hier", "ist", "einer."],
+        correctOrder: ["Gibt", "es", "hier", "einen", "Tisch?", "-", "Ja,", "hier", "ist", "einer."],
+        explanation: "Der Tisch (m) → Einer (Nominativ)."
+    },
+    "a2-indef-order-2": {
+        id: "a2-indef-order-2",
+        type: "word-order",
+        topic: "a2-l3-indefinitpronomen",
+        translation: "У тебе є машина? - Ні, у мене немає (жодної).",
+        words: ["Hast", "du", "ein", "Auto?", "-", "Nein,", "ich", "habe", "keins."],
+        correctOrder: ["Hast", "du", "ein", "Auto?", "-", "Nein,", "ich", "habe", "keins."],
+        explanation: "Das Auto (n) → Keins (Akkusativ)."
     },
 
     // ==========================================
@@ -3178,6 +3294,35 @@ export const exercises = {
         explanation: "Man ist → Wenn man krank ist."
     },
 
+    // WENN - Word Order (Побудуй речення)
+    "a2-wenn-order-1": {
+        id: "a2-wenn-order-1",
+        type: "word-order",
+        topic: "a2-l4-wenn",
+        translation: "Коли у мене є час, я читаю.",
+        words: ["Wenn", "ich", "Zeit", "habe,", "lese", "ich."],
+        correctOrder: ["Wenn", "ich", "Zeit", "habe,", "lese", "ich."],
+        explanation: "Wenn-Satz (habe am Ende) + Hauptsatz (lese an Pos 1)."
+    },
+    "a2-wenn-order-2": {
+        id: "a2-wenn-order-2",
+        type: "word-order",
+        topic: "a2-l4-wenn",
+        translation: "Я допоможу тобі, якщо ти мене запитаєш.",
+        words: ["Ich", "helfe", "dir,", "wenn", "du", "mich", "fragst."],
+        correctOrder: ["Ich", "helfe", "dir,", "wenn", "du", "mich", "fragst."],
+        explanation: "Nebensatz mit Wenn: Verb am Ende (fragst)."
+    },
+    "a2-wenn-order-3": {
+        id: "a2-wenn-order-3",
+        type: "word-order",
+        topic: "a2-l4-wenn",
+        translation: "Коли погода гарна, ми йдемо гуляти.",
+        words: ["Wenn", "das", "Wetter", "schön", "ist,", "gehen", "wir", "spazieren."],
+        correctOrder: ["Wenn", "das", "Wetter", "schön", "ist,", "gehen", "wir", "spazieren."],
+        explanation: "Wenn ... ist, gehen wir..."
+    },
+
     // ==========================================
     // A2 LEKTION 4: SOLLEN KONJUNKTIV (SOLLTE) - 6 вправ
     // ==========================================
@@ -3235,6 +3380,26 @@ export const exercises = {
         correct: 0,
         explanation: "Ihr → solltet."
     },
+
+    // SOLLTE - Word Order
+    "a2-sollte-order-1": {
+        id: "a2-sollte-order-1",
+        type: "word-order",
+        topic: "a2-l4-sollen-konjunktiv",
+        translation: "Тобі слід більше спати.",
+        words: ["Du", "solltest", "mehr", "schlafen."],
+        correctOrder: ["Du", "solltest", "mehr", "schlafen."],
+        explanation: "Ratschlag: Du solltest..."
+    },
+    "a2-sollte-order-2": {
+        id: "a2-sollte-order-2",
+        type: "word-order",
+        topic: "a2-l4-sollen-konjunktiv",
+        translation: "Йому слід піти до лікаря.",
+        words: ["Er", "sollte", "zum", "Arzt", "gehen."],
+        correctOrder: ["Er", "sollte", "zum", "Arzt", "gehen."],
+        explanation: "Er sollte ... gehen."
+    }
 };
 
 // Helper functions
