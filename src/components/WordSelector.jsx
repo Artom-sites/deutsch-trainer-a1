@@ -157,103 +157,106 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                             Своє
                         </button>
                     </div>
+
+                    {/* Search & Filter Bar (Fixed in Header) */}
+                    {activeTab === 'dictionary' && (
+                        <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+                            <div style={{
+                                flex: 1,
+                                background: 'rgba(255,255,255,0.05)',
+                                borderRadius: 14, padding: '12px 14px',
+                                display: 'flex', alignItems: 'center', gap: 10
+                            }}>
+                                <Search size={18} color="#7A7D8A" />
+                                <input
+                                    type="text"
+                                    placeholder={selectedLesson ? `Пошук в уроці ${selectedLesson}...` : "Пошук слова..."}
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '1rem', width: '100%', outline: 'none' }}
+                                />
+                                {search && (
+                                    <button onClick={() => setSearch('')} style={{ background: 'transparent', border: 'none', color: '#7A7D8A' }}>
+                                        <X size={16} />
+                                    </button>
+                                )}
+                            </div>
+
+                            <div style={{ position: 'relative' }}>
+                                <button
+                                    onClick={() => setShowLessonDropdown(!showLessonDropdown)}
+                                    style={{
+                                        height: '100%', aspectRatio: '1/1',
+                                        background: selectedLesson ? 'rgba(139,92,246,0.2)' : 'rgba(255,255,255,0.05)',
+                                        borderRadius: 14,
+                                        border: selectedLesson ? '1px solid rgba(139,92,246,0.5)' : 'none',
+                                        color: selectedLesson ? '#a78bfa' : 'var(--text-2)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    <Filter size={20} />
+                                    {selectedLesson && (
+                                        <div style={{
+                                            position: 'absolute', top: -4, right: -4,
+                                            background: '#8b5cf6', width: 10, height: 10, borderRadius: '50%',
+                                            border: '2px solid #131318'
+                                        }} />
+                                    )}
+                                </button>
+
+                                {/* Dropdown */}
+                                {showLessonDropdown && (
+                                    <div style={{
+                                        position: 'absolute', top: '110%', right: 0,
+                                        width: 200, background: '#252530',
+                                        borderRadius: 16, boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+                                        zIndex: 20, maxHeight: 300, overflowY: 'auto',
+                                        border: '1px solid rgba(255,255,255,0.1)'
+                                    }}>
+                                        <div
+                                            onClick={() => { setSelectedLesson(null); setShowLessonDropdown(false); }}
+                                            style={{
+                                                padding: '12px 16px', cursor: 'pointer',
+                                                background: !selectedLesson ? 'rgba(139,92,246,0.15)' : 'transparent',
+                                                borderBottom: '1px solid rgba(255,255,255,0.05)',
+                                                fontSize: '0.95rem'
+                                            }}
+                                        >
+                                            Всі слова
+                                        </div>
+                                        {lessons.map(l => (
+                                            <div
+                                                key={l.id}
+                                                onClick={() => { setSelectedLesson(l.id); setShowLessonDropdown(false); }}
+                                                style={{
+                                                    padding: '12px 16px', cursor: 'pointer',
+                                                    background: selectedLesson === l.id ? 'rgba(139,92,246,0.15)' : 'transparent',
+                                                    fontSize: '0.95rem',
+                                                    color: selectedLesson === l.id ? 'white' : 'var(--text-2)'
+                                                }}
+                                            >
+                                                Урок {l.id}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* 2. Content Area (Scrollable) */}
                 <div style={{
-                    flex: 1,
+                    flex: '1 1 auto',
                     overflowY: 'auto',
-                    padding: '0 20px 100px 20px', // Extra padding bottom for fixed footer
+                    padding: '0 20px 20px 20px', // Normal padding
+                    minHeight: 150, // Prevent collapse
                     WebkitOverflowScrolling: 'touch'
                 }}>
 
                     {activeTab === 'dictionary' ? (
                         <>
-                            {/* Search & Filter Bar */}
-                            <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
-                                <div style={{
-                                    flex: 1,
-                                    background: 'rgba(255,255,255,0.05)',
-                                    borderRadius: 14, padding: '12px 14px',
-                                    display: 'flex', alignItems: 'center', gap: 10
-                                }}>
-                                    <Search size={18} color="#7A7D8A" />
-                                    <input
-                                        type="text"
-                                        placeholder={selectedLesson ? `Пошук в уроці ${selectedLesson}...` : "Пошук слова..."}
-                                        value={search}
-                                        onChange={(e) => setSearch(e.target.value)}
-                                        style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '1rem', width: '100%', outline: 'none' }}
-                                    />
-                                    {search && (
-                                        <button onClick={() => setSearch('')} style={{ background: 'transparent', border: 'none', color: '#7A7D8A' }}>
-                                            <X size={16} />
-                                        </button>
-                                    )}
-                                </div>
-
-                                <div style={{ position: 'relative' }}>
-                                    <button
-                                        onClick={() => setShowLessonDropdown(!showLessonDropdown)}
-                                        style={{
-                                            height: '100%', aspectRatio: '1/1',
-                                            background: selectedLesson ? 'rgba(139,92,246,0.2)' : 'rgba(255,255,255,0.05)',
-                                            borderRadius: 14,
-                                            border: selectedLesson ? '1px solid rgba(139,92,246,0.5)' : 'none',
-                                            color: selectedLesson ? '#a78bfa' : 'var(--text-2)',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        <Filter size={20} />
-                                        {selectedLesson && (
-                                            <div style={{
-                                                position: 'absolute', top: -4, right: -4,
-                                                background: '#8b5cf6', width: 10, height: 10, borderRadius: '50%',
-                                                border: '2px solid #131318'
-                                            }} />
-                                        )}
-                                    </button>
-
-                                    {/* Dropdown */}
-                                    {showLessonDropdown && (
-                                        <div style={{
-                                            position: 'absolute', top: '110%', right: 0,
-                                            width: 200, background: '#252530',
-                                            borderRadius: 16, boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-                                            zIndex: 20, maxHeight: 300, overflowY: 'auto',
-                                            border: '1px solid rgba(255,255,255,0.1)'
-                                        }}>
-                                            <div
-                                                onClick={() => { setSelectedLesson(null); setShowLessonDropdown(false); }}
-                                                style={{
-                                                    padding: '12px 16px', cursor: 'pointer',
-                                                    background: !selectedLesson ? 'rgba(139,92,246,0.15)' : 'transparent',
-                                                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                                                    fontSize: '0.95rem'
-                                                }}
-                                            >
-                                                Всі слова
-                                            </div>
-                                            {lessons.map(l => (
-                                                <div
-                                                    key={l.id}
-                                                    onClick={() => { setSelectedLesson(l.id); setShowLessonDropdown(false); }}
-                                                    style={{
-                                                        padding: '12px 16px', cursor: 'pointer',
-                                                        background: selectedLesson === l.id ? 'rgba(139,92,246,0.15)' : 'transparent',
-                                                        fontSize: '0.95rem',
-                                                        color: selectedLesson === l.id ? 'white' : 'var(--text-2)'
-                                                    }}
-                                                >
-                                                    Урок {l.id}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
                             {/* Results Count */}
                             <div style={{
                                 fontSize: '0.85rem', color: 'var(--text-2)',
@@ -393,15 +396,16 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                     )}
                 </div>
 
-                {/* 3. Footer Actions (Always visible for Dictionary mode) */}
+                {/* 3. Footer Actions (Static Flex Item) */}
                 {activeTab === 'dictionary' && (
                     <div style={{
-                        position: 'absolute', bottom: 0, left: 0, right: 0,
-                        padding: '16px 20px 20px', // Standard padding
+                        width: '100%',
+                        padding: '16px 20px 20px',
                         background: 'linear-gradient(to top, #131318 80%, rgba(19,19,24,0) 100%)',
                         borderTop: '1px solid rgba(255,255,255,0.05)',
                         display: 'flex', gap: 12,
-                        zIndex: 20
+                        zIndex: 20,
+                        flexShrink: 0
                     }}>
                         <button
                             onClick={onClose}
