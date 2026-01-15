@@ -71,22 +71,26 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(0,0,0,0.85)', zIndex: 1000,
+            background: 'rgba(0,0,0,0.85)', zIndex: 1100,
             display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+            paddingBottom: 'calc(80px + 16px)', // NavHeight (68+12) + Margin (16)
+            paddingTop: 16,
+            paddingLeft: 16,
+            paddingRight: 16,
             backdropFilter: 'blur(4px)'
         }}>
-            {/* Main Panel (Bottom Sheet on Mobile, Centered Modal on Desktop) */}
+            {/* Main Panel - Floating Card above BottomNav */}
             <div className="glass-panel" style={{
                 width: '100%', maxWidth: 500,
-                height: '92vh', // Tall enough for mobile
-                borderTopLeftRadius: 24, borderTopRightRadius: 24,
-                borderBottomLeftRadius: 0, borderBottomRightRadius: 0,
+                height: 'auto',
+                maxHeight: '100%', // Constrained by padding
+                borderRadius: 24, // All corners rounded
                 background: '#131318',
-                border: '1px solid rgba(255,255,255,0.1)', borderBottom: 'none',
+                border: '1px solid rgba(255,255,255,0.1)',
                 display: 'flex', flexDirection: 'column',
-                boxShadow: '0 -4px 40px rgba(0,0,0,0.6)',
+                boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
                 overflow: 'hidden',
-                position: 'relative' // For absolute footer positioning
+                position: 'relative'
             }}>
 
                 {/* 1. Header (Fixed) */}
@@ -393,7 +397,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                 {activeTab === 'dictionary' && (
                     <div style={{
                         position: 'absolute', bottom: 0, left: 0, right: 0,
-                        padding: '16px 20px 30px', // Extra for safe area
+                        padding: '16px 20px 20px', // Standard padding
                         background: 'linear-gradient(to top, #131318 80%, rgba(19,19,24,0) 100%)',
                         borderTop: '1px solid rgba(255,255,255,0.05)',
                         display: 'flex', gap: 12,
