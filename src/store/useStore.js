@@ -48,7 +48,11 @@ const useStore = create(
             }),
 
             // Direct setters for themed words
-            setFlashcardWords: (words) => set({ flashcardWords: words }),
+            setFlashcardWords: (words) => set({
+                flashcardWords: words,
+                currentView: 'flashcards',
+                currentCardIndex: 0
+            }),
             setCurrentView: (view) => set({ currentView: view }),
             setNounMasterWords: (words) => set({
                 currentView: 'noun-master',
