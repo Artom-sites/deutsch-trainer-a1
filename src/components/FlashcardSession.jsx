@@ -56,12 +56,12 @@ const FlashcardSession = () => {
                         }, backStudyTime);
                     });
                 } else {
-                    // No speech - just wait and advance
+                    // No speech - just wait slightly and advance (shorter delay)
                     setAutoplayPhase('speaking');
                     autoplayTimerRef.current = setTimeout(() => {
                         handleNext();
                         setAutoplayPhase('front');
-                    }, backStudyTime);
+                    }, 1500); // 1.5s delay when muted
                 }
             }, 500); // brief pause before speaking
         }
@@ -102,7 +102,7 @@ const FlashcardSession = () => {
     };
 
     return (
-        <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)', overflow: 'hidden' }}>
+        <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
             {/* Header Row */}
             <div style={{
                 display: 'flex',

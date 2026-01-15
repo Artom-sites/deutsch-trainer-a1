@@ -80,8 +80,9 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false, isAutopl
         <div style={{
             display: 'flex',
             flexDirection: 'column',
-            height: 'calc(100vh - 180px)',
-            padding: 'var(--space-md)',
+            flex: 1,
+            height: '100%',
+            padding: '0 var(--space-md) var(--space-md)',
             gap: 'var(--space-md)',
             perspective: 1000,
             overflow: 'hidden' // Contain swipe
