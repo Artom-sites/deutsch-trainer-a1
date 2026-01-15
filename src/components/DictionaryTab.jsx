@@ -9,6 +9,7 @@ import { Search, Volume2, Eye, Dumbbell } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 import CollectionManager from './CollectionManager';
 
+
 const DictionaryTab = () => {
     const setFlashcardWords = useStore(state => state.setFlashcardWords);
     const setCurrentView = useStore(state => state.setCurrentView);
@@ -34,8 +35,11 @@ const DictionaryTab = () => {
         // If NOT searching, respect the filter mode
         if (filterMode === 'themes') {
             return selectedTheme ? getWordsByTheme(selectedTheme) : getAllThemedWords();
-        } else {
+        } else if (filterMode === 'lessons') {
             return selectedLesson ? words.filter(w => w.lesson === selectedLesson) : words;
+
+        } else {
+            return words;
         }
     };
 
@@ -143,6 +147,7 @@ const DictionaryTab = () => {
                 >
                     За лекціями
                 </button>
+
                 <button
                     onClick={() => setFilterMode('collections')}
                     className={filterMode === 'collections' ? 'chip active' : 'chip'}
@@ -269,6 +274,7 @@ const DictionaryTab = () => {
 
                     {/* Words List */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+
                         {filteredWords.slice(0, visibleCount).map(word => (
                             <div
                                 key={word.id}

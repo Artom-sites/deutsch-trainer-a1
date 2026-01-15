@@ -2,7 +2,7 @@
 // Violang Glass Bottom Bar with Glow Effects
 import React from 'react';
 import useStore from '../store/useStore';
-import { Home, BookOpen, Library, Sparkles, MessageCircle } from 'lucide-react';
+import { Home, BookOpen, Library, Sparkles, GraduationCap } from 'lucide-react';
 
 const BottomNav = () => {
     const currentTab = useStore(state => state.currentTab);
@@ -18,8 +18,8 @@ const BottomNav = () => {
         { id: 'lessons', icon: BookOpen, label: 'Уроки' },
         { id: 'dictionary', icon: Library, label: 'Словник' },
         { id: 'home', icon: Home, label: 'Головна' },
-        { id: 'verbs', icon: Sparkles, label: 'Трен' },
-        { id: 'chat', icon: MessageCircle, label: 'Чат' },
+        { id: 'verbs', icon: Sparkles, label: 'Дієслова' },
+        { id: 'rules', icon: GraduationCap, label: 'Правила' },
     ];
 
     return (

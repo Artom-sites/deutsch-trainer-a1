@@ -10,7 +10,11 @@ import { grammarTopics, grammarContent, getGrammarForLesson, getGrammarContent }
 // ==========================================
 // RE-EXPORT
 // ==========================================
+import { verbs } from './verbs.js';
+
+// words export original
 export { words, lessonNames };
+export { verbs }; // Export verbs separately
 export { lessons };
 export { exercises, getExercisesForTopic, getExercisesForLesson };
 export { grammarTopics, grammarContent, getGrammarForLesson, getGrammarContent };

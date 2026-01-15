@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import useStore from './store/useStore';
 import useAuthStore from './store/authStore';
+import { MessageCircle } from 'lucide-react';
 
 // Components
 import BottomNav from './components/BottomNav';
@@ -12,6 +13,7 @@ import LessonDetail from './components/LessonDetail';
 import GrammarDetail from './components/GrammarDetail';
 import DictionaryTab from './components/DictionaryTab';
 import VerbsTab from './components/VerbsTab';
+import RulesTab from './components/RulesTab';
 import ProgressTab from './components/ProgressTab';
 import FlashcardSession from './components/FlashcardSession';
 import ExerciseSession from './components/ExerciseSession';
@@ -27,6 +29,7 @@ function App() {
   const currentTab = useStore(state => state.currentTab);
   const currentView = useStore(state => state.currentView);
   const goBack = useStore(state => state.goBack);
+  const setTab = useStore(state => state.setTab);
 
   // Auth
   const user = useAuthStore(state => state.user);
@@ -246,6 +249,8 @@ function App() {
         return <DictionaryTab />;
       case 'verbs':
         return <VerbsTab />;
+      case 'rules':
+        return <RulesTab />;
       case 'exam':
         return <ExamTab />;
       case 'chat':
@@ -263,6 +268,36 @@ function App() {
       <div className="aurora-bg" />
       {renderContent()}
       <BottomNav />
+
+      {/* Chat FAB */}
+      {!['flashcards', 'exercises', 'grammar-detail', 'test', 'reading', 'noun-master'].includes(currentView) && currentTab !== 'chat' && (
+        <button
+          onClick={() => setTab('chat')}
+          style={{
+            position: 'fixed',
+            bottom: 100,
+            right: 20,
+            width: 56,
+            height: 56,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, var(--pri), #ffa060)',
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 8px 20px rgba(242, 106, 27, 0.4)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            zIndex: 100,
+            cursor: 'pointer',
+            transition: 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+          }}
+          onMouseDown={e => e.currentTarget.style.transform = 'scale(0.92)'}
+          onMouseUp={e => e.currentTarget.style.transform = 'scale(1)'}
+          onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <MessageCircle size={26} />
+        </button>
+      )}
     </div>
   );
 }
