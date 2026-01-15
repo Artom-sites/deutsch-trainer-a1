@@ -70,27 +70,24 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
 
     return (
         <div style={{
-            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            position: 'fixed', inset: 0,
             background: 'rgba(0,0,0,0.85)', zIndex: 1100,
-            display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-            paddingBottom: 'calc(80px + 16px)', // NavHeight (68+12) + Margin (16)
-            paddingTop: 16,
-            paddingLeft: 16,
-            paddingRight: 16,
             backdropFilter: 'blur(4px)'
         }}>
-            {/* Main Panel - Floating Card above BottomNav */}
+            {/* Main Panel - Floating Card with Absolute Positioning */}
             <div className="glass-panel" style={{
-                width: '100%', maxWidth: 500,
-                height: '100%', // Fill available space between top and bottom padding
-                maxHeight: '100%', // Constrained by padding
+                position: 'absolute',
+                top: 16,
+                bottom: 'calc(80px + 16px)', // NavHeight (80) + Margin (16)
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: 'min(500px, calc(100% - 32px))', // Responsive width with margins
                 borderRadius: 24, // All corners rounded
                 background: '#131318',
                 border: '1px solid rgba(255,255,255,0.1)',
                 display: 'flex', flexDirection: 'column',
                 boxShadow: '0 8px 40px rgba(0,0,0,0.6)',
-                overflow: 'hidden',
-                position: 'relative'
+                overflow: 'hidden'
             }}>
 
                 {/* 1. Header (Fixed) */}
