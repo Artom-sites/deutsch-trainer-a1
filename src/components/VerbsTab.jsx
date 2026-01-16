@@ -272,15 +272,58 @@ const VerbsTab = () => {
     });
 
     return (
-        <div className="screen">
-            {/* Header */}
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-0)', margin: '0 0 4px' }}>
-                    Verben 📚
-                </h1>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
-                    {verbs.length} дієслів для рівня A1
-                </p>
+        <div className="app">
+            {/* Hero Header with Gradient */}
+            <div style={{
+                background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.15), rgba(249, 115, 22, 0.08), transparent)',
+                borderRadius: 20,
+                padding: '16px 20px',
+                marginBottom: 20,
+                border: '1px solid rgba(251, 146, 60, 0.2)'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+                    <div style={{ flex: 1 }}>
+                        <h1 style={{
+                            fontSize: '1.5rem',
+                            fontWeight: 800,
+                            color: 'var(--text-0)',
+                            margin: 0,
+                            letterSpacing: '-0.02em'
+                        }}>
+                            📝 Дієслова
+                        </h1>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '4px 0 0' }}>
+                            {verbs.length} дієслів для рівня A1
+                        </p>
+                    </div>
+                    {/* Mini Stats */}
+                    <div style={{
+                        display: 'flex',
+                        gap: 12,
+                        padding: '10px 16px',
+                        background: 'rgba(0,0,0,0.35)',
+                        borderRadius: 14,
+                        border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#2ECC71', lineHeight: 1 }}>
+                                {verbs.filter(v => v.type === 'regular').length}
+                            </div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text-2)', marginTop: 2 }}>
+                                REG.
+                            </div>
+                        </div>
+                        <div style={{ width: 1, background: 'rgba(255,255,255,0.15)' }} />
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#E94B5A', lineHeight: 1 }}>
+                                {verbs.filter(v => v.type === 'irregular').length}
+                            </div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text-2)', marginTop: 2 }}>
+                                IRR.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Search */}

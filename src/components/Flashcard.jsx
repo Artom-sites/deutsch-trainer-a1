@@ -192,7 +192,7 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false, isAutopl
                                 marginBottom: 8,
                                 textShadow: `0 0 30px ${genderColor}40`
                             }}>
-                                {word.word}{hasValidPlural && <>, <span style={{ fontWeight: 500, color: '#fbbf24' }}>{word.plural}</span></>}
+                                {word.word.replace(/^(der|die|das)\s+/i, '')}{hasValidPlural && <>, <span style={{ fontWeight: 500, color: '#fbbf24' }}>{word.plural}</span></>}
                             </div>
 
                             <button

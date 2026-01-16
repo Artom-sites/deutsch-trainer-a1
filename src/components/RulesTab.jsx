@@ -1023,15 +1023,58 @@ const RulesTab = () => {
 
     // Main list view
     return (
-        <div className="screen">
-            {/* Header */}
-            <div style={{ marginBottom: 16 }}>
-                <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-0)', margin: '0 0 4px' }}>
-                    Правила 📖
-                </h1>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
-                    Граматика A1 & A2
-                </p>
+        <div className="app">
+            {/* Hero Header with Gradient */}
+            <div style={{
+                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(16, 185, 129, 0.08), transparent)',
+                borderRadius: 20,
+                padding: '16px 20px',
+                marginBottom: 16,
+                border: '1px solid rgba(34, 197, 94, 0.2)'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+                    <div style={{ flex: 1 }}>
+                        <h1 style={{
+                            fontSize: '1.5rem',
+                            fontWeight: 800,
+                            color: 'var(--text-0)',
+                            margin: 0,
+                            letterSpacing: '-0.02em'
+                        }}>
+                            📖 Граматика
+                        </h1>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '4px 0 0' }}>
+                            Правила A1 & A2
+                        </p>
+                    </div>
+                    {/* Mini Stats */}
+                    <div style={{
+                        display: 'flex',
+                        gap: 12,
+                        padding: '10px 16px',
+                        background: 'rgba(0,0,0,0.35)',
+                        borderRadius: 14,
+                        border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#a78bfa', lineHeight: 1 }}>
+                                {a1Rules.length}
+                            </div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text-2)', marginTop: 2 }}>
+                                A1
+                            </div>
+                        </div>
+                        <div style={{ width: 1, background: 'rgba(255,255,255,0.15)' }} />
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#22c55e', lineHeight: 1 }}>
+                                {a2Rules.length}
+                            </div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text-2)', marginTop: 2 }}>
+                                A2
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Search Bar */}
