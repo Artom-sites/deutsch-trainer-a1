@@ -25,7 +25,7 @@ const LessonsTab = () => {
     const selectedProgress = selectedLesson ? getLessonProgress(selectedLesson.id) : { percent: 0 };
 
     return (
-        <div className="app" style={{ display: 'flex', gap: 12, height: 'calc(100vh - 140px)', overflow: 'hidden' }}>
+        <div className="app" style={{ display: 'flex', gap: 12, height: 'calc(100vh - 140px)', overflow: 'hidden', position: 'fixed', top: 20, left: '50%', transform: 'translateX(-50%)', maxWidth: 520, width: 'calc(100% - 16px)' }}>
             {/* Left Sidebar - Lesson Numbers */}
             <div style={{
                 width: 56,
@@ -39,49 +39,56 @@ const LessonsTab = () => {
                 paddingBottom: 10,
                 scrollbarWidth: 'none'
             }}>
-                {/* Level Switcher - Horizontal Toggle */}
-                <div style={{
-                    display: 'flex',
-                    marginBottom: 8,
-                    padding: 3,
-                    background: 'rgba(255,255,255,0.05)',
-                    borderRadius: 10,
-                    border: '1px solid var(--stroke)'
-                }}>
-                    <button
-                        onClick={() => useStore.getState().setLevel('A1')}
-                        style={{
-                            flex: 1,
-                            padding: '5px 0',
-                            borderRadius: 7,
-                            border: 'none',
-                            background: level === 'A1' ? 'var(--pri)' : 'transparent',
-                            color: level === 'A1' ? '#000' : 'var(--text-2)',
-                            fontWeight: 700,
-                            fontSize: '0.7rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                        }}
-                    >
-                        A1
-                    </button>
-                    <button
-                        onClick={() => useStore.getState().setLevel('A2')}
-                        style={{
-                            flex: 1,
-                            padding: '5px 0',
-                            borderRadius: 7,
-                            border: 'none',
-                            background: level === 'A2' ? 'var(--pri)' : 'transparent',
-                            color: level === 'A2' ? '#000' : 'var(--text-2)',
-                            fontWeight: 700,
-                            fontSize: '0.7rem',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s'
-                        }}
-                    >
-                        A2
-                    </button>
+                {/* Level Switcher - Toggle Switch */}
+                <div
+                    onClick={() => useStore.getState().setLevel(level === 'A1' ? 'A2' : 'A1')}
+                    style={{
+                        width: 48,
+                        height: 96,
+                        borderRadius: 24,
+                        background: 'rgba(0,0,0,0.5)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        padding: 4,
+                        marginBottom: 10,
+                        cursor: 'pointer',
+                        position: 'relative',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.4)'
+                    }}
+                >
+                    {/* Labels */}
+                    <span style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        color: level === 'A1' ? '#fff' : 'rgba(255,255,255,0.35)',
+                        zIndex: 2,
+                        paddingTop: 10,
+                        transition: 'color 0.2s'
+                    }}>A1</span>
+                    <span style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        color: level === 'A2' ? '#fff' : 'rgba(255,255,255,0.35)',
+                        zIndex: 2,
+                        paddingBottom: 10,
+                        transition: 'color 0.2s'
+                    }}>A2</span>
+
+                    {/* Sliding Thumb */}
+                    <div style={{
+                        position: 'absolute',
+                        top: level === 'A1' ? 4 : 'calc(100% - 44px)',
+                        left: 4,
+                        width: 40,
+                        height: 40,
+                        borderRadius: 20,
+                        background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+                        boxShadow: '0 4px 16px rgba(139, 92, 246, 0.5)',
+                        transition: 'top 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }} />
                 </div>
 
                 {/* Lesson Number Buttons */}
