@@ -984,6 +984,10 @@ const RulesTab = () => {
         }))
     ];
 
+    // Count rules by level
+    const a1Rules = rules.filter(r => getRuleLevel(r.data.id) === 'a1');
+    const a2Rules = rules.filter(r => getRuleLevel(r.data.id) === 'a2');
+
     // Filter rules
     const filteredRules = rules.filter(({ data }) => {
         // Level filter

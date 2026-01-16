@@ -102,7 +102,18 @@ const FlashcardSession = () => {
     };
 
     return (
-        <div className="screen" style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+        <div className="screen" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 80,
+            overflow: 'hidden',
+            background: 'var(--bg-0)',
+            padding: '16px'
+        }}>
             {/* Header Row */}
             <div style={{
                 display: 'flex',
