@@ -53,19 +53,35 @@ const useStore = create(
                 activeExercises: []
             }),
 
+            // Simple Fisher-Yates shuffle helper
+            shuffle: (array) => {
+                const arr = [...array];
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            },
+
             // Direct setters for themed words
-            setFlashcardWords: (words) => set({
-                flashcardWords: words,
-                currentView: 'flashcards',
-                currentCardIndex: 0
-            }),
+            setFlashcardWords: (words) => {
+                const shuffle = get().shuffle;
+                set({
+                    flashcardWords: shuffle(words),
+                    currentView: 'flashcards',
+                    currentCardIndex: 0
+                });
+            },
             setCurrentView: (view) => set({ currentView: view }),
-            setNounMasterWords: (words) => set({
-                currentView: 'noun-master',
-                flashcardWords: words,
-                currentCardIndex: 0,
-                activeLessonId: null
-            }),
+            setNounMasterWords: (words) => {
+                const shuffle = get().shuffle;
+                set({
+                    currentView: 'noun-master',
+                    flashcardWords: shuffle(words),
+                    currentCardIndex: 0,
+                    activeLessonId: null
+                });
+            },
 
             // ==========================================
             // LESSON ACTIONS
@@ -208,10 +224,11 @@ const useStore = create(
             // Start Noun Master
             startNounMaster: (lessonId) => {
                 const lessonWords = getWordsForLesson(lessonId).filter(w => w.article && w.plural); // Only nouns
+                const shuffle = get().shuffle;
                 set({
                     currentView: 'noun-master',
                     activeLessonId: lessonId,
-                    flashcardWords: lessonWords, // Reuse this for word list
+                    flashcardWords: shuffle(lessonWords),
                     currentCardIndex: 0
                 });
             },
@@ -219,10 +236,11 @@ const useStore = create(
             // Start Noun Master with custom list (Review)
             startReviewNounMaster: (words) => {
                 const nounsOnly = words.filter(w => w.article && w.plural);
+                const shuffle = get().shuffle;
                 set({
                     currentView: 'noun-master',
                     activeLessonId: null, // No specific lesson
-                    flashcardWords: nounsOnly,
+                    flashcardWords: shuffle(nounsOnly),
                     currentCardIndex: 0
                 });
             },

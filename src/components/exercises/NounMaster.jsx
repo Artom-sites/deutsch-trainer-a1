@@ -41,13 +41,15 @@ const NounMaster = () => {
         // Find the ending difference
         let ending = '';
         if (plural.toLowerCase().startsWith(baseWord.toLowerCase())) {
-            ending = plural.slice(baseWord.length);
+            const suffix = plural.slice(baseWord.length);
+            ending = suffix ? '-' + suffix : '-';
         } else if (hasUmlaut) {
             // Umlaut case - find suffix after base changes
             const pluralLower = plural.toLowerCase().replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u');
             const baseLower = baseWord.toLowerCase();
             if (pluralLower.startsWith(baseLower)) {
-                ending = '¨' + plural.slice(baseWord.length);
+                const suffix = plural.slice(baseWord.length);
+                ending = suffix ? '¨-' + suffix : '¨';
             } else {
                 ending = '¨-' + (plural.slice(-1) === 'e' ? 'e' : plural.slice(-2) === 'er' ? 'er' : 'e');
             }
