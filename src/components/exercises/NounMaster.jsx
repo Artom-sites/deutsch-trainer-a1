@@ -32,12 +32,41 @@ const NounMaster = () => {
         setShowResult(false);
     }, [currentIndex]);
 
+    // Helper to get plural ending from full word
+    const getPluralEnding = (word, plural) => {
+        if (!plural || plural === '-') return '-';
+        const baseWord = word.replace(/^(der|die|das)\s+/i, '');
+        // Check for umlaut change
+        const hasUmlaut = /[äöü]/.test(plural) && !/[äöü]/.test(baseWord);
+        // Find the ending difference
+        let ending = '';
+        if (plural.toLowerCase().startsWith(baseWord.toLowerCase())) {
+            ending = plural.slice(baseWord.length);
+        } else if (hasUmlaut) {
+            // Umlaut case - find suffix after base changes
+            const pluralLower = plural.toLowerCase().replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u');
+            const baseLower = baseWord.toLowerCase();
+            if (pluralLower.startsWith(baseLower)) {
+                ending = '¨' + plural.slice(baseWord.length);
+            } else {
+                ending = '¨-' + (plural.slice(-1) === 'e' ? 'e' : plural.slice(-2) === 'er' ? 'er' : 'e');
+            }
+        } else {
+            ending = '-' + (plural.slice(-2) === 'en' ? 'en' : plural.slice(-1) === 'e' ? 'e' : plural.slice(-1) === 'n' ? 'n' : plural.slice(-1) === 's' ? 's' : 'e');
+        }
+        return ending || '-';
+    };
+
     const pluralOptions = useMemo(() => {
         if (!currentWord) return [];
+        const correctEnding = getPluralEnding(currentWord.word, currentWord.plural);
         const endings = ['-', '-e', '-n', '-en', '-s', '-er', '¨-e', '¨-er'];
-        const options = new Set([currentWord.plural]);
+        const options = new Set([correctEnding]);
         while (options.size < 4) {
-            options.add(endings[Math.floor(Math.random() * endings.length)]);
+            const randomEnding = endings[Math.floor(Math.random() * endings.length)];
+            if (randomEnding !== correctEnding) {
+                options.add(randomEnding);
+            }
         }
         return Array.from(options).sort();
     }, [currentWord]);
@@ -46,7 +75,8 @@ const NounMaster = () => {
         if (!selectedArticle || !wordInput.trim() || !selectedPlural) return;
         const articleCorrect = selectedArticle.toLowerCase() === currentWord.article.toLowerCase();
         const wordCorrect = wordInput.trim().toLowerCase() === currentWord.word.toLowerCase();
-        const pluralCorrect = selectedPlural === currentWord.plural;
+        const correctEnding = getPluralEnding(currentWord.word, currentWord.plural);
+        const pluralCorrect = selectedPlural === correctEnding;
         setFeedback({ article: articleCorrect, word: wordCorrect, plural: pluralCorrect });
 
         if (articleCorrect && wordCorrect && pluralCorrect) {
@@ -191,7 +221,8 @@ const NounMaster = () => {
                         const isSelected = selectedPlural === pl;
                         const isCorrect = feedback.plural === true && isSelected;
                         const isWrong = feedback.plural === false && isSelected;
-                        const showCorrect = showResult && pl === currentWord.plural;
+                        const correctEnding = getPluralEnding(currentWord.word, currentWord.plural);
+                        const showCorrect = showResult && pl === correctEnding;
                         return (
                             <button key={pl} onClick={() => !showResult && setSelectedPlural(pl)} disabled={showResult}
                                 style={{ ...getBtnStyle(isSelected, isCorrect, isWrong, showCorrect), padding: '10px 2px', color: '#E5E7EB', fontSize: '0.85rem', fontWeight: 600 }}>
