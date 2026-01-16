@@ -82,13 +82,15 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false, isAutopl
             flexDirection: 'column',
             flex: 1,
             height: '100%',
+            maxHeight: 500,
             padding: '0 var(--space-md) var(--space-md)',
             gap: 'var(--space-md)',
             perspective: 1000,
-            overflow: 'hidden' // Contain swipe
+            overflow: 'hidden', // Contain swipe
+            margin: 'auto 0'
         }}>
             {/* Draggable Card Area */}
-            <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+            <div style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxHeight: 400 }}>
                 <motion.div
                     drag="x"
                     dragConstraints={{ left: 0, right: 0 }}

@@ -12,6 +12,7 @@ import { requestNotificationPermission, checkPermission, sendNotification } from
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
     const getLearnedCount = useStore(state => state.getLearnedCount);
+    const getMasteredCount = useStore(state => state.getMasteredCount);
     const getLessonProgress = useStore(state => state.getLessonProgress);
     const openLesson = useStore(state => state.openLesson);
     const getOverallProgress = useStore(state => state.getOverallProgress);
@@ -232,67 +233,49 @@ const HomeTab = () => {
             </div>
 
             {/* =====================
-                ТВІЙ ДЕНЬ (Stats)
+                COMPACT STATS BAR (WOW redesign)
             ===================== */}
             <div style={{
-                display: 'flex', justifyContent: 'space-between',
-                alignItems: 'center', marginBottom: 12
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                padding: '16px 12px',
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03))',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                borderRadius: 20,
+                marginBottom: 24,
+                boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
             }}>
-                <h3 style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-0)', margin: 0 }}>
-                    Твій день
-                </h3>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
-                    Мета без стриків
-                </span>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 28 }}>
-                {/* Words */}
-                <div
-                    onClick={() => setTab('dictionary')}
-                    className="card-interactive"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04))',
-                        backdropFilter: 'blur(20px) saturate(180%)',
-                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
-                        borderRadius: 20, padding: 16,
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
-                    }}
-                >
-                    <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Слова</p>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 8 }}>
-                        {dailyProgress}<span style={{ color: 'var(--text-2)', fontSize: '1.2rem' }}>/{dailyGoal}</span>
+                {/* Words Today */}
+                <div style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => setTab('dictionary')}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-0)', marginBottom: 4 }}>
+                        {dailyProgress}<span style={{ color: 'var(--text-2)', fontSize: '0.9rem', fontWeight: 500 }}>/{dailyGoal}</span>
                     </div>
-                    <div style={{ height: 4, background: 'var(--surface)', borderRadius: 2 }}>
-                        <div style={{
-                            height: '100%', borderRadius: 2,
-                            background: 'var(--pri)',
-                            width: `${Math.min((dailyProgress / dailyGoal) * 100, 100)}%`
-                        }} />
-                    </div>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>сьогодні</span>
                 </div>
 
-                {/* Learned total */}
-                <div
-                    onClick={() => setTab('lessons')}
-                    className="card-interactive"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.04))',
-                        backdropFilter: 'blur(20px) saturate(180%)',
-                        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
-                        borderRadius: 20, padding: 16,
-                        cursor: 'pointer',
-                        boxShadow: '0 4px 16px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12)'
-                    }}
-                >
-                    <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '0 0 8px' }}>Граматика</p>
-                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 8 }}>
-                        {getLearnedCount()}<span style={{ color: 'var(--text-2)', fontSize: '1.2rem' }}>/100</span>
+                {/* Divider */}
+                <div style={{ width: 1, height: 36, background: 'var(--stroke)' }} />
+
+                {/* Viewed (any progress) */}
+                <div style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => setTab('dictionary')}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#a78bfa', marginBottom: 4 }}>
+                        {getLearnedCount()}
                     </div>
-                    <p style={{ fontSize: '0.75rem', color: 'var(--text-2)', margin: 0 }}>Слів вивчено</p>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>переглянуто</span>
+                </div>
+
+                {/* Divider */}
+                <div style={{ width: 1, height: 36, background: 'var(--stroke)' }} />
+
+                {/* Mastered (stage 4) */}
+                <div style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => setTab('lessons')}>
+                    <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#22c55e', marginBottom: 4 }}>
+                        {getMasteredCount()}
+                    </div>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>вивчено</span>
                 </div>
             </div>
 

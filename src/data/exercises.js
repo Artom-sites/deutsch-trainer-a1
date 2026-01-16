@@ -3,10 +3,13 @@
  * 15-30 вправ для кожної граматичної теми
  */
 
+import exercisesA2 from './a2/exercises';
+
 export const exercises = {
+    ...exercisesA2,
     // ==========================================
     // TEMPORALE PRÄPOSITIONEN (vor, nach, bis, seit, in, ab)
-    // Lektion 12 - 25 вправ
+    // Lektion 5 - 25 вправ
     // ==========================================
     "temp-1": {
         id: "temp-1",
@@ -421,7 +424,7 @@ export const exercises = {
 
     // ==========================================
     // DATIV - 20 вправ
-    // Lektion 11
+    // Lektion 4
     // ==========================================
     "dat-1": {
         id: "dat-1",

@@ -200,7 +200,7 @@ const WordOrderExercise = ({ exercise, onComplete }) => {
                     textAlign: 'center',
                     color: 'var(--ok)'
                 }}>
-                    ✓ Richtig!
+                    ✓ Правильно!
                 </div>
             )}
 
@@ -241,7 +241,7 @@ const WordOrderExercise = ({ exercise, onComplete }) => {
                         gap: 8
                     }}
                 >
-                    {status === 'success' ? <Check size={18} /> : 'Prüfen'}
+                    {status === 'success' ? <Check size={18} /> : 'Перевірити'}
                 </button>
             </div>
         </div>

@@ -58,7 +58,7 @@ export const articles = {
     id: "artikel",
     title: "Artikel",
     titleUa: "Артиклі",
-    description: "Означені та неозначені артиклі у всіх відмінках",
+    description: "Означені та неозначені артиклі, рід іменників",
 
     questions: {
         nominativ: { de: "Wer? Was?", ua: "Хто? Що?" },
@@ -99,10 +99,38 @@ export const articles = {
         ]
     },
 
+    // =====================
+    // GENUS-TIPPS (підказки щодо роду)
+    // =====================
+    genusTipps: {
+        title: "Genus-Tipps",
+        titleUa: "Як визначити рід",
+        maskulin: {
+            title: "Maskulin (der)",
+            endings: ["-er", "-ling", "-ismus", "-or", "-ant", "-ent"],
+            categories: ["Дні тижня (der Montag)", "Місяці (der Januar)", "Пори року (der Sommer)", "Погода (der Regen)", "Чоловічі професії (der Lehrer)"],
+            examples: ["der Computer", "der Frühling", "der Tourismus", "der Student"]
+        },
+        feminin: {
+            title: "Feminin (die)",
+            endings: ["-e", "-ung", "-heit", "-keit", "-schaft", "-ion", "-ik", "-tät", "-ie"],
+            categories: ["Числа як іменники (die Eins)", "Більшість квітів (die Rose)", "Жіночі професії (die Lehrerin)"],
+            examples: ["die Lampe", "die Wohnung", "die Freiheit", "die Nation", "die Universität"]
+        },
+        neutrum: {
+            title: "Neutrum (das)",
+            endings: ["-chen", "-lein", "-ment", "-um", "-tum"],
+            categories: ["Інфінітиви як іменники (das Essen)", "Зменшувальні (das Mädchen)", "Кольори (das Blau)", "Метали (das Gold)"],
+            examples: ["das Brötchen", "das Dokument", "das Studium", "das Mädchen"]
+        }
+    },
+
     examples: [
         { de: "Der Mann liest.", ua: "Чоловік читає." },
         { de: "Ich sehe den Mann.", ua: "Я бачу чоловіка." },
-        { de: "Ich helfe dem Mann.", ua: "Я допомагаю чоловікові." }
+        { de: "Ich helfe dem Mann.", ua: "Я допомагаю чоловікові." },
+        { de: "Das ist ein Buch.", ua: "Це книга." },
+        { de: "Ich habe keine Zeit.", ua: "У мене немає часу." }
     ]
 };
 
@@ -355,8 +383,9 @@ export const numbers = {
     id: "zahlen",
     title: "Zahlen",
     titleUa: "Числа",
-    description: "Числівники від 0 до 1000+",
+    description: "Числівники, дати, роки, порядкові числівники",
 
+    // Кардинальні числа 0-20
     basic: [
         { num: 0, de: "null" }, { num: 1, de: "eins" }, { num: 2, de: "zwei" }, { num: 3, de: "drei" },
         { num: 4, de: "vier" }, { num: 5, de: "fünf" }, { num: 6, de: "sechs" }, { num: 7, de: "sieben" },
@@ -366,11 +395,13 @@ export const numbers = {
         { num: 18, de: "achtzehn" }, { num: 19, de: "neunzehn" }, { num: 20, de: "zwanzig" }
     ],
 
+    // Десятки та великі числа
     tens: [
         { num: 10, de: "zehn" }, { num: 20, de: "zwanzig" }, { num: 30, de: "dreißig" },
         { num: 40, de: "vierzig" }, { num: 50, de: "fünfzig" }, { num: 60, de: "sechzig" },
         { num: 70, de: "siebzig" }, { num: 80, de: "achtzig" }, { num: 90, de: "neunzig" },
-        { num: 100, de: "(ein)hundert" }, { num: 1000, de: "(ein)tausend" }
+        { num: 100, de: "(ein)hundert" }, { num: 1000, de: "(ein)tausend" },
+        { num: 1000000, de: "eine Million" }, { num: 1000000000, de: "eine Milliarde" }
     ],
 
     rule: "21-99: одиниці + und + десятки. Приклад: 25 = fünfundzwanzig (п'ять і двадцять)",
@@ -380,8 +411,122 @@ export const numbers = {
         { num: 34, de: "vierunddreißig" },
         { num: 57, de: "siebenundfünfzig" },
         { num: 99, de: "neunundneunzig" },
-        { num: 123, de: "einhundertdreiundzwanzig" }
-    ]
+        { num: 123, de: "einhundertdreiundzwanzig" },
+        { num: 2024, de: "zweitausentvierundzwanzig" }
+    ],
+
+    // =====================
+    // ORDINALZAHLEN (порядкові)
+    // =====================
+    ordinal: {
+        title: "Ordinalzahlen",
+        titleUa: "Порядкові числівники",
+        description: "1-19: + te, від 20: + ste. Виключення: erste, dritte, siebte, achte",
+        table: [
+            { num: 1, de: "erste", ua: "перший" },
+            { num: 2, de: "zweite", ua: "другий" },
+            { num: 3, de: "dritte", ua: "третій" },
+            { num: 4, de: "vierte", ua: "четвертий" },
+            { num: 5, de: "fünfte", ua: "п'ятий" },
+            { num: 6, de: "sechste", ua: "шостий" },
+            { num: 7, de: "siebte", ua: "сьомий" },
+            { num: 8, de: "achte", ua: "восьмий" },
+            { num: 9, de: "neunte", ua: "дев'ятий" },
+            { num: 10, de: "zehnte", ua: "десятий" },
+            { num: 20, de: "zwanzigste", ua: "двадцятий" },
+            { num: 21, de: "einundzwanzigste", ua: "двадцять перший" },
+            { num: 100, de: "hundertste", ua: "сотий" }
+        ],
+        rule: "Порядкові відмінюються як прикметники: der erste Tag, am ersten Tag"
+    },
+
+    // =====================
+    // DATUM (дати)
+    // =====================
+    datum: {
+        title: "Datum",
+        titleUa: "Дати",
+        description: "Як називати дату німецькою",
+        questions: [
+            { de: "Welcher Tag ist heute?", ua: "Який сьогодні день?" },
+            { de: "Der Wievielte ist heute?", ua: "Котре сьогодні число?" },
+            { de: "Wann hast du Geburtstag?", ua: "Коли у тебе день народження?" }
+        ],
+        answers: [
+            { de: "Heute ist der 15. Januar.", ua: "Сьогодні 15 січня." },
+            { de: "Heute ist Mittwoch, der 15. Januar 2025.", ua: "Сьогодні середа, 15 січня 2025." }
+        ],
+        format: {
+            written: "15. Januar 2025 (der fünfzehnte Januar)",
+            spoken: "der fünfzehnte Januar zweitausendfünfundzwanzig",
+            note: "Дата = порядковий числівник + місяць. Крапка після числа позначає порядковість!"
+        },
+        prepositions: [
+            { de: "am 15. Januar", ua: "15 січня (конкретна дата)", note: "am = an dem (Dativ)" },
+            { de: "im Januar", ua: "у січні (місяць)", note: "im = in dem (Dativ)" },
+            { de: "2025 / im Jahr 2025", ua: "у 2025 році", note: "без прийменника або 'im Jahr'" }
+        ],
+        months: [
+            { de: "Januar", ua: "січень" }, { de: "Februar", ua: "лютий" },
+            { de: "März", ua: "березень" }, { de: "April", ua: "квітень" },
+            { de: "Mai", ua: "травень" }, { de: "Juni", ua: "червень" },
+            { de: "Juli", ua: "липень" }, { de: "August", ua: "серпень" },
+            { de: "September", ua: "вересень" }, { de: "Oktober", ua: "жовтень" },
+            { de: "November", ua: "листопад" }, { de: "Dezember", ua: "грудень" }
+        ]
+    },
+
+    // =====================
+    // JAHRE (роки)
+    // =====================
+    years: {
+        title: "Jahreszahlen",
+        titleUa: "Роки",
+        description: "Як називати роки німецькою",
+        examples: [
+            { year: 1990, de: "neunzehnhundertneunzig", note: "19-сто-90" },
+            { year: 2000, de: "zweitausend", note: "дві тисячі" },
+            { year: 2024, de: "zweitausendvierundzwanzig", note: "2000 + 24" },
+            { year: 1945, de: "neunzehnhundertfünfundvierzig", note: "19-сто-45" }
+        ],
+        rule: "До 1999: 19+hundert+XX. Від 2000: zweitausend+XX",
+        phrases: [
+            { de: "Ich bin 1990 geboren.", ua: "Я народився у 1990." },
+            { de: "Er ist im Jahr 2000 geboren.", ua: "Він народився у 2000 році." }
+        ]
+    },
+
+    // =====================
+    // GEBURTSTAG (день народження)
+    // =====================
+    geburtstag: {
+        title: "Geburtstag",
+        titleUa: "День народження",
+        phrases: [
+            { de: "Wann hast du Geburtstag?", ua: "Коли у тебе день народження?" },
+            { de: "Ich habe am 15. März Geburtstag.", ua: "У мене день народження 15 березня." },
+            { de: "Mein Geburtstag ist am 5. Mai.", ua: "Мій день народження 5 травня." },
+            { de: "Wann bist du geboren?", ua: "Коли ти народився?" },
+            { de: "Ich bin am 20. Juli 1995 geboren.", ua: "Я народився 20 липня 1995 року." },
+            { de: "Alles Gute zum Geburtstag!", ua: "З днем народження!" },
+            { de: "Herzlichen Glückwunsch!", ua: "Щиро вітаю!" }
+        ]
+    },
+
+    // =====================
+    // ALTER (вік)
+    // =====================
+    alter: {
+        title: "Alter",
+        titleUa: "Вік",
+        phrases: [
+            { de: "Wie alt bist du?", ua: "Скільки тобі років?" },
+            { de: "Ich bin 25 Jahre alt.", ua: "Мені 25 років." },
+            { de: "Ich bin 25.", ua: "Мені 25. (коротко)" },
+            { de: "Er ist 30 Jahre alt.", ua: "Йому 30 років." },
+            { de: "Sie wird nächstes Jahr 40.", ua: "Їй виповниться 40 наступного року." }
+        ]
+    }
 };
 
 // ==========================================
@@ -392,7 +537,7 @@ export const time = {
     id: "uhrzeit",
     title: "Uhrzeit",
     titleUa: "Час",
-    description: "Як називати час німецькою",
+    description: "Як називати час, частини дня та розклад",
 
     official: {
         title: "Offizielle Uhrzeit",
@@ -402,7 +547,8 @@ export const time = {
             { time: "8:15", de: "acht Uhr fünfzehn" },
             { time: "8:30", de: "acht Uhr dreißig" },
             { time: "8:45", de: "acht Uhr fünfundvierzig" },
-            { time: "14:30", de: "vierzehn Uhr dreißig" }
+            { time: "14:30", de: "vierzehn Uhr dreißig" },
+            { time: "20:00", de: "zwanzig Uhr" }
         ]
     },
 
@@ -413,7 +559,9 @@ export const time = {
             { time: "8:00", de: "acht Uhr", ua: "восьма година" },
             { time: "8:15", de: "Viertel nach acht", ua: "чверть на дев'яту" },
             { time: "8:30", de: "halb neun", ua: "пів на дев'яту" },
-            { time: "8:45", de: "Viertel vor neun", ua: "за чверть дев'ята" }
+            { time: "8:45", de: "Viertel vor neun", ua: "за чверть дев'ята" },
+            { time: "8:05", de: "fünf nach acht", ua: "п'ять хвилин по восьмій" },
+            { time: "8:55", de: "fünf vor neun", ua: "за п'ять дев'ята" }
         ],
         note: "halb + наступна година! halb neun = 8:30 (НЕ 9:30)"
     },
@@ -421,8 +569,80 @@ export const time = {
     questions: [
         { de: "Wie spät ist es?", ua: "Котра година?" },
         { de: "Wie viel Uhr ist es?", ua: "Котра година?" },
-        { de: "Um wie viel Uhr...?", ua: "О котрій годині...?" }
-    ]
+        { de: "Um wie viel Uhr...?", ua: "О котрій годині...?" },
+        { de: "Wann beginnt der Film?", ua: "Коли починається фільм?" },
+        { de: "Bis wann hast du Zeit?", ua: "До котрої у тебе є час?" }
+    ],
+
+    // =====================
+    // TAGESZEITEN (частини дня)
+    // =====================
+    tageszeiten: {
+        title: "Tageszeiten",
+        titleUa: "Частини дня",
+        parts: [
+            { de: "der Morgen", time: "6-10", ua: "ранок", prep: "am Morgen / morgens" },
+            { de: "der Vormittag", time: "10-12", ua: "перша половина дня", prep: "am Vormittag / vormittags" },
+            { de: "der Mittag", time: "12-14", ua: "полудень", prep: "am Mittag / mittags" },
+            { de: "der Nachmittag", time: "14-18", ua: "друга половина дня", prep: "am Nachmittag / nachmittags" },
+            { de: "der Abend", time: "18-22", ua: "вечір", prep: "am Abend / abends" },
+            { de: "die Nacht", time: "22-6", ua: "ніч", prep: "in der Nacht / nachts" }
+        ],
+        examples: [
+            { de: "Am Morgen trinke ich Kaffee.", ua: "Вранці я п'ю каву." },
+            { de: "Abends sehe ich fern.", ua: "Увечері я дивлюся телевізор." },
+            { de: "Morgen Abend bin ich frei.", ua: "Завтра ввечері я вільний." }
+        ]
+    },
+
+    // =====================
+    // WOCHENTAGE (дні тижня)
+    // =====================
+    wochentage: {
+        title: "Wochentage",
+        titleUa: "Дні тижня",
+        days: [
+            { de: "Montag", ua: "понеділок", short: "Mo" },
+            { de: "Dienstag", ua: "вівторок", short: "Di" },
+            { de: "Mittwoch", ua: "середа", short: "Mi" },
+            { de: "Donnerstag", ua: "четвер", short: "Do" },
+            { de: "Freitag", ua: "п'ятниця", short: "Fr" },
+            { de: "Samstag", ua: "субота", short: "Sa" },
+            { de: "Sonntag", ua: "неділя", short: "So" }
+        ],
+        prepositions: [
+            { de: "am Montag", ua: "у понеділок" },
+            { de: "am Wochenende", ua: "на вихідних" },
+            { de: "jeden Montag", ua: "щопонеділка" },
+            { de: "montags", ua: "по понеділках" }
+        ]
+    },
+
+    // =====================
+    // ZEITAUSDRÜCKE (вирази часу)
+    // =====================
+    expressions: {
+        title: "Zeitausdrücke",
+        titleUa: "Вирази часу",
+        phrases: [
+            { de: "heute", ua: "сьогодні" },
+            { de: "morgen", ua: "завтра" },
+            { de: "übermorgen", ua: "післязавтра" },
+            { de: "gestern", ua: "вчора" },
+            { de: "vorgestern", ua: "позавчора" },
+            { de: "jetzt", ua: "зараз" },
+            { de: "später", ua: "пізніше" },
+            { de: "früher", ua: "раніше" },
+            { de: "bald", ua: "скоро" },
+            { de: "gleich", ua: "зараз, відразу" },
+            { de: "sofort", ua: "негайно" },
+            { de: "immer", ua: "завжди" },
+            { de: "nie / niemals", ua: "ніколи" },
+            { de: "manchmal", ua: "іноді" },
+            { de: "oft", ua: "часто" },
+            { de: "selten", ua: "рідко" }
+        ]
+    }
 };
 
 // ==========================================

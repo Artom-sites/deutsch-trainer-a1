@@ -269,8 +269,8 @@ function App() {
       {renderContent()}
       <BottomNav />
 
-      {/* Chat FAB */}
-      {!['flashcards', 'exercises', 'grammar-detail', 'test', 'reading', 'noun-master'].includes(currentView) && currentTab !== 'chat' && (
+      {/* Chat FAB - Only on Home */}
+      {currentTab === 'home' && currentView === 'main' && (
         <button
           onClick={() => setTab('chat')}
           style={{

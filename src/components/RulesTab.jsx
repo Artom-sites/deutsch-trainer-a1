@@ -14,54 +14,52 @@ import {
 import { grammarA2 } from '../data/a2/grammar';
 import { ChevronDown, ChevronUp, ChevronLeft, BookOpen, Users, FileText, Clock, Hash, MessageCircle, Layers, Move, Sparkles, Lightbulb, List } from 'lucide-react';
 
-// Rule Card Preview Component
-const RuleCard = ({ rule, icon: Icon, onClick }) => {
+// Rule Card Preview Component (Compact List Item Style)
+const RuleCard = ({ rule, onClick, accentColor = 'var(--orange)' }) => {
     return (
         <button
             onClick={onClick}
             style={{
                 width: '100%',
-                padding: 16,
-                background: 'linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))',
-                border: '1px solid var(--stroke)',
-                borderRadius: 16,
+                padding: '12px 14px',
+                background: 'transparent',
+                border: 'none',
+                borderLeft: `3px solid ${accentColor}`,
+                borderRadius: 0,
                 cursor: 'pointer',
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
-                gap: 14,
-                transition: 'all 0.2s ease'
+                justifyContent: 'space-between',
+                gap: 12,
+                transition: 'background 0.15s ease'
             }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
         >
-            <div style={{
-                width: 48,
-                height: 48,
-                borderRadius: 14,
-                background: 'linear-gradient(135deg, var(--orange), #FF8C42)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0
-            }}>
-                <Icon size={22} color="white" />
-            </div>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{
-                    fontWeight: 700,
-                    fontSize: '1rem',
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
                     color: 'var(--text-0)',
-                    marginBottom: 2
+                    marginBottom: 2,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                 }}>
                     {rule.title}
                 </div>
                 <div style={{
-                    fontSize: '0.85rem',
-                    color: 'var(--text-2)'
+                    fontSize: '0.8rem',
+                    color: 'var(--text-2)',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
                 }}>
                     {rule.titleUa || rule.description}
                 </div>
             </div>
-            <ChevronDown size={18} color="var(--text-2)" style={{ transform: 'rotate(-90deg)' }} />
+            <ChevronDown size={16} color="var(--text-2)" style={{ transform: 'rotate(-90deg)', flexShrink: 0 }} />
         </button>
     );
 };
@@ -644,7 +642,7 @@ const VerbConjugationDetail = ({ onBack }) => {
 const NumbersDetail = ({ onBack }) => {
     const data = numbers;
     return (
-        <div className="screen">
+        <div className="screen" style={{ paddingBottom: 100 }}>
             <button onClick={onBack} style={{
                 display: 'flex', alignItems: 'center', gap: 8,
                 background: 'none', border: 'none', color: 'var(--text-1)',
@@ -656,63 +654,130 @@ const NumbersDetail = ({ onBack }) => {
             <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 4 }}>
                 {data.title}
             </h1>
-            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.titleUa}</p>
+            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.description}</p>
 
-            <SectionTitle>0-20</SectionTitle>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
+            {/* Basic 0-20 */}
+            <SectionTitle>Кардинальні числа (0-20)</SectionTitle>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: 8,
+                marginBottom: 16
+            }}>
                 {data.basic.map(n => (
-                    <span key={n.num} style={{
-                        padding: '8px 12px',
-                        background: 'rgba(255,255,255,0.05)',
+                    <div key={n.num} style={{
+                        padding: '10px 8px',
+                        background: 'rgba(255,255,255,0.04)',
                         border: '1px solid var(--stroke)',
-                        borderRadius: 10,
-                        minWidth: 80,
+                        borderRadius: 12,
                         textAlign: 'center'
                     }}>
-                        <div style={{ fontWeight: 700, color: 'var(--orange)' }}>{n.num}</div>
+                        <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--orange)' }}>{n.num}</div>
                         <div style={{ fontSize: '0.85rem', color: 'var(--text-0)' }}>{n.de}</div>
-                    </span>
+                    </div>
                 ))}
             </div>
 
-            <SectionTitle>Десятки</SectionTitle>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
-                {data.tens.map(n => (
-                    <span key={n.num} style={{
-                        padding: '8px 12px',
-                        background: 'rgba(255,255,255,0.05)',
-                        border: '1px solid var(--stroke)',
-                        borderRadius: 10,
-                        minWidth: 100,
-                        textAlign: 'center'
-                    }}>
-                        <div style={{ fontWeight: 700, color: 'var(--ok)' }}>{n.num}</div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-0)' }}>{n.de}</div>
-                    </span>
-                ))}
-            </div>
+            {/* Tens & Large Numbers */}
+            <SectionTitle>Десятки та великі числа</SectionTitle>
+            <GrammarTable
+                headers={['#', 'Німецькою']}
+                rows={data.tens.map(n => [n.num.toLocaleString(), n.de])}
+                highlightColumns={[1]}
+            />
 
-            <SectionTitle>Правило для 21-99</SectionTitle>
+            {/* Rule */}
             <div style={{
                 padding: 14,
                 background: 'rgba(242, 106, 27, 0.1)',
                 border: '1px solid rgba(242, 106, 27, 0.2)',
                 borderRadius: 12,
-                marginBottom: 16,
+                marginBottom: 20,
                 fontSize: '0.9rem',
                 color: 'var(--text-1)'
             }}>
                 📌 {data.rule}
             </div>
 
-            <SectionTitle>Приклади</SectionTitle>
-            <GrammarTable
-                headers={['Число', 'Німецькою']}
-                rows={data.examples.map(n => [n.num.toString(), n.de])}
-                highlightColumns={[1]}
-            />
+            {/* Ordinal Numbers */}
+            {data.ordinal && (
+                <>
+                    <SectionTitle>{data.ordinal.titleUa}</SectionTitle>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-2)', marginBottom: 12 }}>{data.ordinal.description}</p>
+                    <GrammarTable
+                        headers={['#', 'Німецькою', 'Українською']}
+                        rows={data.ordinal.table.map(o => [o.num + '.', o.de, o.ua])}
+                        highlightColumns={[1]}
+                    />
+                </>
+            )}
 
-            <div style={{ height: 100 }} />
+            {/* Dates */}
+            {data.datum && (
+                <>
+                    <SectionTitle>{data.datum.titleUa}</SectionTitle>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-2)', marginBottom: 12 }}>{data.datum.description}</p>
+
+                    <div style={{ marginBottom: 12, fontWeight: 600, color: 'var(--text-0)' }}>Питання:</div>
+                    {data.datum.questions.map((q, i) => <ExampleCard key={i} de={q.de} ua={q.ua} />)}
+
+                    <div style={{ marginBottom: 12, fontWeight: 600, color: 'var(--text-0)', marginTop: 16 }}>Відповіді:</div>
+                    {data.datum.answers.map((a, i) => <ExampleCard key={i} de={a.de} ua={a.ua} />)}
+
+                    <div style={{ marginBottom: 12, fontWeight: 600, color: 'var(--text-0)', marginTop: 16 }}>Прийменники:</div>
+                    <GrammarTable
+                        headers={['Німецькою', 'Українською', 'Примітка']}
+                        rows={data.datum.prepositions.map(p => [p.de, p.ua, p.note])}
+                        highlightColumns={[0]}
+                    />
+
+                    <div style={{ marginBottom: 12, fontWeight: 600, color: 'var(--text-0)', marginTop: 16 }}>Місяці:</div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        {data.datum.months.map((m, i) => (
+                            <span key={i} style={{
+                                padding: '6px 10px',
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid var(--stroke)',
+                                borderRadius: 8,
+                                fontSize: '0.85rem'
+                            }}>
+                                <span style={{ color: 'var(--orange)' }}>{m.de}</span>
+                                <span style={{ color: 'var(--text-2)' }}> — {m.ua}</span>
+                            </span>
+                        ))}
+                    </div>
+                </>
+            )}
+
+            {/* Years */}
+            {data.years && (
+                <>
+                    <SectionTitle style={{ marginTop: 24 }}>{data.years.titleUa}</SectionTitle>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-2)', marginBottom: 12 }}>{data.years.rule}</p>
+                    <GrammarTable
+                        headers={['Рік', 'Німецькою', 'Примітка']}
+                        rows={data.years.examples.map(y => [y.year.toString(), y.de, y.note])}
+                        highlightColumns={[1]}
+                    />
+                    {data.years.phrases.map((p, i) => <ExampleCard key={i} de={p.de} ua={p.ua} />)}
+                </>
+            )}
+
+            {/* Birthday */}
+            {data.geburtstag && (
+                <>
+                    <SectionTitle style={{ marginTop: 24 }}>{data.geburtstag.titleUa}</SectionTitle>
+                    {data.geburtstag.phrases.map((p, i) => <ExampleCard key={i} de={p.de} ua={p.ua} />)}
+                </>
+            )}
+
+            {/* Age */}
+            {data.alter && (
+                <>
+                    <SectionTitle style={{ marginTop: 24 }}>{data.alter.titleUa}</SectionTitle>
+                    {data.alter.phrases.map((p, i) => <ExampleCard key={i} de={p.de} ua={p.ua} />)}
+                </>
+            )}
         </div>
     );
 };
@@ -720,7 +785,7 @@ const NumbersDetail = ({ onBack }) => {
 const TimeDetail = ({ onBack }) => {
     const data = time;
     return (
-        <div className="screen">
+        <div className="screen" style={{ paddingBottom: 100 }}>
             <button onClick={onBack} style={{
                 display: 'flex', alignItems: 'center', gap: 8,
                 background: 'none', border: 'none', color: 'var(--text-1)',
@@ -732,8 +797,9 @@ const TimeDetail = ({ onBack }) => {
             <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 4 }}>
                 {data.title}
             </h1>
-            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.titleUa}</p>
+            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.description}</p>
 
+            {/* Official Time */}
             <SectionTitle>{data.official.titleUa}</SectionTitle>
             <GrammarTable
                 headers={['Час', 'Німецькою']}
@@ -741,6 +807,7 @@ const TimeDetail = ({ onBack }) => {
                 highlightColumns={[1]}
             />
 
+            {/* Informal Time */}
             <SectionTitle>{data.informal.titleUa}</SectionTitle>
             <GrammarTable
                 headers={['Час', 'Німецькою', 'Українською']}
@@ -759,12 +826,69 @@ const TimeDetail = ({ onBack }) => {
                 ⚠️ {data.informal.note}
             </div>
 
+            {/* Questions */}
             <SectionTitle>Питання про час</SectionTitle>
             {data.questions.map((q, i) => (
                 <ExampleCard key={i} de={q.de} ua={q.ua} />
             ))}
 
-            <div style={{ height: 100 }} />
+            {/* Day Parts */}
+            {data.tageszeiten && (
+                <>
+                    <SectionTitle style={{ marginTop: 24 }}>{data.tageszeiten.titleUa}</SectionTitle>
+                    <GrammarTable
+                        headers={['Частина дня', 'Час', 'Українською', 'Прийменник']}
+                        rows={data.tageszeiten.parts.map(p => [p.de, p.time, p.ua, p.prep])}
+                        highlightColumns={[0]}
+                    />
+                    <div style={{ marginTop: 12, fontWeight: 600, color: 'var(--text-0)' }}>Приклади:</div>
+                    {data.tageszeiten.examples.map((e, i) => <ExampleCard key={i} de={e.de} ua={e.ua} />)}
+                </>
+            )}
+
+            {/* Weekdays */}
+            {data.wochentage && (
+                <>
+                    <SectionTitle style={{ marginTop: 24 }}>{data.wochentage.titleUa}</SectionTitle>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
+                        {data.wochentage.days.map((d, i) => (
+                            <span key={i} style={{
+                                padding: '8px 12px',
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid var(--stroke)',
+                                borderRadius: 10,
+                                textAlign: 'center'
+                            }}>
+                                <div style={{ fontWeight: 700, color: 'var(--orange)' }}>{d.de}</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>{d.ua}</div>
+                            </span>
+                        ))}
+                    </div>
+                    <div style={{ fontWeight: 600, color: 'var(--text-0)', marginBottom: 8 }}>Прийменники:</div>
+                    {data.wochentage.prepositions.map((p, i) => <ExampleCard key={i} de={p.de} ua={p.ua} />)}
+                </>
+            )}
+
+            {/* Time Expressions */}
+            {data.expressions && (
+                <>
+                    <SectionTitle style={{ marginTop: 24 }}>{data.expressions.titleUa}</SectionTitle>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                        {data.expressions.phrases.map((p, i) => (
+                            <span key={i} style={{
+                                padding: '6px 12px',
+                                background: 'rgba(255,255,255,0.05)',
+                                border: '1px solid var(--stroke)',
+                                borderRadius: 8,
+                                fontSize: '0.9rem'
+                            }}>
+                                <span style={{ color: 'var(--orange)', fontWeight: 600 }}>{p.de}</span>
+                                <span style={{ color: 'var(--text-2)' }}> — {p.ua}</span>
+                            </span>
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };
@@ -775,7 +899,76 @@ const TimeDetail = ({ onBack }) => {
 
 const RulesTab = () => {
     const [selectedRule, setSelectedRule] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [activeLevel, setActiveLevel] = useState('all'); // 'all', 'a1', 'a2'
+    const [expandedCategory, setExpandedCategory] = useState(null);
 
+    // Category definitions with icons
+    const CATEGORIES = [
+        { id: 'verben', title: 'Verben', titleUa: 'Дієслова', icon: BookOpen, color: '#E74C3C' },
+        { id: 'pronomen', title: 'Pronomen', titleUa: 'Займенники', icon: Users, color: '#9B59B6' },
+        { id: 'artikel', title: 'Artikel & Substantive', titleUa: 'Артиклі та іменники', icon: FileText, color: '#3498DB' },
+        { id: 'praepositionen', title: 'Präpositionen', titleUa: 'Прийменники', icon: Move, color: '#27AE60' },
+        { id: 'satzbau', title: 'Satzbau', titleUa: 'Побудова речення', icon: MessageCircle, color: '#F39C12' },
+        { id: 'adjektive', title: 'Adjektive', titleUa: 'Прикметники', icon: Sparkles, color: '#1ABC9C' },
+        { id: 'zahlen', title: 'Zahlen & Zeit', titleUa: 'Числа та час', icon: Clock, color: '#E67E22' },
+    ];
+
+    // Map rule IDs to categories
+    const ruleToCategory = {
+        // A1
+        'personalpronomen': 'pronomen',
+        'possessivpronomen': 'pronomen',
+        'artikel': 'artikel',
+        'verbkonjugation': 'verben',
+        'praepositionen': 'praepositionen',
+        'satzbau': 'satzbau',
+        'zahlen': 'zahlen',
+        'uhrzeit': 'zahlen',
+        // A2
+        'a2-l1-weil': 'satzbau',
+        'a2-l1-perfekt-trennbar': 'verben',
+        'a2-l1-perfekt-ieren': 'verben',
+        'a2-l1-perfekt-nicht-trennbar': 'verben',
+        'a2-l1-genitiv-von': 'artikel',
+        'a2-l2-wechselpraepositionen': 'praepositionen',
+        'a2-l2-verben-position': 'verben',
+        'a2-l2-direktionaladverbien': 'praepositionen',
+        'a2-l3-indefinitpronomen': 'pronomen',
+        'a2-l3-haeufigkeit': 'satzbau',
+        'a2-l4-wenn': 'satzbau',
+        'a2-l4-sollen-konjunktiv': 'verben',
+        'a2-l5-reflexive-verben': 'verben',
+        'a2-l5-verben-praepositionen': 'praepositionen',
+        'a2-l5-wo-da': 'pronomen',
+        'a2-l6-modal-praeteritum': 'verben',
+        'a2-l6-dass': 'satzbau',
+        'a2-l7-dativ-objekt': 'artikel',
+        'a2-l7-stellung-objekte': 'satzbau',
+        'a2-l7-verbindung-von': 'praepositionen',
+        'a2-l8-konjunktiv2': 'verben',
+        'a2-l8-trotzdem': 'satzbau',
+        'a2-l9-adjektivdeklination': 'adjektive',
+        'a2-l9-komparation': 'adjektive',
+        'a2-l10-passiv': 'verben',
+        'a2-l10-wasfuer': 'pronomen',
+        'a2-l11-lokalpraepositionen': 'praepositionen',
+        'a2-l11-praefixe': 'verben',
+        'a2-l12-praepositionen-zeit': 'praepositionen',
+        'a2-l12-wohin-wo': 'praepositionen',
+        'a2-l13-indirekte-fragen': 'satzbau',
+        'a2-l13-lassen': 'verben',
+        'a2-l14-perfekt-praeteritum': 'verben',
+        'a2-l14-als-wenn': 'satzbau',
+    };
+
+    // Get level from ID
+    const getRuleLevel = (id) => {
+        if (id.startsWith('a2-')) return 'a2';
+        return 'a1';
+    };
+
+    // Build rules array
     const rules = [
         { data: personalPronouns, icon: Users },
         { data: articles, icon: FileText },
@@ -785,27 +978,44 @@ const RulesTab = () => {
         { data: sentenceStructure, icon: MessageCircle },
         { data: numbers, icon: Hash },
         { data: time, icon: Clock },
-        // A2 Rules
         ...grammarA2.map(rule => ({
             data: rule,
-            icon: Sparkles // Or map dynamically based on rule.id/title if needed
+            icon: Sparkles
         }))
     ];
 
-    // Find if selectedRule is an object (A2) or ID (A1)
+    // Filter rules
+    const filteredRules = rules.filter(({ data }) => {
+        // Level filter
+        const level = getRuleLevel(data.id);
+        if (activeLevel !== 'all' && level !== activeLevel) return false;
+        // Search filter
+        if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            const title = (data.title || '').toLowerCase();
+            const titleUa = (data.titleUa || data.description || '').toLowerCase();
+            if (!title.includes(q) && !titleUa.includes(q)) return false;
+        }
+        return true;
+    });
+
+    // Group by category
+    const groupedRules = CATEGORIES.map(cat => ({
+        ...cat,
+        rules: filteredRules.filter(r => ruleToCategory[r.data.id] === cat.id)
+    })).filter(cat => cat.rules.length > 0);
+
+    // Find active rule data
     const activeRuleData = rules.find(r => r.data.id === selectedRule)?.data;
 
     // Render detail view
     if (selectedRule) {
-        // Check for A1 specific IDs that have custom components
         if (selectedRule === 'personalpronomen') return <PersonalPronounsDetail onBack={() => setSelectedRule(null)} />;
         if (selectedRule === 'artikel') return <ArticlesDetail onBack={() => setSelectedRule(null)} />;
         if (selectedRule === 'praepositionen') return <PrepositionsDetail onBack={() => setSelectedRule(null)} />;
         if (selectedRule === 'verbkonjugation') return <VerbConjugationDetail onBack={() => setSelectedRule(null)} />;
         if (selectedRule === 'zahlen') return <NumbersDetail onBack={() => setSelectedRule(null)} />;
         if (selectedRule === 'uhrzeit') return <TimeDetail onBack={() => setSelectedRule(null)} />;
-
-        // Fallback for A2 generic rules
         if (activeRuleData) {
             return <GenericGrammarDetail data={activeRuleData} onBack={() => setSelectedRule(null)} />;
         }
@@ -814,7 +1024,8 @@ const RulesTab = () => {
     // Main list view
     return (
         <div className="screen">
-            <div style={{ marginBottom: 20 }}>
+            {/* Header */}
+            <div style={{ marginBottom: 16 }}>
                 <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-0)', margin: '0 0 4px' }}>
                     Правила 📖
                 </h1>
@@ -823,15 +1034,127 @@ const RulesTab = () => {
                 </p>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: 100 }}>
-                {rules.map(({ data, icon }) => (
-                    <RuleCard
-                        key={data.id}
-                        rule={data}
-                        icon={icon}
-                        onClick={() => setSelectedRule(data.id)}
-                    />
+            {/* Search Bar */}
+            <div style={{ marginBottom: 12 }}>
+                <input
+                    type="text"
+                    placeholder="🔍 Пошук правила..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        fontSize: '1rem',
+                        borderRadius: 12,
+                        border: '1px solid var(--stroke)',
+                        background: 'var(--bg-1)',
+                        color: 'var(--text-0)',
+                        outline: 'none'
+                    }}
+                />
+            </div>
+
+            {/* Level Filter Chips */}
+            <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+                {['all', 'a1', 'a2'].map(level => (
+                    <button
+                        key={level}
+                        onClick={() => setActiveLevel(level)}
+                        style={{
+                            padding: '8px 16px',
+                            borderRadius: 20,
+                            border: activeLevel === level ? '2px solid var(--orange)' : '1px solid var(--stroke)',
+                            background: activeLevel === level ? 'rgba(255, 138, 61, 0.15)' : 'var(--bg-1)',
+                            color: activeLevel === level ? 'var(--orange)' : 'var(--text-1)',
+                            fontWeight: 600,
+                            fontSize: '0.9rem',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s'
+                        }}
+                    >
+                        {level === 'all' ? 'Усі' : level.toUpperCase()}
+                    </button>
                 ))}
+            </div>
+
+            {/* Categorized Rules */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingBottom: 100 }}>
+                {groupedRules.map(cat => (
+                    <div key={cat.id}>
+                        {/* Category Header */}
+                        <button
+                            onClick={() => setExpandedCategory(expandedCategory === cat.id ? null : cat.id)}
+                            style={{
+                                width: '100%',
+                                padding: '14px 16px',
+                                background: `linear-gradient(135deg, ${cat.color}22, ${cat.color}11)`,
+                                border: `1px solid ${cat.color}44`,
+                                borderRadius: 14,
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 12,
+                                marginBottom: expandedCategory === cat.id ? 8 : 0
+                            }}
+                        >
+                            <div style={{
+                                width: 36,
+                                height: 36,
+                                borderRadius: 10,
+                                background: cat.color,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                <cat.icon size={18} color="white" />
+                            </div>
+                            <div style={{ flex: 1, textAlign: 'left' }}>
+                                <div style={{ fontWeight: 700, color: 'var(--text-0)', fontSize: '1rem' }}>
+                                    {cat.title}
+                                </div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--text-2)' }}>
+                                    {cat.titleUa} • {cat.rules.length} правил
+                                </div>
+                            </div>
+                            {expandedCategory === cat.id ? (
+                                <ChevronUp size={20} color="var(--text-2)" />
+                            ) : (
+                                <ChevronDown size={20} color="var(--text-2)" />
+                            )}
+                        </button>
+
+                        {/* Expanded Rules */}
+                        {expandedCategory === cat.id && (
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 0,
+                                marginLeft: 18,
+                                borderLeft: '1px solid var(--stroke)',
+                                marginTop: 4,
+                                marginBottom: 8
+                            }}>
+                                {cat.rules.map(({ data }) => (
+                                    <RuleCard
+                                        key={data.id}
+                                        rule={data}
+                                        accentColor={cat.color}
+                                        onClick={() => setSelectedRule(data.id)}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                ))}
+
+                {/* Empty State */}
+                {groupedRules.length === 0 && (
+                    <div style={{ textAlign: 'center', padding: 40, color: 'var(--text-2)' }}>
+                        <Lightbulb size={48} style={{ marginBottom: 12, opacity: 0.5 }} />
+                        <p>Нічого не знайдено</p>
+                        <p style={{ fontSize: '0.85rem' }}>Спробуйте інший пошуковий запит</p>
+                    </div>
+                )}
             </div>
         </div>
     );

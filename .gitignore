@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# PDF and document files
+*.pdf
+*.docx
+
+# Dump files
+*_dump*.txt
+book_content.txt

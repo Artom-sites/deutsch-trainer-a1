@@ -341,6 +341,12 @@ const useStore = create(
                 return Object.keys(get().userProgress).length;
             },
 
+            // Words with full mastery (stage 4)
+            getMasteredCount: () => {
+                const progress = get().userProgress;
+                return Object.values(progress).filter(p => p.masteryStage === 4).length;
+            },
+
             getTotalWords: () => {
                 return words.length;
             },

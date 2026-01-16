@@ -3,7 +3,10 @@
  * Структура: lessonTests[lessonId] = { questions: [...] }
  */
 
+import lessonTestsA2 from './a2/lessonTests';
+
 export const lessonTests = {
+    ...lessonTestsA2,
     // ==========================================
     // TEST ZU LEKTION 1 - Grüße, Vorstellen
     // ==========================================

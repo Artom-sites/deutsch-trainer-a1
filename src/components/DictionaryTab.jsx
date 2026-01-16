@@ -13,6 +13,8 @@ const DictionaryTab = () => {
     const setFlashcardWords = useStore(state => state.setFlashcardWords);
     const setCurrentView = useStore(state => state.setCurrentView);
     const setNounMasterWords = useStore(state => state.setNounMasterWords);
+    const getLearnedCount = useStore(state => state.getLearnedCount);
+    const getMasteredCount = useStore(state => state.getMasteredCount);
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filterMode, setFilterMode] = useState('themes'); // 'themes' | 'lessons' | 'collections'
@@ -102,14 +104,57 @@ const DictionaryTab = () => {
 
     return (
         <div className="app">
-            {/* Header */}
-            <div style={{ marginBottom: 20 }}>
-                <h1 style={{ fontSize: '1.6rem', fontWeight: 700, color: 'var(--text-0)', margin: '0 0 4px' }}>
-                    Wörterbuch
-                </h1>
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-2)', margin: 0 }}>
-                    {filterMode === 'themes' ? `${totalThemedWords} слів за темами` : `${allWords.length} слів`}
-                </p>
+            {/* Hero Header with Gradient */}
+            <div style={{
+                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.08), transparent)',
+                borderRadius: 20,
+                padding: '16px 20px',
+                marginBottom: 20,
+                border: '1px solid rgba(139, 92, 246, 0.2)'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+                    <div style={{ flex: 1 }}>
+                        <h1 style={{
+                            fontSize: '1.5rem',
+                            fontWeight: 800,
+                            color: 'var(--text-0)',
+                            margin: 0,
+                            letterSpacing: '-0.02em'
+                        }}>
+                            📚 Словник
+                        </h1>
+                        <p style={{ fontSize: '0.8rem', color: 'var(--text-2)', margin: '4px 0 0' }}>
+                            {filterMode === 'themes' ? `${totalThemedWords} слів` : `${allWords.length} слів`}
+                        </p>
+                    </div>
+                    {/* Mini Stats */}
+                    <div style={{
+                        display: 'flex',
+                        gap: 12,
+                        padding: '10px 16px',
+                        background: 'rgba(0,0,0,0.35)',
+                        borderRadius: 14,
+                        border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#a78bfa', lineHeight: 1 }}>
+                                {getLearnedCount()}
+                            </div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text-2)', marginTop: 2 }}>
+                                ПЕРЕГЛ.
+                            </div>
+                        </div>
+                        <div style={{ width: 1, background: 'rgba(255,255,255,0.15)' }} />
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#22c55e', lineHeight: 1 }}>
+                                {getMasteredCount()}
+                            </div>
+                            <div style={{ fontSize: '0.6rem', color: 'var(--text-2)', marginTop: 2 }}>
+                                ВИВЧ.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Search */}
@@ -126,36 +171,97 @@ const DictionaryTab = () => {
                     style={{
                         width: '100%',
                         padding: '12px 14px 12px 44px',
-                        background: 'var(--bg-2)',
+                        background: 'rgba(255,255,255,0.04)',
                         border: '1px solid var(--stroke)',
                         borderRadius: 14,
                         color: 'var(--text-0)',
                         fontSize: '0.95rem',
-                        outline: 'none'
+                        outline: 'none',
+                        transition: 'border-color 0.2s'
                     }}
                 />
             </div>
 
-            {/* Filters */}
-            <div style={{ display: 'flex', gap: 8, marginBottom: 20, overflowX: 'auto', paddingBottom: 4 }}>
+            {/* Filter Tabs - Segmented Control */}
+            <div style={{
+                display: 'flex',
+                background: 'rgba(255,255,255,0.04)',
+                borderRadius: 14,
+                padding: 4,
+                marginBottom: 16,
+                border: '1px solid var(--stroke)'
+            }}>
                 <button
                     onClick={() => setFilterMode('themes')}
-                    className={filterMode === 'themes' ? 'chip active' : 'chip'}
+                    style={{
+                        flex: 1,
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        border: 'none',
+                        background: filterMode === 'themes'
+                            ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(99, 102, 241, 0.2))'
+                            : 'transparent',
+                        color: filterMode === 'themes' ? '#a78bfa' : 'var(--text-2)',
+                        fontWeight: 600,
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 6,
+                        transition: 'all 0.2s',
+                        boxShadow: filterMode === 'themes' ? '0 0 12px rgba(139, 92, 246, 0.2)' : 'none'
+                    }}
                 >
-                    Теми
+                    🏷️ Теми
                 </button>
                 <button
                     onClick={() => setFilterMode('lessons')}
-                    className={filterMode === 'lessons' ? 'chip active' : 'chip'}
+                    style={{
+                        flex: 1,
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        border: 'none',
+                        background: filterMode === 'lessons'
+                            ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(79, 70, 229, 0.2))'
+                            : 'transparent',
+                        color: filterMode === 'lessons' ? '#818cf8' : 'var(--text-2)',
+                        fontWeight: 600,
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 6,
+                        transition: 'all 0.2s',
+                        boxShadow: filterMode === 'lessons' ? '0 0 12px rgba(99, 102, 241, 0.2)' : 'none'
+                    }}
                 >
-                    За лекціями
+                    📖 Уроки
                 </button>
-
                 <button
                     onClick={() => setFilterMode('collections')}
-                    className={filterMode === 'collections' ? 'chip active' : 'chip'}
+                    style={{
+                        flex: 1,
+                        padding: '10px 12px',
+                        borderRadius: 10,
+                        border: 'none',
+                        background: filterMode === 'collections'
+                            ? 'linear-gradient(135deg, rgba(251, 146, 60, 0.3), rgba(249, 115, 22, 0.2))'
+                            : 'transparent',
+                        color: filterMode === 'collections' ? '#fb923c' : 'var(--text-2)',
+                        fontWeight: 600,
+                        fontSize: '0.8rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 6,
+                        transition: 'all 0.2s',
+                        boxShadow: filterMode === 'collections' ? '0 0 12px rgba(251, 146, 60, 0.2)' : 'none'
+                    }}
                 >
-                    Мої набори
+                    ⭐ Набори
                 </button>
             </div>
 

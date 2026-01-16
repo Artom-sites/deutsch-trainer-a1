@@ -3,7 +3,7 @@ export const lessonsA2 = [
         id: "a2-l1",
         number: 1,
         title: "Alltag & Familie",
-        subtitle: "Lektion 8 (A2.1)",
+        subtitle: "A2.1",
         description: "Розповідь про повсякденні ситуації, сім'ю та минулий час (Perfekt).",
         color: "#8E44AD", // Deep Purple
         topics: [
@@ -67,7 +67,7 @@ export const lessonsA2 = [
         id: "a2-l2",
         number: 2,
         title: "Wohnen & Einrichtung",
-        subtitle: "Lektion 9 (A2.1)",
+        subtitle: "A2.1",
         description: "Тема житла, меблів (Wechselpräpositionen) та спілкування із сусідами.",
         color: "#27AE60", // Greenish
         topics: [
@@ -128,7 +128,7 @@ export const lessonsA2 = [
         id: "a2-l3",
         number: 3,
         title: "Essen & Trinken",
-        subtitle: "Lektion 10 (A2.1)",
+        subtitle: "A2.1",
         description: "У ресторані, запрошення на вечерю, Indefinitpronomen.",
         color: "#F39C12", // Orange
         topics: [
@@ -180,7 +180,7 @@ export const lessonsA2 = [
         id: "a2-l4",
         number: 4,
         title: "Arbeitswelt",
-        subtitle: "Lektion 11 (A2.1)",
+        subtitle: "A2.1",
         description: "Робота, телефонні розмови, умови (wenn) та поради (sollte).",
         color: "#3498DB", // Blue
         topics: [
@@ -230,7 +230,7 @@ export const lessonsA2 = [
         id: "a2-l5",
         number: 5,
         title: "Gesund & Fit",
-        subtitle: "Lektion 12 (A2.1)",
+        subtitle: "A2.1",
         description: "Здоров'я, спорт, зворотні дієслова (sich bewegen) та керування дієслів (warten auf).",
         color: "#E74C3C", // Red
         topics: [
@@ -285,7 +285,7 @@ export const lessonsA2 = [
         id: "a2-l6",
         number: 6,
         title: "Schule & Beruf",
-        subtitle: "Lektion 13 (A2.1)",
+        subtitle: "A2.1",
         description: "Освіта, кар'єра, модальні дієслова (Präteritum) та вираження думки (dass).",
         color: "#9B59B6", // Purple
         topics: [
@@ -335,7 +335,7 @@ export const lessonsA2 = [
         id: "a2-l7",
         number: 7,
         title: "Feste & Feiern",
-        subtitle: "Lektion 14 (A2.1)",
+        subtitle: "A2.1",
         description: "Свята, подарунки, давальний відмінок як об'єкт та привітання.",
         color: "#E67E22", // Pumpkin
         topics: [
@@ -381,6 +381,373 @@ export const lessonsA2 = [
                         "Wir feiern zu Hause / im Restaurant.",
                         "Es gibt Essen/Trinken/Musik.",
                         "Natürlich haben wir auch Musik."
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l8",
+        number: 8,
+        title: "Am Wochenende",
+        subtitle: "A2.2",
+        description: "Вихідні, заходи, кон'юнктив II (proposals) та сполучник 'trotzdem'.",
+        color: "#1ABC9C", // Turquoise
+        topics: [
+            "a2-l8-konjunktiv2",
+            "a2-l8-trotzdem",
+            "a2-l8-kommunikation"
+        ],
+        wordCount: 40,
+        textbook: {
+            goals: [
+                "Vorschläge machen: Wir könnten ins Kino gehen",
+                "Wünsche äußern: Ich hätte gern mehr Zeit",
+                "Reagieren: Das ist eine gute Idee / Ich habe keine Lust",
+                "Über Veranstaltungen sprechen"
+            ],
+            grammar: [
+                {
+                    title: "Konjunktiv II: Wünsche & Vorschläge",
+                    content: "haben → hätte (Ich hätte gern...)\nsein → wäre (Ich wäre gern...)\nwerden → würde (Ich würde gern...)\nkönnen → könnte (Wir könnten...)"
+                },
+                {
+                    title: "Konjunktion: trotzdem",
+                    content: "Hauptsatz + Hauptsatz (Inversion!)\nEs regnet. Trotzdem gehen wir spazieren.\n(Position 1: Trotzdem, Position 2: Verb)"
+                }
+            ],
+            communication: [
+                {
+                    title: "Vorschläge machen",
+                    phrases: [
+                        "Wollen wir ins Kino gehen?",
+                        "Wie wäre es mit einem Ausflug?",
+                        "Hast du Lust auf eine Pizza?",
+                        "Wir könnten am Samstag grillen."
+                    ]
+                },
+                {
+                    title: "Reagieren",
+                    phrases: [
+                        "Ja, gern! / Einverstanden.",
+                        "Das ist eine tolle Idee.",
+                        "Nein, das ist langweilig.",
+                        "Ich würde lieber zu Hause bleiben."
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l9",
+        number: 9,
+        title: "Meine Sachen",
+        subtitle: "A2.2",
+        description: "Предмети, прикметники (declension), порівняння (komparativ) та матеріали.",
+        color: "#D35400", // Pumpkin Darker
+        topics: [
+            "a2-l9-adjektivdeklination",
+            "a2-l9-komparation",
+            "a2-l9-kommunikation"
+        ],
+        wordCount: 50,
+        textbook: {
+            goals: [
+                "Gegenstände beschreiben: Ein bunter Teller",
+                "Vergleichen: Ich finde den Tisch schöner als den Stuhl",
+                "Meinung äußern: Ich finde das hässlich",
+                "Etwas bewerten: Die Qualität ist top"
+            ],
+            grammar: [
+                {
+                    title: "Adjektivdeklination (Typ 1 & 2)",
+                    content: "Bestimmter Artikel (der/die/das):\nder neue Tisch, den neuen Tisch\nUnbestimmter Artikel (ein/eine):\nein neuer Tisch, einen neuen Tisch"
+                },
+                {
+                    title: "Komparation (Steigerung)",
+                    content: "schön – schöner – am schönsten\ngut – besser – am besten\nviel – mehr – am meisten\ngern – lieber – am liebsten"
+                },
+                {
+                    title: "Vergleiche",
+                    content: "komparativ + als: Er ist größer als ich.\nso + adjektiv + wie: Er ist so groß wie ich."
+                }
+            ],
+            communication: [
+                {
+                    title: "Meinung äußern",
+                    phrases: [
+                        "Ich finde das sehr hübsch/praktisch.",
+                        "Das gefällt mir (nicht).",
+                        "Das sieht toll aus.",
+                        "Ich finde das scheußlich/hässlich."
+                    ]
+                },
+                {
+                    title: "Vergleichen",
+                    phrases: [
+                        "Ich finde diesen Tisch praktischer als jenen.",
+                        "Am besten gefällt mir die rote Lampe.",
+                        "Das ist genau so teuer wie das andere."
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l10",
+        number: 10,
+        title: "Kommunikation",
+        subtitle: "A2.2",
+        description: "Пошта, комунікація, Passiv (Präsens) та питальні слова (was für ein).",
+        color: "#9B59B6", // Amethyst
+        topics: [
+            "a2-l10-passiv",
+            "a2-l10-wasfuer",
+            "a2-l10-kommunikation"
+        ],
+        wordCount: 50,
+        textbook: {
+            goals: [
+                "Vorgänge beschreiben (Passiv): Der Brief wird geschickt",
+                "Fragen: Was für ein Handy hast du?",
+                "Auf der Post: Ich möchte ein Paket aufgeben",
+                "Über Kommunikation sprechen"
+            ],
+            grammar: [
+                {
+                    title: "Passiv (Präsens)",
+                    content: "werden + Partizip II\nDer Brief wird geschrieben.\nDie Pakete werden transportiert."
+                },
+                {
+                    title: "Frageartikel: Was für ein...?",
+                    content: "Nominativ: Was für ein Mann? / Was für eine Frau?\nAkkusativ: Was für einen Mann? / Was für ein Auto?"
+                },
+                {
+                    title: "Adjektivdeklination (bestimmter Artikel)",
+                    content: "der grüne Schal, den grünen Schal, mit dem grünen Schal"
+                }
+            ],
+            communication: [
+                {
+                    title: "Auf der Post",
+                    phrases: [
+                        "Ich möchte diesen Brief verschicken.",
+                        "Als Einschreiben, bitte.",
+                        "Was kostet das Porto?",
+                        "Wie lange dauert der Versand?"
+                    ]
+                },
+                {
+                    title: "Kommunikation und Medien",
+                    phrases: [
+                        "Ich schicke dir eine SMS.",
+                        "Wir können skypen.",
+                        "Er ist ständig am Telefon.",
+                        "Hast du meine Mail bekommen?"
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l11",
+        number: 11,
+        title: "Unterwegs",
+        subtitle: "A2.2",
+        description: "Транспорт, погода, локальні прийменники (an/in/nach/zu) та дієслова з префіксами.",
+        color: "#16A085", // Green Sea
+        topics: [
+            "a2-l11-lokalpraepositionen",
+            "a2-l11-praefixe",
+            "a2-l11-kommunikation"
+        ],
+        wordCount: 50,
+        textbook: {
+            goals: [
+                "Über Verkehrsmittel sprechen: Ich fahre mit der Bahn",
+                "Wegbeschreibung verstehen: Gehen Sie rechts",
+                "Über das Wetter sprechen: Es regnet / Es ist neblig",
+                "Ein Auto mieten/tanken"
+            ],
+            grammar: [
+                {
+                    title: "Lokale Präpositionen",
+                    content: "Woher? (aus, von): Ich komme aus dem Büro / vom Arzt.\nWo? (in, an, bei, zu): Ich bin im Büro / beim Arzt.\nWohin? (in, nach, zu): Ich gehe ins Büro / nach Hause / zum Arzt."
+                },
+                {
+                    title: "Präpositionen: durch, über, an... vorbei",
+                    content: "Fahren Sie durch den Tunnel.\nFahren Sie über die Brücke.\nFahren Sie an der Tankstelle vorbei."
+                }
+            ],
+            communication: [
+                {
+                    title: "Wegbeschreibung",
+                    phrases: [
+                        "Wie komme ich zum Bahnhof?",
+                        "Fahren Sie geradeaus bis zur Ampel.",
+                        "Biegen Sie links ab."
+                    ]
+                },
+                {
+                    title: "Vom Wetter erzählen",
+                    phrases: [
+                        "Es regnet stark.",
+                        "Die Sonne scheint.",
+                        "Es ist neblig/windig.",
+                        "Das Wetter ist herrlich."
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l12",
+        number: 12,
+        title: "Reisen",
+        subtitle: "A2.2",
+        description: "Подорожі, відпустка, прийменники часу (seit/vor) та питальні займенники (wohin/wo).",
+        color: "#F1C40F", // Sun Flower
+        topics: [
+            "a2-l12-praepositionen-zeit",
+            "a2-l12-wohin-wo",
+            "a2-l12-kommunikation"
+        ],
+        wordCount: 50,
+        textbook: {
+            goals: [
+                "Über Reiseziele sprechen: Wir fahren ans Meer",
+                "Monate und Jahreszeiten: Im Sommer, im Mai",
+                "Zeiträume angeben: Seit einem Jahr / Vor einem Monat",
+                "Über Pläne sprechen: Ich will unbedingt..."
+            ],
+            grammar: [
+                {
+                    title: "Temporale Präpositionen: seit, vor, für",
+                    content: "seit + Dativ (Vergangenheit bis heute): Ich lerne seit einem Jahr Deutsch.\nvor + Dativ (Ereignis vorbei): Ich war vor einem Jahr in Berlin.\nfür + Akkusativ (Zeitraum): Wir fahren für eine Woche weg."
+                },
+                {
+                    title: "Wohin? (Akk) vs. Wo? (Dat)",
+                    content: "ans Meer / am Meer\nins Gebirge / im Gebirge\nin den Schwarzwald / im Schwarzwald"
+                }
+            ],
+            communication: [
+                {
+                    title: "Über Reisepläne sprechen",
+                    phrases: [
+                        "Wohin fahrt ihr in Urlaub?",
+                        "Wir wollen nach Spanien fliegen.",
+                        "Wir haben ein Ferienhaus gemietet.",
+                        "Ich bleibe lieber zu Hause."
+                    ]
+                },
+                {
+                    title: "Eindrücke beschreiben",
+                    phrases: [
+                        "Die Landschaft war traumhaft.",
+                        "Das Hotel war direkt am Strand.",
+                        "Es war leider sehr laut."
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l13",
+        number: 13,
+        title: "Auf der Bank",
+        subtitle: "A2.2",
+        description: "Фінанси, банківські послуги, непрямі запитання (ob/was) та дієслово 'lassen'.",
+        color: "#34495E", // Wet Asphalt
+        topics: [
+            "a2-l13-indirekte-fragen",
+            "a2-l13-lassen",
+            "a2-l13-kommunikation"
+        ],
+        wordCount: 40,
+        textbook: {
+            goals: [
+                "Bankgeschäfte erledigen: Ein Konto eröffnen",
+                "Höflich fragen: Können Sie mir sagen, wo...",
+                "Etwas machen lassen: Ich lasse mein Auto reparieren",
+                "Über Geld sprechen"
+            ],
+            grammar: [
+                {
+                    title: "Indirekte Fragen (W-Fragen & Ja/Nein)",
+                    content: "Wissen Sie, wann der Bus kommt?\nKönnen Sie mir sagen, ob die Bank offen ist?\n(Verb am Ende!)"
+                },
+                {
+                    title: "Verb: lassen",
+                    content: "Dinge nicht selbst tun:\nIch schneide die Haare. (selbst)\nIch lasse mir die Haare schneiden. (Friseur)"
+                }
+            ],
+            communication: [
+                {
+                    title: "Auf der Bank",
+                    phrases: [
+                        "Ich möchte ein Konto eröffnen.",
+                        "Wie hoch sind die Gebühren?",
+                        "Ich habe meine PIN vergessen.",
+                        "Ich möchte Geld abheben."
+                    ]
+                },
+                {
+                    title: "Dienstleistungen",
+                    phrases: [
+                        "Ich muss mein Auto reparieren lassen.",
+                        "Wir lassen die Wohnung renovieren.",
+                        "Wo kann man hier Geld wechseln?"
+                    ]
+                }
+            ]
+        }
+    },
+    {
+        id: "a2-l14",
+        number: 14,
+        title: "Lebensstationen",
+        subtitle: "A2.2",
+        description: "Біографія, етапи життя, Perfekt і Präteritum (повторення) та сполучники (als/wenn).",
+        color: "#BDC3C7", // Silver
+        topics: [
+            "a2-l14-perfekt-praeteritum",
+            "a2-l14-als-wenn",
+            "a2-l14-kommunikation"
+        ],
+        wordCount: 45,
+        textbook: {
+            goals: [
+                "Über das Leben sprechen: Als ich Kind war...",
+                "Wünsche äußern: Ich würde gern...",
+                "Ereignisse zeitlich ordnen: Zuerst..., dann...",
+                "Über Zukunftspläne sprechen"
+            ],
+            grammar: [
+                {
+                    title: "Satzverbindung: als vs. wenn (Vergangenheit)",
+                    content: "Als ich Kind war... (einmalig in der Vergangenheit)\nImmer wenn ich bei Oma war... (mehrmals)"
+                },
+                {
+                    title: "Wiederholung: Perfekt & Präteritum",
+                    content: "Mündlich: Perfekt (Ich habe gemacht)\nSchriftlich/Verben 'sein'/'haben': Präteritum (Ich war, ich hatte)"
+                }
+            ],
+            communication: [
+                {
+                    title: "Lebenslauf erzählen",
+                    phrases: [
+                        "Ich bin in ... geboren.",
+                        "Nach der Schule habe ich eine Ausbildung gemacht.",
+                        "Als ich 20 war, bin ich umgezogen.",
+                        "Seitdem lebe ich hier."
+                    ]
+                },
+                {
+                    title: "Wünsche und Träume",
+                    phrases: [
+                        "Mein größter Wunsch ist...",
+                        "Ich wollte schon immer...",
+                        "In Zukunft möchte ich..."
                     ]
                 }
             ]
