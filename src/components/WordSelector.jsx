@@ -64,10 +64,16 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
         // Reset form but stay open
         setCustomWord({ word: '', translation: '', article: '', plural: '' });
 
-        // Keep keyboard open by focusing on word input
-        setTimeout(() => {
-            wordInputRef.current?.focus();
-        }, 50);
+        // Keep keyboard open by focusing on word input (longer delay for mobile)
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                if (wordInputRef.current) {
+                    wordInputRef.current.focus();
+                    // For iOS - scroll into view to trigger keyboard
+                    wordInputRef.current.scrollIntoView({ block: 'center' });
+                }
+            }, 100);
+        });
     };
 
     const isWordSelected = (wordId) => selectedWords.includes(wordId);
