@@ -21,6 +21,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
         plural: ''
     });
     const wordInputRef = useRef(null);
+    const searchInputRef = useRef(null);
 
     const allWords = getAllWords();
 
@@ -46,6 +47,16 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                 ? prev.filter(id => id !== wordId)
                 : [...prev, wordId]
         );
+
+        // Clear search and keep keyboard open when adding word
+        if (!selectedWords.includes(wordId)) {
+            setSearch('');
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    searchInputRef.current?.focus();
+                }, 50);
+            });
+        }
     };
 
     const handleDone = () => {
@@ -177,6 +188,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                             }}>
                                 <Search size={18} color="#7A7D8A" />
                                 <input
+                                    ref={searchInputRef}
                                     type="text"
                                     placeholder={selectedLesson ? `Пошук в уроці ${selectedLesson}...` : "Пошук слова..."}
                                     value={search}
