@@ -70,7 +70,9 @@ export const speak = (text, options = {}) => {
 
 // Speak a word with article
 export const speakWord = (word, article = null) => {
-    const textToSpeak = article ? `${article} ${word}` : word;
+    // Remove text in parentheses (e.g. "Wort (extra info)" → "Wort")
+    const cleanWord = word.replace(/\s*\([^)]*\)/g, '').trim();
+    const textToSpeak = article ? `${article} ${cleanWord}` : cleanWord;
     return speak(textToSpeak);
 };
 
