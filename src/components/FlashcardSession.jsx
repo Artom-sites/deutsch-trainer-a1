@@ -263,6 +263,7 @@ const FlashcardSession = () => {
                     minHeight: 0
                 }}>
                     <Flashcard
+                        key={currentWord.id || currentIndex}
                         word={currentWord}
                         onNext={handleNext}
                         onPrev={handlePrev}
