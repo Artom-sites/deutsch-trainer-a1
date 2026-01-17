@@ -172,30 +172,73 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false, isAutopl
                             padding: 24
                         }}>
                             <div style={{
-                                fontSize: 'clamp(1.8rem, 7vw, 2.8rem)',
+                                fontSize: 'clamp(1.6rem, 6vw, 2.4rem)',
                                 fontWeight: 800,
                                 textAlign: 'center',
-                                lineHeight: 1.2,
-                                marginBottom: 8,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                gap: 4
+                                lineHeight: 1.3
                             }}>
-                                <span>
-                                    {word.article && (
-                                        <span style={{ color: genderColor, marginRight: 8 }}>{word.article}</span>
-                                    )}
-                                    <span style={{
-                                        color: genderColor,
-                                        textShadow: `0 0 30px ${genderColor}40`
-                                    }}>
-                                        {word.word.replace(/^(der|die|das)\s+/i, '')}
+                                {/* Article with color - handle die/der format */}
+                                {word.article && (
+                                    <span style={{ marginRight: 8 }}>
+                                        {word.article.includes('/') ? (
+                                            word.article.split('/').map((art, i) => (
+                                                <span key={i}>
+                                                    {i > 0 && <span style={{ color: '#9ca3af' }}>/</span>}
+                                                    <span style={{ color: getGenderColor(art.trim()) }}>{art.trim()}</span>
+                                                </span>
+                                            ))
+                                        ) : (
+                                            <span style={{ color: genderColor }}>{word.article}</span>
+                                        )}
                                     </span>
-                                    {hasValidPlural && (
-                                        <><span style={{ color: genderColor }}>, </span><span style={{ fontWeight: 500, color: '#fbbf24' }}>{word.plural}</span></>
-                                    )}
+                                )}
+                                {/* Word */}
+                                <span style={{
+                                    color: word.article?.includes('/') ? '#E5E7EB' : genderColor,
+                                    textShadow: word.article?.includes('/') ? 'none' : `0 0 30px ${genderColor}40`
+                                }}>
+                                    {word.word.replace(/^(der|die|das|die\/der|der\/die)\s+/i, '')}
                                 </span>
+                                {/* Plural ending */}
+                                {hasValidPlural && (() => {
+                                    const baseWord = word.word.replace(/^(der|die|das|die\/der|der\/die)\s+/i, '');
+                                    const plural = word.plural;
+                                    // Check if plural already starts with - or ¨
+                                    if (plural.startsWith('-') || plural.startsWith('¨')) {
+                                        return <><span style={{ color: genderColor }}>, </span><span style={{ fontWeight: 500, color: '#fbbf24' }}>{plural}</span></>;
+                                    }
+                                    // Check for umlaut change
+                                    const hasUmlaut = /[äöü]/.test(plural) && !/[äöü]/.test(baseWord);
+                                    // Extract ending
+                                    let ending = '';
+                                    const pluralLower = plural.toLowerCase();
+                                    const baseLower = baseWord.toLowerCase();
+                                    if (pluralLower.startsWith(baseLower)) {
+                                        const suffix = plural.slice(baseWord.length);
+                                        ending = suffix ? '-' + suffix : '';
+                                    } else if (hasUmlaut) {
+                                        // Try to find suffix after umlaut change
+                                        const normalizedPlural = pluralLower.replace(/ä/g, 'a').replace(/ö/g, 'o').replace(/ü/g, 'u');
+                                        if (normalizedPlural.startsWith(baseLower)) {
+                                            const suffix = plural.slice(baseWord.length);
+                                            ending = suffix ? '¨-' + suffix : '¨';
+                                        } else {
+                                            // Fallback: guess suffix
+                                            if (plural.endsWith('er')) ending = '¨-er';
+                                            else if (plural.endsWith('e')) ending = '¨-e';
+                                            else ending = '¨';
+                                        }
+                                    } else {
+                                        // Just add - prefix
+                                        if (plural.endsWith('en')) ending = '-en';
+                                        else if (plural.endsWith('n')) ending = '-n';
+                                        else if (plural.endsWith('e')) ending = '-e';
+                                        else if (plural.endsWith('s')) ending = '-s';
+                                        else if (plural.endsWith('er')) ending = '-er';
+                                        else ending = '-' + plural.slice(-2);
+                                    }
+                                    return ending ? <><span style={{ color: genderColor }}>, </span><span style={{ fontWeight: 500, color: '#fbbf24' }}>{ending}</span></> : null;
+                                })()}
                             </div>
 
                             <button

@@ -259,7 +259,8 @@ const FlashcardSession = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    minHeight: 0
                 }}>
                     <Flashcard
                         word={currentWord}

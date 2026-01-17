@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import useAuthStore from '../store/authStore';
 import { getAllWords } from '../data/lexicon';
-import { Plus, Folder, Trash2, ChevronRight, ArrowLeft, Play, PenTool } from 'lucide-react';
+import { Plus, Folder, Trash2, ChevronRight, ArrowLeft, Play, PenTool, X } from 'lucide-react';
 import WordSelector from './WordSelector';
 import useStore from '../store/useStore';
+import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 
 const CollectionManager = ({ onStartStudy }) => {
     const collections = useAuthStore(state => state.collections);
@@ -17,8 +18,144 @@ const CollectionManager = ({ onStartStudy }) => {
     const [showWordSelector, setShowWordSelector] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [newCollectionName, setNewCollectionName] = useState('');
+    const [confirmDeleteId, setConfirmDeleteId] = useState(null);
 
     const allWords = getAllWords();
+
+    // Swipeable Collection Item Component
+    const SwipeableCollectionItem = ({ collection, onOpen, onDelete }) => {
+        const x = useMotionValue(0);
+        const deleteOpacity = useTransform(x, [-100, -50, 0], [1, 0.5, 0]);
+        const controls = useAnimation();
+        const [showConfirm, setShowConfirm] = useState(false);
+
+        const handleDragEnd = (e, info) => {
+            if (info.offset.x < -50) {
+                controls.start({ x: -80 });
+            } else {
+                controls.start({ x: 0 });
+            }
+        };
+
+        const handleDeleteClick = () => {
+            setShowConfirm(true);
+        };
+
+        const handleConfirmDelete = () => {
+            onDelete(collection.id);
+            setShowConfirm(false);
+        };
+
+        const handleCancel = () => {
+            setShowConfirm(false);
+            controls.start({ x: 0 });
+        };
+
+        return (
+            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 16 }}>
+                {/* Delete Button Background - hidden until swiped */}
+                <motion.div
+                    onClick={handleDeleteClick}
+                    style={{
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 80,
+                        background: '#E94B5A',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '0 16px 16px 0',
+                        cursor: 'pointer',
+                        opacity: deleteOpacity
+                    }}
+                >
+                    <Trash2 size={24} color="white" />
+                </motion.div>
+
+                {/* Main Card */}
+                <motion.div
+                    drag="x"
+                    dragConstraints={{ left: -100, right: 0 }}
+                    dragElastic={0.1}
+                    onDragEnd={handleDragEnd}
+                    animate={controls}
+                    style={{ x, background: 'var(--bg-card)', borderRadius: 16, zIndex: 1 }}
+                >
+                    <div
+                        onClick={() => !showConfirm && onOpen(collection)}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: 16,
+                            padding: 16, cursor: 'pointer'
+                        }}
+                    >
+                        <div style={{
+                            width: 48, height: 48, borderRadius: 12,
+                            background: 'rgba(242, 106, 27, 0.1)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: '1.5rem'
+                        }}>
+                            {collection.icon || '📁'}
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 600, fontSize: '1rem' }}>{collection.name}</div>
+                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                                {collection.wordIds.length + collection.customWords.length} слів
+                            </div>
+                        </div>
+                        <ChevronRight size={20} color="var(--text-muted)" />
+                    </div>
+                </motion.div>
+
+                {/* Confirmation Modal */}
+                {showConfirm && (
+                    <div style={{
+                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                        background: 'rgba(0,0,0,0.8)', zIndex: 200,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        padding: 20
+                    }}>
+                        <div style={{
+                            background: '#1c1c24', borderRadius: 20, padding: 24,
+                            maxWidth: 320, width: '100%', textAlign: 'center',
+                            border: '1px solid rgba(255,255,255,0.1)'
+                        }}>
+                            <Trash2 size={40} color="#E94B5A" style={{ marginBottom: 16 }} />
+                            <h3 style={{ margin: '0 0 8px', fontSize: '1.1rem' }}>Видалити набір?</h3>
+                            <p style={{ color: 'var(--text-2)', margin: '0 0 24px', fontSize: '0.9rem' }}>
+                                «{collection.name}» буде видалено назавжди
+                            </p>
+                            <div style={{ display: 'flex', gap: 12 }}>
+                                <button
+                                    onClick={handleCancel}
+                                    style={{
+                                        flex: 1, padding: 14, borderRadius: 12,
+                                        background: 'rgba(255,255,255,0.08)',
+                                        border: '1px solid rgba(255,255,255,0.15)',
+                                        color: 'white', fontWeight: 500, cursor: 'pointer'
+                                    }}
+                                >
+                                    Скасувати
+                                </button>
+                                <button
+                                    onClick={handleConfirmDelete}
+                                    style={{
+                                        flex: 1, padding: 14, borderRadius: 12,
+                                        background: '#E94B5A',
+                                        border: 'none',
+                                        color: 'white', fontWeight: 600, cursor: 'pointer'
+                                    }}
+                                >
+                                    Видалити
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    };
 
     const handleCreate = (e) => {
         e.preventDefault();
@@ -137,18 +274,18 @@ const CollectionManager = ({ onStartStudy }) => {
                         </button>
                         <h2 style={{ margin: 0, fontSize: '1.2rem' }}>{currentCollection.name}</h2>
                     </div>
-                    <button
-                        onClick={() => setShowDeleteConfirm(true)}
-                        style={{
-                            width: 40, height: 40, borderRadius: 12,
-                            background: 'rgba(233, 75, 90, 0.1)',
-                            border: '1px solid rgba(233, 75, 90, 0.2)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            color: '#E94B5A', cursor: 'pointer'
-                        }}
-                    >
-                        <Trash2 size={18} />
-                    </button>
+                    {/* Word count badge instead of delete button */}
+                    <div style={{
+                        padding: '8px 14px',
+                        borderRadius: 10,
+                        background: 'rgba(139, 92, 246, 0.15)',
+                        border: '1px solid rgba(139, 92, 246, 0.3)',
+                        color: '#a78bfa',
+                        fontSize: '0.9rem',
+                        fontWeight: 600
+                    }}>
+                        {resolvedWords.length} слів
+                    </div>
                 </div>
 
                 {/* Delete Confirmation Modal */}
@@ -201,68 +338,69 @@ const CollectionManager = ({ onStartStudy }) => {
                     </div>
                 )}
 
-                {/* Stats & Actions */}
-                <div style={{
-                    background: 'var(--bg-card)', padding: 16, borderRadius: 16, marginBottom: 24
-                }}>
-                    <div style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                        marginBottom: 16
-                    }}>
-                        <div>
-                            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{resolvedWords.length}</div>
-                            <div style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>слів</div>
-                        </div>
-                    </div>
+                {/* Action buttons */}
+                <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+                    <button
+                        disabled={resolvedWords.length === 0}
+                        onClick={() => {
+                            // Save as last studied collection
+                            useAuthStore.getState().setLastStudiedCollection(currentCollection.id);
+                            onStartStudy && onStartStudy(resolvedWords);
+                        }}
+                        style={{
+                            flex: 1, padding: '12px 16px', borderRadius: 12,
+                            background: resolvedWords.length > 0 ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.05)',
+                            border: resolvedWords.length > 0 ? '1px solid rgba(139,92,246,0.3)' : '1px solid rgba(255,255,255,0.1)',
+                            color: resolvedWords.length > 0 ? '#a78bfa' : 'var(--text-2)',
+                            fontWeight: 500, cursor: resolvedWords.length > 0 ? 'pointer' : 'default',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
+                        }}
+                    >
+                        <Play size={16} />
+                        Картки
+                    </button>
 
-                    {/* Action buttons */}
-                    <div style={{ display: 'flex', gap: 10 }}>
-                        <button
-                            disabled={resolvedWords.length === 0}
-                            onClick={() => {
-                                // Save as last studied collection
-                                useAuthStore.getState().setLastStudiedCollection(currentCollection.id);
-                                onStartStudy && onStartStudy(resolvedWords);
-                            }}
-                            style={{
-                                flex: 1, padding: '12px 16px', borderRadius: 12,
-                                background: resolvedWords.length > 0 ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.05)',
-                                border: resolvedWords.length > 0 ? '1px solid rgba(139,92,246,0.3)' : '1px solid rgba(255,255,255,0.1)',
-                                color: resolvedWords.length > 0 ? '#a78bfa' : 'var(--text-2)',
-                                fontWeight: 500, cursor: resolvedWords.length > 0 ? 'pointer' : 'default',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
-                            }}
-                        >
-                            <Play size={16} />
-                            Картки
-                        </button>
-
-                        <button
-                            disabled={resolvedWords.length === 0}
-                            onClick={() => {
-                                // Save as last studied collection
-                                useAuthStore.getState().setLastStudiedCollection(currentCollection.id);
-                                // Start Noun Master for this collection
-                                useStore.getState().setNounMasterWords(resolvedWords);
-                            }}
-                            style={{
-                                flex: 1, padding: '12px 16px', borderRadius: 12,
-                                background: resolvedWords.length > 0 ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255,255,255,0.05)',
-                                border: 'none',
-                                color: resolvedWords.length > 0 ? 'white' : 'var(--text-2)',
-                                fontWeight: 600, cursor: resolvedWords.length > 0 ? 'pointer' : 'default',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                                boxShadow: resolvedWords.length > 0 ? '0 0 20px rgba(139,92,246,0.25)' : 'none'
-                            }}
-                        >
-                            <PenTool size={16} />
-                            Noun Master
-                        </button>
-                    </div>
+                    <button
+                        disabled={resolvedWords.length === 0}
+                        onClick={() => {
+                            // Save as last studied collection
+                            useAuthStore.getState().setLastStudiedCollection(currentCollection.id);
+                            // Start Noun Master for this collection
+                            useStore.getState().setNounMasterWords(resolvedWords);
+                        }}
+                        style={{
+                            flex: 1, padding: '12px 16px', borderRadius: 12,
+                            background: resolvedWords.length > 0 ? 'linear-gradient(135deg, #8b5cf6, #6366f1)' : 'rgba(255,255,255,0.05)',
+                            border: 'none',
+                            color: resolvedWords.length > 0 ? 'white' : 'var(--text-2)',
+                            fontWeight: 600, cursor: resolvedWords.length > 0 ? 'pointer' : 'default',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                            boxShadow: resolvedWords.length > 0 ? '0 0 20px rgba(139,92,246,0.25)' : 'none'
+                        }}
+                    >
+                        <PenTool size={16} />
+                        Noun Master
+                    </button>
                 </div>
 
+                {/* Quick Add Word Button */}
+                <button
+                    onClick={() => setShowWordSelector(true)}
+                    style={{
+                        width: '100%', marginTop: 12, padding: '10px 16px', borderRadius: 10,
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px dashed rgba(255,255,255,0.2)',
+                        color: 'var(--text-1)', cursor: 'pointer',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                        fontSize: '0.9rem'
+                    }}
+                >
+                    <Plus size={18} />
+                    Додати слово
+                </button>
+
                 {/* Word List */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 80 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 80, marginTop: 16 }}>
                     {resolvedWords.map((word, idx) => (
                         <div key={idx} style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -284,28 +422,18 @@ const CollectionManager = ({ onStartStudy }) => {
                             </button>
                         </div>
                     ))}
-                    <button
-                        onClick={() => setShowWordSelector(true)}
-                        style={{
-                            padding: 16, background: 'rgba(255,255,255,0.05)',
-                            border: '1px dashed rgba(255,255,255,0.2)', borderRadius: 12,
-                            color: 'var(--text-secondary)', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8
-                        }}
-                    >
-                        <Plus size={20} />
-                        Додати слово
-                    </button>
                 </div>
 
-                {showWordSelector && (
-                    <WordSelector
-                        onClose={() => setShowWordSelector(false)}
-                        onSelect={handleAddWord}
-                        existingWordIds={currentCollection.wordIds}
-                    />
-                )}
-            </div>
+                {
+                    showWordSelector && (
+                        <WordSelector
+                            onClose={() => setShowWordSelector(false)}
+                            onSelect={handleAddWord}
+                            existingWordIds={currentCollection.wordIds}
+                        />
+                    )
+                }
+            </div >
         );
     }
 
@@ -333,39 +461,17 @@ const CollectionManager = ({ onStartStudy }) => {
                     </div>
                 ) : (
                     collections.map(c => (
-                        <div
+                        <SwipeableCollectionItem
                             key={c.id}
-                            onClick={() => openCollection(c)}
-                            style={{
-                                display: 'flex', alignItems: 'center', gap: 16,
-                                padding: 16, background: 'var(--bg-card)',
-                                borderRadius: 16, cursor: 'pointer'
-                            }}
-                        >
-                            <div style={{
-                                width: 48, height: 48, borderRadius: 12,
-                                background: 'rgba(242, 106, 27, 0.1)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontSize: '1.5rem'
-                            }}>
-                                {c.icon || '📁'}
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <div style={{ fontWeight: 600, fontSize: '1rem' }}>{c.name}</div>
-                                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                                    {c.wordIds.length + c.customWords.length} слів
-                                </div>
-                            </div>
-                            <ChevronRight size={20} color="var(--text-muted)" />
-                        </div>
+                            collection={c}
+                            onOpen={openCollection}
+                            onDelete={deleteCollection}
+                        />
                     ))
                 )}
             </div>
         </div>
     );
 };
-
-// Helper Icon for Remove (reusing X from lucide imported globally or locally)
-import { X } from 'lucide-react';
 
 export default CollectionManager;

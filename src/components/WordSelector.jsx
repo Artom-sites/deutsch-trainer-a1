@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { getAllWords, getWordsForLesson, lessons } from '../data/lexicon';
 import { X, Search, Plus, Check, ChevronDown, BookOpen, Filter } from 'lucide-react';
@@ -20,6 +20,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
         article: '',
         plural: ''
     });
+    const wordInputRef = useRef(null);
 
     const allWords = getAllWords();
 
@@ -63,7 +64,10 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
         // Reset form but stay open
         setCustomWord({ word: '', translation: '', article: '', plural: '' });
 
-        // Optional: Maybe show success toast or visual feedback
+        // Keep keyboard open by focusing on word input
+        setTimeout(() => {
+            wordInputRef.current?.focus();
+        }, 50);
     };
 
     const isWordSelected = (wordId) => selectedWords.includes(wordId);
@@ -332,6 +336,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                             <div>
                                 <label style={{ display: 'block', color: 'var(--text-2)', marginBottom: 8, fontSize: '0.9rem', paddingLeft: 4 }}>Слово (DE) *</label>
                                 <input
+                                    ref={wordInputRef}
                                     required
                                     value={customWord.word}
                                     onChange={e => setCustomWord({ ...customWord, word: e.target.value })}

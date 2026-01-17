@@ -111,7 +111,7 @@ const LessonsTab = () => {
             </div>
 
             {/* Main Content - Sidebar + Details */}
-            <div style={{ display: 'flex', gap: 12, height: 'calc(100vh - 260px)', overflow: 'hidden' }}>
+            <div style={{ display: 'flex', gap: 12, flex: 1, overflow: 'hidden', minHeight: 0 }}>
                 {/* Left Sidebar - Lesson Numbers */}
                 <div style={{
                     width: 52,
@@ -122,8 +122,9 @@ const LessonsTab = () => {
                     overflowY: 'auto',
                     overflowX: 'hidden',
                     paddingRight: 4,
-                    paddingBottom: 10,
-                    scrollbarWidth: 'none'
+                    paddingBottom: 80,
+                    scrollbarWidth: 'none',
+                    WebkitOverflowScrolling: 'touch'
                 }}>
 
                     {/* Lesson Number Buttons */}
@@ -178,9 +179,9 @@ const LessonsTab = () => {
                 </div>
 
                 {/* Right Content - Lesson Details */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', paddingBottom: 20 }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingBottom: 20 }}>
                     {selectedLesson ? (
-                        <>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'auto' }}>
                             {/* Lesson Header Card */}
                             <div style={{
                                 background: 'linear-gradient(145deg, rgba(139, 92, 246, 0.2), rgba(99, 102, 241, 0.1), rgba(0,0,0,0.3))',
@@ -353,36 +354,37 @@ const LessonsTab = () => {
                                 <Play size={20} fill="#fff" />
                                 Відкрити урок
                             </button>
-
-                            {/* Stats Footer */}
-                            <div style={{
-                                marginTop: 'auto',
-                                paddingTop: 16,
-                                display: 'flex',
-                                justifyContent: 'space-around',
-                                borderTop: '1px solid var(--stroke)'
-                            }}>
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase' }}>Уроків</div>
-                                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-0)' }}>{displayLessons.length}</div>
-                                </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase' }}>Завершено</div>
-                                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#22c55e' }}>{completedCount}</div>
-                                </div>
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase' }}>Прогрес</div>
-                                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#a78bfa' }}>
-                                        {displayLessons.length > 0 ? Math.round((completedCount / displayLessons.length) * 100) : 0}%
-                                    </div>
-                                </div>
-                            </div>
-                        </>
+                        </div>
                     ) : (
                         <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-2)' }}>
                             Виберіть урок
                         </div>
                     )}
+
+                    {/* Stats Footer - Always visible at bottom */}
+                    <div style={{
+                        marginTop: 'auto',
+                        paddingTop: 12,
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        borderTop: '1px solid var(--stroke)',
+                        flexShrink: 0
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase' }}>Уроків</div>
+                            <div style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-0)' }}>{displayLessons.length}</div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase' }}>Завершено</div>
+                            <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#22c55e' }}>{completedCount}</div>
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-2)', textTransform: 'uppercase' }}>Прогрес</div>
+                            <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#a78bfa' }}>
+                                {displayLessons.length > 0 ? Math.round((completedCount / displayLessons.length) * 100) : 0}%
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
