@@ -56,20 +56,20 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
     };
 
     const handleCustomSubmit = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         if (!customWord.word || !customWord.translation) return;
 
+        // Add the word
         onSelect(customWord, true);
 
-        // Reset form but stay open
+        // Reset form
         setCustomWord({ word: '', translation: '', article: '', plural: '' });
 
-        // Keep keyboard open by focusing on word input (longer delay for mobile)
+        // Keep keyboard open by focusing on word input
         requestAnimationFrame(() => {
             setTimeout(() => {
                 if (wordInputRef.current) {
                     wordInputRef.current.focus();
-                    // For iOS - scroll into view to trigger keyboard
                     wordInputRef.current.scrollIntoView({ block: 'center' });
                 }
             }, 100);
@@ -413,7 +413,8 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                             </div>
 
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={handleCustomSubmit}
                                 style={{
                                     marginTop: 24,
                                     background: 'linear-gradient(135deg, #8b5cf6, #6366f1)', color: 'white',
