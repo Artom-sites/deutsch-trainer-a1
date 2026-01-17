@@ -341,18 +341,43 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                             </div>
 
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                                <div>
+                                <div style={{ position: 'relative' }}>
                                     <label style={{ display: 'block', color: 'var(--text-2)', marginBottom: 8, fontSize: '0.9rem', paddingLeft: 4 }}>Артикль</label>
                                     <select
                                         value={customWord.article}
                                         onChange={e => setCustomWord({ ...customWord, article: e.target.value })}
-                                        style={{ width: '100%', padding: 16, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: 'white', outline: 'none', fontSize: '1rem' }}
+                                        style={{
+                                            width: '100%',
+                                            padding: '16px',
+                                            paddingRight: '36px',
+                                            background: 'rgba(255,255,255,0.05)',
+                                            border: '1px solid rgba(255,255,255,0.1)',
+                                            borderRadius: 14,
+                                            color: 'white',
+                                            outline: 'none',
+                                            fontSize: '1rem',
+                                            appearance: 'none',
+                                            WebkitAppearance: 'none',
+                                            MozAppearance: 'none',
+                                            cursor: 'pointer'
+                                        }}
                                     >
-                                        <option value="">(немає)</option>
-                                        <option value="der">der</option>
-                                        <option value="die">die</option>
-                                        <option value="das">das</option>
+                                        <option value="" style={{ background: '#252530' }}>(немає)</option>
+                                        <option value="der" style={{ background: '#252530', color: '#4A90E2' }}>der</option>
+                                        <option value="die" style={{ background: '#252530', color: '#E94B5A' }}>die</option>
+                                        <option value="das" style={{ background: '#252530', color: '#2ECC71' }}>das</option>
                                     </select>
+                                    <ChevronDown
+                                        size={18}
+                                        style={{
+                                            position: 'absolute',
+                                            right: 12,
+                                            top: '50%',
+                                            marginTop: 4,
+                                            color: 'var(--text-2)',
+                                            pointerEvents: 'none'
+                                        }}
+                                    />
                                 </div>
                                 <div>
                                     <label style={{ display: 'block', color: 'var(--text-2)', marginBottom: 8, fontSize: '0.9rem', paddingLeft: 4 }}>Множина</label>

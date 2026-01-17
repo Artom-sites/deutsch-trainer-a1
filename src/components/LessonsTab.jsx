@@ -25,7 +25,17 @@ const LessonsTab = () => {
     const selectedProgress = selectedLesson ? getLessonProgress(selectedLesson.id) : { percent: 0 };
 
     return (
-        <div className="app">
+        <div className="app" style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 80,
+            overflow: 'hidden',
+            padding: '16px 8px 0',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
             {/* Hero Header with Level Switcher */}
             <div style={{
                 background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.08), transparent)',

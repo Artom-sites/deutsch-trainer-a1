@@ -254,16 +254,24 @@ const FlashcardSession = () => {
 
             {/* Content */}
             {!isComplete && currentWord ? (
-                <Flashcard
-                    word={currentWord}
-                    onNext={handleNext}
-                    onPrev={handlePrev}
-                    canGoPrev={currentIndex > 0}
-                    autoFlip={isAutoplay && autoplayPhase !== 'front'}
-                    isAutoplay={isAutoplay}
-                    speakEnabled={speakEnabled}
-                    onToggleSpeak={setSpeakEnabled}
-                />
+                <div style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    overflow: 'hidden'
+                }}>
+                    <Flashcard
+                        word={currentWord}
+                        onNext={handleNext}
+                        onPrev={handlePrev}
+                        canGoPrev={currentIndex > 0}
+                        autoFlip={isAutoplay && autoplayPhase !== 'front'}
+                        isAutoplay={isAutoplay}
+                        speakEnabled={speakEnabled}
+                        onToggleSpeak={setSpeakEnabled}
+                    />
+                </div>
             ) : (
                 // Completion Screen
                 <div style={{

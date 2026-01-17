@@ -171,28 +171,31 @@ const Flashcard = ({ word, onNext, onPrev, canGoPrev, autoFlip = false, isAutopl
                             justifyContent: 'center',
                             padding: 24
                         }}>
-                            {word.article && (
-                                <div style={{
-                                    color: genderColor,
-                                    fontSize: '1.4rem',
-                                    fontWeight: 500,
-                                    marginBottom: 8,
-                                    opacity: 0.9
-                                }}>
-                                    {word.article}
-                                </div>
-                            )}
-
                             <div style={{
-                                color: genderColor,
-                                fontSize: 'clamp(2rem, 8vw, 3.2rem)',
+                                fontSize: 'clamp(1.8rem, 7vw, 2.8rem)',
                                 fontWeight: 800,
                                 textAlign: 'center',
-                                lineHeight: 1.1,
+                                lineHeight: 1.2,
                                 marginBottom: 8,
-                                textShadow: `0 0 30px ${genderColor}40`
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: 4
                             }}>
-                                {word.word.replace(/^(der|die|das)\s+/i, '')}{hasValidPlural && <>, <span style={{ fontWeight: 500, color: '#fbbf24' }}>{word.plural}</span></>}
+                                <span>
+                                    {word.article && (
+                                        <span style={{ color: genderColor, marginRight: 8 }}>{word.article}</span>
+                                    )}
+                                    <span style={{
+                                        color: genderColor,
+                                        textShadow: `0 0 30px ${genderColor}40`
+                                    }}>
+                                        {word.word.replace(/^(der|die|das)\s+/i, '')}
+                                    </span>
+                                    {hasValidPlural && (
+                                        <><span style={{ color: genderColor }}>, </span><span style={{ fontWeight: 500, color: '#fbbf24' }}>{word.plural}</span></>
+                                    )}
+                                </span>
                             </div>
 
                             <button

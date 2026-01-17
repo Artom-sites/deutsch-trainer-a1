@@ -103,7 +103,17 @@ const DictionaryTab = () => {
     const totalThemedWords = getTotalThemedWordCount();
 
     return (
-        <div className="app">
+        <div className="app" style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 120,
+            overflow: 'hidden',
+            padding: '16px 8px 0',
+            display: 'flex',
+            flexDirection: 'column'
+        }}>
             {/* Hero Header with Gradient */}
             <div style={{
                 background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.08), transparent)',
@@ -376,88 +386,96 @@ const DictionaryTab = () => {
                         </button>
                     </div>
 
-                    {/* Words Count */}
-                    <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 10 }}>
-                        {filteredWords.length} слів
-                    </div>
+                    {/* Scrollable Words Section */}
+                    <div style={{
+                        flex: 1,
+                        overflowY: 'auto',
+                        paddingBottom: 90,
+                        WebkitOverflowScrolling: 'touch'
+                    }}>
+                        {/* Words Count */}
+                        <div style={{ fontSize: '0.8rem', color: 'var(--text-2)', marginBottom: 10 }}>
+                            {filteredWords.length} слів
+                        </div>
 
-                    {/* Words List */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        {/* Words List */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
 
-                        {filteredWords.slice(0, visibleCount).map(word => (
-                            <div
-                                key={word.id}
-                                style={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                    padding: '10px 14px',
-                                    background: 'linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))',
-                                    border: '1px solid var(--stroke)',
-                                    borderRadius: 12
-                                }}
-                            >
-                                <div style={{ overflow: 'hidden', marginRight: 10, flex: 1 }}>
-                                    <div style={{
-                                        color: 'var(--text-0)',
-                                        fontWeight: 600,
-                                        fontSize: '0.95rem',
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis'
-                                    }}>
-                                        {/* Format: Article Word, Plural */}
-                                        <span style={{ color: getGenderColor(word.article) }}>
-                                            {word.article ? word.article + ' ' : ''}
-                                        </span>
-                                        {word.word.replace(/^(der|die|das)\s+/, '')}
-
-                                        {/* Plural suffix only, no 'pl.' label */}
-                                        {word.plural && word.plural !== '-' && (
-                                            <span style={{ opacity: 0.6, fontWeight: 400 }}>
-                                                , {word.plural}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div style={{
-                                        color: 'var(--text-2)',
-                                        fontSize: '0.8rem',
-                                        marginTop: 2,
-                                        whiteSpace: 'nowrap',
-                                        overflow: 'hidden',
-                                        textOverflow: 'ellipsis'
-                                    }}>
-                                        {word.translation}
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => speakWord(word.word.replace(/^(der|die|das)\s+/, ''), word.article)}
+                            {filteredWords.slice(0, visibleCount).map(word => (
+                                <div
+                                    key={word.id}
                                     style={{
-                                        background: 'var(--surface)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                                        padding: '10px 14px',
+                                        background: 'linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))',
                                         border: '1px solid var(--stroke)',
-                                        borderRadius: '50%',
-                                        width: 34, height: 34,
-                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        cursor: 'pointer',
-                                        flexShrink: 0
+                                        borderRadius: 12
                                     }}
                                 >
-                                    <Volume2 size={16} color="var(--text-2)" />
-                                </button>
-                            </div>
-                        ))}
+                                    <div style={{ overflow: 'hidden', marginRight: 10, flex: 1 }}>
+                                        <div style={{
+                                            color: 'var(--text-0)',
+                                            fontWeight: 600,
+                                            fontSize: '0.95rem',
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {/* Format: Article Word, Plural */}
+                                            <span style={{ color: getGenderColor(word.article) }}>
+                                                {word.article ? word.article + ' ' : ''}
+                                            </span>
+                                            {word.word.replace(/^(der|die|das)\s+/, '')}
 
-                        {filteredWords.length > visibleCount && (
-                            <button
-                                onClick={() => setVisibleCount(prev => prev + 50)}
-                                style={{
-                                    width: '100%', textAlign: 'center', padding: 14,
-                                    background: 'var(--surface)', border: '1px solid var(--stroke)',
-                                    borderRadius: 12, color: 'var(--pri)',
-                                    fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer'
-                                }}
-                            >
-                                + Ще {Math.min(50, filteredWords.length - visibleCount)} слів
-                            </button>
-                        )}
+                                            {/* Plural suffix only, no 'pl.' label */}
+                                            {word.plural && word.plural !== '-' && (
+                                                <span style={{ opacity: 0.6, fontWeight: 400 }}>
+                                                    , {word.plural}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div style={{
+                                            color: 'var(--text-2)',
+                                            fontSize: '0.8rem',
+                                            marginTop: 2,
+                                            whiteSpace: 'nowrap',
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis'
+                                        }}>
+                                            {word.translation}
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => speakWord(word.word.replace(/^(der|die|das)\s+/, ''), word.article)}
+                                        style={{
+                                            background: 'var(--surface)',
+                                            border: '1px solid var(--stroke)',
+                                            borderRadius: '50%',
+                                            width: 34, height: 34,
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            cursor: 'pointer',
+                                            flexShrink: 0
+                                        }}
+                                    >
+                                        <Volume2 size={16} color="var(--text-2)" />
+                                    </button>
+                                </div>
+                            ))}
+
+                            {filteredWords.length > visibleCount && (
+                                <button
+                                    onClick={() => setVisibleCount(prev => prev + 50)}
+                                    style={{
+                                        width: '100%', textAlign: 'center', padding: 14,
+                                        background: 'var(--surface)', border: '1px solid var(--stroke)',
+                                        borderRadius: 12, color: 'var(--pri)',
+                                        fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer'
+                                    }}
+                                >
+                                    + Ще {Math.min(50, filteredWords.length - visibleCount)} слів
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </>
             )}
@@ -466,3 +484,4 @@ const DictionaryTab = () => {
 };
 
 export default DictionaryTab;
+
