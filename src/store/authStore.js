@@ -27,6 +27,7 @@ const useAuthStore = create(
             dailyGoal: 10,
             dailyProgress: 0,
             weeklyActivity: [0, 0, 0, 0, 0, 0, 0], // Mon-Sun (minutes)
+            weekStartDate: null, // Track when current week started (Monday)
             sessionStartTime: null, // Track when session started
 
             // Economy
@@ -37,6 +38,33 @@ const useAuthStore = create(
 
             // Set last studied collection
             setLastStudiedCollection: (collectionId) => set({ lastStudiedCollectionId: collectionId }),
+
+            // Check if week has reset (called on init and when updating activity)
+            checkWeekReset: () => {
+                const { weekStartDate, saveUserData } = get();
+                const now = new Date();
+                // Get current week's Monday
+                const dayOfWeek = now.getDay(); // 0=Sun, 1=Mon, etc.
+                const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+                const currentMonday = new Date(now);
+                currentMonday.setDate(now.getDate() - daysToMonday);
+                currentMonday.setHours(0, 0, 0, 0);
+                const currentMondayStr = currentMonday.toISOString().split('T')[0];
+
+                // If weekStartDate is different from current Monday, reset
+                if (weekStartDate !== currentMondayStr) {
+                    set({
+                        weeklyActivity: [0, 0, 0, 0, 0, 0, 0],
+                        weekStartDate: currentMondayStr
+                    });
+                    saveUserData({
+                        weeklyActivity: [0, 0, 0, 0, 0, 0, 0],
+                        weekStartDate: currentMondayStr
+                    });
+                    return true; // Week was reset
+                }
+                return false;
+            },
 
             // Initialize auth listener
             initAuth: () => {
@@ -64,6 +92,9 @@ const useAuthStore = create(
 
                         // Update streak
                         get().updateStreak();
+
+                        // Check if week needs to be reset
+                        get().checkWeekReset();
                     } else {
                         set({ user: null, isLoading: false });
                     }
@@ -359,7 +390,8 @@ const useAuthStore = create(
                 collections: state.collections,
                 lastActiveDate: state.lastActiveDate,
                 dailyProgress: state.dailyProgress,
-                weeklyActivity: state.weeklyActivity
+                weeklyActivity: state.weeklyActivity,
+                weekStartDate: state.weekStartDate
             })
         }
     )

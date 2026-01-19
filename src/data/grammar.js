@@ -1948,6 +1948,10 @@ export function getGrammarContent(topicId) {
     if (!content && id === 'personalpronomen-akkusativ-dativ') {
         content = grammarContent['personalpronomen-dativ'];
     }
+    // possessivpronomen fallback to possessivartikel
+    if (!content && id === 'possessivpronomen') {
+        content = grammarContent['possessivartikel'];
+    }
 
     return content || null;
 }

@@ -138,7 +138,37 @@ const GrammarDetail = () => {
     const content = getGrammarContent(activeGrammarTopicId);
     const exercises = getExercisesForTopic(activeGrammarTopicId);
 
-    if (!content) return null;
+    if (!content) {
+        return (
+            <div className="screen" style={{ paddingTop: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 24 }}>
+                    <button
+                        onClick={goBack}
+                        style={{
+                            width: 44, height: 44, borderRadius: 12,
+                            background: 'rgba(255, 255, 255, 0.08)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            color: 'var(--text-primary)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'
+                        }}
+                    >
+                        <ArrowLeft size={20} />
+                    </button>
+                    <h1 style={{ fontSize: '1.1rem', fontWeight: 600 }}>Назад</h1>
+                </div>
+                <div style={{
+                    textAlign: 'center', padding: 40,
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    borderRadius: 16, border: '1px solid rgba(255, 255, 255, 0.08)'
+                }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 12 }}>📝</div>
+                    <div style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>
+                        Контент для цієї теми ще готується...
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     const renderSection = (section, index) => {
         switch (section.type) {

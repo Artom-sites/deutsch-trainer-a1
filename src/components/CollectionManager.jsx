@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAuthStore from '../store/authStore';
 import { getAllWords } from '../data/lexicon';
-import { Plus, Folder, Trash2, ChevronRight, ArrowLeft, Play, PenTool, X } from 'lucide-react';
+import { Plus, Folder, Trash2, ChevronRight, ArrowLeft, Play, PenTool } from 'lucide-react';
 import WordSelector from './WordSelector';
 import useStore from '../store/useStore';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
@@ -157,6 +157,92 @@ const CollectionManager = ({ onStartStudy }) => {
         );
     };
 
+    // Swipeable Word Item Component (for words in collection)
+    const SwipeableWordItem = ({ word, onDelete }) => {
+        const x = useMotionValue(0);
+        const deleteOpacity = useTransform(x, [-100, -50, 0], [1, 0.5, 0]);
+        const controls = useAnimation();
+
+        const handleDragEnd = (e, info) => {
+            if (info.offset.x < -60) {
+                // Auto-delete on strong swipe
+                controls.start({ x: -200, opacity: 0 }).then(() => {
+                    onDelete();
+                });
+            } else if (info.offset.x < -30) {
+                controls.start({ x: -70 });
+            } else {
+                controls.start({ x: 0 });
+            }
+        };
+
+        const handleDeleteClick = () => {
+            controls.start({ x: -200, opacity: 0 }).then(() => {
+                onDelete();
+            });
+        };
+
+        return (
+            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 12 }}>
+                {/* Delete Button Background */}
+                <motion.div
+                    onClick={handleDeleteClick}
+                    style={{
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: 70,
+                        background: '#E94B5A',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '0 12px 12px 0',
+                        cursor: 'pointer',
+                        opacity: deleteOpacity
+                    }}
+                >
+                    <Trash2 size={20} color="white" />
+                </motion.div>
+
+                {/* Main Word Card */}
+                <motion.div
+                    drag="x"
+                    dragConstraints={{ left: -100, right: 0 }}
+                    dragElastic={0.1}
+                    onDragEnd={handleDragEnd}
+                    animate={controls}
+                    style={{
+                        x,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '12px 16px',
+                        background: 'rgba(255,255,255,0.03)',
+                        borderRadius: 12,
+                        zIndex: 1
+                    }}
+                >
+                    <div>
+                        <div style={{ fontWeight: 600 }}>
+                            {word.article && <span style={{ color: '#F26A1B', marginRight: 4 }}>{word.article}</span>}
+                            {word.word}
+                        </div>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{word.translation}</div>
+                    </div>
+                    <div style={{
+                        fontSize: '0.7rem',
+                        color: 'var(--text-muted)',
+                        opacity: 0.5,
+                        paddingRight: 8
+                    }}>
+                        ← свайп
+                    </div>
+                </motion.div>
+            </div>
+        );
+    };
+
     const handleCreate = (e) => {
         e.preventDefault();
         if (newCollectionName.trim()) {
@@ -257,7 +343,13 @@ const CollectionManager = ({ onStartStudy }) => {
         ];
 
         return (
-            <div className="fade-in">
+            <div className="fade-in" style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                minHeight: 0,
+                overflow: 'hidden'
+            }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                         <button
@@ -399,29 +491,39 @@ const CollectionManager = ({ onStartStudy }) => {
                     Додати слово
                 </button>
 
-                {/* Word List */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 80, marginTop: 16 }}>
-                    {resolvedWords.map((word, idx) => (
-                        <div key={idx} style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                            padding: '12px 16px', background: 'rgba(255,255,255,0.03)',
-                            borderRadius: 12
+                {/* Word List - Scrollable Container */}
+                <div style={{
+                    flex: 1,
+                    overflowY: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 8,
+                    marginTop: 16,
+                    paddingBottom: 80,
+                    minHeight: 0 // Important for flex overflow
+                }}>
+                    {resolvedWords.length === 0 ? (
+                        <div style={{
+                            textAlign: 'center',
+                            padding: 40,
+                            color: 'var(--text-muted)'
                         }}>
-                            <div>
-                                <div style={{ fontWeight: 600 }}>
-                                    {word.article && <span style={{ color: '#F26A1B', marginRight: 4 }}>{word.article}</span>}
-                                    {word.word}
-                                </div>
-                                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{word.translation}</div>
-                            </div>
-                            <button
-                                onClick={() => removeFromCollection(currentCollection.id, word.id || word.word, !!word.plural)} // Creating a heuristic for isCustom if needed, but better check ID format
-                                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)' }}
-                            >
-                                <X size={16} />
-                            </button>
+                            <div style={{ fontSize: '2rem', marginBottom: 12 }}>📝</div>
+                            <p>Додайте слова до цього набору</p>
                         </div>
-                    ))}
+                    ) : (
+                        resolvedWords.map((word, idx) => (
+                            <SwipeableWordItem
+                                key={word.id || word.word || idx}
+                                word={word}
+                                onDelete={() => {
+                                    // Determine if it's a custom word (has no numeric id or has plural field from custom)
+                                    const isCustom = !word.id || typeof word.id === 'string' && word.id.startsWith('custom-');
+                                    removeFromCollection(currentCollection.id, word.id || word.word, isCustom);
+                                }}
+                            />
+                        ))
+                    )}
                 </div>
 
                 {
