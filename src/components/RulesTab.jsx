@@ -141,6 +141,8 @@ const SectionTitle = ({ children, color = 'var(--orange)' }) => (
 
 // Generic Detail View for A2 Content
 const GenericGrammarDetail = ({ data, onBack }) => {
+    const blocks = data.content || data.sections || [];
+
     return (
         <div className="screen">
             <button onClick={onBack} style={{
@@ -154,10 +156,10 @@ const GenericGrammarDetail = ({ data, onBack }) => {
             <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-0)', marginBottom: 4 }}>
                 {data.title}
             </h1>
-            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.description}</p>
+            <p style={{ color: 'var(--text-2)', marginBottom: 20 }}>{data.description || data.titleUa}</p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {data.content.map((block, index) => {
+                {blocks.map((block, index) => {
                     switch (block.type) {
                         case 'rule':
                             return (
@@ -170,7 +172,7 @@ const GenericGrammarDetail = ({ data, onBack }) => {
                                     lineHeight: 1.5
                                 }}>
                                     <div dangerouslySetInnerHTML={{
-                                        __html: block.text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-0)">$1</strong>').replace(/\n/g, '<br/>')
+                                        __html: (block.text || block.content || '').replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text-0)">$1</strong>').replace(/\n/g, '<br/>')
                                     }} />
                                 </div>
                             );
@@ -178,9 +180,9 @@ const GenericGrammarDetail = ({ data, onBack }) => {
                             return (
                                 <GrammarTable
                                     key={index}
-                                    headers={block.headers}
-                                    rows={block.rows}
-                                    highlightColumns={[block.headers.length - 1]} // Highlight last column guess
+                                    headers={block.headers || []}
+                                    rows={block.rows || []}
+                                    highlightColumns={[block.headers?.length - 1]}
                                 />
                             );
                         case 'example':
@@ -195,9 +197,20 @@ const GenericGrammarDetail = ({ data, onBack }) => {
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8, fontSize: '0.85rem', fontWeight: 700, color: 'var(--orange)' }}>
                                         <Lightbulb size={16} /> Приклад
                                     </div>
-                                    <div dangerouslySetInnerHTML={{
-                                        __html: (block.text || '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')
-                                    }} style={{ color: 'var(--text-1)', fontSize: '0.95rem' }} />
+                                    {block.items ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                                            {block.items.map((item, i) => (
+                                                <div key={i}>
+                                                    <div style={{ fontWeight: 500, color: 'var(--text-0)' }}>{item.german || item.de}</div>
+                                                    <div style={{ fontSize: '0.85rem', color: 'var(--text-2)' }}>{item.translation || item.ua}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div dangerouslySetInnerHTML={{
+                                            __html: (block.text || '').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>')
+                                        }} style={{ color: 'var(--text-1)', fontSize: '0.95rem' }} />
+                                    )}
                                 </div>
                             );
                         case 'list':

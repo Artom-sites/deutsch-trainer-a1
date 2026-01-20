@@ -43,9 +43,15 @@ const NounMaster = () => {
         setShowResult(false);
     }, [currentIndex]);
 
-    // Helper to get plural ending from full word
+    // Helper to get plural ending
     const getPluralEnding = (word, plural) => {
         if (!plural || plural === '-') return '-';
+
+        // If plural is already in notation format (starts with - or ¨)
+        if (plural.startsWith('-') || plural.startsWith('¨')) {
+            return plural;
+        }
+
         const baseWord = word.replace(/^(der|die|das)\s+/i, '');
         // Check for umlaut change
         const hasUmlaut = /[äöü]/.test(plural) && !/[äöü]/.test(baseWord);
@@ -60,7 +66,7 @@ const NounMaster = () => {
             const baseLower = baseWord.toLowerCase();
             if (pluralLower.startsWith(baseLower)) {
                 const suffix = plural.slice(baseWord.length);
-                ending = suffix ? '¨-' + suffix : '¨';
+                ending = suffix ? '¨-' + suffix : '¨-';
             } else {
                 ending = '¨-' + (plural.slice(-1) === 'e' ? 'e' : plural.slice(-2) === 'er' ? 'er' : 'e');
             }
@@ -73,7 +79,7 @@ const NounMaster = () => {
     const pluralOptions = useMemo(() => {
         if (!currentWord) return [];
         const correctEnding = getPluralEnding(currentWord.word, currentWord.plural);
-        const endings = ['-', '-e', '-n', '-en', '-s', '-er', '¨-e', '¨-er'];
+        const endings = ['-', '-e', '-n', '-en', '-s', '-er', '¨-e', '¨-er', '¨-'];
         const options = new Set([correctEnding]);
         while (options.size < 4) {
             const randomEnding = endings[Math.floor(Math.random() * endings.length)];

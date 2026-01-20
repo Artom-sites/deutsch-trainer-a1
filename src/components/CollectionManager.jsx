@@ -6,6 +6,227 @@ import WordSelector from './WordSelector';
 import useStore from '../store/useStore';
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 
+// Swipeable Collection Item Component
+const SwipeableCollectionItem = ({ collection, onOpen, onDelete }) => {
+    const x = useMotionValue(0);
+    const deleteOpacity = useTransform(x, [-100, -50, 0], [1, 0.5, 0]);
+    const controls = useAnimation();
+    const [showConfirm, setShowConfirm] = useState(false);
+
+    const handleDragEnd = (e, info) => {
+        if (info.offset.x < -50) {
+            controls.start({ x: -80 });
+        } else {
+            controls.start({ x: 0 });
+        }
+    };
+
+    const handleDeleteClick = () => {
+        setShowConfirm(true);
+    };
+
+    const handleConfirmDelete = () => {
+        onDelete(collection.id);
+        setShowConfirm(false);
+    };
+
+    const handleCancel = () => {
+        setShowConfirm(false);
+        controls.start({ x: 0 });
+    };
+
+    return (
+        <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 16 }}>
+            {/* Delete Button Background - hidden until swiped */}
+            <motion.div
+                onClick={handleDeleteClick}
+                style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 80,
+                    background: '#E94B5A',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '0 16px 16px 0',
+                    cursor: 'pointer',
+                    opacity: deleteOpacity
+                }}
+            >
+                <Trash2 size={24} color="white" />
+            </motion.div>
+
+            {/* Main Card */}
+            <motion.div
+                drag="x"
+                dragConstraints={{ left: -100, right: 0 }}
+                dragElastic={0.1}
+                onDragEnd={handleDragEnd}
+                animate={controls}
+                style={{ x, background: 'var(--bg-card)', borderRadius: 16, zIndex: 1 }}
+            >
+                <div
+                    onClick={() => !showConfirm && onOpen(collection)}
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: 16,
+                        padding: 16, cursor: 'pointer'
+                    }}
+                >
+                    <div style={{
+                        width: 48, height: 48, borderRadius: 12,
+                        background: 'rgba(242, 106, 27, 0.1)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '1.5rem'
+                    }}>
+                        {collection.icon || '📁'}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, fontSize: '1rem' }}>{collection.name}</div>
+                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                            {collection.wordIds.length + collection.customWords.length} слів
+                        </div>
+                    </div>
+                    <ChevronRight size={20} color="var(--text-muted)" />
+                </div>
+            </motion.div>
+
+            {/* Confirmation Modal */}
+            {showConfirm && (
+                <div style={{
+                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                    background: 'rgba(0,0,0,0.8)', zIndex: 200,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    padding: 20
+                }}>
+                    <div style={{
+                        background: '#1c1c24', borderRadius: 20, padding: 24,
+                        maxWidth: 320, width: '100%', textAlign: 'center',
+                        border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                        <Trash2 size={40} color="#E94B5A" style={{ marginBottom: 16 }} />
+                        <h3 style={{ margin: '0 0 8px', fontSize: '1.1rem' }}>Видалити набір?</h3>
+                        <p style={{ color: 'var(--text-2)', margin: '0 0 24px', fontSize: '0.9rem' }}>
+                            «{collection.name}» буде видалено назавжди
+                        </p>
+                        <div style={{ display: 'flex', gap: 12 }}>
+                            <button
+                                onClick={handleCancel}
+                                style={{
+                                    flex: 1, padding: 14, borderRadius: 12,
+                                    background: 'rgba(255,255,255,0.08)',
+                                    border: '1px solid rgba(255,255,255,0.15)',
+                                    color: 'white', fontWeight: 500, cursor: 'pointer'
+                                }}
+                            >
+                                Скасувати
+                            </button>
+                            <button
+                                onClick={handleConfirmDelete}
+                                style={{
+                                    flex: 1, padding: 14, borderRadius: 12,
+                                    background: '#E94B5A',
+                                    border: 'none',
+                                    color: 'white', fontWeight: 600, cursor: 'pointer'
+                                }}
+                            >
+                                Видалити
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+// Swipeable Word Item Component (for words in collection)
+const SwipeableWordItem = ({ word, onDelete }) => {
+    const x = useMotionValue(0);
+    const deleteOpacity = useTransform(x, [-100, -50, 0], [1, 0.5, 0]);
+    const controls = useAnimation();
+
+    const handleDragEnd = (e, info) => {
+        if (info.offset.x < -60) {
+            // Auto-delete on strong swipe
+            controls.start({ x: -200, opacity: 0 }).then(() => {
+                onDelete();
+            });
+        } else if (info.offset.x < -30) {
+            controls.start({ x: -70 });
+        } else {
+            controls.start({ x: 0 });
+        }
+    };
+
+    const handleDeleteClick = () => {
+        controls.start({ x: -200, opacity: 0 }).then(() => {
+            onDelete();
+        });
+    };
+
+    return (
+        <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 12, flexShrink: 0, minHeight: 60 }}>
+            {/* Delete Button Background */}
+            <motion.div
+                onClick={handleDeleteClick}
+                style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 70,
+                    background: '#E94B5A',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '0 12px 12px 0',
+                    cursor: 'pointer',
+                    opacity: deleteOpacity
+                }}
+            >
+                <Trash2 size={20} color="white" />
+            </motion.div>
+
+            {/* Main Word Card */}
+            <motion.div
+                drag="x"
+                dragConstraints={{ left: -100, right: 0 }}
+                dragElastic={0.1}
+                onDragEnd={handleDragEnd}
+                animate={controls}
+                style={{
+                    x,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '12px 16px',
+                    background: 'rgba(255,255,255,0.03)',
+                    borderRadius: 12,
+                    zIndex: 1
+                }}
+            >
+                <div>
+                    <div style={{ fontWeight: 600 }}>
+                        {word.article && <span style={{ color: '#F26A1B', marginRight: 4 }}>{word.article}</span>}
+                        {word.word}
+                    </div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{word.translation}</div>
+                </div>
+                <div style={{
+                    fontSize: '0.7rem',
+                    color: 'var(--text-muted)',
+                    opacity: 0.5,
+                    paddingRight: 8
+                }}>
+                    ← свайп
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
 const CollectionManager = ({ onStartStudy }) => {
     const collections = useAuthStore(state => state.collections);
     const createCollection = useAuthStore(state => state.createCollection);
@@ -22,227 +243,6 @@ const CollectionManager = ({ onStartStudy }) => {
 
     const allWords = getAllWords();
 
-    // Swipeable Collection Item Component
-    const SwipeableCollectionItem = ({ collection, onOpen, onDelete }) => {
-        const x = useMotionValue(0);
-        const deleteOpacity = useTransform(x, [-100, -50, 0], [1, 0.5, 0]);
-        const controls = useAnimation();
-        const [showConfirm, setShowConfirm] = useState(false);
-
-        const handleDragEnd = (e, info) => {
-            if (info.offset.x < -50) {
-                controls.start({ x: -80 });
-            } else {
-                controls.start({ x: 0 });
-            }
-        };
-
-        const handleDeleteClick = () => {
-            setShowConfirm(true);
-        };
-
-        const handleConfirmDelete = () => {
-            onDelete(collection.id);
-            setShowConfirm(false);
-        };
-
-        const handleCancel = () => {
-            setShowConfirm(false);
-            controls.start({ x: 0 });
-        };
-
-        return (
-            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 16 }}>
-                {/* Delete Button Background - hidden until swiped */}
-                <motion.div
-                    onClick={handleDeleteClick}
-                    style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 80,
-                        background: '#E94B5A',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '0 16px 16px 0',
-                        cursor: 'pointer',
-                        opacity: deleteOpacity
-                    }}
-                >
-                    <Trash2 size={24} color="white" />
-                </motion.div>
-
-                {/* Main Card */}
-                <motion.div
-                    drag="x"
-                    dragConstraints={{ left: -100, right: 0 }}
-                    dragElastic={0.1}
-                    onDragEnd={handleDragEnd}
-                    animate={controls}
-                    style={{ x, background: 'var(--bg-card)', borderRadius: 16, zIndex: 1 }}
-                >
-                    <div
-                        onClick={() => !showConfirm && onOpen(collection)}
-                        style={{
-                            display: 'flex', alignItems: 'center', gap: 16,
-                            padding: 16, cursor: 'pointer'
-                        }}
-                    >
-                        <div style={{
-                            width: 48, height: 48, borderRadius: 12,
-                            background: 'rgba(242, 106, 27, 0.1)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontSize: '1.5rem'
-                        }}>
-                            {collection.icon || '📁'}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 600, fontSize: '1rem' }}>{collection.name}</div>
-                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                                {collection.wordIds.length + collection.customWords.length} слів
-                            </div>
-                        </div>
-                        <ChevronRight size={20} color="var(--text-muted)" />
-                    </div>
-                </motion.div>
-
-                {/* Confirmation Modal */}
-                {showConfirm && (
-                    <div style={{
-                        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                        background: 'rgba(0,0,0,0.8)', zIndex: 200,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        padding: 20
-                    }}>
-                        <div style={{
-                            background: '#1c1c24', borderRadius: 20, padding: 24,
-                            maxWidth: 320, width: '100%', textAlign: 'center',
-                            border: '1px solid rgba(255,255,255,0.1)'
-                        }}>
-                            <Trash2 size={40} color="#E94B5A" style={{ marginBottom: 16 }} />
-                            <h3 style={{ margin: '0 0 8px', fontSize: '1.1rem' }}>Видалити набір?</h3>
-                            <p style={{ color: 'var(--text-2)', margin: '0 0 24px', fontSize: '0.9rem' }}>
-                                «{collection.name}» буде видалено назавжди
-                            </p>
-                            <div style={{ display: 'flex', gap: 12 }}>
-                                <button
-                                    onClick={handleCancel}
-                                    style={{
-                                        flex: 1, padding: 14, borderRadius: 12,
-                                        background: 'rgba(255,255,255,0.08)',
-                                        border: '1px solid rgba(255,255,255,0.15)',
-                                        color: 'white', fontWeight: 500, cursor: 'pointer'
-                                    }}
-                                >
-                                    Скасувати
-                                </button>
-                                <button
-                                    onClick={handleConfirmDelete}
-                                    style={{
-                                        flex: 1, padding: 14, borderRadius: 12,
-                                        background: '#E94B5A',
-                                        border: 'none',
-                                        color: 'white', fontWeight: 600, cursor: 'pointer'
-                                    }}
-                                >
-                                    Видалити
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    };
-
-    // Swipeable Word Item Component (for words in collection)
-    const SwipeableWordItem = ({ word, onDelete }) => {
-        const x = useMotionValue(0);
-        const deleteOpacity = useTransform(x, [-100, -50, 0], [1, 0.5, 0]);
-        const controls = useAnimation();
-
-        const handleDragEnd = (e, info) => {
-            if (info.offset.x < -60) {
-                // Auto-delete on strong swipe
-                controls.start({ x: -200, opacity: 0 }).then(() => {
-                    onDelete();
-                });
-            } else if (info.offset.x < -30) {
-                controls.start({ x: -70 });
-            } else {
-                controls.start({ x: 0 });
-            }
-        };
-
-        const handleDeleteClick = () => {
-            controls.start({ x: -200, opacity: 0 }).then(() => {
-                onDelete();
-            });
-        };
-
-        return (
-            <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 12 }}>
-                {/* Delete Button Background */}
-                <motion.div
-                    onClick={handleDeleteClick}
-                    style={{
-                        position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        width: 70,
-                        background: '#E94B5A',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '0 12px 12px 0',
-                        cursor: 'pointer',
-                        opacity: deleteOpacity
-                    }}
-                >
-                    <Trash2 size={20} color="white" />
-                </motion.div>
-
-                {/* Main Word Card */}
-                <motion.div
-                    drag="x"
-                    dragConstraints={{ left: -100, right: 0 }}
-                    dragElastic={0.1}
-                    onDragEnd={handleDragEnd}
-                    animate={controls}
-                    style={{
-                        x,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '12px 16px',
-                        background: 'rgba(255,255,255,0.03)',
-                        borderRadius: 12,
-                        zIndex: 1
-                    }}
-                >
-                    <div>
-                        <div style={{ fontWeight: 600 }}>
-                            {word.article && <span style={{ color: '#F26A1B', marginRight: 4 }}>{word.article}</span>}
-                            {word.word}
-                        </div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{word.translation}</div>
-                    </div>
-                    <div style={{
-                        fontSize: '0.7rem',
-                        color: 'var(--text-muted)',
-                        opacity: 0.5,
-                        paddingRight: 8
-                    }}>
-                        ← свайп
-                    </div>
-                </motion.div>
-            </div>
-        );
-    };
-
     const handleCreate = (e) => {
         e.preventDefault();
         if (newCollectionName.trim()) {
@@ -251,6 +251,9 @@ const CollectionManager = ({ onStartStudy }) => {
             setView('list');
         }
     };
+
+
+
 
     const openCollection = (collection) => {
         setActiveCollection(collection);
@@ -348,7 +351,8 @@ const CollectionManager = ({ onStartStudy }) => {
                 flexDirection: 'column',
                 height: '100%',
                 minHeight: 0,
-                overflow: 'hidden'
+                overflow: 'hidden',
+                flex: 1
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>

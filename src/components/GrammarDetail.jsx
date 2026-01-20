@@ -9,6 +9,12 @@ import { ArrowLeft, PenTool, ChevronRight } from 'lucide-react';
 const parseContent = (text) => {
     if (!text) return null;
 
+    // Ensure text is a string to prevent crashes
+    if (typeof text !== 'string') {
+        console.warn('parseContent received non-string:', text);
+        return null;
+    }
+
     const lines = text.split('\n');
     const elements = [];
     let tableRows = [];
@@ -242,7 +248,7 @@ const GrammarDetail = () => {
                             {section.title}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                            {section.items.map((item, i) => (
+                            {section.items && section.items.map((item, i) => (
                                 <div key={i} style={{
                                     paddingBottom: 10,
                                     borderBottom: i < section.items.length - 1 ? '1px solid rgba(255, 255, 255, 0.06)' : 'none'

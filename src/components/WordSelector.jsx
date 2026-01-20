@@ -277,13 +277,43 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
 
                     {activeTab === 'dictionary' ? (
                         <>
-                            {/* Results Count */}
+                            {/* Results Count & Select All */}
                             <div style={{
                                 fontSize: '0.85rem', color: 'var(--text-2)',
-                                marginBottom: 12, display: 'flex', justifyContent: 'space-between', padding: '0 4px'
+                                marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 4px'
                             }}>
                                 <span>{displayWords.length} слів знайдено</span>
-                                {selectedWords.length > 0 && <span style={{ color: '#8b5cf6', fontWeight: 600 }}> Обрано: {selectedWords.length}</span>}
+                                <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                                    {/* Select All Button */}
+                                    {displayWords.length > 0 && (
+                                        <button
+                                            onClick={() => {
+                                                const availableWords = displayWords.filter(w => !isWordAlreadyInCollection(w.id));
+                                                const allSelected = availableWords.every(w => selectedWords.includes(w.id));
+
+                                                if (allSelected) {
+                                                    // Deselect these words
+                                                    setSelectedWords(prev => prev.filter(id => !availableWords.find(w => w.id === id)));
+                                                } else {
+                                                    // Select all (add missing)
+                                                    const toAdd = availableWords.filter(w => !selectedWords.includes(w.id)).map(w => w.id);
+                                                    setSelectedWords(prev => [...prev, ...toAdd]);
+                                                }
+                                            }}
+                                            style={{
+                                                background: 'transparent', border: 'none',
+                                                color: '#8b5cf6', fontWeight: 600, fontSize: '0.85rem',
+                                                cursor: 'pointer', padding: 0
+                                            }}
+                                        >
+                                            {displayWords.filter(w => !isWordAlreadyInCollection(w.id)).every(w => selectedWords.includes(w.id)) && displayWords.length > 0
+                                                ? 'Зняти виділення'
+                                                : 'Вибрати всі'
+                                            }
+                                        </button>
+                                    )}
+                                    {selectedWords.length > 0 && <span style={{ color: '#8b5cf6', fontWeight: 600 }}> Обрано: {selectedWords.length}</span>}
+                                </div>
                             </div>
 
                             {/* List */}

@@ -63,6 +63,25 @@ const useAuthStore = create(
                     });
                     return true; // Week was reset
                 }
+
+                // Sanitize FUTURE days (prevent "time travel" bugs)
+                // If today is Tuesday (index 1), indices 2,3,4,5,6 must be 0
+                const todayIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+                const activity = get().weeklyActivity || [0, 0, 0, 0, 0, 0, 0];
+                let hasRefreshed = false;
+                const sanitized = activity.map((val, idx) => {
+                    if (idx > todayIndex && val > 0) {
+                        hasRefreshed = true;
+                        return 0;
+                    }
+                    return val;
+                });
+
+                if (hasRefreshed) {
+                    set({ weeklyActivity: sanitized });
+                    saveUserData({ weeklyActivity: sanitized });
+                }
+
                 return false;
             },
 

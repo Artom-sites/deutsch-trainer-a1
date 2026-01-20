@@ -1936,8 +1936,8 @@ export function getGrammarForLesson(lessonId) {
 export function getGrammarContent(topicId) {
     if (!topicId) return null;
 
-    // Normalize ID: remove whitespace, convert to string
-    const id = String(topicId).trim();
+    // Normalize ID: remove whitespace, convert to string, lowercase
+    const id = String(topicId).trim().toLowerCase();
 
     let content = grammarContent[id];
 
