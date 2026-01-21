@@ -2,8 +2,9 @@
 // Вкладка "Дієслова" - відмінювання дієслів з покращеним дизайном
 import React, { useState } from 'react';
 import { getAllVerbs } from '../data/lexicon'; // Updated import
-import { ChevronDown, ChevronUp, Search, Volume2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Search, Volume2, Play, ArrowLeft } from 'lucide-react';
 import { speakSentence } from '../utils/speech';
+import { PerfektMaster } from './exercises';
 
 const VerbCard = ({ verb }) => {
     const [expanded, setExpanded] = useState(false);
@@ -252,8 +253,51 @@ const VerbCard = ({ verb }) => {
 const VerbsTab = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [activeType, setActiveType] = useState(null);
+    const [showExercise, setShowExercise] = useState(false);
 
     const verbs = getAllVerbs(); // Use getAllVerbs
+
+    // Show Perfekt exercise
+    if (showExercise) {
+        return (
+            <div className="app">
+                {/* Header */}
+                <div style={{
+                    padding: 'var(--space-md)',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-md)'
+                }}>
+                    <button
+                        onClick={() => setShowExercise(false)}
+                        style={{
+                            background: 'var(--bg-tertiary)',
+                            border: 'none',
+                            borderRadius: 'var(--radius-md)',
+                            width: 40,
+                            height: 40,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        <ArrowLeft size={20} color="var(--text-primary)" />
+                    </button>
+                    <h2 style={{
+                        fontSize: '1.1rem',
+                        fontWeight: 600,
+                        color: 'var(--text-primary)',
+                        margin: 0
+                    }}>
+                        Вправа: Perfekt
+                    </h2>
+                </div>
+                <PerfektMaster />
+            </div>
+        );
+    }
 
     const typeFilters = [
         { id: null, label: 'Всі', count: verbs.length },
@@ -324,6 +368,32 @@ const VerbsTab = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Exercise Button */}
+                <button
+                    onClick={() => setShowExercise(true)}
+                    style={{
+                        marginTop: 16,
+                        width: '100%',
+                        padding: '14px 20px',
+                        background: 'linear-gradient(135deg, #2ECC71, #27ae60)',
+                        border: 'none',
+                        borderRadius: 14,
+                        color: 'white',
+                        fontSize: '1rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 10,
+                        boxShadow: '0 4px 15px rgba(46, 204, 113, 0.3)',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                    }}
+                >
+                    <Play size={20} fill="white" />
+                    Вправа: Perfekt (минулий час)
+                </button>
             </div>
 
             {/* Search */}

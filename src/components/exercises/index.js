@@ -4,6 +4,7 @@ import FillBlankExercise from './FillBlank';
 import MatchPairsExercise from './MatchPairs';
 import WordOrderExercise from './WordOrder';
 import DictationExercise from './Dictation';
+import PerfektMaster from './PerfektMaster';
 
 export default {
     'multiple-choice': MultipleChoiceExercise,
@@ -12,3 +13,5 @@ export default {
     'word-order': WordOrderExercise,
     'dictation': DictationExercise,
 };
+
+export { PerfektMaster };

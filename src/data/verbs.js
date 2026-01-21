@@ -247,26 +247,6 @@ export const verbs = [
         lesson: null
     },
     {
-        id: "moechten",
-        infinitiv: "möchten",
-        translation: "хотів би, бажати",
-        type: "modal",
-        auxiliary: "haben",
-        note: "Konjunktiv II від mögen, вживається як ввічливе бажання",
-        praesens: {
-            ich: "möchte",
-            du: "möchtest",
-            "er/sie/es": "möchte",
-            wir: "möchten",
-            ihr: "möchtet",
-            "sie/Sie": "möchten"
-        },
-        perfekt: null,
-        praeteritum: null,
-        example: "Ich möchte einen Kaffee, bitte.",
-        lesson: 3
-    },
-    {
         id: "lassen",
         infinitiv: "lassen",
         translation: "залишати, дозволяти, змусити",
