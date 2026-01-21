@@ -41,6 +41,18 @@ const useStore = create(
             activeExercises: [],
 
             // ==========================================
+            // DICTIONARY NAVIGATION STATE
+            // ==========================================
+            dictionaryState: {
+                mode: 'themes', // 'themes' | 'lessons' | 'collections'
+                selectedId: null
+            },
+            setDictionaryFilter: (mode, selectedId) => set({
+                dictionaryState: { mode, selectedId },
+                currentTab: 'dictionary' // Auto-switch tab
+            }),
+
+            // ==========================================
             // TAB NAVIGATION
             // ==========================================
             setTab: (tab) => set({

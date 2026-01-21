@@ -1,13 +1,66 @@
 // src/components/HomeTab.jsx
 // Dashboard - Violang-inspired Premium Design
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore';
 import { getAllLessons, getAllWords } from '../data/lexicon';
-import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, Bell } from 'lucide-react';
+import { BookOpen, BookText, Languages, MessageCircle, Flame, Play, ChevronRight, Clock, Sparkles, PenTool, Bell, AlertCircle } from 'lucide-react';
 import SRSCalendar from './SRSCalendar';
 import SettingsModal from './SettingsModal';
 import { requestNotificationPermission, checkPermission, sendNotification } from '../utils/notifications';
+
+// --- Long Press Helper Component (Internal) ---
+const LongPressCard = ({ onClick, onLongPress, children, style, className }) => {
+    const timerRef = useRef(null);
+    const isLongPress = useRef(false);
+    const isPressed = useRef(false);
+
+    const start = (e) => {
+        isPressed.current = true;
+        isLongPress.current = false;
+        timerRef.current = setTimeout(() => {
+            if (isPressed.current) {
+                isLongPress.current = true;
+                if (onLongPress) onLongPress(e);
+            }
+        }, 600); // 600ms threshold
+    };
+
+    const end = (e) => {
+        isPressed.current = false;
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
+        if (!isLongPress.current && onClick) {
+            onClick(e);
+        }
+    };
+
+    const cancel = () => {
+        isPressed.current = false;
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
+    };
+
+    return (
+        <div
+            onMouseDown={start}
+            onMouseUp={end}
+            onMouseLeave={cancel}
+            onTouchStart={start}
+            onTouchEnd={end}
+            onTouchMove={cancel} // Cancel if scrolling
+            style={style}
+            className={className}
+        >
+            {children}
+        </div>
+    );
+};
+
 
 const HomeTab = () => {
     const setTab = useStore(state => state.setTab);
@@ -18,7 +71,10 @@ const HomeTab = () => {
     const getOverallProgress = useStore(state => state.getOverallProgress);
     const getWeakWords = useStore(state => state.getWeakWords);
 
-    // Auth
+    // Dictionary Navigation
+    const setDictionaryFilter = useStore(state => state.setDictionaryFilter);
+
+    // Auth & Pinning
     const user = useAuthStore(state => state.user);
     const dailyGoal = useAuthStore(state => state.dailyGoal);
     const dailyProgress = useAuthStore(state => state.dailyProgress);
@@ -26,12 +82,15 @@ const HomeTab = () => {
     const weeklyActivity = useAuthStore(state => state.weeklyActivity);
     const lastStudiedCollectionId = useAuthStore(state => state.lastStudiedCollectionId);
     const collections = useAuthStore(state => state.collections);
+    const pinnedItems = useAuthStore(state => state.pinnedItems) || [];
+    const togglePin = useAuthStore(state => state.togglePin);
 
     const userName = user?.displayName?.split(' ')[0] || 'Друже';
 
     // Notification & Settings State
     const [notifEnabled, setNotifEnabled] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
+    const [confirmModal, setConfirmModal] = useState(null); // { item, type: 'unpin' }
 
     useEffect(() => {
         setNotifEnabled(checkPermission());
@@ -55,9 +114,73 @@ const HomeTab = () => {
         : (allLessons.find(l => getLessonProgress(l.id).percent < 100) || allLessons[0]);
     const lessonProgress = getLessonProgress(currentLesson.id);
 
+
+    const handleLongPressPinned = (item) => {
+        setConfirmModal({ item });
+    };
+
+    const confirmUnpin = async () => {
+        if (confirmModal) {
+            await togglePin(confirmModal.item);
+            setConfirmModal(null);
+        }
+    };
+
     return (
         <div className="app">
             {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
+
+            {/* Confirmation Modal */}
+            {confirmModal && (
+                <div style={{
+                    position: 'fixed', inset: 0, zIndex: 9999,
+                    background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4
+                }}>
+                    <div style={{
+                        background: 'var(--surface)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 20, padding: 24, width: '90%', maxWidth: 320,
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+                    }}>
+                        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                            <div style={{
+                                width: 50, height: 50, borderRadius: '50%', background: 'var(--pri-soft)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                margin: '0 auto 16px'
+                            }}>
+                                <AlertCircle size={24} color="var(--pri)" />
+                            </div>
+                            <h3 style={{ margin: '0 0 8px', color: 'var(--text-0)' }}>
+                                Прибрати зі швидкого доступу?
+                            </h3>
+                            <p style={{ margin: 0, color: 'var(--text-2)', fontSize: '0.9rem' }}>
+                                Ви хочете прибрати "{confirmModal.item.name}" з головного екрана?
+                            </p>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <button
+                                onClick={() => setConfirmModal(null)}
+                                style={{
+                                    padding: '12px', borderRadius: 12, border: '1px solid var(--stroke)',
+                                    background: 'transparent', color: 'var(--text-2)', fontWeight: 600
+                                }}
+                            >
+                                Скасувати
+                            </button>
+                            <button
+                                onClick={confirmUnpin}
+                                style={{
+                                    padding: '12px', borderRadius: 12, border: 'none',
+                                    background: 'var(--pri)', color: '#000', fontWeight: 600
+                                }}
+                            >
+                                Прибрати
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* =====================
                 HEADER
@@ -348,6 +471,51 @@ const HomeTab = () => {
             </h3>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
+                {/* Pinned Items */}
+                {pinnedItems.map(item => (
+                    <LongPressCard
+                        key={`${item.type}-${item.id}`}
+                        onClick={() => {
+                            if (item.type === 'theme') {
+                                setDictionaryFilter('themes', item.id);
+                            } else if (item.type === 'lesson') {
+                                setDictionaryFilter('lessons', item.id);
+                            } else {
+                                setDictionaryFilter('collections', null);
+                            }
+                        }}
+                        onLongPress={() => handleLongPressPinned(item)}
+                        className="card-interactive"
+                        style={{
+                            background: 'var(--surface)',
+                            border: '1px solid var(--stroke)',
+                            borderRadius: 20, padding: 16,
+                            cursor: 'pointer',
+                            display: 'flex', flexDirection: 'column', alignItems: 'center',
+                            gap: 12, textAlign: 'center',
+                            position: 'relative'
+                        }}
+                    >
+                        <div style={{ position: 'absolute', top: 8, right: 8, fontSize: '0.8rem' }}>📌</div>
+
+                        <div style={{
+                            width: 52, height: 52, borderRadius: '50%',
+                            background: item.color || 'var(--surface-2)',
+                            border: '1px solid var(--stroke)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                        }}>
+                            <span style={{ fontSize: '1.5rem' }}>{item.type === 'theme' ? '🏷️' : item.type === 'lesson' ? '📖' : '⭐'}</span>
+                        </div>
+                        <div>
+                            <div style={{ fontWeight: 600, color: 'var(--text-0)', fontSize: '0.9rem' }}>{item.name}</div>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-2)' }}>
+                                {item.type === 'theme' ? 'Тема' : item.type === 'lesson' ? 'Урок' : 'Колекція'}
+                            </div>
+                        </div>
+                    </LongPressCard>
+                ))}
+
+                {/* Flashcards Cards (Default) */}
                 <div
                     onClick={() => useStore.getState().startLessonWords(currentLesson.id)}
                     className="card-interactive"

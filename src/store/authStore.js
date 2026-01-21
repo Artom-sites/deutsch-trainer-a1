@@ -34,10 +34,28 @@ const useAuthStore = create(
             coins: 100, // Initial bonus
             inventory: [], // IDs of purchased items
             collections: [], // User custom word collections
+            collections: [], // User custom word collections
             lastStudiedCollectionId: null, // Last studied collection for quick access
+            pinnedItems: [], // { id, type, name, color? }
 
             // Set last studied collection
             setLastStudiedCollection: (collectionId) => set({ lastStudiedCollectionId: collectionId }),
+
+            // Pin/Unpin item
+            togglePin: async (item) => {
+                const { pinnedItems, saveUserData } = get();
+                const exists = pinnedItems.find(p => p.id === item.id && p.type === item.type);
+
+                let newPinned;
+                if (exists) {
+                    newPinned = pinnedItems.filter(p => !(p.id === item.id && p.type === item.type));
+                } else {
+                    newPinned = [...pinnedItems, item];
+                }
+
+                set({ pinnedItems: newPinned });
+                await saveUserData({ pinnedItems: newPinned });
+            },
 
             // Check if week has reset (called on init and when updating activity)
             checkWeekReset: () => {
@@ -409,8 +427,10 @@ const useAuthStore = create(
                 collections: state.collections,
                 lastActiveDate: state.lastActiveDate,
                 dailyProgress: state.dailyProgress,
+                dailyProgress: state.dailyProgress,
                 weeklyActivity: state.weeklyActivity,
-                weekStartDate: state.weekStartDate
+                weekStartDate: state.weekStartDate,
+                pinnedItems: state.pinnedItems
             })
         }
     )

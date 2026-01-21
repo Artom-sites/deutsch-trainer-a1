@@ -1,13 +1,51 @@
 // src/components/DictionaryTab.jsx
 // Dictionary - Violang-style Design
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useStore from '../store/useStore';
+import useAuthStore from '../store/authStore'; // Import auth store for pinning
 import { vocabularyThemes, themedWords, getWordsByTheme, getTotalThemedWordCount } from '../data/themedWords';
-import { getAllWords, getAllLessons } from '../data/lexicon'; // Updated import
-import { Search, Volume2, Eye, Dumbbell } from 'lucide-react';
+import { getAllWords, getAllLessons } from '../data/lexicon';
+import { Search, Volume2, Eye, Dumbbell, AlertCircle } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 import CollectionManager from './CollectionManager';
 
+// --- Long Press Button Helper ---
+const LongPressButton = ({ onClick, onLongPress, children, style, className }) => {
+    const timerRef = useRef(null);
+    const isLongPress = useRef(false);
+
+    const start = (e) => {
+        isLongPress.current = false;
+        timerRef.current = setTimeout(() => {
+            isLongPress.current = true;
+            if (onLongPress) onLongPress(e);
+        }, 600); // 600ms threshold
+    };
+
+    const end = (e) => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
+        if (!isLongPress.current && onClick) {
+            onClick(e);
+        }
+    };
+
+    return (
+        <button
+            onMouseDown={start}
+            onMouseUp={end}
+            onMouseLeave={end}
+            onTouchStart={start}
+            onTouchEnd={end}
+            style={style}
+            className={className}
+        >
+            {children}
+        </button>
+    );
+};
 
 const DictionaryTab = () => {
     const setFlashcardWords = useStore(state => state.setFlashcardWords);
@@ -16,11 +54,31 @@ const DictionaryTab = () => {
     const getLearnedCount = useStore(state => state.getLearnedCount);
     const getMasteredCount = useStore(state => state.getMasteredCount);
 
+    // Global filtering state
+    const dictionaryState = useStore(state => state.dictionaryState);
+    const setDictionaryFilter = useStore(state => state.setDictionaryFilter); // Actually we update global state when filtering
+
+    // Pinned Items
+    const pinnedItems = useAuthStore(state => state.pinnedItems);
+    const togglePin = useAuthStore(state => state.togglePin);
+
+    // Local UI state
     const [searchQuery, setSearchQuery] = useState('');
-    const [filterMode, setFilterMode] = useState('themes'); // 'themes' | 'lessons' | 'collections'
-    const [selectedTheme, setSelectedTheme] = useState(null);
-    const [selectedLesson, setSelectedLesson] = useState(null);
     const [visibleCount, setVisibleCount] = useState(50);
+    const [confirmModal, setConfirmModal] = useState(null); // { item, type: 'pin' | 'unpin' }
+
+    // Sync local usage with global dictionary state
+    // We treat global state as truth for 'mode' and 'selectedId'
+    // But for simplicity in this component, we can just derive from it.
+    const filterMode = dictionaryState.mode;
+    const selectedTheme = dictionaryState.mode === 'themes' ? dictionaryState.selectedId : null;
+    const selectedLesson = dictionaryState.mode === 'lessons' ? dictionaryState.selectedId : null;
+
+    // Actions that update global state
+    const setFilterMode = (mode) => setDictionaryFilter(mode, null);
+    const setSelectedTheme = (id) => setDictionaryFilter('themes', id);
+    const setSelectedLesson = (id) => setDictionaryFilter('lessons', id);
+
 
     // Get ALL words (A1 + A2)
     const allWords = getAllWords();
@@ -100,6 +158,21 @@ const DictionaryTab = () => {
         setCurrentView('flashcards');
     };
 
+    const handleLongPress = (item, type) => {
+        const isPinned = pinnedItems.some(p => p.id === item.id && p.type === type);
+        setConfirmModal({
+            item: { ...item, type }, // Ensure type is included
+            type: isPinned ? 'unpin' : 'pin'
+        });
+    };
+
+    const confirmAction = async () => {
+        if (confirmModal) {
+            await togglePin(confirmModal.item);
+            setConfirmModal(null);
+        }
+    };
+
     const totalThemedWords = getTotalThemedWordCount();
 
     return (
@@ -114,6 +187,60 @@ const DictionaryTab = () => {
             display: 'flex',
             flexDirection: 'column'
         }}>
+            {/* Confirmation Modal */}
+            {confirmModal && (
+                <div style={{
+                    position: 'fixed', inset: 0, zIndex: 9999,
+                    background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', p: 4
+                }}>
+                    <div style={{
+                        background: 'var(--surface)',
+                        border: '1px solid var(--stroke)',
+                        borderRadius: 20, padding: 24, width: '90%', maxWidth: 320,
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+                    }}>
+                        <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                            <div style={{
+                                width: 50, height: 50, borderRadius: '50%', background: 'var(--pri-soft)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                margin: '0 auto 16px'
+                            }}>
+                                <AlertCircle size={24} color="var(--pri)" />
+                            </div>
+                            <h3 style={{ margin: '0 0 8px', color: 'var(--text-0)' }}>
+                                {confirmModal.type === 'pin' ? 'Додати у швидкий доступ?' : 'Прибрати зі швидкого доступу?'}
+                            </h3>
+                            <p style={{ margin: 0, color: 'var(--text-2)', fontSize: '0.9rem' }}>
+                                {confirmModal.type === 'pin'
+                                    ? `Ви хочете закріпити "${confirmModal.item.name}" на головному екрані?`
+                                    : `Ви хочете прибрати "${confirmModal.item.name}" з головного екрана?`}
+                            </p>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                            <button
+                                onClick={() => setConfirmModal(null)}
+                                style={{
+                                    padding: '12px', borderRadius: 12, border: '1px solid var(--stroke)',
+                                    background: 'transparent', color: 'var(--text-2)', fontWeight: 600
+                                }}
+                            >
+                                Скасувати
+                            </button>
+                            <button
+                                onClick={confirmAction}
+                                style={{
+                                    padding: '12px', borderRadius: 12, border: 'none',
+                                    background: 'var(--pri)', color: '#000', fontWeight: 600
+                                }}
+                            >
+                                {confirmModal.type === 'pin' ? 'Додати' : 'Прибрати'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Hero Header with Gradient */}
             <div style={{
                 background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.08), transparent)',
@@ -299,21 +426,28 @@ const DictionaryTab = () => {
                                 >
                                     Всі
                                 </button>
-                                {vocabularyThemes.map(theme => (
-                                    <button
-                                        key={theme.id}
-                                        onClick={() => setSelectedTheme(theme.id)}
-                                        style={{
-                                            padding: '8px 14px', borderRadius: 999,
-                                            border: selectedTheme === theme.id ? 'none' : '1px solid var(--stroke)',
-                                            background: selectedTheme === theme.id ? theme.color : 'var(--surface)',
-                                            color: selectedTheme === theme.id ? '#0B0B0F' : 'var(--text-1)',
-                                            fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
-                                        }}
-                                    >
-                                        {theme.name}
-                                    </button>
-                                ))}
+                                {vocabularyThemes.map(theme => {
+                                    const isPinned = pinnedItems.some(p => p.id === theme.id && p.type === 'theme');
+                                    return (
+                                        <LongPressButton
+                                            key={theme.id}
+                                            onClick={() => setSelectedTheme(theme.id)}
+                                            onLongPress={() => handleLongPress(theme, 'theme')}
+                                            style={{
+                                                padding: '8px 14px', borderRadius: 999,
+                                                border: selectedTheme === theme.id ? 'none' : '1px solid var(--stroke)',
+                                                background: selectedTheme === theme.id ? theme.color : 'var(--surface)',
+                                                color: selectedTheme === theme.id ? '#0B0B0F' : 'var(--text-1)',
+                                                fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer',
+                                                display: 'flex', alignItems: 'center', gap: 6,
+                                                position: 'relative' // For pin
+                                            }}
+                                        >
+                                            {theme.name}
+                                            {isPinned && <span style={{ fontSize: '0.7em' }}>📌</span>}
+                                        </LongPressButton>
+                                    );
+                                })}
                             </>
                         ) : (
                             <>
@@ -329,21 +463,27 @@ const DictionaryTab = () => {
                                 >
                                     Всі
                                 </button>
-                                {allLessons.map(l => (
-                                    <button
-                                        key={l.id}
-                                        onClick={() => setSelectedLesson(l.id)}
-                                        style={{
-                                            padding: '8px 14px', borderRadius: 999,
-                                            border: selectedLesson === l.id ? 'none' : '1px solid var(--stroke)',
-                                            background: selectedLesson === l.id ? 'var(--pri)' : 'var(--surface)',
-                                            color: selectedLesson === l.id ? '#0B0B0F' : 'var(--text-1)',
-                                            fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer'
-                                        }}
-                                    >
-                                        L{typeof l.number === 'string' ? l.number.replace('Lektion ', '') : l.number} ({String(l.id).includes('a2') ? 'A2' : 'A1'})
-                                    </button>
-                                ))}
+                                {allLessons.map(l => {
+                                    const isPinned = pinnedItems.some(p => p.id === l.id && p.type === 'lesson');
+                                    return (
+                                        <LongPressButton
+                                            key={l.id}
+                                            onClick={() => setSelectedLesson(l.id)}
+                                            onLongPress={() => handleLongPress({ ...l, name: `Lesson ${l.id}` }, 'lesson')} // Pass name explicitly
+                                            style={{
+                                                padding: '8px 14px', borderRadius: 999,
+                                                border: selectedLesson === l.id ? 'none' : '1px solid var(--stroke)',
+                                                background: selectedLesson === l.id ? 'var(--pri)' : 'var(--surface)',
+                                                color: selectedLesson === l.id ? '#0B0B0F' : 'var(--text-1)',
+                                                fontWeight: 600, fontSize: '0.8rem', whiteSpace: 'nowrap', cursor: 'pointer',
+                                                display: 'flex', alignItems: 'center', gap: 6
+                                            }}
+                                        >
+                                            L{typeof l.number === 'string' ? l.number.replace('Lektion ', '') : l.number} ({String(l.id).includes('a2') ? 'A2' : 'A1'})
+                                            {isPinned && <span style={{ fontSize: '0.7em' }}>📌</span>}
+                                        </LongPressButton>
+                                    );
+                                })}
                             </>
                         )}
                     </div>
