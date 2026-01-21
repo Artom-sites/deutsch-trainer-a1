@@ -246,6 +246,105 @@ export const verbs = [
         example: "Ich mag Kaffee.",
         lesson: null
     },
+    {
+        id: "moechten",
+        infinitiv: "möchten",
+        translation: "хотів би, бажати",
+        type: "modal",
+        auxiliary: "haben",
+        note: "Konjunktiv II від mögen, вживається як ввічливе бажання",
+        praesens: {
+            ich: "möchte",
+            du: "möchtest",
+            "er/sie/es": "möchte",
+            wir: "möchten",
+            ihr: "möchtet",
+            "sie/Sie": "möchten"
+        },
+        perfekt: null,
+        praeteritum: null,
+        example: "Ich möchte einen Kaffee, bitte.",
+        lesson: 3
+    },
+    {
+        id: "lassen",
+        infinitiv: "lassen",
+        translation: "залишати, дозволяти, змусити",
+        type: "irregular",
+        auxiliary: "haben",
+        praesens: {
+            ich: "lasse",
+            du: "lässt",
+            "er/sie/es": "lässt",
+            wir: "lassen",
+            ihr: "lasst",
+            "sie/Sie": "lassen"
+        },
+        perfekt: "hat gelassen",
+        praeteritum: {
+            ich: "ließ",
+            du: "ließest",
+            "er/sie/es": "ließ",
+            wir: "ließen",
+            ihr: "ließt",
+            "sie/Sie": "ließen"
+        },
+        example: "Ich lasse meine Tasche hier.",
+        lesson: null
+    },
+    {
+        id: "kennenlernen",
+        infinitiv: "kennenlernen",
+        translation: "знайомитися",
+        type: "separable",
+        auxiliary: "haben",
+        praesens: {
+            ich: "lerne kennen",
+            du: "lernst kennen",
+            "er/sie/es": "lernt kennen",
+            wir: "lernen kennen",
+            ihr: "lernt kennen",
+            "sie/Sie": "lernen kennen"
+        },
+        perfekt: "hat kennengelernt",
+        praeteritum: {
+            ich: "lernte kennen",
+            du: "lerntest kennen",
+            "er/sie/es": "lernte kennen",
+            wir: "lernten kennen",
+            ihr: "lerntet kennen",
+            "sie/Sie": "lernten kennen"
+        },
+        example: "Ich möchte dich kennenlernen.",
+        lesson: 1
+    },
+    {
+        id: "spazieren",
+        infinitiv: "spazieren",
+        translation: "гуляти, прогулюватися",
+        type: "regular",
+        auxiliary: "sein",
+        note: "Часто вживається з gehen: spazieren gehen",
+        praesens: {
+            ich: "spaziere",
+            du: "spazierst",
+            "er/sie/es": "spaziert",
+            wir: "spazieren",
+            ihr: "spaziert",
+            "sie/Sie": "spazieren"
+        },
+        perfekt: "ist spaziert",
+        praeteritum: {
+            ich: "spazierte",
+            du: "spaziertest",
+            "er/sie/es": "spazierte",
+            wir: "spazierten",
+            ihr: "spaziertet",
+            "sie/Sie": "spazierten"
+        },
+        example: "Wir gehen im Park spazieren.",
+        lesson: 5
+    },
 
     // ==========================================
     // РЕГУЛЯРНІ ДІЄСЛОВА
