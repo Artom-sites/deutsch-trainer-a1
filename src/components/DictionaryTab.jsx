@@ -5,7 +5,7 @@ import useStore from '../store/useStore';
 import useAuthStore from '../store/authStore'; // Import auth store for pinning
 import { vocabularyThemes, themedWords, getWordsByTheme, getTotalThemedWordCount } from '../data/themedWords';
 import { getAllWords, getAllLessons } from '../data/lexicon';
-import { Search, Volume2, Eye, Dumbbell, AlertCircle } from 'lucide-react';
+import { Search, Volume2, Eye, Dumbbell, AlertCircle, X } from 'lucide-react';
 import { speakWord } from '../utils/speech';
 import CollectionManager from './CollectionManager';
 
@@ -307,7 +307,7 @@ const DictionaryTab = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
                         width: '100%',
-                        padding: '12px 14px 12px 44px',
+                        padding: '12px 40px 12px 44px',
                         background: 'rgba(255,255,255,0.04)',
                         border: '1px solid var(--stroke)',
                         borderRadius: 14,
@@ -317,6 +317,22 @@ const DictionaryTab = () => {
                         transition: 'border-color 0.2s'
                     }}
                 />
+                {searchQuery && (
+                    <button
+                        onClick={() => setSearchQuery('')}
+                        style={{
+                            position: 'absolute', right: 10, top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'rgba(255,255,255,0.1)',
+                            border: 'none', borderRadius: '50%',
+                            width: 24, height: 24,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', color: 'var(--text-2)'
+                        }}
+                    >
+                        <X size={14} />
+                    </button>
+                )}
             </div>
 
             {/* Filter Tabs - Segmented Control */}

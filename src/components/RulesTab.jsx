@@ -12,7 +12,7 @@ import {
     time
 } from '../data/grammarRules';
 import { grammarA2 } from '../data/a2/grammar';
-import { ChevronDown, ChevronUp, ChevronLeft, BookOpen, Users, FileText, Clock, Hash, MessageCircle, Layers, Move, Sparkles, Lightbulb, List } from 'lucide-react';
+import { ChevronDown, ChevronUp, ChevronLeft, BookOpen, Users, FileText, Clock, Hash, MessageCircle, Layers, Move, Sparkles, Lightbulb, List, X } from 'lucide-react';
 
 // Rule Card Preview Component (Compact List Item Style)
 const RuleCard = ({ rule, onClick, accentColor = 'var(--orange)' }) => {
@@ -1095,7 +1095,7 @@ const RulesTab = () => {
             </div>
 
             {/* Search Bar */}
-            <div style={{ marginBottom: 12 }}>
+            <div style={{ marginBottom: 12, position: 'relative' }}>
                 <input
                     type="text"
                     placeholder="🔍 Пошук правила..."
@@ -1103,7 +1103,7 @@ const RulesTab = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
                         width: '100%',
-                        padding: '12px 16px',
+                        padding: '12px 40px 12px 16px',
                         fontSize: '1rem',
                         borderRadius: 12,
                         border: '1px solid var(--stroke)',
@@ -1112,6 +1112,22 @@ const RulesTab = () => {
                         outline: 'none'
                     }}
                 />
+                {searchQuery && (
+                    <button
+                        onClick={() => setSearchQuery('')}
+                        style={{
+                            position: 'absolute', right: 10, top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'rgba(255,255,255,0.1)',
+                            border: 'none', borderRadius: '50%',
+                            width: 24, height: 24,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', color: 'var(--text-2)'
+                        }}
+                    >
+                        <X size={14} />
+                    </button>
+                )}
             </div>
 
             {/* Level Filter Chips */}

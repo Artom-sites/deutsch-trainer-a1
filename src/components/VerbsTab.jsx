@@ -2,7 +2,7 @@
 // Вкладка "Дієслова" - відмінювання дієслів з покращеним дизайном
 import React, { useState } from 'react';
 import { getAllVerbs } from '../data/lexicon'; // Updated import
-import { ChevronDown, ChevronUp, Search, Volume2, Play, ArrowLeft } from 'lucide-react';
+import { ChevronDown, ChevronUp, Search, Volume2, Play, ArrowLeft, X } from 'lucide-react';
 import { speakSentence } from '../utils/speech';
 import { PerfektMaster } from './exercises';
 
@@ -409,7 +409,7 @@ const VerbsTab = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
                         width: '100%',
-                        padding: '12px 14px 12px 44px',
+                        padding: '12px 40px 12px 44px',
                         background: 'var(--bg-2)',
                         border: '1px solid var(--stroke)',
                         borderRadius: 14,
@@ -418,6 +418,22 @@ const VerbsTab = () => {
                         outline: 'none'
                     }}
                 />
+                {searchQuery && (
+                    <button
+                        onClick={() => setSearchQuery('')}
+                        style={{
+                            position: 'absolute', right: 10, top: '50%',
+                            transform: 'translateY(-50%)',
+                            background: 'rgba(255,255,255,0.1)',
+                            border: 'none', borderRadius: '50%',
+                            width: 24, height: 24,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer', color: 'var(--text-2)'
+                        }}
+                    >
+                        <X size={14} />
+                    </button>
+                )}
             </div>
 
             {/* Type Filters */}

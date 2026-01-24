@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import useStore from '../../store/useStore';
 import useAuthStore from '../../store/authStore';
-import { ArrowLeft, SkipForward, Check, Trophy, Volume2 } from 'lucide-react';
+import { ArrowLeft, SkipForward, Check, Trophy, Volume2, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { speakWord, triggerHaptic } from '../../utils/speech';
 
@@ -248,7 +248,7 @@ const NounMaster = () => {
                             })}
                         </div>
 
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
                             <input
                                 value={wordInput}
                                 onChange={(e) => !showResult && setWordInput(e.target.value)}
@@ -259,9 +259,25 @@ const NounMaster = () => {
                                 style={{
                                     flex: 1, background: '#1A1A22',
                                     border: feedback.word === true ? '2px solid #2ECC71' : feedback.word === false ? '2px solid #EF4444' : '2px solid rgba(255,255,255,0.08)',
-                                    borderRadius: 10, padding: '12px 10px', fontSize: '1rem', color: '#E5E7EB', outline: 'none', textAlign: 'center'
+                                    borderRadius: 10, padding: '12px 36px 12px 10px', fontSize: '1rem', color: '#E5E7EB', outline: 'none', textAlign: 'center'
                                 }}
                             />
+                            {wordInput && !showResult && (
+                                <button
+                                    onClick={() => setWordInput('')}
+                                    style={{
+                                        position: 'absolute', right: 8, top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'rgba(255,255,255,0.15)',
+                                        border: 'none', borderRadius: '50%',
+                                        width: 22, height: 22,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        cursor: 'pointer', color: '#9CA3AF'
+                                    }}
+                                >
+                                    <X size={12} />
+                                </button>
+                            )}
                             {feedback.word === false && (
                                 <div style={{ marginTop: 3, textAlign: 'center', color: '#2ECC71', fontSize: '0.8rem' }}>
                                     {currentWord.word}
@@ -273,7 +289,7 @@ const NounMaster = () => {
 
                 {/* VERB/OTHER: Just word input, centered */}
                 {wordType !== 'noun' && (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: '100%' }}>
                         <input
                             value={wordInput}
                             onChange={(e) => !showResult && setWordInput(e.target.value)}
@@ -284,9 +300,24 @@ const NounMaster = () => {
                             style={{
                                 width: '100%', background: '#1A1A22',
                                 border: feedback.word === true ? '2px solid #2ECC71' : feedback.word === false ? '2px solid #EF4444' : '2px solid rgba(255,255,255,0.08)',
-                                borderRadius: 10, padding: '14px 12px', fontSize: '1.1rem', color: '#E5E7EB', outline: 'none', textAlign: 'center'
+                                borderRadius: 10, padding: '14px 40px 14px 12px', fontSize: '1.1rem', color: '#E5E7EB', outline: 'none', textAlign: 'center'
                             }}
                         />
+                        {wordInput && !showResult && (
+                            <button
+                                onClick={() => setWordInput('')}
+                                style={{
+                                    position: 'absolute', right: 10, top: 14,
+                                    background: 'rgba(255,255,255,0.15)',
+                                    border: 'none', borderRadius: '50%',
+                                    width: 24, height: 24,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    cursor: 'pointer', color: '#9CA3AF'
+                                }}
+                            >
+                                <X size={14} />
+                            </button>
+                        )}
                         {feedback.word === false && (
                             <div style={{ marginTop: 6, textAlign: 'center', color: '#2ECC71', fontSize: '0.9rem', fontWeight: 600 }}>
                                 {currentWord.word}
