@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { getAllWords, getWordsForLesson, lessons } from '../data/lexicon';
+import { getAllWords, getWordsForLesson, getAllLessons } from '../data/lexicon';
 import { X, Search, Plus, Check, ChevronDown, BookOpen, Filter } from 'lucide-react';
 
 const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
@@ -190,7 +190,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                                 <input
                                     ref={searchInputRef}
                                     type="text"
-                                    placeholder={selectedLesson ? `Пошук в уроці ${selectedLesson}...` : "Пошук слова..."}
+                                    placeholder={selectedLesson ? `Пошук в уроці ${typeof selectedLesson === 'string' ? selectedLesson.replace('a2-l', 'A2-') : selectedLesson}...` : "Пошук слова..."}
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '1rem', width: '100%', outline: 'none' }}
@@ -245,7 +245,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                                         >
                                             Всі слова
                                         </div>
-                                        {lessons.map(l => (
+                                        {getAllLessons().map(l => (
                                             <div
                                                 key={l.id}
                                                 onClick={() => { setSelectedLesson(l.id); setShowLessonDropdown(false); }}
@@ -256,7 +256,7 @@ const WordSelector = ({ onClose, onSelect, existingWordIds = [] }) => {
                                                     color: selectedLesson === l.id ? 'white' : 'var(--text-2)'
                                                 }}
                                             >
-                                                Урок {l.id}
+                                                {typeof l.id === 'string' ? `A2 | Урок ${l.number}` : `Урок ${l.id}`}
                                             </div>
                                         ))}
                                     </div>
